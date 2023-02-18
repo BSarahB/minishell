@@ -1,0 +1,47 @@
+[
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang  -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/main.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/main.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/main.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang  -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/shell_lexer.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/shell_lexer.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/shell_lexer.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang  -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/shell_parser.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/shell_parser.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/shell_parser.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang  -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/utils.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang  -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/ft_struct_init.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/ft_struct_init.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/ft_struct_init.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang  -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/executor.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/executor.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/executor.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang  -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/get_path.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_path.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_path.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang  -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_redirections.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_redirections.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang  -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/update_free_memory.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/update_free_memory.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/update_free_memory.c"
+}
+]
