@@ -32,12 +32,30 @@ void	ft_free_tab(char ***tab)
 
 void	ft_free_struct_t_simpleCmd(t_simpleCmd **simpleCmd)
 {
-	ft_free_tab(&(*simpleCmd)->cmd_and_args);
-	ft_free_tab(&(*simpleCmd)->abs_cmd_and_args);
+//eviter le double free, choisir entre free les ** ici ou dans ft_execute_cmd
+	//ft_free_tab(&(*simpleCmd)->cmd_and_args);
+	//ft_free_tab(&(*simpleCmd)->abs_cmd_and_args);
 	if (*simpleCmd != NULL)
 	{
 		free(*simpleCmd);
 		*simpleCmd = NULL;
+	}
+}
+
+void	ft_free_struct_t_simpleCmds(t_simpleCmd ***simpleCmds)
+{
+	int	i;
+
+	i = 0;
+	while ((*simpleCmds)[i])
+	{
+		ft_free_struct_t_simpleCmd(&(*simpleCmds)[i]);
+		i++;
+	}
+	if (*simpleCmds != NULL)
+	{
+		free(*simpleCmds);
+		*simpleCmds = NULL;
 	}
 }
 
@@ -49,7 +67,7 @@ void	ft_free_struct_t_cmd(t_cmd **cmd)
 	ft_free_tab(&(*cmd)->path_tab);
 	ft_free_tab(&(*cmd)->blocks);
 	
-	ft_free_struct_t_simpleCmds(&(*cmd)->simpleCmds[i]));//TODO faire une while pour parcourir le double tab de pointeurs sur struct pour le vider
+	ft_free_struct_t_simpleCmds(&(*cmd)->simpleCmds);//TODO faire une while pour parcourir le double tab de pointeurs sur struct pour le vider
 
 	if (*cmd != NULL)
 	{
