@@ -22,7 +22,7 @@ int	ft_execve_join(t_cmd *cmd, char **envp, char **abs_cmd_and_args)
 
 	exec_return = 0;
 	i = -1;
-	while ((*cmd).path_tab[++i])//TODO getPATH_TAB
+	while ((*cmd).path_tab[++i])
 	{
 		path_cmd_joined = ft_strjoin((*cmd).path_tab[i], abs_cmd_and_args[0]);
 		exec_return = execve(path_cmd_joined, abs_cmd_and_args, envp);
@@ -48,6 +48,7 @@ int	ft_execute_cmd(t_cmd *cmd, int i,char *envp[])
 		exec_return = ft_execve_join(cmd, envp, cmd->simpleCmds[i]->abs_cmd_and_args);
 	if (exec_return == -1 && (errno == 2 || errno == 13))
 		(cmd->simpleCmds[0])->errnum = 127;
+		//est ce judicieux de free ici? ou ne vaut il mieux pas free tout a la fin?
 	ft_free_tab(&(cmd->simpleCmds[i]->cmd_and_args));
 	ft_free_tab(&(cmd->simpleCmds[i]->abs_cmd_and_args));
 	return (exec_return);

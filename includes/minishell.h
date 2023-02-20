@@ -30,19 +30,20 @@ typedef struct s_simpleCmd{
 
 typedef struct s_cmd{
 	
-	int number_of_simpleCmds;
+	size_t 		nb_of_simpleCmds;
 	t_simpleCmd **simpleCmds;
-	t_simpleCmd *simpleCmd;
+	//t_simpleCmd *simpleCmd;
 
-	char	**path_tab;
+	char		**path_tab;
+	char		**blocks;
 
 
-	char *outfile;
-	char *inputfile;
-	char *errfile;
+	char		*outfile;
+	char 		*inputfile;
+	char 		*errfile;
 	//a voir si on met tous les char * dans un double tab io_redirections(**)
-	int background;
-
+	int 		background;
+	size_t		nb_of_blocks;
 }				t_cmd;
 
 
@@ -61,11 +62,18 @@ char		*ft_strcat(char *dest, char const *src);
 char		*ft_strjoin(char *s1, char const *s2);
 char		*ft_strndup(char *src, int n);
 char		*ft_update_string(char **str, char *new);
+
+
+
 void		ft_free_struct_str(char **p);
 void		ft_free_tab(char ***tab);
+void		ft_free_struct_t_cmd_only(t_cmd **cmd);
+void		ft_free_struct_t_cmd(t_cmd **cmd);
+void		ft_free_struct_t_simpleCmd(t_simpleCmd **simpleCmd);
 
 
-t_cmd		*ft_struct_init(t_cmd **cmd, char init_value, size_t simpleCmds_nbr);
+
+t_cmd		*ft_struct_init(t_cmd **cmd, char init_value, char **blocks);
 t_simpleCmd	*ft_struct2_init(t_simpleCmd **ptr, char init_value);
 t_simpleCmd	**ft_struct_array_init(t_simpleCmd **ptr, char init_value, size_t simpleCmds_nbr);
 char		**ft_get_path(char **envp);

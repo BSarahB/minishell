@@ -82,46 +82,36 @@ int	ft_split_line_in_s_cmd(t_cmd *cmd, char *line, char **envp)
 {
 	char	**arguments;
 	char	**abs_arguments;
-	char	**blocks;
 	int		exec_return;
-//	int		nb_of_blocks;
-	int		i;
+	size_t		i;
 	int		j;
 
 	(void)envp;
-//	nb_of_blocks = 0;
-		exec_return = 0;
+	(void)line;
+	exec_return = 0;
 	i = 0;
 	j = 0;
-	blocks = ft_split(line, '|');
 
-/*
-	while(blocks[nb_of_blocks] != NULL)
+	while (i < cmd->nb_of_simpleCmds)
 	{
-		nb_of_blocks++;
-	}
-	*/
-
-
-	while (i < cmd->number_of_simpleCmds)
-	{
-		arguments = ft_split(blocks[i], ' ');
+		arguments = ft_split(cmd->blocks[i], ' ');
 		printf("%s\n", arguments[0]);
-		abs_arguments = ft_get_abs_arguments(i, blocks);
+		abs_arguments = ft_get_abs_arguments(i, cmd->blocks);
 		cmd->simpleCmds[i]->cmd_and_args = arguments;
 		cmd->simpleCmds[i]->abs_cmd_and_args = abs_arguments;
 		i++;
 	}
 	i = 0;
-	while (i < cmd->number_of_simpleCmds)
+	while (i < cmd->nb_of_simpleCmds)
 	{
 		j = 0;
-		printf("blocks[%d]: %s\n",i, blocks[i]);
-		printf("pr cmd_and_args de simple_Cmd %d on a : \n", i);
+		printf("blocks[%zu]: %s\n",i, cmd->blocks[i]);
+		printf("pr cmd_and_args de simple_Cmd %zu on a : \n", i);
 		while (cmd->simpleCmds[i]->cmd_and_args[j] != NULL)
 		{
 			printf("%s*", cmd->simpleCmds[i]->cmd_and_args[j]);
 			j++;
+
 		}
 		printf("\n");
 		j= 0;

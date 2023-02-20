@@ -172,30 +172,40 @@ TODO sinon fessee free ce qu il reste a free
 
 int main(int argc, char *argv[], char *envp[])
 {
+	//TODO gerer le -env (si retrait de l environnement dans la compilation)
 	(void)argc;
 	(void)argv;
 	char	*line;
 	t_cmd	*cmd;
+	char 	**blocks;
 
 	line = NULL;
 	//while (1)
 	//{
 		line = readline(" ~ ");
 		printf("input : %s\n", line);
-		char	**blocks;
+		//TODO gerer les spaces : segfault et mettre le prompt apres return
+		//TODO gerer return et remettre prompt
+		//TODO gerer signaux CTRL +D segfault et CTRL +C dt relaunch nouveau prompt donc continuer la while 1
+		//TODO gerer tab quand on click 1 fois cela ne doit rien faire apres pls fois cela affiche automatiquement Display all 3258 possibilities? (y or n)
 
-		int		nb_of_blocks;
-		nb_of_blocks = 0;
 
-		blocks = ft_split(line, '|');
+		
 
-		while(blocks[nb_of_blocks] != NULL)
-		{
-			nb_of_blocks++;
-		}
-		printf("nb of blocks : %d\n", nb_of_blocks);
+		//TOTO INVALIDER LE PIPE SI echo '        |         ' ou "            | " -> ce doit etre une chaine de caracteres
+		// ou si "ls | grep c" ->command not found :  gerer le bloc comme si c etait une commande qui n existe pas le PIPE est aussi INVALIDE
+		// si 'ls | grep c' idem 
 
-		cmd = ft_struct_init(&cmd, 0, nb_of_blocks);
+		//TODO gerer "blabla" ->command not found dans le execve $"blabla"
+		//TODO : dequote les blocks et les envoyer comme des chaines de caractere. par ex. si "wc -l" ->l envoyer tel une chaine de caracteres, cela va envoyer a arg_and_cmds[wc -l] ce qui n executera pas la command ce sera execcve qui va s en charger et dire que command not found
+	
+		blocks = ft_split(line, '|'); //quand je split meme sil n y a pas de pipe je recupere qd meme 1 block . par ex "ls llaaaa"
+
+
+//		
+		//TODO : gerer les cas ou il n y a pas de PIPE existant : "ls "
+
+		cmd = ft_struct_init(&cmd, 0, blocks);
 		cmd->path_tab = ft_get_path(envp);
 		ft_split_line_in_s_cmd(cmd, line, envp);
 		ft_setting_redirections_and_pipes(cmd, envp);
@@ -203,7 +213,10 @@ int main(int argc, char *argv[], char *envp[])
 	//}
 
 
-	//TODO free line
+	ft_free_struct_str(&line);
+	//ft_free_tab(&(cmd->path_tab));
+	//ft_free_tab(&(cmd->blocks));
+	ft_free_struct_t_cmd(&cmd);
 	return (0);
 
 }

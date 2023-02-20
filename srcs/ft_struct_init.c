@@ -51,31 +51,40 @@ t_simpleCmd	*ft_struct2_init(t_simpleCmd **simpleCmd, char init_value)
 }
 
 
-t_cmd	*ft_struct_init(t_cmd **cmd, char init_value, size_t simpleCmds_nbr)
+t_cmd	*ft_struct_init(t_cmd **cmd, char init_value, char **blocks)
 {
 
-	size_t k;
+	size_t 		k;
+	size_t 		nbr_of_simpleCmds;
+	t_simpleCmd	*simpleCmd;
+	size_t		nb_of_blocks;
 
 	k = 0;
-	t_simpleCmd	*simpleCmd;
+	nb_of_blocks = 0;
 
 	(void)init_value;
+	while(blocks[nb_of_blocks] != NULL)
+		{	
+				nb_of_blocks++;
+		}
+
+	printf("nb of blocks : %zu\n", nb_of_blocks);
+	nbr_of_simpleCmds = nb_of_blocks;
 
 	*cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!(*cmd))
 		return (NULL);
 
-	//(*cmd)->simpleCmd = malloc(sizeof(t_simpleCmd));
-	(*cmd)->simpleCmds = malloc(sizeof(t_simpleCmd) * (simpleCmds_nbr + 1));
+	(*cmd)->simpleCmds = malloc(sizeof(t_simpleCmd) * (nbr_of_simpleCmds + 1));
 	if (!((*cmd)->simpleCmds))
 		return (NULL);
-	while(k < simpleCmds_nbr)
+	while(k < nbr_of_simpleCmds)
 	{
 		(*cmd)->simpleCmds[k] = ft_struct2_init(&simpleCmd, 0);
 		k++;
 	}
-
-	(*cmd)->number_of_simpleCmds = simpleCmds_nbr;
+	(*cmd)->blocks = blocks;
+	(*cmd)->nb_of_simpleCmds = nbr_of_simpleCmds;
 	(*cmd)->background = 0;
 
 	(*cmd)->path_tab = 0;
