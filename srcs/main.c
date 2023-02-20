@@ -165,6 +165,16 @@ je n ai tjrs pas free certaines variables. a faire ce soir. imperativemnt .¸ oh
 15/02 les pipes semblent marcher correctement, je devrai m occuper des outfiles et infiles ainsi que des outfiles et infiles dans un block(donc dans une simpleCmd)
 TODO : demande de l aide pour debogger les processus enfants, je n arrive pas a entrer dans thread enfant. je ne sais pas comment faire, j avais les threads dans pipex,la jene les vois pas.
 TODO sinon fessee free ce qu il reste a free
+
+
+TODO : fermer les FD des open()
+TODO :refaire les canalisations et regler le unconditional move.
+note personnelle : je ne respecte pas le pseudo code a la lettre, puisque j ai d abord fait l execution. je vais regler les derniers details et passer au parsing ensuite. 
+
+
+-> valgrind --suppressions=ignore_rl_leaks --leak-check=full --show-reachable=yes --track-fds=yes ./my_minishell
+
+
 */
 
 #include "minishell.h"

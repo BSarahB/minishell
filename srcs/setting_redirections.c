@@ -38,7 +38,7 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 	while(i < cmd->nb_of_simpleCmds) //on parcourt ici chaque processus == chaque simple cmd pour les fr heriter des redirections
 	{
 		//on redirige l input
-		dup2(fdin, STDIN_FILENO); // durant la while, a partir de la 2 eme simplecmd  on va heriter du fdin du pipe COMMUN a la simplecmd precedente on avait parametre : fdin = pip[0]; cest cela qui est le coeur des multipipes
+		dup2(fdin, STDIN_FILENO);//durant la while, a partir de la 2 eme simplecmd  on va heriter du fdin du pipe COMMUN a la simplecmd precedente on avait parametre : fdin = pip[0]; cest cela qui est le coeur des multipipes
 		close(fdin);
 		//on parametre fdout
 		//###SI LAST SIMPLE COMMANDE###
@@ -80,6 +80,8 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 	dup2(tmpout, 1);
 	close(tmpin);
 	close(tmpout);
+
+	
 	// gestion de & background ->on attendra pas la derniere commande sil n y est pas.
 	waitpid(-1, &wstatus, 0);//avant d imprimer dans la console, on demande au pere d attendre que les enfants aient fini.
 /*  The waitpid() system call suspends execution of the calling thread  un‐

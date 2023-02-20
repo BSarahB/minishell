@@ -42,7 +42,7 @@ t_simpleCmd	*ft_struct2_init(t_simpleCmd **simpleCmd, char init_value)
 		return (0);
 
 	(*simpleCmd)->number_of_arguments = 0;
-//	(*simpleCmd)->errnum = 0;
+	(*simpleCmd)->errnum = 0;
 
 	(*simpleCmd)->cmd_and_args = NULL;
 	(*simpleCmd)->abs_cmd_and_args = NULL;
@@ -57,19 +57,17 @@ t_cmd	*ft_struct_init(t_cmd **cmd, char init_value, char **blocks)
 	size_t 		k;
 	size_t 		nbr_of_simpleCmds;
 	t_simpleCmd	*simpleCmd;
-	size_t		nb_of_blocks;
+	size_t		nbr_of_blocks;
 
 	k = 0;
-	nb_of_blocks = 0;
+	nbr_of_blocks = 0;
 
 	(void)init_value;
-	while(blocks[nb_of_blocks] != NULL)
-		{	
-				nb_of_blocks++;
-		}
+	while(blocks[nbr_of_blocks] != NULL)
+				nbr_of_blocks++;
 
-	printf("nb of blocks : %zu\n", nb_of_blocks);
-	nbr_of_simpleCmds = nb_of_blocks;
+	printf("nb of blocks : %zu\n", nbr_of_blocks);
+	nbr_of_simpleCmds = nbr_of_blocks;
 
 	*cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!(*cmd))
@@ -83,9 +81,13 @@ t_cmd	*ft_struct_init(t_cmd **cmd, char init_value, char **blocks)
 		(*cmd)->simpleCmds[k] = ft_struct2_init(&simpleCmd, 0);
 		k++;
 	}
+	(*cmd)->simpleCmds[k] = 0;
 	(*cmd)->blocks = blocks;
 	(*cmd)->nb_of_simpleCmds = nbr_of_simpleCmds;
+	(*cmd)->nb_of_blocks = nbr_of_blocks;
+
 	(*cmd)->background = 0;
+
 
 	(*cmd)->path_tab = 0;
 	(*cmd)->outfile = NULL;
