@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+//TODO : appeler ft_checkopenerror au bon endroit, sinon la scinder en 2 fonctions
 void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 {
 	int	tmpin;
@@ -31,6 +32,9 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 	//sil existe ce sera l entree de toute la cmd
 	if (cmd->inputfile != NULL)
 		fdin = open(cmd->inputfile, O_RDONLY);//TODO cmt rendre compte du nom du inputfile si on ne le connait pas
+
+
+	
 	//s il n existe pas on prend stdin par defaut
 	else
 		fdin = dup(tmpin);

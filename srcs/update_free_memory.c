@@ -67,7 +67,7 @@ void	ft_free_struct_t_cmd(t_cmd **cmd)
 	ft_free_tab(&(*cmd)->path_tab);
 	ft_free_tab(&(*cmd)->blocks);
 	
-	ft_free_struct_t_simpleCmds(&(*cmd)->simpleCmds);//TODO faire une while pour parcourir le double tab de pointeurs sur struct pour le vider
+	ft_free_struct_t_simpleCmds(&(*cmd)->simpleCmds);
 
 	if (*cmd != NULL)
 	{

@@ -156,18 +156,18 @@ typedef struct s_cmd{
 
 
 NOTES PERSONELLES:
- 09/02 je suis deja en train de devier de mon pseudo code et me rattache a ce que j ai deja fait avec pipex.
+je suis deja en train de devier de mon pseudo code et me rattache a ce que j ai deja fait avec pipex.
 je continue , je verrai bien. je ne vais pas me mettre d obstacles la ou il n y en a pas encore. nb: ce n est pas comme ca qu on fait le pseudo code il faut partir du + general puis entrer dans le detail,  moi j entre direct dans le detail, c est un reflexe. pff bon .
 idee a proposer a 42: faire un mois d integration pour apprendre aux debutants les outils et la methodologie du pseudo code. aussi leur faire decouvrir les testeurs.
-11/02 j ai mis 5h a initialiser correctement(?) ma structure (mon double tab de pointeurs sur structures).... quelle .... plaie .... les bases sont a consolider.
-13/02 je nai pas du tt fait le lexer. pour l instant j avance je fais ce qui me donne du resultat pour rentrer dans le bain et m approprier le projet un peu plus.
+j ai mis 5h a initialiser correctement(?) ma structure (mon double tab de pointeurs sur structures).... quelle .... plaie .... les bases sont a consolider.
+je nai pas du tt fait le lexer. pour l instant j avance je fais ce qui me donne du resultat pour rentrer dans le bain et m approprier le projet un peu plus.
 je n ai tjrs pas free certaines variables. a faire ce soir. imperativemnt .¸ ohhh
-15/02 les pipes semblent marcher correctement, je devrai m occuper des outfiles et infiles ainsi que des outfiles et infiles dans un block(donc dans une simpleCmd)
+les pipes semblent marcher correctement, je devrais m occuper des outfiles et infiles ainsi que des outfiles et infiles dans un block(donc dans une simpleCmd)
 TODO : demande de l aide pour debogger les processus enfants, je n arrive pas a entrer dans thread enfant. je ne sais pas comment faire, j avais les threads dans pipex,la jene les vois pas.
 TODO sinon fessee free ce qu il reste a free
 
 
-TODO : fermer les FD des open()
+Les 3FD ouverts standards quand exit sont tt a faits normaux. et ne constituent pas une erreur avec le --track-fd=yes(option valgrind) 
 TODO :refaire les canalisations et regler le unconditional move.
 note personnelle : je ne respecte pas le pseudo code a la lettre, puisque j ai d abord fait l execution. je vais regler les derniers details et passer au parsing ensuite. 
 
