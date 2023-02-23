@@ -47,10 +47,18 @@ int	ft_execute_cmd(t_cmd *cmd, int i,char *envp[])
 	if (execve(cmd->simpleCmds[i]->cmd_and_args[0], cmd->simpleCmds[i]->cmd_and_args, envp) == -1)
 		exec_return = ft_execve_join(cmd, envp, cmd->simpleCmds[i]->abs_cmd_and_args);
 	if (exec_return == -1 && (errno == 2 || errno == 13))
-		(cmd->simpleCmds[0])->errnum = 127;
+		{
+			(cmd->simpleCmds[0])->errnum = 127;
+			ft_free_struct_t_cmd(&cmd);
+			return(exec_return);
+
+		}
+	printf("%d\n",((cmd->simpleCmds[0])->errnum));
 		//est ce judicieux de free ici? ou ne vaut il mieux pas free tout a la fin?
 	ft_free_tab(&(cmd->simpleCmds[i]->cmd_and_args));
 	ft_free_tab(&(cmd->simpleCmds[i]->abs_cmd_and_args));
+	printf("FREEEEEEEEEEEEEEEEEEEEEEEE\n");
+
 	return (exec_return);
 
 }

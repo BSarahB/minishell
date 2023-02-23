@@ -9,8 +9,9 @@
 #include <sys/types.h>//pour open les 3 directives de preprocesseur
 #include <sys/stat.h>
 #include <fcntl.h>//pr pipe
-# include <errno.h>
+#include <errno.h>
 #include <sys/wait.h> //pour le waitpid
+#include <signal.h>
 
 
 
@@ -73,11 +74,11 @@ void		ft_free_struct_t_simpleCmd(t_simpleCmd **simpleCmd);
 
 
 
-void	ft_error_msg(char **argv);
-void	ft_error(char *const str);
+//void	ft_error_msg(char **argv);
+//void	ft_error(char *const str);
 void	ft_putstr_fd(char *s, int fd);
-int		ft_check_close_error(int fd);
-int		ft_check_open_error(int fdin, int fdout);
+//int		ft_check_close_error(int fd);
+//int		ft_check_open_error(int fdin, int fdout);
 
 
 t_cmd		*ft_struct_init(t_cmd **cmd, char init_value, char **blocks);

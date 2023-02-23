@@ -174,12 +174,15 @@ note personnelle : je ne respecte pas le pseudo code a la lettre, puisque j ai d
 
 -> valgrind --suppressions=ignore_rl_leaks --leak-check=full --show-reachable=yes --track-fds=yes ./my_minishell
 
-
+gerer les fd sur un simple hello tmpin et tmpout sont tjrs ouverts (fd 4 et 5)
 */
 
 #include "minishell.h"
 
-
+void	ft_void(void)
+{
+	printf("void\n");
+}
 int main(int argc, char *argv[], char *envp[])
 {
 	//TODO gerer le -env (si retrait de l environnement dans la compilation)
@@ -190,9 +193,15 @@ int main(int argc, char *argv[], char *envp[])
 	char 	**blocks;
 
 	line = NULL;
-	//while (1)
-	//{
+	while (1)
+	{
+		signal(SIGQUIT, SIG_IGN);
 		line = readline(" ~ ");
+		if (!line)
+		{
+			ft_putstr_fd("no line quit \n", 2);
+			break;
+		}
 		printf("input : %s\n", line);
 		//TODO gerer les spaces : segfault et mettre le prompt apres return
 		//TODO gerer return et remettre prompt
@@ -219,11 +228,15 @@ int main(int argc, char *argv[], char *envp[])
 		cmd->path_tab = ft_get_path(envp);
 		ft_split_line_in_s_cmd(cmd, line, envp);
 		ft_setting_redirections_and_pipes(cmd, envp);
+		printf("after setting redir \n");
+		ft_free_struct_str(&line);
+		ft_free_struct_t_cmd(&cmd);
+		ft_void();
 
-	//}
+
+	}
 
 
-	ft_free_struct_str(&line);
 	//ft_free_tab(&(cmd->path_tab));
 	//ft_free_tab(&(cmd->blocks));
 	ft_free_struct_t_cmd(&cmd);

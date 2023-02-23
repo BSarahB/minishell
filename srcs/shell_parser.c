@@ -68,20 +68,20 @@ command_list:
 
 char	**ft_get_abs_arguments(int i, char **blocks)
 {
-	char	**abs_arguments;
+	char	**abs_c_and_a;
 	char	slash[2];
 
 	slash[0] = '/';
 	slash[1] = 0;
-	abs_arguments = ft_split(blocks[i], ' ');
-	ft_update_string(&abs_arguments[0], ft_strjoin(slash, abs_arguments[0]));
-	return (abs_arguments);
+	abs_c_and_a = ft_split(blocks[i], ' ');
+	ft_update_string(&abs_c_and_a[0], ft_strjoin(slash, abs_c_and_a[0]));
+	return (abs_c_and_a);
 }
 
 int	ft_split_line_in_s_cmd(t_cmd *cmd, char *line, char **envp)
 {
-	char	**arguments;
-	char	**abs_arguments;
+	char	**c_and_a;
+	char	**abs_c_and_a;
 	int		exec_return;
 	size_t		i;
 	int		j;
@@ -94,11 +94,11 @@ int	ft_split_line_in_s_cmd(t_cmd *cmd, char *line, char **envp)
 
 	while (i < cmd->nb_of_simpleCmds)
 	{
-		arguments = ft_split(cmd->blocks[i], ' ');
-		printf("%s\n", arguments[0]);
-		abs_arguments = ft_get_abs_arguments(i, cmd->blocks);
-		cmd->simpleCmds[i]->cmd_and_args = arguments;
-		cmd->simpleCmds[i]->abs_cmd_and_args = abs_arguments;
+		c_and_a = ft_split(cmd->blocks[i], ' ');
+		printf("%s\n", c_and_a[0]);
+		abs_c_and_a = ft_get_abs_arguments(i, cmd->blocks);
+		cmd->simpleCmds[i]->cmd_and_args = c_and_a;
+		cmd->simpleCmds[i]->abs_cmd_and_args = abs_c_and_a;
 		i++;
 	}
 	i = 0;

@@ -22,6 +22,7 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 	size_t i;
 	int ret;
 	int wstatus;
+	int exec_return;
 
 
 	i = 0;
@@ -72,7 +73,14 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 		if (ret == 0) //dans l enfant on execute la commande correspondant a la simplecmd
 			{
 				//si on est dans l enfant on va pouvoir lancer l execution de sa simpleCommande
-				ft_execute_cmd(cmd, i, envp);//appel a execve
+				exec_return = ft_execute_cmd(cmd, i, envp);//appel a execve
+				if (exec_return == -1 && (errno == 2 || errno == 13))
+				{
+					close(tmpin);
+					close(tmpout);
+
+				}
+
 				//il faudra imperativement SORTIR de la pour ne pas que le code du fork s execute derriere dans l enfant avec la boucle while
 				exit(1);//ou (0?) voir comment bien sortir
 			}
@@ -87,7 +95,7 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 
 	
 	// gestion de & background ->on attendra pas la derniere commande sil n y est pas.
-	waitpid(-1, &wstatus, 0);//avant d imprimer dans la console, on demande au pere d attendre que les enfants aient fini.
+	waitpid(ret, &wstatus, 0);//avant d imprimer dans la console, on demande au pere d attendre que les enfants aient fini.
 /*  The waitpid() system call suspends execution of the calling thread  un‐
 	   til  a  child specified by pid argument has changed state.  By default,
 	   waitpid() waits only for terminated children, but this behavior is mod‐

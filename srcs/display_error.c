@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 void	ft_putstr_fd(char *s, int fd)
 {
 	if (s != 0)
@@ -55,7 +55,7 @@ void	ft_check_fork_fd1(t_struct *ptr, char **argv, char **envp, int ret)
 
 
 		ft_create_pipe(ptr);//RETURN VALUE On success, zero is returned.  On error, -1 is returned, errno  is  set appropriately, and pipefd is left unchanged.
-		/*
+		
 	void	ft_create_pipe(t_struct *ptr) //TODO CQFD
 	{
 		if (pipe((*ptr).p)) //si le pipe echoue
@@ -65,7 +65,7 @@ void	ft_check_fork_fd1(t_struct *ptr, char **argv, char **envp, int ret)
 			exit (0);
 		}
 	}
-*/
+
 		//on s occupait ici du fork
 		retour_fd1 = fork();
 		if (retour_fd1 == -1) //GESTION D ERREUR DU FORK
@@ -114,3 +114,4 @@ int	ft_check_close_error(int fd)
 }
 
 
+*/

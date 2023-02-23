@@ -10,3 +10,4 @@ add_executable(${PROJECT_NAME} includes/minishell.h srcs/main.c srcs/shell_lexer
 )
 target_link_libraries(${PROJECT_NAME} readline) #  -lreadline-> lreadline.a
 add_link_options(-fsanitize=address -fsanitize=leak)
+
