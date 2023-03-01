@@ -168,13 +168,105 @@ TODO sinon fessee free ce qu il reste a free
 
 
 Les 3FD ouverts standards quand exit sont tt a faits normaux. et ne constituent pas une erreur avec le --track-fd=yes(option valgrind) 
-TODO :refaire les canalisations et regler le unconditional move.
 note personnelle : je ne respecte pas le pseudo code a la lettre, puisque j ai d abord fait l execution. je vais regler les derniers details et passer au parsing ensuite. 
 
 
 -> valgrind --suppressions=ignore_rl_leaks --leak-check=full --show-reachable=yes --track-fds=yes ./my_minishell
+note personnelle : avoir fait l execution d abord m aide un peu a voir ce que execve prend en charge. mais je pense que le parsing en premier lieu aurait ete bien plus judicieux. ... surtout que je vois quil y a des manieres de faire avec arbre et tri recursif plus securise que la maniere dont je fais avec la boucle sur les simple commandes....
+j ai peur d avoir fait tout mon systeme d execution pour rien.... 
+je ne suis pas certaine de sa solidite 
 
-gerer les fd sur un simple hello tmpin et tmpout sont tjrs ouverts (fd 4 et 5)
+je passe maintenant au parsing. je vais tokeniser mes elements. 
+j avais procede en faisant des blocs de pipe . mais qd j en ai parle a une collegue elle m a decouragee. depuis 3 jours je suis dans l semoule j ai le doute. j ai envie de faire mon idee mais j ai peur que ce ne soit pas operationnel a la fin . j imerais plutot parser mes blocs . je pense que c est possible. mais j ai peur que cela ne marche pas. 
+
+ok quoi quil en soit. 
+PARSING: de bloc ou de line entiere a choisir a la fin. 
+
+la principale concern ici semble etre le qutoing. le signle quoting et le double quoting. 
+-le quoting sert a ce que le shell N INTERPRETE PAS LES METACARATERES. quoter demande au shell de prendre les metacaracteres au sens LITTERAL
+  -> l anti SLASH \ dit au shell : le caractere qui est apres toi tu ne l interpretes PAS. prends le au sens LITTERAL
+  les metacaracteres du shell sont :   
+  *  est un metacaractere role wildcard, 
+  $  est un metacaractere role appelle key=value ,
+  (l antislash \ est lui meme un metacaractere) 
+-> l ESPACE dans le bash est considere comme un SEPARATEUR il ne est pas vu comme un caractere, role quil interprete est : separateur entre les tokens. 
+les espaces ne sont pas interpretes (par ex avec echo) et donc ne sortent pas dans le renderer SAUF SI
+ un antislash est devant un espace : cela  va demander au shell de l interpreter au sens LITTERAL comme un espace et donc de le CONSERVER dans le renderer
+-> l APOSTROPHE DIT au shell : DANS MON BLOC tu n interpretes RIEN , sauf moi meme ' qd tu me revois pour fermer MON BLOC.
+ainsi :  tout ce qui est entre 'n est pas interprete'
+-> PAREIL pour les GUILLEMETS sauf que entre GUILLEMETS le SHELL DEVRA INTEPRETER LE $(subtilite des guillemets ou les variables continuent d etre interpretees) il n y a que le $qui consrrve son caractere de metacaractere
+entre apostrophes l espace sera dans un bloc ou il sera pris au sens LITTERAL pour un veritable espace
+->les BACKQUOTES dit au shell de inserer LEXECUTION a l interieur . shell, suppose que ce qui est entre backquote est une commande et execute le bloc entre backquote
+ces histoires de quoting sont relatives au commandes ECHO
+echo backquotes
+echo double_quotes
+echo single_quotes
+
+
+- annonce une OPTION
+
+
+
+D apres le ***GNU BASH***  https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Shell-Syntax
+-le shell ignore le symbole de commentaire '#'et le reste de la ligne
+
+***ORDRE A SUIVRE POUR TRAITER LES INFORMATIONS COMME BASH:***
+
+1)lecture de l input depuis 3 sources : 
+	1-lecture depuis fichier(script shell)
+	2-depuis une string comme 1 argument en invoquant bash avec l option -c (ASK)
+	3-depuis l input du user stdin entree clavier
+
+2)casse l input en mots et operateurs en obeisssants aux regles de QUOTING decrites dans la section quoting.
+	-> les tokens sont separes par des metacaracteres
+	->on effectue l EXPANSION des ALIAS ICI durant cette etape
+
+3)Parser les tokens 
+	->soit en simple command, soit en compound command (il en existe 4 types de commandes composees : Group: {...;} par ex:$ { echo info1; echo info2; } >logfile , Subshell: (...) is similar to a group except that the commands are run in subshell environment. This means that variable assignments do not survive after the subshell completes. As an example:
+
+$ a=0; (a=10; echo "inside=$a"); echo "outside=$a"
+inside=10
+outside=0, ou encore Test Command: Bash's advanced form of the test command, [[...]], can include several tests. Tests are separated by && or ||:
+
+ )
+	->une simple commande est une sequence de mots separee par des blancs et est terminee par un des tokens operateurs de controle \n (newline) ou '||' ; && & ;; , ;& ;;& | |& ( ou )
+		l exit statut d une simple command est donne par waitpid function ou  128+n si la commande est terminee par le signal n --> je ne comprends pas car c est 0 en general le echo $? pr voir l exit status _de une simple commande
+ 4)SHELL EXPANSION -> on va effectuer expansions :	1) brace {} : bash$ echo a{d,c,b}e $ade ace abe ou mkdir /usr/local/src/bash/{old,new,dist,bugs}
+ 
+ 
+ 
+  													2)tild ~  :  ~/foo cest $HOME/foo 
+													~+/foo cest $PWD/foo et 
+													~-/foo c est ${OLDPWD-'~-'}/foo
+  
+  
+   													3)extension des parametres du shell genre: ${parametre} le dollar introduit : parametre d expansion, commande de subsitution ou expansion arithmetic
+													 ici je ne comprends pas les exemples donnes avec ${parameter:+word} puisque je ne recupere pas vraiment le eme rendu. cela correspond t il a une genre de substitution de la var?? a creuser
+													 on a	${parameter:-word}
+															${parameter:=word}
+															${parameter:?word}
+															${parameter:+word}
+															${parameter:offset}
+															${parameter:offset:length}
+
+   je ne comprends pas tout ici								${parameter@operator}              ?
+
+
+													4)substitution de commande : voir video youtube https://www.youtube.com/watch?v=-1w7jLsuwPU
+													5)Arithmetic expansion    : $(( expression ))  https://www.youtube.com/watch?v=r30SIIHBkCw
+													6)Substitution de processus  La substitution de processus permet de faire référence à l'entrée ou à la sortie d'un processus à l'aide d'un nom de fichier. Il prend la forme de
+														<( liste ) ou >( liste )
+														cf : >(list)<(list)<>/dev/fd
+													7)Word Splitting  cqfd Note that if no expansion occurs, no splitting is performed.
+													8)l extension du nom de fichier  Filename Expansion
+													9)Quote Removal : After the preceding expansions, all unquoted occurrences of the characters ‘\’, ‘'’, and ‘"’ that did not result from one of the above expansions are removed.
+
+
+
+
+
+
+
 */
 
 #include "minishell.h"
@@ -241,5 +333,4 @@ int main(int argc, char *argv[], char *envp[])
 	//ft_free_tab(&(cmd->blocks));
 	ft_free_struct_t_cmd(&cmd);
 	return (0);
-
 }
