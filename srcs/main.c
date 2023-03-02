@@ -220,7 +220,8 @@ D apres le ***GNU BASH***  https://www.gnu.org/savannah-checkouts/gnu/bash/manua
 2)casse l input en mots et operateurs en obeisssants aux regles de QUOTING decrites dans la section quoting.
 	-> les tokens sont separes par des metacaracteres
 	->on effectue l EXPANSION des ALIAS ICI durant cette etape
-
+	->LE **********QUOTING*********
+			-
 3)Parser les tokens 
 	->soit en simple command, soit en compound command (il en existe 4 types de commandes composees : Group: {...;} par ex:$ { echo info1; echo info2; } >logfile , Subshell: (...) is similar to a group except that the commands are run in subshell environment. This means that variable assignments do not survive after the subshell completes. As an example:
 
@@ -262,9 +263,26 @@ outside=0, ou encore Test Command: Bash's advanced form of the test command, [[.
 													9)Quote Removal : After the preceding expansions, all unquoted occurrences of the characters ‘\’, ‘'’, and ‘"’ that did not result from one of the above expansions are removed.
 
 
+********L ORDRE de la SYNTAXE********* : 
 
+separer les token,
+appliquer le quotinget alias, 
+parser en simple command et compound command,  
+appliquer l expansion shell dan l ordre :
+			{},
+			 ~,
+			parametre $,
+			substitution commande, 
+			expansion arithmetique, 
+			substitution de processus , 
+			word splitting, 
+			expansion de nom de fichier, 
+			quote removal.  
 
-
+TODO : avec les fichiers txt des commandes a gerer, commencer a figurer avec exemples et applications
+note personnelle : pa contente de ma journee car j ai eu a gerer des choses personnelles. je dois rapidement effectuer les exemples concrets pour me figurer l ordre du lexing et parsing. 
+pour pouvoir ecrire le pseudo code du lexer et parser rapidemment car le temps passe tres vite. 
+ 
 
 
 */
