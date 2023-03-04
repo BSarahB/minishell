@@ -222,7 +222,7 @@ D apres le ***GNU BASH***  https://www.gnu.org/savannah-checkouts/gnu/bash/manua
 	->on effectue l EXPANSION des ALIAS ICI durant cette etape
 	->LE **********QUOTING*********
 			-
-3)Parser les tokens 
+3)Parser les tokens == parser  == remplir la data structure de cmd
 	->soit en simple command, soit en compound command (il en existe 4 types de commandes composees : Group: {...;} par ex:$ { echo info1; echo info2; } >logfile , Subshell: (...) is similar to a group except that the commands are run in subshell environment. This means that variable assignments do not survive after the subshell completes. As an example:
 
 $ a=0; (a=10; echo "inside=$a"); echo "outside=$a"
@@ -265,8 +265,8 @@ outside=0, ou encore Test Command: Bash's advanced form of the test command, [[.
 
 ********L ORDRE de la SYNTAXE********* : 
 
-separer les token,
-appliquer le quotinget alias, 
+separer les token en fonction des regles de quoting,
+appliquer le quoting et alias, 
 parser en simple command et compound command,  
 appliquer l expansion shell dan l ordre :
 			{},
@@ -279,11 +279,36 @@ appliquer l expansion shell dan l ordre :
 			expansion de nom de fichier, 
 			quote removal.  
 
+
+*****POUR LE PROJET 42 cela donne : *****
+
+separer les token en fonction des regles de quoting,
+appliquer le quoting rules 
+parser en simple command,  
+appliquer l expansion shell dans l ordre :
+			 ~,
+			parametre $,
+			quote removal.
+execution
+(je dois verifier si je fais d abord le parsing ou d abord les expansions et le quote removal)  
+il y a aussi la suppression des redirections
+
+
 TODO : avec les fichiers txt des commandes a gerer, commencer a figurer avec exemples et applications
 note personnelle : pa contente de ma journee car j ai eu a gerer des choses personnelles. je dois rapidement effectuer les exemples concrets pour me figurer l ordre du lexing et parsing. 
 pour pouvoir ecrire le pseudo code du lexer et parser rapidemment car le temps passe tres vite. 
- 
 
+ https://harm-smits.github.io/42docs/projects/minishell
+
+Pour tokeniser line: == lexer
+
+on parcourt la line 
+pour chaque caractere on va verifier: 
+					Au tout debut on va ecremer les espaces et tabulations
+					si on tombe sur un char double quote , ou simple quote on change la quoting rule d_q ou s_q. sinon on met la quoting rule en mode Off	
+							-si double quote : on se preoccupe de rien, on parcourt la string jusqu a tomber sur une autre double_quote. tout le bloc entre "  " est considere comme un seul token et sera enregistre en tant que tel	
+							si quoting rules est en mode off : les ESPACES ont valeur de separateurs de token. donc il faudra parcourir les epsaces sans aucun pb jusqu a tomber sur soit un operateur soit un caractere																		on aurait pu avoir ici aussi la rule du caractere d echapement  mais cela n est pas demande dans le sujet donc... surtt ne pas chercher a faire les bonus ou autre puisque je suis deja bien lente
+					 on verifie pour chaque caractere si le caractere est un espace ou un operateur. si cest le cas de l espace : cela signifie que nous avons atteint la fin d un token et si on rencontre un operateur cela signifie egalement  que nous avons atteint la fin d un token
 
 */
 
