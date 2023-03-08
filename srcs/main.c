@@ -327,18 +327,33 @@ Je reflechis au cas particulier de $VAR apres  export VAR="ls -la" -> fonctionne
 											mais les pipes n ont pas de valeur d operateur.
 
 											je continue de voir des exemples. je dois bien savoir quel est l ordre avant de commencer a ecrire le lexing
- 											export VAR="wc"
+											export VAR="wc"
 											ls | $VAR -l fonctionne tres bien. $VAR est substituee comme un wc COMMANDE
-											apres un operateur | on considere que l expand qui suit est une commande. 
+											apres un operateur | on considere que l expand qui suit est une commande.
 											voyons si elle se complique
 											export VAR="head -n 5"
 
-											CEPENDANT quand la commande ECHO est la curr simple_cmd, alors, il faudra mettre l expand $VAR en tant qu option de la commande. 
+											CEPENDANT quand la commande ECHO est la curr simple_cmd, alors, il faudra mettre l expand $VAR en tant qu option de la commande.
 											on va donc determiner si simple_cmd est echo ou pas
 echo -nnnn -nnn -n abc -> execve se charge de considerer -nnnn comme une option valide
 echo -nnn -nnn abc -n -nna -naaa -nn -nn -nnn -nnnn -jfkefe kleflkfneife  CHOIX de la data structure : sera une liste chainee pour ne pas etre piege par le nombre d arguments , ni le nbr de commandes, et ne pas avoir besoin de les allouer au depart en etant bloque sur le nombre
 
 
+EXPAND CASE:
+fiche du cas de l expand faite : cas de l expand *ALONE: I $VAR  trim + clear/ 1er elem est cmd reste est options de ce 1 er elem
+														II '$VAR' SQuote : expand not authorized / tout ce qui est dans le bloc est litteral - whitespace litteral / expand est 1 bloc cmd/l expand n a aucune valeur juste litteral pour ses caracteres
+														III "$VAR" DQUOTE: expand authorized / whitespace_ltteral / expand est 1 bloc cmd
+														-> ce qui est entre QUOTES est 1 BLOC.
+,
+								 cas de l expand *APRES ECHO: 	echo $VAR(suit la loi I), trim+clear / expand est 1 bloc-1option sos l egide de la cmd echo
+																echo '$VAR'(II) expand NOT authorized - all litteral whitespaces litteral
+																echo "$VAR" (III) expand authorized - all litteral whitespaces litteral
+
+								 cas de l expand APRES COMMANDE: (ls par ex) : ls $VAR     : l expand est  1bloc-1option, puisquil est sous l egide dune cmd (ls) && il repond aux regles de I , II ou III
+
+								 cas de l expand APRES | : l expand est 1 bloc cmd. il repond aux regles de I , II ou III
+
+								 dans LExpand, les | ou > redirections n ont pas de valeur speciale, ils sont juste au sesn litteral et servent de cmd ou d option.
 */
 
 #include "minishell.h"
