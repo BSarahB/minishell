@@ -340,9 +340,12 @@ echo -nnn -nnn abc -n -nna -naaa -nn -nn -nnn -nnnn -jfkefe kleflkfneife  CHOIX 
 
 
 EXPAND CASE:
+
+ATTENTION $VAR$ -> en mode no quoting et whitespaces_separatorle $ colle a la variable ANNULE le trim and clear
+
 fiche du cas de l expand faite : cas de l expand *ALONE: I $VAR  trim + clear/ 1er elem est cmd reste est options de ce 1 er elem
 														II '$VAR' SQuote : expand not authorized / tout ce qui est dans le bloc est litteral - whitespace litteral / expand est 1 bloc cmd/l expand n a aucune valeur juste litteral pour ses caracteres
-														III "$VAR" DQUOTE: expand authorized / whitespace_ltteral / expand est 1 bloc cmd
+														III "$VAR" DQUOTE: expand autho00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000rized / whitespace_ltteral / expand est 1 bloc cmd
 														-> ce qui est entre QUOTES est 1 BLOC.
 ,
 								 cas de l expand *APRES ECHO: 	echo $VAR(suit la loi I), trim+clear / expand est 1 bloc-1option sos l egide de la cmd echo
@@ -354,14 +357,133 @@ fiche du cas de l expand faite : cas de l expand *ALONE: I $VAR  trim + clear/ 1
 								 cas de l expand APRES | : l expand est 1 bloc cmd. il repond aux regles de I , II ou III
 
 								 dans LExpand, les | ou > redirections n ont pas de valeur speciale, ils sont juste au sesn litteral et servent de cmd ou d option.
+
+
+ATTENTION $VAR$ -> le $ colle a la variable ANNULE le trim and clear
+ATTENTION AUX CAS PARTICULIERS A GERER: echo $VAR$ -> on ne trime &clear pas VAR. je ne sais pas pkoi. VAR etant suivi d un Caractere $ n est pas trime et clear. 
+										par ex VAR="   5   esp   "
+										
+										
+										
+										echo $VAR$ :   5   esp   $ --> le $ TRIM&CLEAR CANCELLED
+plusieurs comportements					echo $VAR+ 
+												 -
+												 !
+												 ?
+												 [
+												 ]
+												 {
+												 }
+												 /
+												 =
+												 ~
+												 ^
+												 .
+												 ,
+												 %
+												 @
+												 # -->OK tous sont OK AUTHORIZE THE EXPAND ils respectent le TRIM&CLEAR , mettent 1 espace pour separer le prochain token +-!?[]{}
+												
+												**********
+												caracteres_char ou nombres --> newline vide, l'expand de VARcaracteres_char n existe pas donc jute un \n saut de ligne vide
+												_                --> newline vide, idem que pour caracteres_char
+
+												**********
+												\ ou | pipe ou ' ou "   --> $> mettent le prompt sur une nouvelle ligne en attente de lecture du processus
+
+												**********
+												$ -->annule le TRIM and CLear. voir si cela rajoute un espace entre les 2 tokens ou pas. 
+												**********
+												(
+												)
+												> 
+												<  -> pour ces 4 derniers caracteres:  bash: syntax error near unexpected token `newline'(pour le >, < ou >> )  ou `('
+
+												*****
+												& --> JE NE SAIS PAS
+												
+												NOTA BENE: tous les caracteres ci dessus dont ceux qui mettent un nouveau prompt ou annulent le trim ou provoquent des bash syntax error 
+												entre double quotes ou single quotes perdent tte valeur speciale, et ont qu un caractere litteral
+															ex: echo "$'"  ->$'
+
+dans le cas ou un expand n existe pas LETOKEN <EXPAND> EST SUPPRIME si il est une option
+
+PROCEDURE: 
+<0> -> separation with whitepaces on fait les <token>
+1   -> QUOTING RULES : 	DOUBLE_QUOTE? get position start quote end quote
+						SINGLE_QUOTE? idem
+						WHITESPACES_SEPARTOR_ENABLED or WHITESPACES_LITTERAL
+
+	->EXPAND HERE?: yes/no 
+	->EXPAND AUTHORIZED : yes/no 
+			-> EXPAND EXISTS : yes/no (no == supprimer la partie EXPAND car token invalide : suppression du token de la liste chainee ou removal de sa partie)
+				->EXPAND
+
+Quoting rules applied: litteral value protected or clear? SQ rules DQ rules WSPaces_SEPARATOR rule->
+2	-> WHITESPACES_SEPARATOR_ENABLED: TRIM&CLEAR 
+	->or WITESPACES_LITTERAL and CHAR_LITTERAL(' | etc ...) : inside DQ and SG bloc
+3   -> QUOTE REMOVAL :yes/no
+
+
+
+											echo + token-QUOTE vide , apres removal quote on a 0 mais le token est VALIDE:
+
+											echo "" et echo ''  -> on prend le token <''> ou <"">  normalement 
+											on lui applique le mode quoting rules et a l etape de quote removal on lui retire les quotes.
+											le token est valide : cela signifie que si ce token '' est suivi d un autre token comme echo "" bonjour result :  > bonjour -> un espace est la pour signifier que le token '' etait valide. et que nous aviosn bien une separation entre le token <''> et <bonjour>
+											echo ''bonjour ->bonjour
+											echo '' bonjour-> bonjour
+											echo ''''''''bonjour->bonjour(on quote removal simplement le token <''''''''bonjour>)
+											echo '' '' '' '' bonjour->    bonjour (4 espaces et bonjour) (1 espace pour une separation entre tokens valides)
+											echo '' '' '' |cat -e ->   $ on a 3 espaces pour materialiser 3 separations de tokens valides meme si vides
+
+											echo '' ou "" est similaire a echo "$VARE"-> <"$VARE"> -> <""> car lexpand n existe pas donc on le supprime. Quote removal-> <\0> et echo \0 fait comme echo "" ou echo '' -> le result est une newline vide
+
+											EN REVANCHE : 
+											echo + token-EXPAND qui n existe pas, le token n est PAS VALIDE et sera supprime de la liste chainee. avant d etre envoye faire son parsing et remplir la data strcuture
+											echo $VARA $VARA $VAR | cat -e
+										  ->5 esp$   la $VAR est trim$clear les 2 token sont supprimes de la liste chainee lorsque VAR n existe pas
+											$VARA $VAR
+											echo $1 $2 $1$VAR : les 2 expands sont invalides supprimes de la liste chainee. dans le dernier token <$1$VAR> on va supprimer la partie de lexpand non valide et ne laisser que s exprimer $VAR qui sera trim&clear
+										  ->5 esp  
+											5cmd not found. donc le meme traitement s applique que juste en haut: 1 token- Expand qui n existe pas est supprime de la liste chainee.
+
+
+savoir si on met le token a 0.
+
+
+gerer le cas des quotes entremellees : 		echo "'$VAR'"        echo '"$VAR"'
+c est la regle du first quoting rule found is equal to rule applied. le quote removal s appliquera seulement sur les quotes du quoting rule
+											>'   5   esp   '	>"$VAR"		(pr le 2 eme exemple l expand n est pas authorized)	
+
+
+
+
+POUR DETERMINER LES FONCTIONS:
+IL FAUDRA SAVOIR QUELS SONT LES CRITERES pour determiner le moment ou on decide de remplir le tableau d arguments. 
+il faut savoir comment identifier la commande et determiner ss quelles conditions on commence a remplir ses options ou arguments
+IL faudra determiner les limites d un expand. aaa"$V"AR l expand s arrete au " . $VAR$ l expand s arrete au $ ou a un \0 .
+$VARA n est pas valide. car l expand s arrete au \0 et englobe le A
+
+*********************************GESTION DES COMPORTEMENTS*****************************************
+
+>entree : affiche nouveau prompt
+>que des espaces   : TODO0 :CORRIGER LE SEGFAULT ICI
+>que des tabulations : comportement automatique. affiche les fichiers et affiche le prompt TODO : s assurer du bon return
+>:		TODO1 le : va dans l execution comme une simple cmd . il ne devrait pas  etre traite comme une simple cmd a executer
+
+
+
+
+
+
+
+********************************************MON CODE*************************************************
+TODO: cmd not found, mettre en place la suite du debogg de l execve (cf pipex) 
 */
 
 #include "minishell.h"
 
-void ft_void(void)
-{
-	printf("void\n");
-}
 int main(int argc, char *argv[], char *envp[])
 {
 	// TODO gerer le -env (si retrait de l environnement dans la compilation)
@@ -381,7 +503,7 @@ int main(int argc, char *argv[], char *envp[])
 			ft_putstr_fd("no line quit \n", 2);
 			break;
 		}
-		printf("input : %s\n", line);
+	//	printf("input : %s\n", line);
 		// TODO gerer les spaces : segfault et mettre le prompt apres return
 		// TODO gerer return et remettre prompt
 		// TODO gerer signaux CTRL +D segfault et CTRL +C dt relaunch nouveau prompt donc continuer la while 1
@@ -403,10 +525,9 @@ int main(int argc, char *argv[], char *envp[])
 		cmd->path_tab = ft_get_path(envp);
 		ft_split_line_in_s_cmd(cmd, line, envp);
 		ft_setting_redirections_and_pipes(cmd, envp);
-		printf("after setting redir \n");
+	//	printf("after setting redir \n");
 		ft_free_struct_str(&line);
 		ft_free_struct_t_cmd(&cmd);
-		ft_void();
 	}
 
 	// ft_free_tab(&(cmd->path_tab));

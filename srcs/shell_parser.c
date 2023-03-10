@@ -105,22 +105,22 @@ int	ft_split_line_in_s_cmd(t_cmd *cmd, char *line, char **envp)
 	while (i < cmd->nb_of_simpleCmds)
 	{
 		j = 0;
-		printf("blocks[%zu]: %s\n",i, cmd->blocks[i]);
-		printf("pr cmd_and_args de simple_Cmd %zu on a : \n", i);
+	//	printf("blocks[%zu]: %s\n",i, cmd->blocks[i]);
+	//	printf("pr cmd_and_args de simple_Cmd %zu on a : \n", i);
 		while (cmd->simpleCmds[i]->cmd_and_args[j] != NULL)
 		{
-			printf("%s*", cmd->simpleCmds[i]->cmd_and_args[j]);
+//			printf("%s*", cmd->simpleCmds[i]->cmd_and_args[j]);
 			j++;
 
 		}
-		printf("\n");
+//		printf("\n");
 		j= 0;
 		while (cmd->simpleCmds[i]->abs_cmd_and_args[j] != NULL)
 		{
-			printf("%s*", cmd->simpleCmds[i]->abs_cmd_and_args[j]);
+///			printf("%s*", cmd->simpleCmds[i]->abs_cmd_and_args[j]);
 			j++;
 		}
-		printf("\n");
+	//	printf("\n");
 		i++;
 	}
 	return (exec_return);

@@ -66,7 +66,7 @@ t_cmd	*ft_struct_init(t_cmd **cmd, char init_value, char **blocks)
 	while(blocks[nbr_of_blocks] != NULL)
 				nbr_of_blocks++;
 
-	printf("nb of blocks : %zu\n", nbr_of_blocks);
+	//printf("nb of blocks : %zu\n", nbr_of_blocks);
 	nbr_of_simpleCmds = nbr_of_blocks;
 
 	*cmd = (t_cmd *)malloc(sizeof(t_cmd));
