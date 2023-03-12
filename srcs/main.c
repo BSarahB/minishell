@@ -467,19 +467,124 @@ $VARA n est pas valide. car l expand s arrete au \0 et englobe le A
 
 *********************************GESTION DES COMPORTEMENTS*****************************************
 
->entree : affiche nouveau prompt
+
+VOICI TOUS LES TYPES DE TOKEN : on eut creer des define: 
+								WORD 1
+								VARIABLE $VAR 2
+								PIPE  3
+								GREAT 4
+								GREATGREAT 5
+								LESS 6 
+								LESSLESS 7
+								TERMINATE 8
+								PARENTHESIS_LEFT 9
+								PARENTHESIS_RIGHT 10
+								AMPERSAND & 11
+								GREAT_AND_AMPERSAND >& 12
+								LESSGREAT <> 13
+
+
+on pourrait peut etre aussi creer des define pour les returns
+								RAS :											0
+								Export /unset not a valid identifier :			1 export event not found , cd too many argumetns
+
+								bash syntax error near unexpected token:		2  filename argument required , export/pwd/cd invalid option, 
+								Is a directory :								126 
+								command not found :								127
+								no such file or directory						parfois 1 , 127 possible(Unset path + ls)
+
+								RETURNS SUR LES SIGNAUX 						0/130/131
+
+
+
+faire la difference entre un heredoc operationnel et le << ou >> bash synntax error
+
+TOUT D ABORD:
+ft_check_validity_of_line_input
+on va d abord cheker la validite de la line input du user : line NULL? -> n existe pas (readine NULL)
+															line VIDE? -> existe, malloquee peut etre, dedans il y a '\0'
+															line only_whitespaces : que des espaces . ->nouveau prompt
+															line commence par # -> on ignore toute la line  ->nouveau prompt
+															line est  ':' ->nouveau prompt (ou : : : ) les : separes ppar un ou plusieurs espaces
+															line est '!'  ->nnouveau prompt
+
+
+
+
+
+
+
+LEXER: 
+
+ft_check_validity_of_quoting_rules_for_line_  : prendre en charge les guillemets et aostrophes incomplets ouverts (nombre impair)
+			fr fonction qui des qu elle met la regle de quoting a 2 la remet a  0  et met a 1a regle de whitespace_separator
+			si c est bon, pas de problem de quoting -> alors on peut tokenizer la line en faisant split sur les espaces
+			ft_get_quoting_rules : evaluer quand le faire
+			stocker dans chaque token le debut de la quote start_SINGLEQUOTE end_SINGLEQUOTE ou s_DQ e_DQ comme il peut y avoir plusieurs quoting successifs dans un token. sils sont entremeles, c est le premier quoting qui l emporte
+			dans notre minishell on part quand meme du principe que les quotes seront fermees mais gerer les segfaults tt de meme attentionle progrmme ne doit pas crasher
+TOKENISER la line en fonction des WHITESPACES SPEARATEURS ou des OPERANDS : | < > qui servent de delimitateurs aux tokens
+ft_create_token devra retourner la liste chainee de tokens crees
+ft_check_syntax_error(token)\
+ft_check_operand_syntax_error -> ft_case_pipe par ex le | en debut de cmd line fait une syntax error, 
+ft_define_token_type
+
+
+
+****AFFICHAGE DE NOUVEAU PROMPT:
+
+>entree (\n): affiche nouveau prompt
 >que des espaces   : TODO0 :CORRIGER LE SEGFAULT ICI
 >que des tabulations : comportement automatique. affiche les fichiers et affiche le prompt TODO : s assurer du bon return
->:		TODO1 le : va dans l execution comme une simple cmd . il ne devrait pas  etre traite comme une simple cmd a executer
+>:		TODO1 le : va dans l execution comme une simple cmd . il ne devrait pas  etre traite comme une simple cmd a executer son ccomportement normal est de ne faire rien et juste d afficher  un nouveu prompt
 
 
 
 
 
+POSSIBILITE : envisager une fonction qui gere tous les cas particuliers de commandes avant l execve et compare la cmd avec ft strcmp -> strategie trop lourde
+ces cas seraient: ft_compare_cmd_and_avoid_execve 
 
+****************************************************************GESTION DES COMPORTEMENTS DES CARACTERES A A VOLEE***************************************************************************
+
+>!   : ATTENTION il faudra retourner 1 et mettre 1 nouveau prompt (prevoir une if cmd == ! avec ft strcmp par ex pour gerer les execptions d envoi a execve si je decide d envoyer le token a l execution                                                            ), si  !! envoyer a execve et faire la commande not found
+
+on peut regrouper plutot : les erreurs de syntaxe pres dun token token ou `nouvelle ligne' inattendu ... pkoi newline que cela signifie il ? qu on attendait un fichier? ou un vrai parametre car le token est original ? 
+
+****STRATEGIE POUR LE bash: syntax error near unexpected token `newline' --> avec:  >		<		<<		>>		<>     newline quand on a affaire au motif original 
+			definir:																												 (ne pas oublier le return de  echo $?)
+
+STRATEGIE POUR le bash: syntax error near unexpected token `TOKEN*1 ou *2 ou *3'    -> avec : token  *1 quand  le token est repete  n 1 unique exemplaire plusieurs fois avec des espaces dan la cmd line, ou 																							token *2 quand le motif est repete a partir de 4 fois et + pour GREATGREATGREATGREAT et + et 
+			laissons tomber pour le moment, les *3. faisons simple. soit on display newline, soit le motif original(! ou < ou <<) oou |
+			
+			definir:
+
+on avait vu plus haut que avec echo:			<< 
+												>>
+												(
+												)
+												> 
+												<  -> pour ces 6 derniers caracteres:  bash: syntax error near unexpected token `newline'(pour le >, < ou >> )  ou `('
+MEME SI ECHO est mal ecrit, ou que la comande est mal ecrite  quelque soit ce qu on a on a : on a un bash syntax error pareil pour les autres tokens : echo <<<<< ou echo < < < <
+-> le bash syntax error token << ou token < s applique ici quelque soit la commande ecrite... ecccho < met a meme bash syntax error
+cela signifie que le bash regarde avant d executer echo ou n importe quelle autre commande le token en question
+ft_check_syntax_error(token)\
+ft_check_operand_syntax_error -> ft_case_pipe par ex le | en debut de cmd line fait une syntax error, 
+
+
+si ces tokens sont suivis d un token de type <WORD> alors ils jouent leur role de redirection. infile, outfile heredoc append etc. 
+donc il faut que le token qui suive notre token syntax error soit un token <TERMINATE>    -> <WORD> <numeros 4,5,6,7,9,10,13> <TERMINATE> --> `newline'
+
+REMARQUE : tous ces tokens, SI ils sont entre DQ ou SQuoting ne constituent plus une erreur de syntax. mais une command not found "<" ou '|'
 
 ********************************************MON CODE*************************************************
 TODO: cmd not found, mettre en place la suite du debogg de l execve (cf pipex) 
+
+
+SE DEFENDRE lors de la correction si on me met des {} , () , *, \,  
+
+
+
+RAPPEL :  difference entre une string NULL qui n existe pas , n a pas d adresse malloc et une string vide qui a un \0 . mais qui peut tres bien avoir une adresse malloquee
 */
 
 #include "minishell.h"
@@ -491,7 +596,8 @@ int main(int argc, char *argv[], char *envp[])
 	(void)argv;
 	char *line;
 	t_cmd *cmd;
-	char **blocks;
+	char **blocks
+	;
 
 	line = NULL;
 	while (1)
