@@ -55,10 +55,10 @@ int	ft_execute_cmd(t_cmd *cmd, int i,char *envp[])
 		}
 	//printf("%d\n",((cmd->simpleCmds[0])->errnum));
 		//est ce judicieux de free ici? ou ne vaut il mieux pas free tout a la fin?
+	
+	printf("freee\n");
 	ft_free_tab(&(cmd->simpleCmds[i]->cmd_and_args));
 	ft_free_tab(&(cmd->simpleCmds[i]->abs_cmd_and_args));
-	printf("FREEEEEEEEEEEEEEEEEEEEEEEE\n");
-
 	return (exec_return);
 
 }

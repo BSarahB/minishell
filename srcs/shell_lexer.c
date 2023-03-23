@@ -12,6 +12,26 @@
 
 #include "minishell.h"
 
+
+char **ft_tokenize_line(char *line)
+{
+	char **token_tab;
+	int i;
+
+	i = 0;
+	token_tab = ft_split(line, ' ');
+	while (token_tab[i])//on n nentre pas ici pour $>entree
+	{
+		printf("token <%s>\n",token_tab[i]);
+		i++;
+	}
+	return (token_tab);
+
+}
+
+
+
+
 /*
 ici equivalent du fichier shell.l : simple analyseur lexical pour le shell
 

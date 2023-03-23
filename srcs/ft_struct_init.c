@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-void	*ft_memset(void *b, char c, size_t len)
+void *ft_memset(void *b, char c, size_t len)
 {
-	size_t	i;
+	size_t i;
 
 	i = 0;
 	while (i < len)
@@ -22,8 +22,7 @@ void	*ft_memset(void *b, char c, size_t len)
 	return (b);
 }
 
-
-char	*ft_init_cstring(char **str, size_t len, char init_value)
+char *ft_init_cstring(char **str, size_t len, char init_value)
 {
 	*str = malloc(sizeof(char) * (len + 1));
 	if (!(*str))
@@ -34,7 +33,7 @@ char	*ft_init_cstring(char **str, size_t len, char init_value)
 	return (*str);
 }
 
-t_simpleCmd	*ft_struct2_init(t_simpleCmd **simpleCmd, char init_value)
+t_simpleCmd *ft_struct2_init(t_simpleCmd **simpleCmd, char init_value)
 {
 	(void)init_value;
 	*simpleCmd = (t_simpleCmd *)malloc(sizeof(t_simpleCmd));
@@ -81,6 +80,7 @@ t_cmd	*ft_struct_init(t_cmd **cmd, char init_value, char **blocks)
 		(*cmd)->simpleCmds[k] = ft_struct2_init(&simpleCmd, 0);
 		k++;
 	}
+
 	(*cmd)->simpleCmds[k] = 0;
 	(*cmd)->blocks = blocks;
 	(*cmd)->nb_of_simpleCmds = nbr_of_simpleCmds;
