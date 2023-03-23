@@ -40,7 +40,8 @@ int main(int argc, char *argv[], char *envp[])
 		//ANSI le lexing doit se faire de MANIERE SEQUENTIELLE  meme un "    " ca ne fonctionnera pas
 		if(mode_push == 0){
 			(void)envp;
-			ft_check_validity_of_line_input(line);
+			//AVANT DE tokenize l input on a : $>entree line =0 $>[que des espaces /tabulations] et line  ==NULL
+			ft_check_prerequesite_of_line_input(line);
 			ft_check_input_cases_for_return_empty_prompt(line);
 			ft_check_bash_syntax_error_caracteres_volee(line);
 			token_tab = ft_tokenize_line(line);

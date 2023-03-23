@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o"
+  "CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o.d"
   "CMakeFiles/my_minishell.dir/srcs/executor.c.o"
   "CMakeFiles/my_minishell.dir/srcs/executor.c.o.d"
   "CMakeFiles/my_minishell.dir/srcs/ft_struct_init.c.o"

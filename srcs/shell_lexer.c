@@ -11,22 +11,35 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#define mode_tokenize_build 0
+
+void ft_tokenize_line_to_lst(char *line)
+{
+	//parcourir la line de maniere sequentielle puisque les quoting rules vont determiner les qualites des caracte speciaux et des operands, aussi nous avons besoin de passer les espaces pour trouver un token dans le cas de nos gestion de comportement de carcateres a la volee char on the fly ou motifs  
+}
+
 
 
 char **ft_tokenize_line(char *line)
 {
-	char **token_tab;
-	int i;
+//gardons cette fonction pour ne pas faire crasher le code en attendant de fr la vraie tokenize line operationnelle qui redistribue les tokens dans la liste chainee directement et pas dans un double tab
+	if (mode_tokenize_build == 0){
+		char **token_tab;
+		int i;
 
-	i = 0;
-	token_tab = ft_split(line, ' ');
-	while (token_tab[i])//on n nentre pas ici pour $>entree
-	{
-		printf("token <%s>\n",token_tab[i]);
-		i++;
+		i = 0;
+		token_tab = ft_split(line, ' ');
+		while (token_tab[i])
+		{
+			printf("token <%s>\n",token_tab[i]);
+			i++;
+		}
+		return (token_tab);
 	}
-	return (token_tab);
-
+	else 
+	{
+		ft_tokenize_line_to_lst(line);
+	}
 }
 
 

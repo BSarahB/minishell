@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
+/*
 #define MAX_ARGS 10
 #define MAX_TOKEN_LEN 20
 
@@ -65,3 +65,4 @@ int parse_input(char *input, char **args, int *background) {
 
     return i;
 }
+*/

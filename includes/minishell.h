@@ -26,6 +26,7 @@
 #define PARENTHESIS_RIGHT 10
 #define AMPERSAND 11
 #define GREAT_AND_AMPERSAND 12
+#define IGNORE 13
 
 
 
@@ -77,19 +78,19 @@ typedef struct s_simpleCmd
 typedef struct s_cmd
 {
 
-	size_t nb_of_simpleCmds;
+	size_t 		nb_of_simpleCmds;
 	t_simpleCmd **simpleCmds;
 
-	char **path_tab;
+	char 		**path_tab;
 	char		**blocks;
 	size_t		nb_of_blocks;
 
-	char *outfile; //-> sera rempli par le token de redirection
-	char *inputfile;
-	char *errfile;
+	char		 *outfile; //-> sera rempli par le token de redirection
+	char 		*inputfile;
+	char 		*errfile;
 	// a voir si on met tous les char * dans un double tab io_redirections(**)
-	int background;
-	t_list *lst_token; // notre liste chainee de tokens
+	int 		background;
+	t_list		 *lst_token; // notre liste chainee de tokens
 
 } t_cmd;
 
@@ -140,8 +141,10 @@ void fr_insert_simpleCmd(t_simpleCmd *simpleCmd);
 
 // lexer
 
-void 	ft_check_validity_of_line_input(char *line);
+void 	ft_check_prerequesite_of_line_input(char *line);
 void	ft_check_input_cases_for_return_empty_prompt(char *line);
+void	ft_check_bash_syntax_error_caracteres_volee(char *line);
+
 
 char **ft_tokenize_line(char *line);
 

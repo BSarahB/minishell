@@ -129,6 +129,30 @@ my_minishell/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/build
 .PHONY : my_minishell/fast
 
+srcs/check_validity_of_line_input.o: srcs/check_validity_of_line_input.c.o
+.PHONY : srcs/check_validity_of_line_input.o
+
+# target to build an object file
+srcs/check_validity_of_line_input.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o
+.PHONY : srcs/check_validity_of_line_input.c.o
+
+srcs/check_validity_of_line_input.i: srcs/check_validity_of_line_input.c.i
+.PHONY : srcs/check_validity_of_line_input.i
+
+# target to preprocess a source file
+srcs/check_validity_of_line_input.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.i
+.PHONY : srcs/check_validity_of_line_input.c.i
+
+srcs/check_validity_of_line_input.s: srcs/check_validity_of_line_input.c.s
+.PHONY : srcs/check_validity_of_line_input.s
+
+# target to generate assembly for a file
+srcs/check_validity_of_line_input.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.s
+.PHONY : srcs/check_validity_of_line_input.c.s
+
 srcs/executor.o: srcs/executor.c.o
 .PHONY : srcs/executor.o
 
@@ -354,6 +378,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... my_minishell"
+	@echo "... srcs/check_validity_of_line_input.o"
+	@echo "... srcs/check_validity_of_line_input.i"
+	@echo "... srcs/check_validity_of_line_input.s"
 	@echo "... srcs/executor.o"
 	@echo "... srcs/executor.i"
 	@echo "... srcs/executor.s"
