@@ -27,18 +27,23 @@
 #define AMPERSAND 11
 #define GREAT_AND_AMPERSAND 12
 #define IGNORE 13
-
-
-
-//LESSGREAT 13
+//LESSGREAT 14 ?
 
 //les enum pour la fonction du token, est ce un operator, une command ou une redirection?
 enum e_function
 {
 	command,
-	//necessaire args? et option? je ne pense pas
+	metacharacter,
 	operator,
 	redirection,
+	//necessaire args? et option? je ne pense pas
+	//control operator :A token that performs a control function. It is a newline or one of the following: ‘||’, ‘&&’, ‘&’, ‘;’, ‘;;’, ‘;&’, ‘;;&’, ‘|’, ‘|&’, ‘(’, or ‘)’.
+			//metacharacter A character that, when unquoted, separates words. A metacharacter is a space, tab, newline, or one of the following characters: ‘|’, ‘&’, ‘;’, ‘(’, ‘)’, ‘<’, or ‘>’.
+			//operator A control operator or a redirection operator.(regarder la definition juste au dessus) See Redirections, for a list of redirection operators. Operators contain at least one unquoted metacharacter.
+//TODO decider si je choisis metacarachter ou operator comme nom 
+	//pour le pipe
+	//token A sequence of characters considered a single unit by the shell. It is either a word or an operator.
+	
 };
 
 //description dun token qui fera partie de la liste chainee de tokens,
@@ -53,7 +58,7 @@ typedef struct s_list
 	int		position;
 	int 	type;
 	int 	function;
-	int 	quoting_rule;
+	int 	quoting_rule;// whitwspace_separator 0 ,single quote
 	struct	s_list *next;
 	struct 	s_list *previous;
 
