@@ -13,9 +13,16 @@
 #include "minishell.h"
 #define mode_tokenize_build 0
 
+void	ft_is_trim_and_clear_and_retokenize_token_allowed(t_list lst_token)
+{
+	//ici chopper la position end_expand_pos
+	//et verifier le caractere suivant la fin de la VARIABLE a expand : +-!?[]{}/=~^.,% @ # 
+	//return(0) ou (1) pour fr la bool. completer +tard
+	//sinon on met un int dans la strcuture : int retokenize_allowed =1 ou 0;
 
+}
 
-char *ft_expand_and_substitute(t_list lst_token)
+char *ft_substitute(t_list lst_token)
 {
 	char *expanded_content;
 	expanded_content == NULL;
@@ -25,15 +32,16 @@ char *ft_expand_and_substitute(t_list lst_token)
 
 }
 //dans le cas d un double quoting rule ou w_separator rule on etablit l expansion
-void	ft_get_expansion(char c, t_list lst_token)
+void	ft_get_token_expansion(char c, t_list lst_token)
 {
+	char *expanded_content;
 
 	ft_is_expand_here(c, lst_token);
 	ft_is_expand_authorized(c, lst_token);
 	ft_does_expand_exist(c, lst_token);
 	//on  updatera lst_token->content en recuperant le result lst_token->content = ft_expand_and_substitute(); 
-	ft_expand_and_substitute(lst_token);
-
+	ft_is_trim_and_clear_and_retokenize_token_allowed(lst_token);//on va debord verifier si le trim and clear retokenize a venir est allowed avant de faire l expansion substitution pour ne pas galerer
+	expanded_content = ft_substitute(lst_token);
 }
 
 
@@ -112,13 +120,21 @@ void	ft_trim_and_clear(line)
 	ft_get_token_type(c, lst_token);
 	ft_get_token_function(c, lst_token);
 	ft_get_token_content(lst_token, start_token_pos, end_token_pos);
-	ft_get_expansion(c, lst_token);
+	//apres avoir determine et delimite notre token dans son content on va pouvoir effectuer l expansion si necessaire
+	ft_get_token_expansion(c, lst_token);
 
 	//une fois qu on a termine de delimiter notre token et qu on a effectue son expand, on va s occuper de le RETOKENIZER au besoin :  2 conditions pour retokenizer le token :
 	// 1/SI ET SEULEMENT SI on est en WS_Separator rule : on derva RETOKENIZER le token et 2/SI ET SEULEMENT SI on a pas un caractere qui vient annuler le trim and clear et retokenisation
 	//par ex :  $VAR$ le $ a la fin vient annuler le retokenize donc si export VAR="       5       esp    " $VAR$ sera command not found en bloc$(donc pas de retokenization) puisque $VAR$est un token donc on subistitue lexpand mais le $ de fin reste evidemment.
 	//echo $VAR$ : on aura un bloc non trime et non clear
 	//donc on refait un tour de trim and clear
+	if (lst_token->retokenize_token_allowed == 1 && lst_token->quoting_rule == 0)//verifier le caractere qui suit la substitution et les 2 conditions ci dessus
+		ft_trim_and_clear_and_retokenize_token(lst_token);
+	
+
+	//else : quote removal
+
+
 
 }
 

@@ -334,7 +334,7 @@ ATTENTION $VAR$ -> en mode no quoting et whitespaces_separatorle $ colle a la va
 
 fiche du cas de l expand faite : cas de l expand *ALONE: I $VAR  trim + clear/ 1er elem est cmd reste est options de ce 1 er elem
 														II '$VAR' SQuote : expand not authorized / tout ce qui est dans le bloc est litteral - whitespace litteral / expand est 1 bloc cmd/l expand n a aucune valeur juste litteral pour ses caracteres
-														III "$VAR" DQUOTE: expand autho00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000rized / whitespace_ltteral / expand est 1 bloc cmd
+														III "$VAR" DQUOTE: expand authorized / whitespace_ltteral / expand est 1 bloc cmd
 														-> ce qui est entre QUOTES est 1 BLOC.
 ,
 								 cas de l expand *APRES ECHO: 	echo $VAR(suit la loi I), trim+clear / expand est 1 bloc-1option sos l egide de la cmd echo

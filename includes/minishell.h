@@ -59,6 +59,7 @@ typedef struct s_list
 	int 	type;
 	int 	function;
 	int 	quoting_rule;// whitwspace_separator 0 ,single quote
+	int		retokenize_allowed;//pour trim and clear et retokenizer un expand par ex/ 
 	struct	s_list *next;
 	struct 	s_list *previous;
 
