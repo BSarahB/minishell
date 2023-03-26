@@ -93,6 +93,7 @@ t_cmd	*ft_struct_init(t_cmd **cmd, char init_value, char **blocks)
 	(*cmd)->outfile = NULL;
 	(*cmd)->inputfile = NULL;
 	(*cmd)->errfile = NULL;
+	(*cmd)->lst_token = NULL;
 //	(*cmd)->outfile = ft_init_cstring(&((*cmd)->outfile), 0, init_value);
 //	(*cmd)->inputfile = ft_init_cstring(&((*cmd)->inputfile), 0, init_value);
 //	(*cmd)->errfile = ft_init_cstring(&((*cmd)->errfile), 0, init_value);

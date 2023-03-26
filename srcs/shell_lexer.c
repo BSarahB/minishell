@@ -105,9 +105,51 @@ void	ft_get_token_quoting_rule(char c, t_list lst_token)
 	(void)lst_token;
  
 }
-void	ft_lst_add_new_token(void)
+
+t_list	*ft_lstlast(t_list *lst)
+{
+	if(!lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
+}
+
+void	ft_lstadd_back(t_list **alst, t_list *new)
+{
+	if(new)
+		new->next = NULL;
+	if(!(*alst))
+		*alst = new;
+	else
+		ft_lstlast(*alst)->next = new;
+}
+
+t_list	*ft_lstnew(char *content)
+{
+	t_list	*list;
+
+	list = malloc(sizeof(t_list));
+	if (!list)
+		return (NULL);
+	list->content = content;
+	list->next = NULL;
+	return (list);
+}
+
+
+void	ft_lst_add_new_token(t_list *token_list, )//question est ce que je cree une structure qui va contenir la tete de ma listee chainee ou est ce que je cree des le debut ma liste dans le main.c je pense que mettre ma tete de liste dans une variable globale serait meme interessant, puis je mettre en variable globale une structure qui contiendrait ce que je veux ....
+//? cqfd je peux utiliser fT_lstaddback sans avoir besoin de generer la tete de liste, mais cela serait bien que j ai acces a la liste chainee d ou je veux. a voir
 {
 //cf libft
+	t_list	*new;
+	char *content;
+
+	content = NULL;
+	new = ft_lstnew(content);
+
+
+
 
 }
 void	ft_lst_init(void)
@@ -135,6 +177,7 @@ void	ft_trim_and_clear(line)
 	//
 
 	//condition: des que je tombe sur un char je lst_add_new_token
+	//sont content sera NULL en attendant que .... on fixe tous les parametres de la structure
 	ft_lst_add_new_token();
 
 //je verifie pour chaque char  :  la rule, le type, la function, le content, 
