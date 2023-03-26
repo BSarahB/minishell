@@ -143,14 +143,13 @@ void	ft_lst_add_new_token(t_list *token_list, )//question est ce que je cree une
 {
 //cf libft
 	t_list	*new;
-	char *content;
+	char	*content;
+	t_list	*alst;
 
 	content = NULL;
+	alst = NULL;
 	new = ft_lstnew(content);
-
-
-
-
+	ft_lstadd_back(&alst, new);
 }
 void	ft_lst_init(void)
 {
