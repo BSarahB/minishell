@@ -159,7 +159,11 @@ void 	ft_check_prerequesite_of_line_input(char *line);
 void	ft_check_input_cases_for_return_empty_prompt(char *line);
 void	ft_check_bash_syntax_error_caracteres_volee(char *line);
 
+t_list	*ft_create_list_and_add_token(char *token_content);
+void	ft_get_token_quoting_rule(char c, t_list  *lst_token);
 
-char **ft_tokenize_line(char *line);
+//char	**ft_tokenize_line(char *line);
+void	ft_tokenize_line(char *line); //void pour commencer les tests
+char **ft_tokenize_line1(char *line);
 
 #endif

@@ -48,7 +48,7 @@ void	ft_check_fork_fd1(t_struct *ptr, char **argv, char **envp, int ret)
 	if (ret == 2)//si pb sur ouverture d outfile on degage(on a deja free on att compris)
 		exit(1);
 
-		//**********************GESTION DU CAS D ERREUR D OUVERTURE DE INFILE***************************
+		//GESTION DU CAS D ERREUR D OUVERTURE DE INFILE
 	if (ret == 1)//si pb sur ouverture de infile
 	{
 		ft_error_msg(argv);//on va avoir le message comme quoi infile ne fonctionne pas , dans bash ici bash: infile: Permission denied dans pipex j avais mis pipex: no such file or directory: infile

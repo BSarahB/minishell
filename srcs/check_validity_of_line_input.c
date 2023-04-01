@@ -33,7 +33,7 @@ void	ft_check_input_cases_for_return_empty_prompt(char *line)
 	printf("check_input_cases_for_return_empty_prompt : $>! (seul)\n");//attention une commande apres ou colle 
 }
 
-void    ft_check_prerequisite_of_line_input(char *line)
+void    ft_check_prerequesite_of_line_input(char *line)
 {
 	//PREREQUESTITE N implique pas l extraction du token. les autres cas de motifs impliquent  
 	(void)line;

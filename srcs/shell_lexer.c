@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 #define mode_tokenize_build 1
-
+/*
 void	ft_is_trim_and_clear_and_retokenize_token_allowed(t_list *lst_token)
 {
 	//ici chopper la position end_expand_pos et verifier ensuite le caractere suivant
@@ -26,7 +26,7 @@ void	ft_is_trim_and_clear_and_retokenize_token_allowed(t_list *lst_token)
 	//si le caractere cloturant la VAR est compris dans le DQ alors.... on allow PAS le retokenize SAUF si ce carcatere est un $ alors, cela ne change rien ON ALLOWE PAS le retokenize
 	//return(0) ou (1) pour fr la bool. completer +tard
 	//caracteres_char ou nombres --> newline vide dans le terminal
-/*\ ou | pipe ou ' ou "   --> $> mettent le prompt sur une nouvelle ligne en attente de lecture du processus
+* ou | pipe ou ' ou "   --> $> mettent le prompt sur une nouvelle ligne en attente de lecture du processus
 
 												**********
 												$ -->annule le TRIM and CLear. voir si cela rajoute un espace entre les 2 tokens ou pas. 
@@ -38,10 +38,11 @@ void	ft_is_trim_and_clear_and_retokenize_token_allowed(t_list *lst_token)
 
 												*****
 												& --> JE NE SAIS PAS
-												*/
+												
 		
 }
-
+*/
+/*
 char *ft_substitute(t_list *lst_token)
 {
 	char *expanded_content;
@@ -51,7 +52,9 @@ char *ft_substitute(t_list *lst_token)
 	return(expanded_content);
 
 }
+*/
 //dans le cas d un double quoting rule ou w_separator rule on etablit l expansion
+/*
 void	ft_get_token_expansion(char c, t_list *lst_token)
 {
 	char *expanded_content;
@@ -63,8 +66,8 @@ void	ft_get_token_expansion(char c, t_list *lst_token)
 	ft_is_trim_and_clear_and_retokenize_token_allowed(lst_token);//on va debord verifier si le trim and clear retokenize a venir est allowed avant de faire l expansion substitution pour ne pas galerer
 	expanded_content = ft_substitute(lst_token);
 }
-
-
+*/
+/*
 void	ft_get_token_content(t_list lst_token, size_t start_token_pos, size_t end_token_pos)
 {
 	(void)lst_token;
@@ -72,8 +75,8 @@ void	ft_get_token_content(t_list lst_token, size_t start_token_pos, size_t end_t
 	(void)end_token_pos;
 
 }
-
-
+*/
+/*
 void	ft_get_token_function(char c,t_list *lst_token)
 {
 	(void)c;
@@ -84,7 +87,8 @@ void	ft_get_token_function(char c,t_list *lst_token)
 	//GESTION du cas ou le previous token est <echo>
 
 }
-
+*/
+/*
 void	ft_get_token_type(char c, t_list *lst_token)
 {
 
@@ -94,7 +98,7 @@ void	ft_get_token_type(char c, t_list *lst_token)
 	//WORD 1, VARIABLE 2, PIPE  3 GREAT 4 GREATGREAT 5 LESS 6  LESSLESS 7 TERMINATE 8  PARENTHESIS_LEFT 9 PARENTHESIS_RIGHT 10 AMPERSAND 11 GREAT_AND_AMPERSAND 12 IGNORE 13
 	//ici on va devoir update les positions de start et end token, car si on tombe sur un operator
 }
-
+*/
 void	ft_get_token_quoting_rule(char c, t_list  *lst_token)
 {
 	//cette fonction va permettre de determiner quelle est la regle de quoting : double quoting single quoting ou whitespace_separator
@@ -102,6 +106,7 @@ void	ft_get_token_quoting_rule(char c, t_list  *lst_token)
 	//mettre un INTERRUPTEUR ICI qui definit la regle du quoting rule  whitespace_Separator 0 single quoting 1 double quoting2 par ex il faudrait 
 	//NB c est le premier quoting rule rencontre qui l emporte cf echo "'$VAR'" ou "'$VAR'"
 	(void)c;
+
 	(void)lst_token;
  
 }
@@ -133,7 +138,7 @@ t_list	*ft_lstlast(t_list *lst)
 	return (lst);
 }
 
-void	ft_lstadd_back(t_list **alst, t_list *new)
+void	ft_lstadd_back(t_list **alst,t_list *new)
 {
 	if(new)
 		new->next = NULL;
@@ -162,7 +167,7 @@ t_list	*ft_lstnew(char *content)
 }
 
 
-void	ft_lst_add_new_token(char *token_content)//question est ce que je cree une structure qui va contenir la tete de ma listee chainee ou est ce que je cree des le debut ma liste dans le main.c je pense que mettre ma tete de liste dans une variable globale serait meme interessant, puis je mettre en variable globale une structure qui contiendrait ce que je veux ....
+t_list *ft_create_list_and_add_token(char *token_content)//question est ce que je cree une structure qui va contenir la tete de ma listee chainee ou est ce que je cree des le debut ma liste dans le main.c je pense que mettre ma tete de liste dans une variable globale serait meme interessant, puis je mettre en variable globale une structure qui contiendrait ce que je veux ....
 //? cqfd je peux utiliser fT_lstaddback sans avoir besoin de generer la tete de liste, mais cela serait bien que j ai acces a la liste chainee d ou je veux. a voir
 {
 	t_list	*new;
@@ -173,18 +178,21 @@ void	ft_lst_add_new_token(char *token_content)//question est ce que je cree une 
 	alst = NULL;
 	new = ft_lstnew(content);
 	ft_lstadd_back(&alst, new);
+	return (0);
+	return(alst);
+	
 }
 
 //void	ft_trim_and_clear(char *line, t_list *token_list)
 
 void	ft_trim_and_clear(char *line)
 {
-	char 	c;
+	//char 	c;
 	char	*str;
 	char	*token_content;
-	t_list 	lst_token;
-	size_t 	start_token_pos;
-	size_t	end_token_pos;
+	t_list 	*lst_token;
+	//size_t 	start_token_pos;
+	//size_t	end_token_pos;
 	size_t  i;
 
 
@@ -206,30 +214,35 @@ void	ft_trim_and_clear(char *line)
 	//condition: des que je tombe sur un char je lst_add_new_token ->je ne respecte pas cette donnee ici je cree directement le token
 	//sont content sera NULL en attendant que .... on fixe tous les parametres de la structure
 
-	ft_lst_add_new_token(token_content);
+	lst_token  = ft_create_list_and_add_token(token_content);
 	while (str[i])
 	{
+		while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+			i++;
 		
-
+		ft_get_token_quoting_rule(str[i], lst_token);
+	//	ft_get_token_type(c, lst_token);
+//		ft_get_token_function(c, lst_token);
+//		ft_get_token_content(lst_token, start_token_pos, end_token_pos);
 	}
 
 //je verifie pour chaque char  :  la rule, le type, la function, le content, 
-	ft_get_token_quoting_rule(c, lst_token);
-	ft_get_token_type(c, lst_token);
-	ft_get_token_function(c, lst_token);
-	ft_get_token_content(lst_token, start_token_pos, end_token_pos);
+	
 	//apres avoir determine et delimite notre token dans son content on va pouvoir effectuer l expansion si necessaire
-	ft_get_token_expansion(c, lst_token);
+	//ft_get_token_expansion(c, lst_token);
 
 	//une fois qu on a termine de delimiter notre token et qu on a effectue son expand, on va s occuper de le RETOKENIZER au besoin :  2 conditions pour retokenizer le token :
 	// 1/SI ET SEULEMENT SI on est en WS_Separator rule : on derva RETOKENIZER le token et 2/SI ET SEULEMENT SI on a pas un caractere qui vient annuler le trim and clear et retokenisation
 	//par ex :  $VAR$ le $ a la fin vient annuler le retokenize donc si export VAR="       5       esp    " $VAR$ sera command not found en bloc$(donc pas de retokenization) puisque $VAR$est un token donc on subistitue lexpand mais le $ de fin reste evidemment.
 	//echo $VAR$ : on aura un bloc non trime et non clear
 	//donc on refait un tour de trim and clear
-	if (lst_token->retokenize_token_allowed == 1 && lst_token->quoting_rule == 0 == whitespace_separator rule)//verifier le caractere qui suit la substitution et les 2 conditions ci dessus
-		ft_trim_and_clear_and_retokenize_token(lst_token);
+
+
+
+//	if (lst_token->retokenize_token_allowed == 1 && lst_token->quoting_rule == 0 == whitespace_separator rule)//verifier le caractere qui suit la substitution et les 2 conditions ci dessus
+//		ft_trim_and_clear_and_retokenize_token(lst_token);
 	//else : quote removal
-		ft_quote_removal : yes si quoting rule == 1 ou 2 soit sq ou dq
+	//	ft_quote_removal : yes si quoting rule == 1 ou 2 soit sq ou dq
 	
 	
 
@@ -239,7 +252,7 @@ void	ft_trim_and_clear(char *line)
 
 void ft_tokenize_line_to_lst(char *line)
 {
-	t_list	*token_list;
+	//t_list	*token_list;
 	//parcourir la line de maniere sequentielle puisque les quoting rules vont determiner les qualites des caracte speciaux et des operands, aussi nous avons besoin de passer les espaces pour trouver un token dans le cas de nos gestion de comportement de caracteres a la volee char on the fly ou motifs  
 //ex de <$VAR> et <ls> <|> <$VAR>
 //1 
@@ -260,23 +273,26 @@ void ft_tokenize_line_to_lst(char *line)
 }
 
 
+char **ft_tokenize_line1(char *line)
+{
+	char **token_tab;
+	int i;
 
-char **ft_tokenize_line(char *line)
+	i = 0;
+	token_tab = ft_split(line, ' ');
+	while (token_tab[i])
+	{
+		printf("token <%s>\n",token_tab[i]);
+		i++;
+	}
+	return (token_tab);
+}
+void	ft_tokenize_line(char *line)
 {
 //gardons cette fonction pour ne pas faire crasher le code en attendant de fr la vraie tokenize line operationnelle qui redistribue les tokens dans la liste chainee directement et pas dans un double tab
 //la liste chainee est vraiment justifiee car on a dans la cadre des expand, besoin de REtokenizer encore une fois avec le TRIM and ClEAR. on doit pouvoir manier les token de maniere flexible. un tableau serait tres galere a modifier et remodifier 
 	if (mode_tokenize_build == 0){
-		char **token_tab;
-		int i;
-
-		i = 0;
-		token_tab = ft_split(line, ' ');
-		while (token_tab[i])
-		{
-			printf("token <%s>\n",token_tab[i]);
-			i++;
-		}
-		return (token_tab);
+		ft_tokenize_line1(line);
 	}
 	else 
 	{

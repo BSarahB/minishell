@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o"
   "CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o.d"
+  "CMakeFiles/my_minishell.dir/srcs/display_error.c.o"
+  "CMakeFiles/my_minishell.dir/srcs/display_error.c.o.d"
   "CMakeFiles/my_minishell.dir/srcs/executor.c.o"
   "CMakeFiles/my_minishell.dir/srcs/executor.c.o.d"
   "CMakeFiles/my_minishell.dir/srcs/ft_struct_init.c.o"
@@ -15,6 +17,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/my_minishell.dir/srcs/shell_lexer.c.o.d"
   "CMakeFiles/my_minishell.dir/srcs/shell_parser.c.o"
   "CMakeFiles/my_minishell.dir/srcs/shell_parser.c.o.d"
+  "CMakeFiles/my_minishell.dir/srcs/tokenize.c.o"
+  "CMakeFiles/my_minishell.dir/srcs/tokenize.c.o.d"
   "CMakeFiles/my_minishell.dir/srcs/update_free_memory.c.o"
   "CMakeFiles/my_minishell.dir/srcs/update_free_memory.c.o.d"
   "CMakeFiles/my_minishell.dir/srcs/utils.c.o"

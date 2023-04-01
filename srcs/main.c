@@ -13,6 +13,7 @@
 #include "minishell.h"
 #define mode_push 0
 
+
 int main(int argc, char *argv[], char *envp[])
 {
 	(void)argc;
@@ -44,8 +45,8 @@ int main(int argc, char *argv[], char *envp[])
 			ft_check_prerequesite_of_line_input(line);
 			ft_check_input_cases_for_return_empty_prompt(line);
 			ft_check_bash_syntax_error_caracteres_volee(line);
-			token_tab = ft_tokenize_line(line);
-			
+			//token_tab = ft_tokenize_line1(line);
+			ft_tokenize_line(line);
 			
 			//ft_tab_to_lst(token_tab);
 		}

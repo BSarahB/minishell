@@ -153,6 +153,30 @@ srcs/check_validity_of_line_input.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.s
 .PHONY : srcs/check_validity_of_line_input.c.s
 
+srcs/display_error.o: srcs/display_error.c.o
+.PHONY : srcs/display_error.o
+
+# target to build an object file
+srcs/display_error.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/display_error.c.o
+.PHONY : srcs/display_error.c.o
+
+srcs/display_error.i: srcs/display_error.c.i
+.PHONY : srcs/display_error.i
+
+# target to preprocess a source file
+srcs/display_error.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/display_error.c.i
+.PHONY : srcs/display_error.c.i
+
+srcs/display_error.s: srcs/display_error.c.s
+.PHONY : srcs/display_error.s
+
+# target to generate assembly for a file
+srcs/display_error.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/display_error.c.s
+.PHONY : srcs/display_error.c.s
+
 srcs/executor.o: srcs/executor.c.o
 .PHONY : srcs/executor.o
 
@@ -321,6 +345,30 @@ srcs/shell_parser.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/shell_parser.c.s
 .PHONY : srcs/shell_parser.c.s
 
+srcs/tokenize.o: srcs/tokenize.c.o
+.PHONY : srcs/tokenize.o
+
+# target to build an object file
+srcs/tokenize.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/tokenize.c.o
+.PHONY : srcs/tokenize.c.o
+
+srcs/tokenize.i: srcs/tokenize.c.i
+.PHONY : srcs/tokenize.i
+
+# target to preprocess a source file
+srcs/tokenize.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/tokenize.c.i
+.PHONY : srcs/tokenize.c.i
+
+srcs/tokenize.s: srcs/tokenize.c.s
+.PHONY : srcs/tokenize.s
+
+# target to generate assembly for a file
+srcs/tokenize.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/tokenize.c.s
+.PHONY : srcs/tokenize.c.s
+
 srcs/update_free_memory.o: srcs/update_free_memory.c.o
 .PHONY : srcs/update_free_memory.o
 
@@ -381,6 +429,9 @@ help:
 	@echo "... srcs/check_validity_of_line_input.o"
 	@echo "... srcs/check_validity_of_line_input.i"
 	@echo "... srcs/check_validity_of_line_input.s"
+	@echo "... srcs/display_error.o"
+	@echo "... srcs/display_error.i"
+	@echo "... srcs/display_error.s"
 	@echo "... srcs/executor.o"
 	@echo "... srcs/executor.i"
 	@echo "... srcs/executor.s"
@@ -402,6 +453,9 @@ help:
 	@echo "... srcs/shell_parser.o"
 	@echo "... srcs/shell_parser.i"
 	@echo "... srcs/shell_parser.s"
+	@echo "... srcs/tokenize.o"
+	@echo "... srcs/tokenize.i"
+	@echo "... srcs/tokenize.s"
 	@echo "... srcs/update_free_memory.o"
 	@echo "... srcs/update_free_memory.i"
 	@echo "... srcs/update_free_memory.s"

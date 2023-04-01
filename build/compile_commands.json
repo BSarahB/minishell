@@ -48,5 +48,15 @@
   "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
   "command": "/usr/bin/clang  -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/check_validity_of_line_input.c",
   "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/check_validity_of_line_input.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang  -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/display_error.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/display_error.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/display_error.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang  -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/tokenize.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/tokenize.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/tokenize.c"
 }
 ]
