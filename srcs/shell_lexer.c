@@ -105,7 +105,25 @@ void	ft_get_token_quoting_rule(char c, t_list  *lst_token)
 	(void)lst_token;
  
 }
+/*
+t_list	*ft_list_init(t_list **token_list)
+{
 
+//j initialise mon premier maillon avec le content a NULL afin de pouvoir recuperer la data de ma structure t_list au fur et a mesure que je parcours char apres char
+	*token_list = (t_list *)malloc(sizeof(t_list));
+	if (!(*token_list))
+		return (0);
+	(*token_list)->content = NULL;
+	(*token_list)->position = 0;
+	(*token_list)->type = 0;
+	(*token_list)->function = 0;
+	(*token_list)->quoting_rule = 0;
+	(*token_list)->retokenize_allowed = 0;
+	(*token_list)->next = NULL:;
+	(*token_list)->previous = NULL;
+	return (*token_list);
+}
+*/
 t_list	*ft_lstlast(t_list *lst)
 {
 	if(!lst)
@@ -144,42 +162,26 @@ t_list	*ft_lstnew(char *content)
 }
 
 
-void	ft_lst_add_new_token(char *token_str)//question est ce que je cree une structure qui va contenir la tete de ma listee chainee ou est ce que je cree des le debut ma liste dans le main.c je pense que mettre ma tete de liste dans une variable globale serait meme interessant, puis je mettre en variable globale une structure qui contiendrait ce que je veux ....
+void	ft_lst_add_new_token(char *token_content)//question est ce que je cree une structure qui va contenir la tete de ma listee chainee ou est ce que je cree des le debut ma liste dans le main.c je pense que mettre ma tete de liste dans une variable globale serait meme interessant, puis je mettre en variable globale une structure qui contiendrait ce que je veux ....
 //? cqfd je peux utiliser fT_lstaddback sans avoir besoin de generer la tete de liste, mais cela serait bien que j ai acces a la liste chainee d ou je veux. a voir
 {
 	t_list	*new;
 	char	*content;
 	t_list	*alst;
 
-	content = NULL;
+	content = token_content;
 	alst = NULL;
 	new = ft_lstnew(content);
 	ft_lstadd_back(&alst, new);
 }
 
-t_list	*ft_list_init(t_list **token_list)
-{
+//void	ft_trim_and_clear(char *line, t_list *token_list)
 
-//j initialise mon premier maillon avec le content a NULL afin de pouvoir recuperer la data de ma structure t_list au fur et a mesure que je parcours char apres char
-	*token_list = (t_list *)malloc(sizeof(t_list));
-	if (!(*token_list))
-		return (0);
-	(*token_list)->content = NULL;
-	(*token_list)->position = 0;
-	(*token_list)->type = 0;
-	(*token_list)->function = 0;
-	(*token_list)->quoting_rule = 0;
-	(*token_list)->retokenize_allowed = 0;
-	(*token_list)->next = NULL:;
-	(*token_list)->previous = NULL;
-	return (*token_list);
-}
-
-void	ft_trim_and_clear(char *line, t_list *token_list)
+void	ft_trim_and_clear(char *line)
 {
 	char 	c;
 	char	*str;
-	char	*token_str;
+	char	*token_content;
 	t_list 	lst_token;
 	size_t 	start_token_pos;
 	size_t	end_token_pos;
@@ -188,7 +190,7 @@ void	ft_trim_and_clear(char *line, t_list *token_list)
 
 	str = line;
 	i = 0;
-	token_str = NULL;
+	token_content = NULL;
 	//(void)line;
 
 
@@ -201,9 +203,15 @@ void	ft_trim_and_clear(char *line, t_list *token_list)
 	//si je tombe sur un \0 ou en Whitespace_separator rule sur un espace/operand -> c est la fin de mon token --->mon end_token_pos sera recycle pour etre le depart de la recherche du prochain token
 	//
 
-	//condition: des que je tombe sur un char je lst_add_new_token
+	//condition: des que je tombe sur un char je lst_add_new_token ->je ne respecte pas cette donnee ici je cree directement le token
 	//sont content sera NULL en attendant que .... on fixe tous les parametres de la structure
-	ft_lst_add_new_token(token_str);
+
+	ft_lst_add_new_token(token_content);
+	while (str[i])
+	{
+		
+
+	}
 
 //je verifie pour chaque char  :  la rule, le type, la function, le content, 
 	ft_get_token_quoting_rule(c, lst_token);
@@ -238,8 +246,9 @@ void ft_tokenize_line_to_lst(char *line)
 	//j initialise ma liste chainee en mettant tout a 0
 	
 	
-	ft_list_init(&token_list); //en envoyant l adress de token_list, on viendra modifier directement en memoire sa valeur, donc pas bsoin de recuperer la structure token_list a la sortie de la fonction, on peut librement utiliser token_list dans un appel de fonction
-	ft_trim_and_clear(line, token_list);
+	//ft_list_init(&token_list); 
+	//en envoyant l adress de token_list, on viendra modifier directement en memoire sa valeur, donc pas bsoin de recuperer la structure token_list a la sortie de la fonction, on peut librement utiliser token_list dans un appel de fonction
+	//ft_trim_and_clear(line, token_list);
 	
 	//reflechir a la meilleure option entre initialiser des le debut la liste chainee avec le 1 er maillon
 	//ou le faire dans la trim and clear
