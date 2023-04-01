@@ -11,9 +11,9 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#define mode_tokenize_build 0
+#define mode_tokenize_build 1
 
-void	ft_is_trim_and_clear_and_retokenize_token_allowed(t_list lst_token)
+void	ft_is_trim_and_clear_and_retokenize_token_allowed(t_list *lst_token)
 {
 	//ici chopper la position end_expand_pos et verifier ensuite le caractere suivant
 	//on peut mettre un int dans la strcuture : int retokenize_allowed =1 ou 0;
@@ -42,7 +42,7 @@ void	ft_is_trim_and_clear_and_retokenize_token_allowed(t_list lst_token)
 		
 }
 
-char *ft_substitute(t_list lst_token)
+char *ft_substitute(t_list *lst_token)
 {
 	char *expanded_content;
 	expanded_content == NULL;
@@ -52,7 +52,7 @@ char *ft_substitute(t_list lst_token)
 
 }
 //dans le cas d un double quoting rule ou w_separator rule on etablit l expansion
-void	ft_get_token_expansion(char c, t_list lst_token)
+void	ft_get_token_expansion(char c, t_list *lst_token)
 {
 	char *expanded_content;
 
@@ -74,7 +74,7 @@ void	ft_get_token_content(t_list lst_token, size_t start_token_pos, size_t end_t
 }
 
 
-void	ft_get_token_function(char c,t_list lst_token)
+void	ft_get_token_function(char c,t_list *lst_token)
 {
 	(void)c;
 	(void)lst_token;
@@ -85,7 +85,7 @@ void	ft_get_token_function(char c,t_list lst_token)
 
 }
 
-void	ft_get_token_type(char c, t_list lst_token)
+void	ft_get_token_type(char c, t_list *lst_token)
 {
 
 	(void)c;
@@ -95,7 +95,7 @@ void	ft_get_token_type(char c, t_list lst_token)
 	//ici on va devoir update les positions de start et end token, car si on tombe sur un operator
 }
 
-void	ft_get_token_quoting_rule(char c, t_list lst_token)
+void	ft_get_token_quoting_rule(char c, t_list  *lst_token)
 {
 	//cette fonction va permettre de determiner quelle est la regle de quoting : double quoting single quoting ou whitespace_separator
 	// decrite ici separemment pour plus de visibilite mais sera intergree normalement et fondue dans la trim and clear
@@ -133,15 +133,20 @@ t_list	*ft_lstnew(char *content)
 	if (!list)
 		return (NULL);
 	list->content = content;
+	list->position = 0;
+	list->type = 0;
+	list->function = 0;
+	list->quoting_rule = 0;
+	list->retokenize_allowed = 0;
 	list->next = NULL;
+	list->previous = NULL;
 	return (list);
 }
 
 
-void	ft_lst_add_new_token(t_list *token_list, )//question est ce que je cree une structure qui va contenir la tete de ma listee chainee ou est ce que je cree des le debut ma liste dans le main.c je pense que mettre ma tete de liste dans une variable globale serait meme interessant, puis je mettre en variable globale une structure qui contiendrait ce que je veux ....
+void	ft_lst_add_new_token(char *token_str)//question est ce que je cree une structure qui va contenir la tete de ma listee chainee ou est ce que je cree des le debut ma liste dans le main.c je pense que mettre ma tete de liste dans une variable globale serait meme interessant, puis je mettre en variable globale une structure qui contiendrait ce que je veux ....
 //? cqfd je peux utiliser fT_lstaddback sans avoir besoin de generer la tete de liste, mais cela serait bien que j ai acces a la liste chainee d ou je veux. a voir
 {
-//cf libft
 	t_list	*new;
 	char	*content;
 	t_list	*alst;
@@ -151,19 +156,40 @@ void	ft_lst_add_new_token(t_list *token_list, )//question est ce que je cree une
 	new = ft_lstnew(content);
 	ft_lstadd_back(&alst, new);
 }
-void	ft_lst_init(void)
+
+t_list	*ft_list_init(t_list **token_list)
 {
-	//j initialise mon premier maillon avec le content a NULL afin de pouvoir recuperer la data de ma structure t_list au fur et a mesure que je parcours char apres char
+
+//j initialise mon premier maillon avec le content a NULL afin de pouvoir recuperer la data de ma structure t_list au fur et a mesure que je parcours char apres char
+	*token_list = (t_list *)malloc(sizeof(t_list));
+	if (!(*token_list))
+		return (0);
+	(*token_list)->content = NULL;
+	(*token_list)->position = 0;
+	(*token_list)->type = 0;
+	(*token_list)->function = 0;
+	(*token_list)->quoting_rule = 0;
+	(*token_list)->retokenize_allowed = 0;
+	(*token_list)->next = NULL:;
+	(*token_list)->previous = NULL;
+	return (*token_list);
 }
 
-void	ft_trim_and_clear(line)
+void	ft_trim_and_clear(char *line, t_list *token_list)
 {
 	char 	c;
+	char	*str;
+	char	*token_str;
 	t_list 	lst_token;
 	size_t 	start_token_pos;
 	size_t	end_token_pos;
+	size_t  i;
 
-	(void)line;
+
+	str = line;
+	i = 0;
+	token_str = NULL;
+	//(void)line;
 
 
 	//je parcours ma line et en trimant et clearant les espaces je determine chaque <token> : 1 token est soit separe par un espace, soit separe par un operand ou un metacharacter lui meme separateur de token. par ex | 
@@ -171,13 +197,13 @@ void	ft_trim_and_clear(line)
 	//donc je parcours char par char et si " ou ' je dois signaler un quoting rule. il faudra etre sorti du quoting rule mode pour pouvoir separer les tokens en fonction des espaces ou des operands
 	//je dois aussi determiner un start_token_pos et end_token_pos pour mon token puis je vais faire un ft strdup ou ndup pour dupliquer le token et remplir le content de mon maillon de la liste chainee
 	//je dois donc considerer deja etre dans mon premier maillon de liste chainee ici. trouver une condition qui me permet de generer mon premier maillon et je renseignerai donc le quoting rule ici
-	//remarque : si j ai ls -la >"outfile" | $VAR q: mon operand > GREAT doit il separer "outfile" ?OUI <>> <"outfile"> 
+	//remarque : si j ai ls -la >"outfile" | $VAR q: mon operator > GREAT doit il separer "outfile" ?OUI <>> <"outfile"> 
 	//si je tombe sur un \0 ou en Whitespace_separator rule sur un espace/operand -> c est la fin de mon token --->mon end_token_pos sera recycle pour etre le depart de la recherche du prochain token
 	//
 
 	//condition: des que je tombe sur un char je lst_add_new_token
 	//sont content sera NULL en attendant que .... on fixe tous les parametres de la structure
-	ft_lst_add_new_token();
+	ft_lst_add_new_token(token_str);
 
 //je verifie pour chaque char  :  la rule, le type, la function, le content, 
 	ft_get_token_quoting_rule(c, lst_token);
@@ -205,12 +231,22 @@ void	ft_trim_and_clear(line)
 
 void ft_tokenize_line_to_lst(char *line)
 {
-	//parcourir la line de maniere sequentielle puisque les quoting rules vont determiner les qualites des caracte speciaux et des operands, aussi nous avons besoin de passer les espaces pour trouver un token dans le cas de nos gestion de comportement de carcateres a la volee char on the fly ou motifs  
+	t_list	*token_list;
+	//parcourir la line de maniere sequentielle puisque les quoting rules vont determiner les qualites des caracte speciaux et des operands, aussi nous avons besoin de passer les espaces pour trouver un token dans le cas de nos gestion de comportement de caracteres a la volee char on the fly ou motifs  
 //ex de <$VAR> et <ls> <|> <$VAR>
 //1 
 	//j initialise ma liste chainee en mettant tout a 0
-	ft_lst_init();
+	
+	
+	ft_list_init(&token_list); //en envoyant l adress de token_list, on viendra modifier directement en memoire sa valeur, donc pas bsoin de recuperer la structure token_list a la sortie de la fonction, on peut librement utiliser token_list dans un appel de fonction
+	ft_trim_and_clear(line, token_list);
+	
+	//reflechir a la meilleure option entre initialiser des le debut la liste chainee avec le 1 er maillon
+	//ou le faire dans la trim and clear
+	
 	ft_trim_and_clear(line);
+
+	
 
 }
 

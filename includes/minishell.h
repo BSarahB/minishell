@@ -13,7 +13,7 @@
 #include <sys/wait.h> //pour le waitpid
 #include <signal.h>
 
-//les define pour le type de token : 
+//les define pour le type de token : devrais je choisir un enum comme pour les autres ca sera plus carre et laisser le define pour les echo $?
 #define WORD 1
 #define VARIABLE 2
 #define PIPE  3
@@ -44,6 +44,14 @@ enum e_function
 	//pour le pipe
 	//token A sequence of characters considered a single unit by the shell. It is either a word or an operator.
 	
+};
+
+
+enum e_quoting_rule
+{
+	whitespace_separator,
+	single_quote,
+	double_quote,
 };
 
 //description dun token qui fera partie de la liste chainee de tokens,
