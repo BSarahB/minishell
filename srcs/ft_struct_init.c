@@ -59,7 +59,7 @@ t_cmd	*ft_struct_init(t_cmd **cmd, char init_value, char **blocks)
 	size_t		nbr_of_blocks;
 
 	k = 0;
-	nbr_of_blocks = 0;
+	nbr_of_blocks = 0; 
 
 	(void)init_value;
 	while(blocks[nbr_of_blocks] != NULL)

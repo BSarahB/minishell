@@ -594,3 +594,4 @@ COMMENTAIRES TODO dans main.c
 		// TODO : dequote les blocks et les envoyer comme des chaines de caractere. par ex. si "wc -l" ->l envoyer tel une chaine de caracteres, cela va envoyer a arg_and_cmds[wc -l] ce qui n executera pas la command ce sera execcve qui va s en charger et dire que command not found
 //
 		// TODO : gerer les cas ou il n y a pas de PIPE existant : "ls "
+// 3 april spent the day having headaches and trying to make right choice and buy tickets. god I havent spent a good day at all. those teeths. anyway I hope to spend a bettet eveneing I need to work this out and start fresh tomorrow is another day. I ll come back here to write down if I was able to be favorite not outsider

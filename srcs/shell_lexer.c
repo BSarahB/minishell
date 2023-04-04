@@ -106,8 +106,8 @@ void	ft_get_token_quoting_rule(char c, t_list  *lst_token)
 	//mettre un INTERRUPTEUR ICI qui definit la regle du quoting rule  whitespace_Separator 0 single quoting 1 double quoting2 par ex il faudrait 
 	//NB c est le premier quoting rule rencontre qui l emporte cf echo "'$VAR'" ou "'$VAR'"
 	(void)c;
-
 	(void)lst_token;
+
  
 }
 /*
@@ -178,7 +178,6 @@ t_list *ft_create_list_and_add_token(char *token_content)//question est ce que j
 	alst = NULL;
 	new = ft_lstnew(content);
 	ft_lstadd_back(&alst, new);
-	return (0);
 	return(alst);
 	
 }
@@ -220,10 +219,11 @@ void	ft_trim_and_clear(char *line)
 		while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
 			i++;
 		
-		ft_get_token_quoting_rule(str[i], lst_token);
+.		ft_get_token_quoting_rule(str[i], lst_token);
 	//	ft_get_token_type(c, lst_token);
 //		ft_get_token_function(c, lst_token);
 //		ft_get_token_content(lst_token, start_token_pos, end_token_pos);
+		i++;
 	}
 
 //je verifie pour chaque char  :  la rule, le type, la function, le content, 
@@ -268,7 +268,7 @@ void ft_tokenize_line_to_lst(char *line)
 	
 	ft_trim_and_clear(line);
 
-	
+	//return la lst_token
 
 }
 
