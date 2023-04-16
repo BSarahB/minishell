@@ -66,11 +66,12 @@ typedef struct s_list
 	int		position;
 	int 	type;
 	int 	function;
-	int 	quoting_rule;// whitwspace_separator 0 ,single quote
+	int 	quoting_rule;// whitwspace_separator 0 ,single quote 1, d_quote 2
 	int		retokenize_allowed;//pour trim and clear et retokenizer un expand par ex/ 
 	struct	s_list *next;
 	struct 	s_list *previous;
-
+	size_t start_token_pos;
+	size_t end_token_pos;
 } t_list;
 
 
@@ -160,8 +161,8 @@ void	ft_check_input_cases_for_return_empty_prompt(char *line);
 void	ft_check_bash_syntax_error_caracteres_volee(char *line);
 
 t_list	*ft_create_list_and_add_token(char *token_content);
-void	ft_get_token_quoting_rule(char c, t_list  *lst_token);
-
+void	ft_get_token_quoting_rule(char c, t_list  *lst_token, size_t i);
+void	ft_get_token_content(t_list *lst_token, size_t start_token_pos, size_t end_token_pos, char *line);
 //char	**ft_tokenize_line(char *line);
 void	ft_tokenize_line(char *line); //void pour commencer les tests
 char **ft_tokenize_line1(char *line);

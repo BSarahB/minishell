@@ -12,6 +12,33 @@
 
 #include "minishell.h"
 #define mode_tokenize_build 1
+
+
+//copie n bytes dun bloc M de src (sans structuration) a la zone M dst.
+  //strcpy != memcpy : strcpy : copie --> \0 ou -->segfault  memcpy : copie tt le buffer (s arrete a n bytes)
+
+//#include "libft.h"
+
+void	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	unsigned char	*s;
+	unsigned char	*d;
+
+	s = (unsigned char *)src;
+	d = (unsigned char *)dst;
+	if (!src && !dst)
+		return (NULL);
+	while (n > 0)
+	{
+		*d = *s;
+		d++;
+		s++;
+		n--;
+	}
+	return (dst);
+}
+
+
 /*
 void	ft_is_trim_and_clear_and_retokenize_token_allowed(t_list *lst_token)
 {
@@ -67,15 +94,24 @@ void	ft_get_token_expansion(char c, t_list *lst_token)
 	expanded_content = ft_substitute(lst_token);
 }
 */
-/*
-void	ft_get_token_content(t_list lst_token, size_t start_token_pos, size_t end_token_pos)
-{
-	(void)lst_token;
-	(void)start_token_pos;
-	(void)end_token_pos;
 
+void	ft_get_token_content_lengh_for_malloc(t_list *lst_token, size_t start_token_pos, size_t end_token_pos)
+{
+	size_t size_content;
+
+	size_content = end_token_pos - start_token_pos;
+	lst_token->content = malloc(sizeof(char*) * (size_content + 1));
 }
-*/
+
+void	ft_get_token_content(t_list *lst_token, size_t start_token_pos, size_t end_token_pos, char *line)
+{
+
+	printf("go ft_get_token_content\n");
+	ft_get_token_content_lengh_for_malloc(lst_token, start_token_pos, end_token_pos);
+	lst_token->content = ft_memcpy(lst_token->content, &line[start_token_pos], end_token_pos + 1);
+	printf("content: %s \n", lst_token->content);
+}
+
 /*
 void	ft_get_token_function(char c,t_list *lst_token)
 {
@@ -99,16 +135,26 @@ void	ft_get_token_type(char c, t_list *lst_token)
 	//ici on va devoir update les positions de start et end token, car si on tombe sur un operator
 }
 */
-void	ft_get_token_quoting_rule(char c, t_list  *lst_token)
+void	ft_get_token_quoting_rule(char c, t_list  *lst_token, size_t i)
 {
 	//cette fonction va permettre de determiner quelle est la regle de quoting : double quoting single quoting ou whitespace_separator
 	// decrite ici separemment pour plus de visibilite mais sera intergree normalement et fondue dans la trim and clear
 	//mettre un INTERRUPTEUR ICI qui definit la regle du quoting rule  whitespace_Separator 0 single quoting 1 double quoting2 par ex il faudrait 
 	//NB c est le premier quoting rule rencontre qui l emporte cf echo "'$VAR'" ou "'$VAR'"
-	(void)c;
-	(void)lst_token;
+//	(void)c;
+//	(void)lst_token;
+	if (lst_token->quoting_rule == 0 && c == '\"')
+		lst_token->quoting_rule = 2;
+	else if (c == '\"' && lst_token->quoting_rule == 2)
+		{
+			lst_token->end_token_pos = i;
+			lst_token->quoting_rule = 0;
+		}
+	else if (lst_token->quoting_rule == 0 && c == '\'')
+		lst_token->quoting_rule = 1;
+	else if (c == '\'' && lst_token->quoting_rule == 1)
+		lst_token->quoting_rule = 0;
 
- 
 }
 /*
 t_list	*ft_list_init(t_list **token_list)
@@ -157,9 +203,11 @@ t_list	*ft_lstnew(char *content)
 		return (NULL);
 	list->content = content;
 	list->position = 0;
+	list->end_token_pos = 0;
+	list->start_token_pos = 0;
 	list->type = 0;
 	list->function = 0;
-	list->quoting_rule = 0;
+	list->quoting_rule = 0;//on met a Whitespace_separator rule par defaut.
 	list->retokenize_allowed = 0;
 	list->next = NULL;
 	list->previous = NULL;
@@ -190,14 +238,16 @@ void	ft_trim_and_clear(char *line)
 	char	*str;
 	char	*token_content;
 	t_list 	*lst_token;
-	//size_t 	start_token_pos;
-	//size_t	end_token_pos;
+	size_t 	start_token_pos;
+//	size_t	end_token_pos;
 	size_t  i;
 
 
 	str = line;
 	i = 0;
 	token_content = NULL;
+	start_token_pos = 0;
+//	end_token_pos = 0;
 	//(void)line;
 
 
@@ -218,11 +268,14 @@ void	ft_trim_and_clear(char *line)
 	{
 		while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
 			i++;
-		
-.		ft_get_token_quoting_rule(str[i], lst_token);
+		if (lst_token->quoting_rule != double_quote)
+			start_token_pos = i;
+		ft_get_token_quoting_rule(str[i], lst_token, i);
 	//	ft_get_token_type(c, lst_token);
 //		ft_get_token_function(c, lst_token);
-//		ft_get_token_content(lst_token, start_token_pos, end_token_pos);
+
+		if (lst_token->end_token_pos != 0)
+			ft_get_token_content(lst_token, start_token_pos, lst_token->end_token_pos, line);
 		i++;
 	}
 
