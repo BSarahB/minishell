@@ -219,7 +219,7 @@ void	ft_trim_and_clear(char *line)
 		while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
 			i++;
 		
-.		ft_get_token_quoting_rule(str[i], lst_token);
+		ft_get_token_quoting_rule(str[i], lst_token);
 	//	ft_get_token_type(c, lst_token);
 //		ft_get_token_function(c, lst_token);
 //		ft_get_token_content(lst_token, start_token_pos, end_token_pos);

@@ -91,7 +91,7 @@ int	ft_check_open_error(int fdin, int fdout, t_cmd *cmd)
 {
 	if (fdin == -1)//si c est une erreur sur l ouverture open de infile, 
 	{
-		return (1);
+		return (1);               
 	}
 	if (fdout == -1) //si il y a un pb sur l open de l outfile on degage, on affiche le perror on free on a tt compris, et basta la vista
 	{
