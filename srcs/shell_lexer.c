@@ -109,7 +109,7 @@ void	ft_get_token_content(t_list *lst_token, size_t start_token_pos, size_t end_
 	printf("go ft_get_token_content\n");
 	ft_get_token_content_lengh_for_malloc(lst_token, start_token_pos, end_token_pos);
 	lst_token->content = ft_memcpy(lst_token->content, &line[start_token_pos], end_token_pos + 1);
-	printf("content: %s \n", lst_token->content);
+	printf("content: <%s> \n", lst_token->content);
 }
 
 /*
@@ -124,18 +124,81 @@ void	ft_get_token_function(char c,t_list *lst_token)
 
 }
 */
-/*
-void	ft_get_token_type(char c, t_list *lst_token)
+
+int	ft_get_token_type(char *str, t_list *lst_token)
 {
 
-	(void)c;
 	(void)lst_token;
 	//ici on a le choix de 1 a 13 entre le type de token auquel on a affaire : (define)
 	//WORD 1, VARIABLE 2, PIPE  3 GREAT 4 GREATGREAT 5 LESS 6  LESSLESS 7 TERMINATE 8  PARENTHESIS_LEFT 9 PARENTHESIS_RIGHT 10 AMPERSAND 11 GREAT_AND_AMPERSAND 12 IGNORE 13
 	//ici on va devoir update les positions de start et end token, car si on tombe sur un operator
-}
+/*
+#define WORD 1
+#define VARIABLE 2
+#define PIPE  3
+#define GREAT 4
+#define GREATGREAT 5
+#define LESS 6
+#define LESSLESS 7
+#define TERMINATE 8
+#define PARENTHESIS_LEFT 9
+#define PARENTHESIS_RIGHT 10
+#define AMPERSAND 11
+#define GREAT_AND_AMPERSAND 12
+#define IGNORE 13
+//LESSGREAT 14 ?
 */
-void	ft_get_token_quoting_rule(char c, t_list  *lst_token, size_t i)
+	/*if (c == '\n')		{
+		return NEWLINE;
+	}
+	*/
+
+	/*si tabs et espaces [ \t]	{
+		 Discard spaces and tabs
+		 1,2,3,4,5,6,7,8,9,10...14
+	}
+	*/
+	if (lst_token->quoting_rule != single_quote && lst_token->quoting_rule != double_quote)
+	{
+		if (*str == '>')
+		{
+			return (GREAT);
+		}
+		if (*str == '<')
+		{
+			return (LESS);
+		}
+		if ((*str == '>') && (*(str - 1) == '>'))//mettre str pour checker l element precedent TODO : proteger str d un index qui n exste pas
+		{//TODO risque de segfault a str index 0
+			return (GREATGREAT);
+		}
+		if ((*str == '&') && (*(str -1) == '>'))//proteger egalement d un ouot of range
+		{
+			return (GREAT_AND_AMPERSAND);
+		}
+		if (*str == '|')
+		{
+			return (PIPE);
+	//		<|>,<|>,<|>   je me souviens plus pkoi j ai mis ceux la....CQFD
+		}
+		if (*str == '&')	{
+		return (AMPERSAND);
+		}
+	// pour le mot on pourrait plutot faire par elimination
+	/*
+		[^ \t\n][^ \t\n]*	{
+		 on assume que les noms de fichiers n ont que des characteres alphabetiques NB PB AVEC LE NOTOKEN RULE A PLACER EN DESSOUS CF NANI
+		yylval.string_val = strdup(yytext);
+		return WORD;
+		il faudra retourner le mot.
+		<ls>,<-la>,<a*>,<grep>,<c>,<head>,<-n5>, <wc>,<-l>,<outfile>,<infile>
+	}
+*/
+}
+	return(0);
+}
+
+void	ft_get_token_quoting_rule(char *str, t_list  *lst_token, size_t i)
 {
 	//cette fonction va permettre de determiner quelle est la regle de quoting : double quoting single quoting ou whitespace_separator
 	// decrite ici separemment pour plus de visibilite mais sera intergree normalement et fondue dans la trim and clear
@@ -143,6 +206,9 @@ void	ft_get_token_quoting_rule(char c, t_list  *lst_token, size_t i)
 	//NB c est le premier quoting rule rencontre qui l emporte cf echo "'$VAR'" ou "'$VAR'"
 //	(void)c;
 //	(void)lst_token;
+	char c;
+
+	c = str[i];
 	if (lst_token->quoting_rule == 0 && c == '\"')
 		lst_token->quoting_rule = 2;
 	else if (c == '\"' && lst_token->quoting_rule == 2)
@@ -154,6 +220,9 @@ void	ft_get_token_quoting_rule(char c, t_list  *lst_token, size_t i)
 		lst_token->quoting_rule = 1;
 	else if (c == '\'' && lst_token->quoting_rule == 1)
 		lst_token->quoting_rule = 0;
+	else if (lst_token->quoting_rule == 0 && str[i + 1] == '\0')
+		lst_token->end_token_pos = i;
+
 
 }
 /*
@@ -205,6 +274,7 @@ t_list	*ft_lstnew(char *content)
 	list->position = 0;
 	list->end_token_pos = 0;
 	list->start_token_pos = 0;
+	list->start_token_pos_exists = 0;
 	list->type = 0;
 	list->function = 0;
 	list->quoting_rule = 0;//on met a Whitespace_separator rule par defaut.
@@ -267,11 +337,33 @@ void	ft_trim_and_clear(char *line)
 	while (str[i])
 	{
 		while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		{
 			i++;
-		if (lst_token->quoting_rule != double_quote)
+			if ((lst_token->quoting_rule != double_quote) && (lst_token->start_token_pos_exists == 0))
+			{
+				start_token_pos = i;
+				lst_token->start_token_pos_exists = 1;
+			}
+			if ((lst_token->quoting_rule != double_quote) && (lst_token->start_token_pos_exists == 1))
+			{
+			lst_token->end_token_pos = i -2 ;
+
+			if (lst_token->end_token_pos != 0)
+				ft_get_token_content(lst_token, start_token_pos, lst_token->end_token_pos, line);
+			//i++;
+			lst_token->start_token_pos_exists = 0;
+			lst_token->end_token_pos = 0 ;
+
+				}
+
+		}
+		if ((lst_token->quoting_rule != double_quote) && (lst_token->start_token_pos_exists == 0))
+		{
 			start_token_pos = i;
-		ft_get_token_quoting_rule(str[i], lst_token, i);
-	//	ft_get_token_type(c, lst_token);
+			lst_token->start_token_pos_exists = 1;
+		}
+		ft_get_token_quoting_rule(str, lst_token, i);
+		ft_get_token_type(&str[i], lst_token);//0 est return si pas de type
 //		ft_get_token_function(c, lst_token);
 
 		if (lst_token->end_token_pos != 0)

@@ -71,6 +71,7 @@ typedef struct s_list
 	struct	s_list *next;
 	struct 	s_list *previous;
 	size_t start_token_pos;
+	size_t start_token_pos_exists;
 	size_t end_token_pos;
 } t_list;
 
@@ -161,7 +162,7 @@ void	ft_check_input_cases_for_return_empty_prompt(char *line);
 void	ft_check_bash_syntax_error_caracteres_volee(char *line);
 
 t_list	*ft_create_list_and_add_token(char *token_content);
-void	ft_get_token_quoting_rule(char c, t_list  *lst_token, size_t i);
+void	ft_get_token_quoting_rule(char *str, t_list  *lst_token, size_t i);
 void	ft_get_token_content(t_list *lst_token, size_t start_token_pos, size_t end_token_pos, char *line);
 //char	**ft_tokenize_line(char *line);
 void	ft_tokenize_line(char *line); //void pour commencer les tests
