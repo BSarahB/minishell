@@ -35,6 +35,7 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 		s++;
 		n--;
 	}
+	printf("dst: <%s> apres memcpy\n", (unsigned char *)dst);
 	return (dst);
 }
 
@@ -100,7 +101,10 @@ void	ft_get_token_content_lengh_for_malloc(t_list *lst_token, size_t start_token
 	size_t size_content;
 
 	size_content = end_token_pos - start_token_pos;
-	lst_token->content = malloc(sizeof(char*) * (size_content + 1));
+
+	//lst_token->content = malloc(sizeof(char*) * (size_content + 1));
+	//TODO : lst_token->content init a zero ou terminate a NULL 
+	lst_token->content = ft_init_cstring(&((lst_token)->content), size_content, 0);
 }
 
 void	ft_get_token_content(t_list *lst_token, size_t start_token_pos, size_t end_token_pos, char *line)
@@ -339,11 +343,6 @@ void	ft_trim_and_clear(char *line)
 		while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
 		{
 			i++;
-<<<<<<< HEAD
-		
-		ft_get_token_quoting_rule(str[i], lst_token);
-	//	ft_get_token_type(c, lst_token);
-=======
 			if ((lst_token->quoting_rule != double_quote) && (lst_token->start_token_pos_exists == 0))
 			{
 				start_token_pos = i;
@@ -369,7 +368,6 @@ void	ft_trim_and_clear(char *line)
 		}
 		ft_get_token_quoting_rule(str, lst_token, i);
 		ft_get_token_type(&str[i], lst_token);//0 est return si pas de type
->>>>>>> ce48a7b0bd7af4c9566e15754e7b33801bd92653
 //		ft_get_token_function(c, lst_token);
 
 		if (lst_token->end_token_pos != 0)

@@ -125,4 +125,3 @@ int	ft_split_line_in_s_cmd(t_cmd *cmd, char *line, char **envp)
 	}
 	return (exec_return);
 }
-  
