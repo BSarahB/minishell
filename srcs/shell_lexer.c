@@ -338,6 +338,7 @@ void ft_trim_and_clear(char *line)
 		while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
 		{
 			i++;
+			
 			if ((lst_token->quoting_rule != double_quote) && (lst_token->start_token_pos_exists == 0))
 			{
 				start_token_pos = i;
