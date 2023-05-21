@@ -225,7 +225,7 @@ void ft_get_token_quoting_rule(char *str, t_list *lst_token, size_t i)
 	else if (c == '\'' && lst_token->quoting_rule == 1)
 		lst_token->quoting_rule = 0;
 
-	else if (lst_token->quoting_rule == 0 && str[i + 1] == '\0')
+	else if (lst_token->quoting_rule == 0 && str[i + 1] == '\0') // TODO verifier ici le cas
 		lst_token->end_token_pos = i;
 }
 /*
@@ -338,36 +338,56 @@ void ft_trim_and_clear(char *line)
 		while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
 		{
 			i++;
-			if(str[i])
+			if (str[i])
 			{
-			if ((lst_token->quoting_rule != double_quote) && (lst_token->start_token_pos_exists == 0)&& (!(str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))))
+				if ((lst_token->quoting_rule != double_quote) && (lst_token->start_token_pos_exists == 0) && (!(str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))))
+				{
+					start_token_pos = i;
+					lst_token->start_token_pos_exists = 1;
+					break;
+				}
+				if ((lst_token->quoting_rule != double_quote) && (lst_token->start_token_pos_exists == 1))
+				{
+					lst_token->end_token_pos = i - 2;
+
+					if (lst_token->end_token_pos != 0)
+						ft_get_token_content(lst_token, start_token_pos, lst_token->end_token_pos, line);
+					// i++;
+					lst_token->start_token_pos_exists = 0;
+					lst_token->end_token_pos = 0;
+				}
+			}
+			if ((str[i] == 0) && (lst_token->quoting_rule != double_quote) && (lst_token->start_token_pos_exists == 1)) // pas besoin d avvoir lui ici pusique la condition d entree est que str[i] existe....
 			{
-				start_token_pos = i;
-				lst_token->start_token_pos_exists = 1;
+					lst_token->end_token_pos = i - 2; // si pas d espace, i -2 si un esapce avant
+					if (lst_token->end_token_pos != 0)
+						ft_get_token_content(lst_token, start_token_pos, lst_token->end_token_pos, line);
+						// i++;
+					lst_token->start_token_pos_exists = 0;
+					lst_token->end_token_pos = 0;
+					break;
+			}
+		}
+		// on n est pas sur un espace
+		if (str[i] == 0)
+		{
+			if ((lst_token->quoting_rule != double_quote) && (lst_token->start_token_pos_exists == 0))
+			{
 				break;
 			}
 			if ((lst_token->quoting_rule != double_quote) && (lst_token->start_token_pos_exists == 1))
 			{
-				lst_token->end_token_pos = i - 2;
+				lst_token->end_token_pos = i - 1; // si pas d espace, i -2 si un esapce avant
 
 				if (lst_token->end_token_pos != 0)
 					ft_get_token_content(lst_token, start_token_pos, lst_token->end_token_pos, line);
 				// i++;
 				lst_token->start_token_pos_exists = 0;
 				lst_token->end_token_pos = 0;
-				if (str[i] == 0)
-				{
-					break;
-				}
-			}
+				break;
+				// si on avait un \0
 			}
 		}
-		//on n est pas sur un espace
-		if (str[i] == 0)
-				{
-					break;
-					//si on avait un \0 
-				}
 		if ((lst_token->quoting_rule != double_quote) && (lst_token->start_token_pos_exists == 0))
 		{
 			start_token_pos = i;
