@@ -33,6 +33,7 @@
 enum e_function
 {
 	command,
+	option,
 	metacharacter,
 	operator,
 	redirection,

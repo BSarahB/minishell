@@ -303,7 +303,7 @@ pour chaque caractere on va verifier:
 
 
 
-Je reflechis au cas particulier de $VAR apres  export VAR="ls -la" -> fonctionne execute la commande ls et met en option -la
+Je reflechis au cas particulier de $VAR apres  export VAR="ls -la" ->  fonctionne execute la commande ls et met en option -la
 											 ="| cat -e" -> execute la commande | et ne la trouve pas no commund found
 											= "ls -la -djd" -> no valid option
 											="ls -la wc1 wc2" -> wc1 et wc2 ni such file or directory
@@ -315,14 +315,18 @@ Je reflechis au cas particulier de $VAR apres  export VAR="ls -la" -> fonctionne
 											a lexpand, ls -la fonctionne.
 											mais les pipes n ont pas de valeur d operateur.
 
+											RULE:en appel simple $VAR->    1 SUBSTITUT d EXPAND quelque soit sa quoting rule va subir le trim and clear +retokenize (d ou le cmd not found du 1 er element du subtitut) 
+											exemples: export VAR="   5   esp   " et export VAR="\"   5   esp   \""
+
 											je continue de voir des exemples. je dois bien savoir quel est l ordre avant de commencer a ecrire le lexing
 											export VAR="wc"
 											ls | $VAR -l fonctionne tres bien. $VAR est substituee comme un wc COMMANDE
-											apres un operateur | on considere que l expand qui suit est une commande.
+											!! apres un operateur | on considere que l expand qui suit est une commande.
 											voyons si elle se complique
 											export VAR="head -n 5"
 
-											CEPENDANT quand la commande ECHO est la curr simple_cmd, alors, il faudra mettre l expand $VAR en tant qu option de la commande.
+											CEPENDANT quand la commande ECHO est la curr simple_cmd, alors, il faudra mettre l expand $VAR en tant qu option de la commande. donc LE SUBSTITUT de l expand est unmodified il ne subit aucun traitement de trim and clear ou de retokenize.
+
 											on va donc determiner si simple_cmd est echo ou pas
 echo -nnnn -nnn -n abc -> execve se charge de considerer -nnnn comme une option valide
 echo -nnn -nnn abc -n -nna -naaa -nn -nn -nnn -nnnn -jfkefe kleflkfneife  CHOIX de la data structure : sera une liste chainee pour ne pas etre piege par le nombre d arguments , ni le nbr de commandes, et ne pas avoir besoin de les allouer au depart en etant bloque sur le nombre
@@ -348,13 +352,13 @@ fiche du cas de l expand faite : cas de l expand *ALONE: I $VAR  trim + clear/ 1
 								 dans LExpand, les | ou > redirections n ont pas de valeur speciale, ils sont juste au sesn litteral et servent de cmd ou d option.
 
 
-ATTENTION $VAR$ -> le $ colle a la variable ANNULE le trim and clear
+ATTENTION $VAR$ -> le $ colle a la variable ANNULE le trim and clear et le retokenize egalement LA SUBSITUTION A QUAND MEME LIEU
 ATTENTION AUX CAS PARTICULIERS A GERER: echo $VAR$ -> on ne trime &clear pas VAR. je ne sais pas pkoi. VAR etant suivi d un Caractere $ n est pas trime et clear. 
 										par ex VAR="   5   esp   "
 										
 										
 										
-										echo $VAR$ :   5   esp   $ --> le $ TRIM&CLEAR CANCELLED
+										echo $VAR$ :   5   esp   $ --> le $ TRIM&CLEAR CANCELLED le RETOKENIZE CANCELLED AUSSI la substitution a bien lieu
 plusieurs comportements					echo $VAR+ 
 												 -
 												 !
@@ -381,7 +385,7 @@ plusieurs comportements					echo $VAR+
 												\ ou | pipe ou ' ou "   --> $> mettent le prompt sur une nouvelle ligne en attente de lecture du processus
 
 												**********
-												$ -->annule le TRIM and CLear. voir si cela rajoute un espace entre les 2 tokens ou pas. 
+												$ -->annule le TRIM and CLear et annule le retokenize. on a un seul bloc : substitut$
 												**********
 												(
 												)
@@ -398,7 +402,7 @@ plusieurs comportements					echo $VAR+
 dans le cas ou un expand n existe pas LETOKEN <EXPAND> EST SUPPRIME si il est une option
 
 PROCEDURE: 
-<0> -> separation with whitepaces on fait les <token>
+<0> -> separation with whitepaces on fait les <token> : DELIMIT TOKEN
 1   -> QUOTING RULES : 	DOUBLE_QUOTE? get position start quote end quote
 						SINGLE_QUOTE? idem
 						WHITESPACES_SEPARTOR_ENABLED or WHITESPACES_LITTERAL
