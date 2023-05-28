@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbenmesb <mbenmesb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/07 15:55:07 by mbenmesb          #+#    #+#             */
-/*   Updated: 2023/02/07 15:55:30 by mbenmesb         ###   ########.fr       */
+/*   Created: 2023/03/07 15:55:07 by mbenmesb          #+#    #+#             */
+/*   Updated: 2023/03/07 15:55:30 by mbenmesb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void ft_get_token_content(t_list *lst_token, size_t start_token_pos, size_t end_
 	lst_token->content = ft_memcpy(lst_token->content, &line[start_token_pos], end_token_pos - start_token_pos + 1);
 	printf("content: <%s> \n", lst_token->content);
 	printf("quoting rule: [%d] \n", lst_token->quoting_rule);
+	lst_token->quoting_rule = 0;
 }
 
 /*

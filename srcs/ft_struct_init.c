@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbenmesb <mbenmesb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/13 14:11:19 by mbenmesb          #+#    #+#             */
-/*   Updated: 2023/02/13 14:11:21 by mbenmesb         ###   ########.fr       */
+/*   Created: 2023/03/13 14:11:19 by mbenmesb          #+#    #+#             */
+/*   Updated: 2023/03/13 14:11:21 by mbenmesb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char *ft_init_cstring(char **str, size_t len, char init_value)
 {
 	*str = malloc(sizeof(char) * (len + 1));
 	if (!(*str))
-	
+
 		return (NULL);
 	if (len > 0)
 		ft_memset(*str, init_value, len);
