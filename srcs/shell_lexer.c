@@ -111,6 +111,7 @@ void ft_get_token_content(t_list *lst_token, size_t start_token_pos, size_t end_
   	ft_get_token_content_lengh_for_malloc(lst_token, start_token_pos, end_token_pos);
 	lst_token->content = ft_memcpy(lst_token->content, &line[start_token_pos], end_token_pos - start_token_pos + 1);
 	printf("content: <%s> \n", lst_token->content);
+	printf("quoting rule: [%d] \n", lst_token->quoting_rule);
 }
 
 /*
@@ -354,7 +355,7 @@ void ft_trim_and_clear(char *line)
 						}
 					}
 					else{
-						start_token_pos = i;
+						lst_token->start_token_pos = i;//lst->
 						lst_token->start_token_pos_exists = 1;
 						break;
 						}
@@ -363,8 +364,8 @@ void ft_trim_and_clear(char *line)
 				{
 					lst_token->end_token_pos = i - 2;
 
-					if (lst_token->end_token_pos != 0)
-						ft_get_token_content(lst_token, start_token_pos, lst_token->end_token_pos, line);
+                                                                					if (lst_token->end_token_pos != 0)
+						ft_get_token_content(lst_token, lst_token->start_token_pos, lst_token->end_token_pos, line);
 					// i++;
 					lst_token->start_token_pos_exists = 0;
 					lst_token->end_token_pos = 0;
@@ -374,7 +375,7 @@ void ft_trim_and_clear(char *line)
 			{
 					lst_token->end_token_pos = i - 2; // si pas d espace, i -2 si un esapce avant
 					if (lst_token->end_token_pos != 0)
-						ft_get_token_content(lst_token, start_token_pos, lst_token->end_token_pos, line);
+						ft_get_token_content(lst_token, lst_token->start_token_pos, lst_token->end_token_pos, line);
 						// i++;
 					lst_token->start_token_pos_exists = 0;
 					lst_token->end_token_pos = 0;
@@ -393,7 +394,7 @@ void ft_trim_and_clear(char *line)
 				lst_token->end_token_pos = i - 1; // si pas d espace, i -2 si un esapce avant
 
 				if (lst_token->end_token_pos != 0)
-					ft_get_token_content(lst_token, start_token_pos, lst_token->end_token_pos, line);
+					ft_get_token_content(lst_token, lst_token->start_token_pos, lst_token->end_token_pos, line);
 				// i++;
 				lst_token->start_token_pos_exists = 0;
 				lst_token->end_token_pos = 0;
@@ -403,7 +404,7 @@ void ft_trim_and_clear(char *line)
 		}
 		if ((lst_token->quoting_rule != double_quote) && (lst_token->start_token_pos_exists == 0) && (!(ft_get_token_type(&str[i], lst_token))) && (!(str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))))
 		{
-			start_token_pos = i;
+			lst_token->start_token_pos = i;
 			lst_token->start_token_pos = i;
 
 			lst_token->start_token_pos_exists = 1;
@@ -436,8 +437,12 @@ void ft_trim_and_clear(char *line)
 	
 		//		ft_get_token_function(c, lst_token);
 
-		if (lst_token->end_token_pos != 0)
-			ft_get_token_content(lst_token, start_token_pos, lst_token->end_token_pos, line);//on ne remet pas a 0 les compteurs start et end?
+		if (lst_token->end_token_pos != 0)//ic i on a imprime legrep"
+			{
+				ft_get_token_content(lst_token, lst_token->start_token_pos, lst_token->end_token_pos, line);//on ne remet pas a 0 les compteurs start et end?
+				lst_token->start_token_pos_exists = 0;
+				lst_token->end_token_pos = 0;
+			}
 		i++;
 	}
 
