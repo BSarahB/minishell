@@ -26,6 +26,7 @@ char *ft_init_cstring(char **str, size_t len, char init_value)
 {
 	*str = malloc(sizeof(char) * (len + 1));
 	if (!(*str))
+	
 		return (NULL);
 	if (len > 0)
 		ft_memset(*str, init_value, len);

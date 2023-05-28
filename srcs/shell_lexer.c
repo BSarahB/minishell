@@ -404,6 +404,8 @@ void ft_trim_and_clear(char *line)
 		if ((lst_token->quoting_rule != double_quote) && (lst_token->start_token_pos_exists == 0) && (!(ft_get_token_type(&str[i], lst_token))) && (!(str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))))
 		{
 			start_token_pos = i;
+			lst_token->start_token_pos = i;
+
 			lst_token->start_token_pos_exists = 1;
 		}
 		ft_get_token_quoting_rule(str, lst_token, i);
