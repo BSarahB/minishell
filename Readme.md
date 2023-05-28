@@ -315,8 +315,18 @@ Je reflechis au cas particulier de $VAR apres  export VAR="ls -la" ->  fonctionn
 											a lexpand, ls -la fonctionne.
 											mais les pipes n ont pas de valeur d operateur.
 
-											RULE:en appel simple $VAR->    1 SUBSTITUT d EXPAND quelque soit sa quoting rule va subir le trim and clear +retokenize (d ou le cmd not found du 1 er element du subtitut) 
+											RULE:en appel simple $VAR->    1 SUBSTITUT d EXPAND quelque soit sa quoting rule va subir le trim and clear  +retokenize (d ou le cmd not found du 1 er element du subtitut) (si plusieurs espaces sont devant le dq on laissera 1 seul espace) MAIS PAS DE DEQUOTE(verifier si c est le cas pour tout)
+											AVEC une CMD en tete le SUBSTITUT D EXPAND sera un arg ou option
+											SI ECHO est la main cmd PAR CONTRE ON AURA LE SUBSTITUT EN BLOC , LE SUBSTITUT DE L EXPAND na PAS de trim and clear ni de retokenization: apres echo le substitut d expand est UNMODIFIED
+											RULE : ds 1 SUBSTITUT D EXPAND un pipe n a pas valeur de pipe, il est considere comme une [cmd] ou un [arg] 
 											exemples: export VAR="   5   esp   " et export VAR="\"   5   esp   \""
+													: export VAR="   ls    -la" va bien fonctionner cela verifie le trim and clear 
+													puis on verifie que la cmd and args a bien lieu en introduisant une erreur : 
+													: export VAR="   ls    -jel" ->ls invalid option --j verifie la retokenisation
+													:export VAR="jj -la" jj:command not found
+													:export VAR="ld     -la" -la no such file or directory
+
+ 
 
 											je continue de voir des exemples. je dois bien savoir quel est l ordre avant de commencer a ecrire le lexing
 											export VAR="wc"
@@ -329,7 +339,7 @@ Je reflechis au cas particulier de $VAR apres  export VAR="ls -la" ->  fonctionn
 
 											on va donc determiner si simple_cmd est echo ou pas
 echo -nnnn -nnn -n abc -> execve se charge de considerer -nnnn comme une option valide
-echo -nnn -nnn abc -n -nna -naaa -nn -nn -nnn -nnnn -jfkefe kleflkfneife  CHOIX de la data structure : sera une liste chainee pour ne pas etre piege par le nombre d arguments , ni le nbr de commandes, et ne pas avoir besoin de les allouer au depart en etant bloque sur le nombre
+echo -nnn -nnn abc -n -nna -naaa -nn -nn -nnn -nnnn -jfkefe kleflkfneife  CHOIX de la data structure : sera une liste chainee pour ne pas etre piege par le nombre d arguments , ni le nbr de commandes, et ne pas avoir besoin de les allouer au depart en etant bloque sur le nombre   ls -l -l -l -l -l -l -l -l -l -l -l -l -l -l -l -l -l -l -l -l -l -l -l -l fonctionne tres bien dans bash, il faudra tout de meme mettre une limite je pense...?
 
 
 EXPAND CASE:
