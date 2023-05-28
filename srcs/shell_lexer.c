@@ -103,14 +103,12 @@ void ft_get_token_content_lengh_for_malloc(t_list *lst_token, size_t start_token
 	// lst_token->content = malloc(sizeof(char*) * (size_content + 1));
 	// TODO : lst_token->content init a zero ou terminate a NULL
 	lst_token->content = ft_init_cstring(&((lst_token)->content), size_content + 1, 0);
-	printf("content apres init_cstring: <%s> \n", lst_token->content);
 }
 
 void ft_get_token_content(t_list *lst_token, size_t start_token_pos, size_t end_token_pos, char *line)
 {
 
-	printf("go ft_get_token_content\n");
-	ft_get_token_content_lengh_for_malloc(lst_token, start_token_pos, end_token_pos);
+  	ft_get_token_content_lengh_for_malloc(lst_token, start_token_pos, end_token_pos);
 	lst_token->content = ft_memcpy(lst_token->content, &line[start_token_pos], end_token_pos - start_token_pos + 1);
 	printf("content: <%s> \n", lst_token->content);
 }
@@ -175,7 +173,8 @@ int ft_get_token_type(char *str, t_list *lst_token)
 		{										  // TODO risque de segfault a str index 0
 			return (GREATGREAT);
 		}
-		if ((*str == '&') && (*(str - 1) == '>')) // proteger egalement d un ouot of range
+		//LESSLESS << pour les heredocs : faire plus de recherches sur les heredocs
+		if ((*str == '&') && (*(str - 1) == '>')) // proteger egalement d un ouot of range se proteger de segfault en mettant la condition d existence
 		{
 			return (GREAT_AND_AMPERSAND);
 		}
@@ -342,9 +341,23 @@ void ft_trim_and_clear(char *line)
 			{
 				if ((lst_token->quoting_rule != double_quote) && (lst_token->start_token_pos_exists == 0) && (!(str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))))
 				{
-					start_token_pos = i;
-					lst_token->start_token_pos_exists = 1;
-					break;
+					if (ft_get_token_type(&str[i], lst_token)) // 0 est return si pas de type
+					{
+						if(lst_token->start_token_pos_exists == 0)//on n est pas colles a un token
+						{
+							lst_token->start_token_pos = i;
+							lst_token->end_token_pos = i;
+							ft_get_token_content(lst_token,i, i, line);
+							lst_token->start_token_pos_exists = 0;
+							lst_token->end_token_pos = 0;
+							i++;
+						}
+					}
+					else{
+						start_token_pos = i;
+						lst_token->start_token_pos_exists = 1;
+						break;
+						}
 				}
 				if ((lst_token->quoting_rule != double_quote) && (lst_token->start_token_pos_exists == 1))
 				{
@@ -388,17 +401,41 @@ void ft_trim_and_clear(char *line)
 				// si on avait un \0
 			}
 		}
-		if ((lst_token->quoting_rule != double_quote) && (lst_token->start_token_pos_exists == 0))
+		if ((lst_token->quoting_rule != double_quote) && (lst_token->start_token_pos_exists == 0) && (!(ft_get_token_type(&str[i], lst_token))) && (!(str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))))
 		{
 			start_token_pos = i;
 			lst_token->start_token_pos_exists = 1;
 		}
 		ft_get_token_quoting_rule(str, lst_token, i);
-		ft_get_token_type(&str[i], lst_token); // 0 est return si pas de type
+		if (ft_get_token_type(&str[i], lst_token)) // 0 est return si pas de type
+			{
+				if(lst_token->start_token_pos_exists == 0)//on n est pas colles a un token
+				{
+					lst_token->start_token_pos = i;
+					lst_token->end_token_pos = i;
+					ft_get_token_content(lst_token,i, i, line);
+					lst_token->start_token_pos_exists = 0;
+					lst_token->end_token_pos = 0;
+					//i++;
+				}
+				else if(lst_token->start_token_pos_exists != 0)//on est colles a un token
+				{
+					lst_token->end_token_pos = i - 1;
+					ft_get_token_content(lst_token, lst_token->start_token_pos, lst_token->end_token_pos, line);
+					lst_token->start_token_pos_exists = i;
+					lst_token->end_token_pos = i;
+					ft_get_token_content(lst_token,i, i, line);
+					lst_token->start_token_pos_exists = 0;
+					lst_token->end_token_pos = 0;
+					//i++;
+				}
+			}
+	
+	
 		//		ft_get_token_function(c, lst_token);
 
 		if (lst_token->end_token_pos != 0)
-			ft_get_token_content(lst_token, start_token_pos, lst_token->end_token_pos, line);
+			ft_get_token_content(lst_token, start_token_pos, lst_token->end_token_pos, line);//on ne remet pas a 0 les compteurs start et end?
 		i++;
 	}
 
