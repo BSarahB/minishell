@@ -107,12 +107,25 @@ void ft_get_token_content_lengh_for_malloc(t_list *lst_token, size_t start_token
 
 void ft_get_token_content(t_list *lst_token, size_t start_token_pos, size_t end_token_pos, char *line)
 {
-
+/*if (lst_token->quoting_rule_adequate == 0)
+{
+	printf("bash error : quoting rule inadequate");
+	break;
+}
+*/
+//else
+//{
+	if (lst_token->quoting_rule_adequate == 0 && lst_token->quoting_rule != 0)
+	{
+		printf("CAUTION bash error : quoting rule inadequate \" or \' incomplete, quoting must be CLOSED\n");
+	}
   	ft_get_token_content_lengh_for_malloc(lst_token, start_token_pos, end_token_pos);
 	lst_token->content = ft_memcpy(lst_token->content, &line[start_token_pos], end_token_pos - start_token_pos + 1);
 	printf("content: <%s> \n", lst_token->content);
 	printf("quoting rule: [%d] \n", lst_token->quoting_rule);
 	lst_token->quoting_rule = 0;
+	
+//}
 }
 
 /*
@@ -220,11 +233,16 @@ void ft_get_token_quoting_rule(char *str, t_list *lst_token, size_t i)
 	{
 		lst_token->end_token_pos = i;
 		lst_token->quoting_rule = 2;
+		lst_token->quoting_rule_adequate = 1;
 	}
 	else if (lst_token->quoting_rule == 0 && c == '\'')
 		lst_token->quoting_rule = 1;
 	else if (c == '\'' && lst_token->quoting_rule == 1)
-		lst_token->quoting_rule = 0;
+	{
+		lst_token->end_token_pos = i;
+		lst_token->quoting_rule = 1;
+		lst_token->quoting_rule_adequate = 1;
+	}
 
 	else if (lst_token->quoting_rule == 0 && str[i + 1] == '\0') // TODO verifier ici le cas
 		lst_token->end_token_pos = i;
@@ -282,6 +300,7 @@ t_list *ft_lstnew(char *content)
 	list->type = 0;
 	list->function = 0;
 	list->quoting_rule = 0; // on met a Whitespace_separator rule par defaut.
+	list->quoting_rule_adequate = 0;
 	list->retokenize_allowed = 0;
 	list->next = NULL;
 	list->previous = NULL;
@@ -380,6 +399,7 @@ void ft_trim_and_clear(char *line)
 						// i++;
 					lst_token->start_token_pos_exists = 0;
 					lst_token->end_token_pos = 0;
+					//lst_token->tokenized = 1;
 					break;
 			}
 		}
@@ -406,8 +426,6 @@ void ft_trim_and_clear(char *line)
 		if ((lst_token->quoting_rule == whitespace_separator) && (lst_token->start_token_pos_exists == 0) && (!(ft_get_token_type(&str[i], lst_token))) && (!(str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))))
 		{
 			lst_token->start_token_pos = i;
-			lst_token->start_token_pos = i;
-
 			lst_token->start_token_pos_exists = 1;
 		}
 		ft_get_token_quoting_rule(str, lst_token, i);
@@ -446,6 +464,19 @@ void ft_trim_and_clear(char *line)
 			}
 		i++;
 	}
+	if (lst_token->end_token_pos == 0 && lst_token->start_token_pos == 0 && lst_token->start_token_pos_exists == 1)//todo verif si elimination 
+			{
+				ft_get_token_content(lst_token, lst_token->start_token_pos, i, line);//on ne remet pas a 0 les compteurs start et end
+				lst_token->start_token_pos_exists = 0;
+				lst_token->end_token_pos = 0;
+			}
+	if (lst_token->end_token_pos != 0 && lst_token->start_token_pos_exists == 1)
+			{
+
+				ft_get_token_content(lst_token, lst_token->start_token_pos, lst_token->end_token_pos, line);//on ne remet pas a 0 les compteurs start et end?
+				lst_token->start_token_pos_exists = 0;
+				lst_token->end_token_pos = 0;
+			}
 
 	// je verifie pour chaque char  :  la rule, le type, la function, le content,
 

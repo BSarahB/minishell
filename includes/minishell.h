@@ -74,6 +74,7 @@ typedef struct s_list
 	size_t start_token_pos;
 	size_t start_token_pos_exists;
 	size_t end_token_pos;
+	size_t quoting_rule_adequate;
 } t_list;
 
 
