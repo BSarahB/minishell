@@ -355,31 +355,36 @@ void ft_trim_and_clear(char *line)
 	lst_token = ft_create_list_and_add_token(token_content);
 	while (str[i])
 	{
+	 //le caractere est un ESPACE
 		while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
 		{
 			i++;
 			if (str[i])
 			{
+				//1)char after white space no token no qr no space
+				//on est sur  1 caractere qui suit un espace dans un TOKEN QUI NEXISTE PAS ENCORE DONC NEUTRE(PAS DE QUOTING) et on n est pas colles a un token qui a deja un depart , 
+				//ft_ NO TOKEN EXISTING_no_QR char_is_NOSPACe
 				if ((lst_token->quoting_rule == whitespace_separator) && (lst_token->start_token_pos_exists == 0) && (!(str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))))
-				{
-					if (ft_get_token_type(&str[i], lst_token)) // 0 est return si pas de type
+				{//char_after_ws_is_operator_no_token_exists_no_qr
+					if (ft_get_token_type(&str[i], lst_token)) // si le char est un operateur (| < > etc &) on le considere DIRECT Comme un TOKEN et on l imprime. //TODO creer le cas de l operateur a 2 caracteres << >> &> etc
 					{
-						if(lst_token->start_token_pos_exists == 0)//on n est pas colles a un token
+						if(lst_token->start_token_pos_exists == 0)//l operateur n est pas colle a un token deja existant
 						{
 							lst_token->start_token_pos = i;
 							lst_token->end_token_pos = i;
-							ft_get_token_content(lst_token,i, i, line);
+							ft_get_token_content(lst_token,i, i, line);//TODO creer le cas de l operateur a 2 caracteres << >> &> etc et faire le saut de i++ correspondant
 							lst_token->start_token_pos_exists = 0;
 							lst_token->end_token_pos = 0;
 							i++;
 						}
 					}
-					else{
+					else{ // on est sur un char non operateur qui suit un espace (no token no qr)
 						lst_token->start_token_pos = i;//lst->
 						lst_token->start_token_pos_exists = 1;
 						break;
 						}
 				}
+				//char after white space no QR, TOKEN EXISTS (on est a l interieur du token qui a deja start) 
 				if (((lst_token->quoting_rule == whitespace_separator)) && (lst_token->start_token_pos_exists == 1))
 				{
 					lst_token->end_token_pos = i - 2;
@@ -403,7 +408,7 @@ void ft_trim_and_clear(char *line)
 					break;
 			}
 		}
-		// on n est pas sur un espace
+		// le caractere  n est pas un espace -> char ou \0
 		if (str[i] == 0)
 		{
 			if ((lst_token->quoting_rule == whitespace_separator) && (lst_token->start_token_pos_exists == 0))
