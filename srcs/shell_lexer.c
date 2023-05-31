@@ -355,13 +355,15 @@ void ft_trim_and_clear(char *line)
 	lst_token = ft_create_list_and_add_token(token_content);
 	while (str[i])
 	{
+		//le 1 er caractere est un ESPACE
 	 //le caractere est un ESPACE
 		while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
 		{
 			i++;
+			//le char exists
 			if (str[i])
 			{
-				//1)char after white space no token no qr no space
+				//1)char after white space no token exists yet no qr no space
 				//on est sur  1 caractere qui suit un espace dans un TOKEN QUI NEXISTE PAS ENCORE DONC NEUTRE(PAS DE QUOTING) et on n est pas colles a un token qui a deja un depart , 
 				//ft_ NO TOKEN EXISTING_no_QR char_is_NOSPACe
 				if ((lst_token->quoting_rule == whitespace_separator) && (lst_token->start_token_pos_exists == 0) && (!(str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))))
@@ -384,21 +386,24 @@ void ft_trim_and_clear(char *line)
 						break;
 						}
 				}
-				//char after white space no QR, TOKEN EXISTS (on est a l interieur du token qui a deja start) 
+				//char after white space no QR, 1 TOKEN EXISTS (un token a deja start)            
 				if (((lst_token->quoting_rule == whitespace_separator)) && (lst_token->start_token_pos_exists == 1))
 				{
-					lst_token->end_token_pos = i - 2;
+					lst_token->end_token_pos = i - 2; //on definit l index end du token existant. 
 
                         if (lst_token->end_token_pos != 0)
-							ft_get_token_content(lst_token, lst_token->start_token_pos, lst_token->end_token_pos, line);
-					// i++;
-					lst_token->start_token_pos_exists = 0;
+							ft_get_token_content(lst_token, lst_token->start_token_pos, lst_token->end_token_pos, line);//on imprime le token
+					// i++; //pas d incrementation car on vient d imprimer le token existant et l index sur lequel nous nous trouvons actuellement est le depart du nouveau token, nous devrons donc determiner sil s agit dun pipe ou d une char classique  ou d un espace egalement
+					lst_token->start_token_pos_exists = 0; // on reinitialise tout a 0 car on ne sait pas si le depart du nouveau token demarre ici, nous pourrions tout aussi bien etre sur un espace, auquel cad, nous allons donc refaire la boucle et avancer
 					lst_token->end_token_pos = 0;
 				}
 			}
+			//le char est \0 apres l espace
+
+			//char after espace qui est un \0 avec 1 TOKEN EXISTANT ls \0 pas de QR -> l espace precedent signifie donc la fin d un token
 			if ((str[i] == 0) && (lst_token->quoting_rule == whitespace_separator) && (lst_token->start_token_pos_exists == 1)) // pas besoin d avvoir lui ici pusique la condition d entree est que str[i] existe....
 			{
-					lst_token->end_token_pos = i - 2; // si pas d espace, i -2 si un esapce avant
+					lst_token->end_token_pos = i - 2; // si pas d espace, i -2 si un esapce avant 
 					if (lst_token->end_token_pos != 0)
 						ft_get_token_content(lst_token, lst_token->start_token_pos, lst_token->end_token_pos, line);
 						// i++;
@@ -408,7 +413,8 @@ void ft_trim_and_clear(char *line)
 					break;
 			}
 		}
-		// le caractere  n est pas un espace -> char ou \0
+		// on est soit sur le 1 ere caractere alphanumerique 
+		//soit sur un caractere qui suit et qui  n est pas un espace puisquil n a pas ete repris dans la boucle while precedente -> char ou \0
 		if (str[i] == 0)
 		{
 			if ((lst_token->quoting_rule == whitespace_separator) && (lst_token->start_token_pos_exists == 0))
