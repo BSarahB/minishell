@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#define mode_tokenize_build 1
+#define mode_lexing_build 1
 
 // copie n bytes dun bloc M de src (sans structuration) a la zone M dst.
 // strcpy != memcpy : strcpy : copie --> \0 ou -->segfault  memcpy : copie tt le buffer (s arrete a n bytes)
@@ -543,7 +543,7 @@ void ft_tokenize_line(char *line)
 {
 	// gardons cette fonction pour ne pas faire crasher le code en attendant de fr la vraie tokenize line operationnelle qui redistribue les tokens dans la liste chainee directement et pas dans un double tab
 	// la liste chainee est vraiment justifiee car on a dans la cadre des expand, besoin de REtokenizer encore une fois avec le TRIM and ClEAR. on doit pouvoir manier les token de maniere flexible. un tableau serait tres galere a modifier et remodifier
-	if (mode_tokenize_build == 0)
+	if (mode_lexing_build == 0)
 	{
 		ft_tokenize_line1(line);
 	}
