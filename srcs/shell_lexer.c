@@ -124,6 +124,7 @@ void ft_get_token_content(t_list *lst_token, size_t start_token_pos, size_t end_
 	printf("content: <%s> \n", lst_token->content);
 	printf("quoting rule: [%d] \n", lst_token->quoting_rule);
 	lst_token->quoting_rule = 0;
+	lst_token->quoting_rule_adequate = 0;
 	
 //}
 }
@@ -140,6 +141,39 @@ void	ft_get_token_function(char c,t_list *lst_token)
 
 }
 */
+
+int	ft_is_char_operand(char *str, t_list *lst_token)
+{
+	(void)lst_token;
+					   if (*str == '>')
+					   {
+						   return (GREAT);
+					   }
+					   if (*str == '<')
+					   {
+						   return (LESS);
+					   }
+					   if ((*str == '>') && (*(str - 1) == '>')) // mettre str pour checker l element precedent TODO : proteger str d un index qui n exste pas
+					   {										  // TODO risque de segfault a str index 0
+						   return (GREATGREAT);
+					   }
+					   //LESSLESS << pour les heredocs : faire plus de recherches sur les heredocs
+					   if ((*str == '&') && (*(str - 1) == '>')) // proteger egalement d un ouot of range se proteger de segfault en mettant la condition d existence
+					   {
+						   return (GREAT_AND_AMPERSAND);
+					   }
+					   if (*str == '|')
+					   {
+						   return (PIPE);
+						   //		<|>,<|>,<|>   je me souviens plus pkoi j ai mis ceux la....CQFD
+					   }
+					   if (*str == '&')
+					   {
+						   return (AMPERSAND);
+					   }
+					   return (0);
+
+}
 
 int ft_get_token_type(char *str, t_list *lst_token)
 {
@@ -216,6 +250,11 @@ int ft_get_token_type(char *str, t_list *lst_token)
 	return (0);
 }
 
+
+
+
+
+
 void ft_get_token_quoting_rule(char *str, t_list *lst_token, size_t i)
 {
 	// cette fonction va permettre de determiner quelle est la regle de quoting : double quoting single quoting ou whitespace_separator
@@ -227,25 +266,48 @@ void ft_get_token_quoting_rule(char *str, t_list *lst_token, size_t i)
 	char c;
 
 	c = str[i];
-	if (lst_token->quoting_rule == 0 && c == '\"')
+	if (lst_token->quoting_rule == 0 && c == '\"' && str[i + 1] != '\0')
 		lst_token->quoting_rule = 2;
 	else if (c == '\"' && lst_token->quoting_rule == 2)
 	{
-		lst_token->end_token_pos = i;
 		lst_token->quoting_rule = 2;
-		lst_token->quoting_rule_adequate = 1;
+	/*	if(lst_token->quoting_rule_adequate == 1)
+			lst_token->quoting_rule_adequate = 0;
+		else
+			lst_token->quoting_rule_adequate = 1;
+	*/
+	lst_token->quoting_rule_adequate = 1;
+
+	if(str[i + 1] == '\0' || (str[i + 1] == ' ' || (str[i + 1] >= 9 && str[i + 1] <= 13)) || (ft_is_char_operand(&str[i + 1], lst_token) >= 3))
+		{
+			lst_token->end_token_pos = i;
+		}
 	}
-	else if (lst_token->quoting_rule == 0 && c == '\'')
+	else if (lst_token->quoting_rule == 0 && c == '\'' && str[i + 1] != '\0')
 		lst_token->quoting_rule = 1;
 	else if (c == '\'' && lst_token->quoting_rule == 1)
 	{
-		lst_token->end_token_pos = i;
 		lst_token->quoting_rule = 1;
 		lst_token->quoting_rule_adequate = 1;
+		if(str[i + 1] == '\0' || (str[i + 1] == ' ' || (str[i + 1] >= 9 && str[i + 1] <= 13)) || (ft_is_char_operand(&str[i + 1], lst_token) >= 3))
+		{
+			lst_token->end_token_pos = i;
+		}
+
 	}
 
 	else if (lst_token->quoting_rule == 0 && str[i + 1] == '\0') // c est le cas de $> l[s]    ->[s] est checke dans la ft_get_token_quoting rule on verifie si la quoting rule  == 0 et que lindex suivant est un \0 alors cela signifie qu on a la fin d un token 
+	{
 		lst_token->end_token_pos = i;
+		if(c == '\"')
+			lst_token->quoting_rule = 2;
+		if(c == '\'')
+			lst_token->quoting_rule = 1;
+	}
+	else if (lst_token->quoting_rule == 2 && str[i + 1] == '\0') // c est le cas de $> l[s]    ->[s] est checke dans la ft_get_token_quoting rule on verifie si la quoting rule  == 0 et que lindex suivant est un \0 alors cela signifie qu on a la fin d un token
+	{
+		lst_token->end_token_pos = i;
+	}
 }
 /*
 t_list	*ft_list_init(t_list **token_list)
@@ -323,171 +385,210 @@ t_list *ft_create_list_and_add_token(char *token_content) // question est ce que
 
 // void	ft_trim_and_clear(char *line, t_list *token_list)
 
-void ft_trim_and_clear(char *line)
+size_t	ft_char_after_ws_is_operator_no_token_exists_no_qr(size_t i, char *line, t_list *lst_token)
 {
-	// char 	c;
-	char *str;
-	char *token_content;
-	t_list *lst_token;
-	size_t start_token_pos;
-	//	size_t	end_token_pos;
-	size_t i;
 
-	str = line;
-	i = 0;
-	token_content = NULL;
-	start_token_pos = 0;
-	//	end_token_pos = 0;
-	//(void)line;
+	if(lst_token->start_token_pos_exists == 0)//l operateur n est pas colle a un token deja existant
+	{
+		lst_token->start_token_pos = i;
+		lst_token->end_token_pos = i;
+		ft_get_token_content(lst_token,i, i, line);//TODO creer le cas de l operateur a 2 caracteres << >> &> etc et faire le saut de i++ correspondant
+		lst_token->start_token_pos_exists = 0;
+		lst_token->end_token_pos = 0;
+		i++;
+	}
+	return(i);
+}
 
-	// je parcours ma line et en trimant et clearant les espaces je determine chaque <token> : 1 token est soit separe par un espace, soit separe par un operand ou un metacharacter lui meme separateur de token. par ex |
-	// pour que trim and clear je dois etre en mode Whitespace_Separator, sinon .... mon espace n a pas de caractere special de separateur si je suis en quoting rule DQ ou SQ, ceci s applique egalement a tous les operands qui perdent toute valeur speciale
-	// donc je parcours char par char et si " ou ' je dois signaler un quoting rule. il faudra etre sorti du quoting rule mode pour pouvoir separer les tokens en fonction des espaces ou des operands
-	// je dois aussi determiner un start_token_pos et end_token_pos pour mon token puis je vais faire un ft strdup ou ndup pour dupliquer le token et remplir le content de mon maillon de la liste chainee
-	// je dois donc considerer deja etre dans mon premier maillon de liste chainee ici. trouver une condition qui me permet de generer mon premier maillon et je renseignerai donc le quoting rule ici
-	// remarque : si j ai ls -la >"outfile" | $VAR q: mon operator > GREAT doit il separer "outfile" ?OUI <>> <"outfile">
-	// si je tombe sur un \0 ou en Whitespace_separator rule sur un espace/operand -> c est la fin de mon token --->mon end_token_pos sera recycle pour etre le depart de la recherche du prochain token
-	//
+void	ft_char_after_ws_isnull_token_exists_noqr(char *line, size_t i, t_list *lst_token)
+{
+	lst_token->end_token_pos = i - 2; // si pas d espace, i -2 si un esapce avant
+	//if (lst_token->end_token_pos != 0)
+		ft_get_token_content(lst_token, lst_token->start_token_pos, lst_token->end_token_pos, line);
 
-	// condition: des que je tombe sur un char je lst_add_new_token ->je ne respecte pas cette donnee ici je cree directement le token
-	// sont content sera NULL en attendant que .... on fixe tous les parametres de la structure
+	lst_token->start_token_pos_exists = 0;
+	lst_token->end_token_pos = 0;
+	//lst_token->tokenized = 1;
+}
 
-	lst_token = ft_create_list_and_add_token(token_content);
+
+
+
+void	ft_char_after_ws_token_exist_no_qr(char *line, size_t i, t_list *lst_token)
+{
+	if ((lst_token->quoting_rule == whitespace_separator || lst_token->quoting_rule_adequate == 1) && (lst_token->start_token_pos_exists == 1))
+	{
+		lst_token->end_token_pos = i - 2; //on definit l index end du token existant.
+
+		//	if (lst_token->end_token_pos != 0)
+				ft_get_token_content(lst_token, lst_token->start_token_pos, lst_token->end_token_pos, line);//on imprime le token
+		// i++; //pas d incrementation car on vient d imprimer le token existant et l index sur lequel nous nous trouvons actuellement est le depart du nouveau token, nous devrons donc determiner sil s agit dun pipe ou d une char classique  ou d un espace egalement
+		lst_token->start_token_pos_exists = 0; // on reinitialise tout a 0 car on ne sait pas si le depart du nouveau token demarre ici, nous pourrions tout aussi bien etre sur un espace, auquel cad, nous allons donc refaire la boucle et avancer
+		lst_token->end_token_pos = 0;
+	}
+}
+
+
+
+int		ft_char_isnull_no_qr(char *line, size_t i, t_list *lst_token)
+{
+	if ((lst_token->quoting_rule == whitespace_separator) && (lst_token->start_token_pos_exists == 0))
+		return(0);
+	if ((lst_token->quoting_rule == whitespace_separator) && (lst_token->start_token_pos_exists == 1))
+	{
+		lst_token->end_token_pos = i - 1; // si pas d espace, i -2 si un esapce avant
+
+		if (lst_token->end_token_pos != 0)
+			ft_get_token_content(lst_token, lst_token->start_token_pos, lst_token->end_token_pos, line);
+
+		lst_token->start_token_pos_exists = 0;
+		lst_token->end_token_pos = 0;
+	}
+	if ((lst_token->quoting_rule == double_quote || single_quote) && (lst_token->start_token_pos_exists == 1))
+	{
+		lst_token->end_token_pos = i - 1; // si pas d espace, i -2 si un esapce avant
+
+		if (lst_token->end_token_pos != 0)
+			ft_get_token_content(lst_token, lst_token->start_token_pos, lst_token->end_token_pos, line);
+
+		lst_token->start_token_pos_exists = 0;
+		lst_token->end_token_pos = 0;
+	}
+	return(0);
+}
+
+
+
+size_t ft_char_is_whitespace(char *str, char *line, size_t i, t_list *lst_token)
+{
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+	{
+		i++;
+		//le char exists
+		//ft_char_after_ws_exists()
+		if (str[i])
+		{
+			//1)char after white space no token exists yet no qr no space
+			//on est sur  1 caractere qui suit un espace dans un TOKEN QUI NEXISTE PAS ENCORE DONC NEUTRE(PAS DE QUOTING) et on n est pas colles a un token qui a deja un depart ,
+			//ft_char_after_ws_is_no_ws_in_notoken_exist_noqr() NO TOKEN EXISTING_no_QR char_is_NOSPACe
+
+			//ft_char_after_ws_is_no_ws_token_noexist_no_qr(line, i, lst_token);
+			if ((lst_token->quoting_rule == whitespace_separator) && (lst_token->start_token_pos_exists == 0) && (!(str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))))
+			{//char_after_ws_is_operator_no_token_exists_no_qr
+				if (ft_get_token_type(&str[i], lst_token)) // si le char est un operateur (| < > etc &) on le considere DIRECT Comme un TOKEN et on l imprime. //TODO creer le cas de l operateur a 2 caracteres << >> &> etc
+					i = ft_char_after_ws_is_operator_no_token_exists_no_qr(i, line, lst_token);
+				else{ // on est sur un char non operateur qui suit un espace (no token no qr)
+					lst_token->start_token_pos = i;//lst->
+					lst_token->start_token_pos_exists = 1;
+					break;
+					}
+			}
+
+			//char after white space no QR, 1 TOKEN EXISTS (un token a deja start)
+			ft_char_after_ws_token_exist_no_qr(line, i, lst_token);
+		}
+		//le char est \0 apres l espace
+		//char after espace qui est un \0 avec 1 TOKEN EXISTANT ls \0 pas de QR -> l espace precedent signifie donc la fin d un token
+		if ((str[i] == 0) && (lst_token->quoting_rule == whitespace_separator || lst_token->quoting_rule_adequate == 1) && (lst_token->start_token_pos_exists == 1))
+		{
+			ft_char_after_ws_isnull_token_exists_noqr(line, i, lst_token);
+			break;
+		}
+	}
+	return(i);
+}
+
+void	ft_char_is_operator(char *line, size_t i, t_list *lst_token)
+{
+	if(lst_token->start_token_pos_exists == 0)//on n est pas colles a un token
+	{
+		lst_token->start_token_pos = i;
+		lst_token->end_token_pos = i;
+		ft_get_token_content(lst_token,i, i, line);
+		lst_token->start_token_pos_exists = 0;
+		lst_token->end_token_pos = 0;
+		//i++;
+	}
+	else if(lst_token->start_token_pos_exists != 0)//on est colles a un token
+	{
+		lst_token->end_token_pos = i - 1;
+		ft_get_token_content(lst_token, lst_token->start_token_pos, lst_token->end_token_pos, line);
+		lst_token->start_token_pos_exists = i;
+		lst_token->end_token_pos = i;
+		ft_get_token_content(lst_token,i, i, line);
+		lst_token->start_token_pos_exists = 0;
+		lst_token->end_token_pos = 0;
+		//i++;
+	}
+}
+
+void	ft_char_or_token_is_unique(char *line, size_t i, t_list *lst_token)//char or token is unique // faudrait  il recuperer ici la end pos puisqu on sort du code des token et qu on a atteint un \0 ?
+{
+	if (lst_token->end_token_pos == 0 && lst_token->start_token_pos == 0 && lst_token->start_token_pos_exists == 1)//todo verif si elimination
+			{
+				ft_get_token_content(lst_token, lst_token->start_token_pos, i, line);//on ne remet pas a 0 les compteurs start et end
+				lst_token->start_token_pos_exists = 0;
+				lst_token->end_token_pos = 0;
+			}
+}
+
+size_t	ft_tokenize(char *str, char *line, size_t i, t_list *lst_token)
+{
 	while (str[i])
 	{
 		//le 1 er caractere est un ESPACE
 	 //le caractere est un ESPACE
-		while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-		{
-			i++;
-			//le char exists
-			if (str[i])
-			{
-				//1)char after white space no token exists yet no qr no space
-				//on est sur  1 caractere qui suit un espace dans un TOKEN QUI NEXISTE PAS ENCORE DONC NEUTRE(PAS DE QUOTING) et on n est pas colles a un token qui a deja un depart , 
-				//ft_ NO TOKEN EXISTING_no_QR char_is_NOSPACe
-				if ((lst_token->quoting_rule == whitespace_separator) && (lst_token->start_token_pos_exists == 0) && (!(str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))))
-				{//char_after_ws_is_operator_no_token_exists_no_qr
-					if (ft_get_token_type(&str[i], lst_token)) // si le char est un operateur (| < > etc &) on le considere DIRECT Comme un TOKEN et on l imprime. //TODO creer le cas de l operateur a 2 caracteres << >> &> etc
-					{
-						if(lst_token->start_token_pos_exists == 0)//l operateur n est pas colle a un token deja existant
-						{
-							lst_token->start_token_pos = i;
-							lst_token->end_token_pos = i;
-							ft_get_token_content(lst_token,i, i, line);//TODO creer le cas de l operateur a 2 caracteres << >> &> etc et faire le saut de i++ correspondant
-							lst_token->start_token_pos_exists = 0;
-							lst_token->end_token_pos = 0;
-							i++;
-						}
-					}
-					else{ // on est sur un char non operateur qui suit un espace (no token no qr)
-						lst_token->start_token_pos = i;//lst->
-						lst_token->start_token_pos_exists = 1;
-						break;
-						}
-				}
-				//char after white space no QR, 1 TOKEN EXISTS (un token a deja start)            
-				if (((lst_token->quoting_rule == whitespace_separator)) && (lst_token->start_token_pos_exists == 1))
-				{
-					lst_token->end_token_pos = i - 2; //on definit l index end du token existant. 
-
-                        if (lst_token->end_token_pos != 0)
-							ft_get_token_content(lst_token, lst_token->start_token_pos, lst_token->end_token_pos, line);//on imprime le token
-					// i++; //pas d incrementation car on vient d imprimer le token existant et l index sur lequel nous nous trouvons actuellement est le depart du nouveau token, nous devrons donc determiner sil s agit dun pipe ou d une char classique  ou d un espace egalement
-					lst_token->start_token_pos_exists = 0; // on reinitialise tout a 0 car on ne sait pas si le depart du nouveau token demarre ici, nous pourrions tout aussi bien etre sur un espace, auquel cad, nous allons donc refaire la boucle et avancer
-					lst_token->end_token_pos = 0;
-				}
-			}
-			//le char est \0 apres l espace
-
-			//char after espace qui est un \0 avec 1 TOKEN EXISTANT ls \0 pas de QR -> l espace precedent signifie donc la fin d un token
-			if ((str[i] == 0) && (lst_token->quoting_rule == whitespace_separator) && (lst_token->start_token_pos_exists == 1))
-			{
-					lst_token->end_token_pos = i - 2; // si pas d espace, i -2 si un esapce avant 
-					if (lst_token->end_token_pos != 0)
-						ft_get_token_content(lst_token, lst_token->start_token_pos, lst_token->end_token_pos, line);
-						
-					lst_token->start_token_pos_exists = 0;
-					lst_token->end_token_pos = 0;
-					//lst_token->tokenized = 1;
-					break;
-			}
-		}
-		// on est soit sur le 1 ere caractere alphanumerique 
+		i = ft_char_is_whitespace(str,line, i, lst_token);
+		// on est soit sur le 1 ere caractere alphanumerique
 		//soit on est issu de la while qui boucle sur les espaces en ayant break par ex ou du i++ general
-		//soit sur un caractere qui suit et qui  n est pas un espace puisquil n a pas ete repris dans la boucle while precedente -> char  ou \0 
+		//soit sur un caractere qui suit et qui  n est pas un espace puisquil n a pas ete repris dans la boucle while precedente -> char  ou \0
 		if (str[i] == 0)
 		{
-			if ((lst_token->quoting_rule == whitespace_separator) && (lst_token->start_token_pos_exists == 0))
-				break;
-			if ((lst_token->quoting_rule == whitespace_separator) && (lst_token->start_token_pos_exists == 1))
-			{
-				lst_token->end_token_pos = i - 1; // si pas d espace, i -2 si un esapce avant
-
-				if (lst_token->end_token_pos != 0)
-					ft_get_token_content(lst_token, lst_token->start_token_pos, lst_token->end_token_pos, line);
-				
-				lst_token->start_token_pos_exists = 0;
-				lst_token->end_token_pos = 0;
-				break;
-				
-			}
+			ft_char_isnull_no_qr(line, i, lst_token);
+			break;
 		}
+		//cas dun char alphanum startant le token
 		if ((lst_token->quoting_rule == whitespace_separator) && (lst_token->start_token_pos_exists == 0) && (!(ft_get_token_type(&str[i], lst_token))) && (!(str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))))
 		{
 			lst_token->start_token_pos = i;
 			lst_token->start_token_pos_exists = 1;
 		}
 		ft_get_token_quoting_rule(str, lst_token, i);
-		if (ft_get_token_type(&str[i], lst_token)) //si on est sur un operator   
-			{
-				if(lst_token->start_token_pos_exists == 0)//on n est pas colles a un token
-				{
-					lst_token->start_token_pos = i;
-					lst_token->end_token_pos = i;
-					ft_get_token_content(lst_token,i, i, line);
-					lst_token->start_token_pos_exists = 0;
-					lst_token->end_token_pos = 0;
-					//i++;
-				}
-				else if(lst_token->start_token_pos_exists != 0)//on est colles a un token
-				{
-					lst_token->end_token_pos = i - 1;
-					ft_get_token_content(lst_token, lst_token->start_token_pos, lst_token->end_token_pos, line);
-					lst_token->start_token_pos_exists = i;
-					lst_token->end_token_pos = i;
-					ft_get_token_content(lst_token,i, i, line);
-					lst_token->start_token_pos_exists = 0;
-					lst_token->end_token_pos = 0;
-					//i++;
-				}
-			}
-	
-	
+		if (ft_get_token_type(&str[i], lst_token)) //si on est sur un operator
+			ft_char_is_operator(line, i, lst_token);
 		//		ft_get_token_function(c, lst_token);
 //on a un token abouti ici donc on peut l imprimer. il vient soit de la ft get token quoting rule car le car qui suit est un \0 indiquant la fin du token par ex
-		if (lst_token->end_token_pos != 0)//ic i on a imprime legrep"
+		if (lst_token->end_token_pos != 0)//ic i on a imprime l <l> , ou ""^
 			{
 				ft_get_token_content(lst_token, lst_token->start_token_pos, lst_token->end_token_pos, line);//on ne remet pas a 0 les compteurs start et end?
 				lst_token->start_token_pos_exists = 0;
 				lst_token->end_token_pos = 0;
+				//TODO remettre start to a 0
 			}
 		i++;
 	}
-	if (lst_token->end_token_pos == 0 && lst_token->start_token_pos == 0 && lst_token->start_token_pos_exists == 1)//todo verif si elimination 
-			{
-				ft_get_token_content(lst_token, lst_token->start_token_pos, i, line);//on ne remet pas a 0 les compteurs start et end
-				lst_token->start_token_pos_exists = 0;
-				lst_token->end_token_pos = 0;
-			}
+	return (i);
+}
+void ft_trim_and_clear(char *line)
+{
+
+	char *str;
+	char *token_content;
+	t_list *lst_token;
+	size_t i;
+
+	str = line;
+	i = 0;
+	token_content = NULL;
+	lst_token = ft_create_list_and_add_token(token_content);
+	i = ft_tokenize(str, line, i, lst_token);
+	ft_char_or_token_is_unique(line, i, lst_token);
 	if (lst_token->end_token_pos != 0 && lst_token->start_token_pos_exists == 1)
 			{
-
 				ft_get_token_content(lst_token, lst_token->start_token_pos, lst_token->end_token_pos, line);//on ne remet pas a 0 les compteurs start et end?
 				lst_token->start_token_pos_exists = 0;
 				lst_token->end_token_pos = 0;
 			}
-
 	// je verifie pour chaque char  :  la rule, le type, la function, le content,
 
 	// apres avoir determine et delimite notre token dans son content on va pouvoir effectuer l expansion si necessaire
@@ -521,7 +622,8 @@ void ft_tokenize_line_to_lst(char *line)
 	// ou le faire dans la trim and clear
 
 	ft_trim_and_clear(line);
-
+	//ft_retrim_and_clear()
+	//ft_retokenize()
 	// return la lst_token
 }
 
