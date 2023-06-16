@@ -95,21 +95,24 @@ int	ft_split_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list lst_tok
 	i = 0;
 	j = 0;
 
+
+//pour le calcul du nombre de simpleCmds : compter le nb de operator | par ex  a faire dans l initialisation de la cmd principale
+		ft_count_nb_of_simpleCmds(); //l avoir fait avant  al init puisquon utilise cela dans la while
+
 	while (i < cmd->nb_of_simpleCmds)
 	{
-
-		//pour le calcul du nombre de simpleCmds : compter le nb de operator | par ex  a faire dans l initialisation de la cmd principale
-
 		//c_and_a = ft_split(cmd->blocks[i], ' ');
 		//printf("%s\n", c_and_a[0]);
 		//je parcours ma liste de tokens, a chaque operator | > ou autre, je compte un nb de tokens pour une simpleCmd  
 		//je skip l operator | par ex. et passe le i++ pour passer a la commande and args suivante
 		//je peux accessoirement doner le title de cmd et d options ou arguments a mes tokens au fur et a mesure. cf si il n est pas plus judicieux de le faire avant
-		ft_count_nb_of_tokens_in_one_simpleCmd();
+		nb_of_tokens_in_simpleCmd = ft_count_nb_of_tokens_in_simpleCmd();
 		//si redirection dans la cmd_and_Args preciser/mentionner la redir dans la simple_Cmd
-		c_and_a = malloc(sizeof(*c_and_a) * (nb_of_tokens_in_simpleCmd));
+		c_and_a = malloc(sizeof(*c_and_a) * (nb_of_tokens_in_simpleCmd + 1));
 		if(!c_and_a)
 			return(NULL);
+		//je parcours ma liste chainee et remplis : lst_token->content est mis dans c_and_a[i]	
+		//on termine 0 c_and_a
 
 
 		abs_c_and_a = ft_get_abs_arguments(i, cmd->blocks);
