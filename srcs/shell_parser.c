@@ -78,6 +78,73 @@ char	**ft_get_abs_arguments(int i, char **blocks)
 	return (abs_c_and_a);
 }
 
+
+int	ft_split_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list lst_token)
+{
+	char	**c_and_a;
+	char	**abs_c_and_a;
+	int		exec_return;
+	size_t		i;
+	int		j;
+	int		nb_of_tokens_in_simpleCmd;
+
+
+	(void)envp;
+	(void)line;
+	exec_return = 0;
+	i = 0;
+	j = 0;
+
+	while (i < cmd->nb_of_simpleCmds)
+	{
+
+		//pour le calcul du nombre de simpleCmds : compter le nb de operator | par ex  a faire dans l initialisation de la cmd principale
+
+		//c_and_a = ft_split(cmd->blocks[i], ' ');
+		//printf("%s\n", c_and_a[0]);
+		//je parcours ma liste de tokens, a chaque operator | > ou autre, je compte un nb de tokens pour une simpleCmd  
+		//je skip l operator | par ex. et passe le i++ pour passer a la commande and args suivante
+		//je peux accessoirement doner le title de cmd et d options ou arguments a mes tokens au fur et a mesure. cf si il n est pas plus judicieux de le faire avant
+		ft_count_nb_of_tokens_in_one_simpleCmd();
+		//si redirection dans la cmd_and_Args preciser/mentionner la redir dans la simple_Cmd
+		c_and_a = malloc(sizeof(*c_and_a) * (nb_of_tokens_in_simpleCmd));
+		if(!c_and_a)
+			return(NULL);
+
+
+		abs_c_and_a = ft_get_abs_arguments(i, cmd->blocks);
+		cmd->simpleCmds[i]->cmd_and_args = c_and_a;
+		cmd->simpleCmds[i]->abs_cmd_and_args = abs_c_and_a;
+		i++;
+	}
+	i = 0;
+	while (i < cmd->nb_of_simpleCmds)
+	{
+		j = 0;
+	//	printf("blocks[%zu]: %s\n",i, cmd->blocks[i]);
+	//	printf("pr cmd_and_args de simple_Cmd %zu on a : \n", i);
+		while (cmd->simpleCmds[i]->cmd_and_args[j] != NULL)
+		{
+//			printf("%s*", cmd->simpleCmds[i]->cmd_and_args[j]);
+			j++;
+
+		}
+//		printf("\n");
+		j= 0;
+		while (cmd->simpleCmds[i]->abs_cmd_and_args[j] != NULL)
+		{
+///			printf("%s*", cmd->simpleCmds[i]->abs_cmd_and_args[j]);
+			j++;
+		}
+	//	printf("\n");
+		i++;
+	}
+	return (exec_return);
+}
+
+
+
+/* //MODE PUSH = 1 && spit mode | an split mode ^
 int	ft_split_line_in_s_cmd(t_cmd *cmd, char *line, char **envp)
 {
 	char	**c_and_a;
@@ -125,3 +192,4 @@ int	ft_split_line_in_s_cmd(t_cmd *cmd, char *line, char **envp)
 	}
 	return (exec_return);
 }
+*/

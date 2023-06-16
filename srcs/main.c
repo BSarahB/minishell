@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#define mode_push 0
+#define mode_push 1
 
 
 int main(int argc, char *argv[], char *envp[])

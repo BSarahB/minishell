@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#define mode_lexing_build 1
+#define mode_lexing_build 0
 
 // copie n bytes dun bloc M de src (sans structuration) a la zone M dst.
 // strcpy != memcpy : strcpy : copie --> \0 ou -->segfault  memcpy : copie tt le buffer (s arrete a n bytes)
