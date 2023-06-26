@@ -127,6 +127,7 @@ void	ft_lstdelone(t_list *lst, void(*parse)(char *content, t_simpleCmd *simpleCm
 			parse(lst->content, simpleCmd, i);
 		free(lst);
 		lst = NULL;
+		//TODO lst->previous->next = lst->next; //retablir la liste chainee apres avoir delete les token de redirection
 	 }
 }
 
