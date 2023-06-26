@@ -30,13 +30,16 @@
 //LESSGREAT 14 ?
 
 //les enum pour la fonction du token, est ce un operator, une command ou une redirection?
-enum e_function
+enum e_title
 {
-	command,
-	option,
-	metacharacter,
 	operator,
-	redirection,
+	command,
+	main_command,
+	option,
+	redir_in,
+	redir_out,
+	redir_err,//TODO determiner stderr dans le token type
+	metacharacter,
 	//necessaire args? et option? je ne pense pas
 	//control operator :A token that performs a control function. It is a newline or one of the following: ‘||’, ‘&&’, ‘&’, ‘;’, ‘;;’, ‘;&’, ‘;;&’, ‘|’, ‘|&’, ‘(’, or ‘)’.
 			//metacharacter A character that, when unquoted, separates words. A metacharacter is a space, tab, newline, or one of the following characters: ‘|’, ‘&’, ‘;’, ‘(’, ‘)’, ‘<’, or ‘>’.
@@ -64,9 +67,9 @@ enum e_quoting_rule
 typedef struct s_list
 {
 	char 	*content;
-	int		position;
+	size_t	position;
 	int 	type;
-	int 	function;
+	int 	title;
 	int 	quoting_rule;// whitwspace_separator 0 ,single quote 1, d_quote 2
 	int		retokenize_allowed;//pour trim and clear et retokenizer un expand par ex/ 
 	struct	s_list *next;
@@ -78,16 +81,31 @@ typedef struct s_list
 } t_list;
 
 
+typedef struct s_data
+{
+	t_list *token;//lst_token
+	t_list *lst_token;//lst
+} t_data;
+
+
 // description dune simple commande et ses arguments
 
 
 typedef struct s_simpleCmd
 {
-
-	int number_of_arguments;
-	int errnum;
-	char **cmd_and_args;
-	char **abs_cmd_and_args;
+	size_t	nb_of_tokens_in_simpleCmd;
+	size_t	nb_of_redir_token;
+	size_t	nb_of_infile;
+	size_t	nb_of_outfile;
+	size_t	nb_of_errfile;
+	int		number_of_arguments;
+	int		errnum;
+	char	**cmd_and_args;
+	char	**abs_cmd_and_args;
+	char	**infile;
+	char	**outfile;
+	char	**errfile;
+	size_t	end_simpleCmd_pos;
 
 } t_simpleCmd;
 
@@ -100,25 +118,23 @@ typedef struct s_cmd
 	t_simpleCmd **simpleCmds;
 
 	char 		**path_tab;
-	char		**blocks;
-	size_t		nb_of_blocks;
+//	char		**blocks; //original
+//	size_t		nb_of_blocks;//original
 
-	char		 *outfile; //-> sera rempli par le token de redirection
+	char		 *outputfile; //-> sera rempli par le token de redirection
 	char 		*inputfile;
 	char 		*errfile;
 	// a voir si on met tous les char * dans un double tab io_redirections(**)
 	int 		background;
 	t_list		 *lst_token; // notre liste chainee de tokens
 
+	size_t		nb_of_infile;
+	size_t		nb_of_outfile;
+	size_t		nb_of_errfile;
+
 } t_cmd;
 
-// t_cmd *currentCmd;
-
-// exec
-
-int ft_split_line_in_s_cmd(t_cmd *cmd, char *line, char **envp);
 char **ft_get_abs_arguments(int i, char **blocks);
-
 size_t ft_words_nbr(const char *s, char c);
 
 char **ft_create_tab(char const *s, char c, size_t words_nbr);
@@ -138,12 +154,25 @@ void ft_free_struct_t_simpleCmd(t_simpleCmd **simpleCmd);
 
 // void	ft_error_msg(char **argv);
 // void	ft_error(char *const str);
-void ft_putstr_fd(char *s, int fd);
+void	ft_putstr_fd(char *s, int fd);
 // int		ft_check_close_error(int fd);
 // int		ft_check_open_error(int fdin, int fdout);
 
-t_cmd		*ft_struct_init(t_cmd **cmd, char init_value, char **blocks);
-t_simpleCmd *ft_struct2_init(t_simpleCmd **ptr, char init_value);
+t_cmd		*ft_struct_init(t_cmd **cmd, char init_value, char **blocks);//original
+
+//replacements of original functions for parsing lst token to data strcture
+t_cmd		*ft_struct_init_cmd(t_cmd **cmd, char init_value, t_list *lst_token);
+t_list		*ft_tokenize_line_to_lst_b(char *line);
+t_list		*ft_tokenize_line_b(char *line); //void pour commencer les tests
+size_t		ft_tokenize(char *str,char *line,size_t i,t_data *data);
+
+
+int	ft_split_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_token);
+//int	ft_split_line_in_s_cmd(t_cmd *cmd, char *line, char **envp);
+
+//void	ft_tokenize_line_to_lst(char *line);//original
+
+t_simpleCmd *ft_struct_init_simpleCmd(t_simpleCmd **ptr, char init_value);
 t_simpleCmd **ft_struct_array_init(t_simpleCmd **ptr, char init_value, size_t simpleCmds_nbr);
 char **ft_get_path(char **envp);
 
@@ -163,11 +192,56 @@ void 	ft_check_prerequesite_of_line_input(char *line);
 void	ft_check_input_cases_for_return_empty_prompt(char *line);
 void	ft_check_bash_syntax_error_caracteres_volee(char *line);
 
-t_list	*ft_create_list_and_add_token(char *token_content);
 void	ft_get_token_quoting_rule(char *str, t_list  *lst_token, size_t i);
-void	ft_get_token_content(t_list *lst_token, size_t start_token_pos, size_t end_token_pos, char *line);
+void	ft_get_token_content(t_data *data, size_t start_token_pos, size_t end_token_pos, char *line);
 //char	**ft_tokenize_line(char *line);
 void	ft_tokenize_line(char *line); //void pour commencer les tests
 char **ft_tokenize_line1(char *line);
+
+
+t_list *ft_lstlast(t_list *lst);
+void ft_lstadd_back(t_list **alst, t_list *new);
+t_list *ft_lstnew_for_lst(t_data *data);
+t_list *ft_lstnew_data_token(char *content);
+t_list *ft_create_list(void);
+
+size_t	ft_char_is_whitespace(char *str, char *line, size_t i, t_data *data);
+int		ft_char_isnull_no_qr(char *line, size_t i, t_data *data);
+int		ft_get_token_type(char *str, t_list *token);
+void	ft_char_is_operator(char *line, size_t i, t_data *data);
+void	ft_char_after_ws_token_exist_no_qr(char *line, size_t i, t_data *data);
+size_t	ft_char_after_ws_is_operator_no_token_exists_no_qr(size_t i, char *line, t_data *data);
+
+
+
+void	ft_get_token_content(t_data *data, size_t start_token_pos, size_t end_token_pos, char *line);
+void	ft_char_or_token_is_unique(char *line, size_t i, t_data *data);//char or token is unique // faudrait  il recuperer ici la end pos puisqu on sort du code des token et qu on a atteint un \0 ?
+void	ft_char_after_ws_isnull_token_exists_noqr(char *line, size_t i, t_data *data);
+
+int	ft_is_char_operand(char *str, t_list *lst_token);
+void ft_get_token_content_lengh_for_malloc(t_list *lst_token, size_t start_token_pos, size_t end_token_pos);
+
+void *ft_memcpy(void *dst, const void *src, size_t n);
+void *ft_memset(void *b, char c, size_t len);
+
+
+void	ft_aff_list_ptr_sur_char_content(t_list *alst);// pour void		*content; de type char *
+void	ft_simplify_list(t_list *lst);
+
+size_t	ft_count_simpleCmds_nbr(t_list *lst_token);
+int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_token);
+t_data	*ft_struct_init_data(t_data **data);
+t_data	*ft_struct_init_data2(t_data **data, t_list *lst_token, t_list *token);
+
+//PARSING LST_TOKEN in SimpleCmd
+void	ft_count_nb_of_infile_in_simpleCmd(t_simpleCmd *simpleCmd);
+void	ft_count_nb_of_outfile_in_simpleCmd(t_simpleCmd *simpleCmd);
+void	ft_count_nb_of_errfile_in_simpleCmd(t_simpleCmd *simpleCmd);
+void	ft_count_nb_of_redir_token_in_simpleCmd(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list *dynamic_lst_token);
+size_t	ft_count_nb_of_tokens_in_simpleCmd(t_list *lst_token, t_simpleCmd *simpleCmd);
+
+
+t_list	*ft_get_end_simpleCmd_pos(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list **dynamic_lst_token);
+
 
 #endif

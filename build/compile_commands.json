@@ -21,8 +21,13 @@
 },
 {
   "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
-  "command": "/usr/bin/clang  -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/ft_struct_init.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/ft_struct_init.c",
-  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/ft_struct_init.c"
+  "command": "/usr/bin/clang  -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/struct_init_lexer.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/struct_init_lexer.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/struct_init_lexer.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang  -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/struct_init_parser.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/struct_init_parser.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/struct_init_parser.c"
 },
 {
   "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
@@ -58,5 +63,15 @@
   "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
   "command": "/usr/bin/clang  -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/tokenize.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/tokenize.c",
   "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/tokenize.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang  -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/get_data_token.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_data_token.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_data_token.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang  -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/lst_token.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/lst_token.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/lst_token.c"
 }
 ]

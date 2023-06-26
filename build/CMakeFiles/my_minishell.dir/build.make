@@ -125,24 +125,38 @@ CMakeFiles/my_minishell.dir/srcs/utils.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/my_minishell.dir/srcs/utils.c.s"
 	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils.c -o CMakeFiles/my_minishell.dir/srcs/utils.c.s
 
-CMakeFiles/my_minishell.dir/srcs/ft_struct_init.c.o: CMakeFiles/my_minishell.dir/flags.make
-CMakeFiles/my_minishell.dir/srcs/ft_struct_init.c.o: ../srcs/ft_struct_init.c
-CMakeFiles/my_minishell.dir/srcs/ft_struct_init.c.o: CMakeFiles/my_minishell.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/my_minishell.dir/srcs/ft_struct_init.c.o"
-	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/my_minishell.dir/srcs/ft_struct_init.c.o -MF CMakeFiles/my_minishell.dir/srcs/ft_struct_init.c.o.d -o CMakeFiles/my_minishell.dir/srcs/ft_struct_init.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/ft_struct_init.c
+CMakeFiles/my_minishell.dir/srcs/struct_init_lexer.c.o: CMakeFiles/my_minishell.dir/flags.make
+CMakeFiles/my_minishell.dir/srcs/struct_init_lexer.c.o: ../srcs/struct_init_lexer.c
+CMakeFiles/my_minishell.dir/srcs/struct_init_lexer.c.o: CMakeFiles/my_minishell.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/my_minishell.dir/srcs/struct_init_lexer.c.o"
+	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/my_minishell.dir/srcs/struct_init_lexer.c.o -MF CMakeFiles/my_minishell.dir/srcs/struct_init_lexer.c.o.d -o CMakeFiles/my_minishell.dir/srcs/struct_init_lexer.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/struct_init_lexer.c
 
-CMakeFiles/my_minishell.dir/srcs/ft_struct_init.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/my_minishell.dir/srcs/ft_struct_init.c.i"
-	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/ft_struct_init.c > CMakeFiles/my_minishell.dir/srcs/ft_struct_init.c.i
+CMakeFiles/my_minishell.dir/srcs/struct_init_lexer.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/my_minishell.dir/srcs/struct_init_lexer.c.i"
+	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/struct_init_lexer.c > CMakeFiles/my_minishell.dir/srcs/struct_init_lexer.c.i
 
-CMakeFiles/my_minishell.dir/srcs/ft_struct_init.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/my_minishell.dir/srcs/ft_struct_init.c.s"
-	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/ft_struct_init.c -o CMakeFiles/my_minishell.dir/srcs/ft_struct_init.c.s
+CMakeFiles/my_minishell.dir/srcs/struct_init_lexer.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/my_minishell.dir/srcs/struct_init_lexer.c.s"
+	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/struct_init_lexer.c -o CMakeFiles/my_minishell.dir/srcs/struct_init_lexer.c.s
+
+CMakeFiles/my_minishell.dir/srcs/struct_init_parser.c.o: CMakeFiles/my_minishell.dir/flags.make
+CMakeFiles/my_minishell.dir/srcs/struct_init_parser.c.o: ../srcs/struct_init_parser.c
+CMakeFiles/my_minishell.dir/srcs/struct_init_parser.c.o: CMakeFiles/my_minishell.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/my_minishell.dir/srcs/struct_init_parser.c.o"
+	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/my_minishell.dir/srcs/struct_init_parser.c.o -MF CMakeFiles/my_minishell.dir/srcs/struct_init_parser.c.o.d -o CMakeFiles/my_minishell.dir/srcs/struct_init_parser.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/struct_init_parser.c
+
+CMakeFiles/my_minishell.dir/srcs/struct_init_parser.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/my_minishell.dir/srcs/struct_init_parser.c.i"
+	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/struct_init_parser.c > CMakeFiles/my_minishell.dir/srcs/struct_init_parser.c.i
+
+CMakeFiles/my_minishell.dir/srcs/struct_init_parser.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/my_minishell.dir/srcs/struct_init_parser.c.s"
+	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/struct_init_parser.c -o CMakeFiles/my_minishell.dir/srcs/struct_init_parser.c.s
 
 CMakeFiles/my_minishell.dir/srcs/executor.c.o: CMakeFiles/my_minishell.dir/flags.make
 CMakeFiles/my_minishell.dir/srcs/executor.c.o: ../srcs/executor.c
 CMakeFiles/my_minishell.dir/srcs/executor.c.o: CMakeFiles/my_minishell.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/my_minishell.dir/srcs/executor.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/my_minishell.dir/srcs/executor.c.o"
 	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/my_minishell.dir/srcs/executor.c.o -MF CMakeFiles/my_minishell.dir/srcs/executor.c.o.d -o CMakeFiles/my_minishell.dir/srcs/executor.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/executor.c
 
 CMakeFiles/my_minishell.dir/srcs/executor.c.i: cmake_force
@@ -156,7 +170,7 @@ CMakeFiles/my_minishell.dir/srcs/executor.c.s: cmake_force
 CMakeFiles/my_minishell.dir/srcs/get_path.c.o: CMakeFiles/my_minishell.dir/flags.make
 CMakeFiles/my_minishell.dir/srcs/get_path.c.o: ../srcs/get_path.c
 CMakeFiles/my_minishell.dir/srcs/get_path.c.o: CMakeFiles/my_minishell.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/my_minishell.dir/srcs/get_path.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/my_minishell.dir/srcs/get_path.c.o"
 	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/my_minishell.dir/srcs/get_path.c.o -MF CMakeFiles/my_minishell.dir/srcs/get_path.c.o.d -o CMakeFiles/my_minishell.dir/srcs/get_path.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_path.c
 
 CMakeFiles/my_minishell.dir/srcs/get_path.c.i: cmake_force
@@ -170,7 +184,7 @@ CMakeFiles/my_minishell.dir/srcs/get_path.c.s: cmake_force
 CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.o: CMakeFiles/my_minishell.dir/flags.make
 CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.o: ../srcs/setting_redirections.c
 CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.o: CMakeFiles/my_minishell.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.o"
 	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.o -MF CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.o.d -o CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_redirections.c
 
 CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.i: cmake_force
@@ -184,7 +198,7 @@ CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.s: cmake_force
 CMakeFiles/my_minishell.dir/srcs/update_free_memory.c.o: CMakeFiles/my_minishell.dir/flags.make
 CMakeFiles/my_minishell.dir/srcs/update_free_memory.c.o: ../srcs/update_free_memory.c
 CMakeFiles/my_minishell.dir/srcs/update_free_memory.c.o: CMakeFiles/my_minishell.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/my_minishell.dir/srcs/update_free_memory.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/my_minishell.dir/srcs/update_free_memory.c.o"
 	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/my_minishell.dir/srcs/update_free_memory.c.o -MF CMakeFiles/my_minishell.dir/srcs/update_free_memory.c.o.d -o CMakeFiles/my_minishell.dir/srcs/update_free_memory.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/update_free_memory.c
 
 CMakeFiles/my_minishell.dir/srcs/update_free_memory.c.i: cmake_force
@@ -198,7 +212,7 @@ CMakeFiles/my_minishell.dir/srcs/update_free_memory.c.s: cmake_force
 CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o: CMakeFiles/my_minishell.dir/flags.make
 CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o: ../srcs/check_validity_of_line_input.c
 CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o: CMakeFiles/my_minishell.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o"
 	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o -MF CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o.d -o CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/check_validity_of_line_input.c
 
 CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.i: cmake_force
@@ -212,7 +226,7 @@ CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.s: cmake_force
 CMakeFiles/my_minishell.dir/srcs/display_error.c.o: CMakeFiles/my_minishell.dir/flags.make
 CMakeFiles/my_minishell.dir/srcs/display_error.c.o: ../srcs/display_error.c
 CMakeFiles/my_minishell.dir/srcs/display_error.c.o: CMakeFiles/my_minishell.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object CMakeFiles/my_minishell.dir/srcs/display_error.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object CMakeFiles/my_minishell.dir/srcs/display_error.c.o"
 	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/my_minishell.dir/srcs/display_error.c.o -MF CMakeFiles/my_minishell.dir/srcs/display_error.c.o.d -o CMakeFiles/my_minishell.dir/srcs/display_error.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/display_error.c
 
 CMakeFiles/my_minishell.dir/srcs/display_error.c.i: cmake_force
@@ -226,7 +240,7 @@ CMakeFiles/my_minishell.dir/srcs/display_error.c.s: cmake_force
 CMakeFiles/my_minishell.dir/srcs/tokenize.c.o: CMakeFiles/my_minishell.dir/flags.make
 CMakeFiles/my_minishell.dir/srcs/tokenize.c.o: ../srcs/tokenize.c
 CMakeFiles/my_minishell.dir/srcs/tokenize.c.o: CMakeFiles/my_minishell.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object CMakeFiles/my_minishell.dir/srcs/tokenize.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/my_minishell.dir/srcs/tokenize.c.o"
 	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/my_minishell.dir/srcs/tokenize.c.o -MF CMakeFiles/my_minishell.dir/srcs/tokenize.c.o.d -o CMakeFiles/my_minishell.dir/srcs/tokenize.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/tokenize.c
 
 CMakeFiles/my_minishell.dir/srcs/tokenize.c.i: cmake_force
@@ -237,20 +251,51 @@ CMakeFiles/my_minishell.dir/srcs/tokenize.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/my_minishell.dir/srcs/tokenize.c.s"
 	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/tokenize.c -o CMakeFiles/my_minishell.dir/srcs/tokenize.c.s
 
+CMakeFiles/my_minishell.dir/srcs/get_data_token.c.o: CMakeFiles/my_minishell.dir/flags.make
+CMakeFiles/my_minishell.dir/srcs/get_data_token.c.o: ../srcs/get_data_token.c
+CMakeFiles/my_minishell.dir/srcs/get_data_token.c.o: CMakeFiles/my_minishell.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/my_minishell.dir/srcs/get_data_token.c.o"
+	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/my_minishell.dir/srcs/get_data_token.c.o -MF CMakeFiles/my_minishell.dir/srcs/get_data_token.c.o.d -o CMakeFiles/my_minishell.dir/srcs/get_data_token.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_data_token.c
+
+CMakeFiles/my_minishell.dir/srcs/get_data_token.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/my_minishell.dir/srcs/get_data_token.c.i"
+	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_data_token.c > CMakeFiles/my_minishell.dir/srcs/get_data_token.c.i
+
+CMakeFiles/my_minishell.dir/srcs/get_data_token.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/my_minishell.dir/srcs/get_data_token.c.s"
+	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_data_token.c -o CMakeFiles/my_minishell.dir/srcs/get_data_token.c.s
+
+CMakeFiles/my_minishell.dir/srcs/lst_token.c.o: CMakeFiles/my_minishell.dir/flags.make
+CMakeFiles/my_minishell.dir/srcs/lst_token.c.o: ../srcs/lst_token.c
+CMakeFiles/my_minishell.dir/srcs/lst_token.c.o: CMakeFiles/my_minishell.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object CMakeFiles/my_minishell.dir/srcs/lst_token.c.o"
+	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/my_minishell.dir/srcs/lst_token.c.o -MF CMakeFiles/my_minishell.dir/srcs/lst_token.c.o.d -o CMakeFiles/my_minishell.dir/srcs/lst_token.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/lst_token.c
+
+CMakeFiles/my_minishell.dir/srcs/lst_token.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/my_minishell.dir/srcs/lst_token.c.i"
+	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/lst_token.c > CMakeFiles/my_minishell.dir/srcs/lst_token.c.i
+
+CMakeFiles/my_minishell.dir/srcs/lst_token.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/my_minishell.dir/srcs/lst_token.c.s"
+	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/lst_token.c -o CMakeFiles/my_minishell.dir/srcs/lst_token.c.s
+
 # Object files for target my_minishell
 my_minishell_OBJECTS = \
 "CMakeFiles/my_minishell.dir/srcs/main.c.o" \
 "CMakeFiles/my_minishell.dir/srcs/shell_lexer.c.o" \
 "CMakeFiles/my_minishell.dir/srcs/shell_parser.c.o" \
 "CMakeFiles/my_minishell.dir/srcs/utils.c.o" \
-"CMakeFiles/my_minishell.dir/srcs/ft_struct_init.c.o" \
+"CMakeFiles/my_minishell.dir/srcs/struct_init_lexer.c.o" \
+"CMakeFiles/my_minishell.dir/srcs/struct_init_parser.c.o" \
 "CMakeFiles/my_minishell.dir/srcs/executor.c.o" \
 "CMakeFiles/my_minishell.dir/srcs/get_path.c.o" \
 "CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.o" \
 "CMakeFiles/my_minishell.dir/srcs/update_free_memory.c.o" \
 "CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o" \
 "CMakeFiles/my_minishell.dir/srcs/display_error.c.o" \
-"CMakeFiles/my_minishell.dir/srcs/tokenize.c.o"
+"CMakeFiles/my_minishell.dir/srcs/tokenize.c.o" \
+"CMakeFiles/my_minishell.dir/srcs/get_data_token.c.o" \
+"CMakeFiles/my_minishell.dir/srcs/lst_token.c.o"
 
 # External object files for target my_minishell
 my_minishell_EXTERNAL_OBJECTS =
@@ -259,7 +304,8 @@ my_minishell: CMakeFiles/my_minishell.dir/srcs/main.c.o
 my_minishell: CMakeFiles/my_minishell.dir/srcs/shell_lexer.c.o
 my_minishell: CMakeFiles/my_minishell.dir/srcs/shell_parser.c.o
 my_minishell: CMakeFiles/my_minishell.dir/srcs/utils.c.o
-my_minishell: CMakeFiles/my_minishell.dir/srcs/ft_struct_init.c.o
+my_minishell: CMakeFiles/my_minishell.dir/srcs/struct_init_lexer.c.o
+my_minishell: CMakeFiles/my_minishell.dir/srcs/struct_init_parser.c.o
 my_minishell: CMakeFiles/my_minishell.dir/srcs/executor.c.o
 my_minishell: CMakeFiles/my_minishell.dir/srcs/get_path.c.o
 my_minishell: CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.o
@@ -267,9 +313,11 @@ my_minishell: CMakeFiles/my_minishell.dir/srcs/update_free_memory.c.o
 my_minishell: CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o
 my_minishell: CMakeFiles/my_minishell.dir/srcs/display_error.c.o
 my_minishell: CMakeFiles/my_minishell.dir/srcs/tokenize.c.o
+my_minishell: CMakeFiles/my_minishell.dir/srcs/get_data_token.c.o
+my_minishell: CMakeFiles/my_minishell.dir/srcs/lst_token.c.o
 my_minishell: CMakeFiles/my_minishell.dir/build.make
 my_minishell: CMakeFiles/my_minishell.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking C executable my_minishell"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking C executable my_minishell"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/my_minishell.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

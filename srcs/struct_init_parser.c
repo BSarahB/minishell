@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_struct_init.c                                   :+:      :+:    :+:   */
+/*   struct_init_parser.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbenmesb <mbenmesb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/13 14:11:19 by mbenmesb          #+#    #+#             */
-/*   Updated: 2023/03/13 14:11:21 by mbenmesb         ###   ########.fr       */
+/*   Created: 2023/06/21 11:46:30 by mbenmesb          #+#    #+#             */
+/*   Updated: 2023/06/21 11:46:38 by mbenmesb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void *ft_memset(void *b, char c, size_t len)
 
 	i = 0;
 	while (i < len)
-  		((char *)b)[i++] = c;
+		((char *)b)[i++] = c;
 	return (b);
 }
 
@@ -34,70 +34,96 @@ char *ft_init_cstring(char **str, size_t len, char init_value)
 	return (*str);
 }
 
-t_simpleCmd *ft_struct2_init(t_simpleCmd **simpleCmd, char init_value)
+t_simpleCmd *ft_struct_init_simpleCmd(t_simpleCmd **simpleCmd, char init_value)
 {
 	(void)init_value;
 	*simpleCmd = (t_simpleCmd *)malloc(sizeof(t_simpleCmd));
-	if (!(*simpleCmd))
-		return (0);
 
+	if (!(*simpleCmd))
+		return (NULL);
 	(*simpleCmd)->number_of_arguments = 0;
 	(*simpleCmd)->errnum = 0;
-
 	(*simpleCmd)->cmd_and_args = NULL;
 	(*simpleCmd)->abs_cmd_and_args = NULL;
-
+	(*simpleCmd)->infile = NULL;
+	(*simpleCmd)->outfile = NULL;
+	(*simpleCmd)->errfile = NULL;
+	(*simpleCmd)->end_simpleCmd_pos = 0;
+	(*simpleCmd)->nb_of_tokens_in_simpleCmd = 0;
+	(*simpleCmd)->nb_of_redir_token = 0;
+	(*simpleCmd)->nb_of_infile = 0;
+	(*simpleCmd)->nb_of_outfile = 0;
+	(*simpleCmd)->nb_of_errfile = 0;
 	return (*simpleCmd);
 }
 
-
-t_cmd	*ft_struct_init(t_cmd **cmd, char init_value, char **blocks)
+size_t	ft_count_simpleCmds_nbr(t_list *lst_token)
 {
+		size_t	k;
+		size_t	simpleCmd_nbr;
+		t_list	*tmp;
+		t_list	*new;
+		(void)new;
 
+		simpleCmd_nbr = 0;
+		ft_simplify_list(lst_token);
+		tmp = lst_token;
+		ft_aff_list_ptr_sur_char_content(lst_token);
+		while (tmp)
+		{
+			while (tmp && tmp->title == operator)
+				tmp = tmp->next;
+			k = 0;
+			while (tmp && tmp->title != operator)
+			{
+				if(tmp->content != NULL)
+				{
+					k++;
+					tmp = tmp->next;
+				}
+				else{
+					break;
+				}
+			}
+			if (k != 0)
+				simpleCmd_nbr++;
+			if(tmp)
+				tmp = tmp->next;
+		}
+		return (simpleCmd_nbr);
+}
+
+t_cmd	*ft_struct_init_cmd(t_cmd **cmd, char init_value, t_list *lst_token)
+{
 	size_t 		k;
 	size_t 		nbr_of_simpleCmds;
 	t_simpleCmd	*simpleCmd;
-	size_t		nbr_of_blocks;
 
 	k = 0;
-	nbr_of_blocks = 0; 
-
 	(void)init_value;
-	while(blocks[nbr_of_blocks] != NULL)
-				nbr_of_blocks++;
 
-	//printf("nb of blocks : %zu\n", nbr_of_blocks);
-	nbr_of_simpleCmds = nbr_of_blocks;
-
+	nbr_of_simpleCmds = ft_count_simpleCmds_nbr(lst_token);
 	*cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!(*cmd))
 		return (NULL);
-
-	(*cmd)->simpleCmds = malloc(sizeof(t_simpleCmd) * (nbr_of_simpleCmds + 1));
+	(*cmd)->simpleCmds = malloc(sizeof(t_simpleCmd *) * (nbr_of_simpleCmds + 1));
 	if (!((*cmd)->simpleCmds))
 		return (NULL);
 	while(k < nbr_of_simpleCmds)
 	{
-		(*cmd)->simpleCmds[k] = ft_struct2_init(&simpleCmd, 0);
+		(*cmd)->simpleCmds[k] = ft_struct_init_simpleCmd(&simpleCmd, 0);
 		k++;
 	}
-
 	(*cmd)->simpleCmds[k] = 0;
-	(*cmd)->blocks = blocks;
 	(*cmd)->nb_of_simpleCmds = nbr_of_simpleCmds;
-	(*cmd)->nb_of_blocks = nbr_of_blocks;
-
 	(*cmd)->background = 0;
-
-
 	(*cmd)->path_tab = 0;
-	(*cmd)->outfile = NULL;
+	(*cmd)->lst_token = lst_token;
+	(*cmd)->outputfile = NULL;
 	(*cmd)->inputfile = NULL;
 	(*cmd)->errfile = NULL;
-	(*cmd)->lst_token = NULL;
 //	(*cmd)->outfile = ft_init_cstring(&((*cmd)->outfile), 0, init_value);
 //	(*cmd)->inputfile = ft_init_cstring(&((*cmd)->inputfile), 0, init_value);
 //	(*cmd)->errfile = ft_init_cstring(&((*cmd)->errfile), 0, init_value);
 	return (*cmd);
 }
-

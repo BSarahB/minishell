@@ -1,0 +1,3 @@
+/mnt/nfs/homes/mbenmesb/Documents/my_minishell/CMakeFiles/my_minishell.dir
+/mnt/nfs/homes/mbenmesb/Documents/my_minishell/CMakeFiles/edit_cache.dir
+/mnt/nfs/homes/mbenmesb/Documents/my_minishell/CMakeFiles/rebuild_cache.dir

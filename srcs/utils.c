@@ -12,6 +12,26 @@
 
 #include "minishell.h"
 
+void *ft_memcpy(void *dst, const void *src, size_t n)
+{
+	unsigned char *s;
+	unsigned char *d;
+
+	s = (unsigned char *)src;
+	d = (unsigned char *)dst;
+	if (!src && !dst)
+		return (NULL);
+	while (n > 0)
+	{
+		*d = *s;
+		d++;
+		s++;
+		n--;
+	}
+	printf("dst: <%s> apres memcpy\n", (unsigned char *)dst);
+	return (dst);
+}
+
 void	ft_putstr_fd(char *s, int fd)
 {
 	if (s != 0)
@@ -24,7 +44,6 @@ void	ft_putstr_fd(char *s, int fd)
 	}
 }
 
-
 void	ft_free_struct_str(char **p)
 {
 	if (*p != NULL)
@@ -34,14 +53,13 @@ void	ft_free_struct_str(char **p)
 	}
 }
 
-
 char	*ft_update_string(char **str, char *new)
 {
-	char	*str_old;
+	//char	*str_old;
 
-	str_old = *str;
+	//str_old = *str;
 	*str = new;
-	ft_free_struct_str(&str_old);
+	//ft_free_struct_str(&str_old);
 	return (*str);
 }
 

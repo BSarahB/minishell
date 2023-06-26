@@ -1,5 +1,5 @@
-CMakeFiles/my_minishell.dir/srcs/ft_struct_init.c.o: \
-  /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/ft_struct_init.c \
+CMakeFiles/my_minishell.dir/srcs/struct_init_lexer.c.o: \
+  /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/struct_init_lexer.c \
   /mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes/minishell.h \
   /usr/include/stdlib.h \
   /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \

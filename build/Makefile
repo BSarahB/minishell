@@ -201,29 +201,29 @@ srcs/executor.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/executor.c.s
 .PHONY : srcs/executor.c.s
 
-srcs/ft_struct_init.o: srcs/ft_struct_init.c.o
-.PHONY : srcs/ft_struct_init.o
+srcs/get_data_token.o: srcs/get_data_token.c.o
+.PHONY : srcs/get_data_token.o
 
 # target to build an object file
-srcs/ft_struct_init.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/ft_struct_init.c.o
-.PHONY : srcs/ft_struct_init.c.o
+srcs/get_data_token.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/get_data_token.c.o
+.PHONY : srcs/get_data_token.c.o
 
-srcs/ft_struct_init.i: srcs/ft_struct_init.c.i
-.PHONY : srcs/ft_struct_init.i
+srcs/get_data_token.i: srcs/get_data_token.c.i
+.PHONY : srcs/get_data_token.i
 
 # target to preprocess a source file
-srcs/ft_struct_init.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/ft_struct_init.c.i
-.PHONY : srcs/ft_struct_init.c.i
+srcs/get_data_token.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/get_data_token.c.i
+.PHONY : srcs/get_data_token.c.i
 
-srcs/ft_struct_init.s: srcs/ft_struct_init.c.s
-.PHONY : srcs/ft_struct_init.s
+srcs/get_data_token.s: srcs/get_data_token.c.s
+.PHONY : srcs/get_data_token.s
 
 # target to generate assembly for a file
-srcs/ft_struct_init.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/ft_struct_init.c.s
-.PHONY : srcs/ft_struct_init.c.s
+srcs/get_data_token.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/get_data_token.c.s
+.PHONY : srcs/get_data_token.c.s
 
 srcs/get_path.o: srcs/get_path.c.o
 .PHONY : srcs/get_path.o
@@ -248,6 +248,30 @@ srcs/get_path.s: srcs/get_path.c.s
 srcs/get_path.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/get_path.c.s
 .PHONY : srcs/get_path.c.s
+
+srcs/lst_token.o: srcs/lst_token.c.o
+.PHONY : srcs/lst_token.o
+
+# target to build an object file
+srcs/lst_token.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/lst_token.c.o
+.PHONY : srcs/lst_token.c.o
+
+srcs/lst_token.i: srcs/lst_token.c.i
+.PHONY : srcs/lst_token.i
+
+# target to preprocess a source file
+srcs/lst_token.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/lst_token.c.i
+.PHONY : srcs/lst_token.c.i
+
+srcs/lst_token.s: srcs/lst_token.c.s
+.PHONY : srcs/lst_token.s
+
+# target to generate assembly for a file
+srcs/lst_token.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/lst_token.c.s
+.PHONY : srcs/lst_token.c.s
 
 srcs/main.o: srcs/main.c.o
 .PHONY : srcs/main.o
@@ -345,6 +369,54 @@ srcs/shell_parser.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/shell_parser.c.s
 .PHONY : srcs/shell_parser.c.s
 
+srcs/struct_init_lexer.o: srcs/struct_init_lexer.c.o
+.PHONY : srcs/struct_init_lexer.o
+
+# target to build an object file
+srcs/struct_init_lexer.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/struct_init_lexer.c.o
+.PHONY : srcs/struct_init_lexer.c.o
+
+srcs/struct_init_lexer.i: srcs/struct_init_lexer.c.i
+.PHONY : srcs/struct_init_lexer.i
+
+# target to preprocess a source file
+srcs/struct_init_lexer.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/struct_init_lexer.c.i
+.PHONY : srcs/struct_init_lexer.c.i
+
+srcs/struct_init_lexer.s: srcs/struct_init_lexer.c.s
+.PHONY : srcs/struct_init_lexer.s
+
+# target to generate assembly for a file
+srcs/struct_init_lexer.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/struct_init_lexer.c.s
+.PHONY : srcs/struct_init_lexer.c.s
+
+srcs/struct_init_parser.o: srcs/struct_init_parser.c.o
+.PHONY : srcs/struct_init_parser.o
+
+# target to build an object file
+srcs/struct_init_parser.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/struct_init_parser.c.o
+.PHONY : srcs/struct_init_parser.c.o
+
+srcs/struct_init_parser.i: srcs/struct_init_parser.c.i
+.PHONY : srcs/struct_init_parser.i
+
+# target to preprocess a source file
+srcs/struct_init_parser.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/struct_init_parser.c.i
+.PHONY : srcs/struct_init_parser.c.i
+
+srcs/struct_init_parser.s: srcs/struct_init_parser.c.s
+.PHONY : srcs/struct_init_parser.s
+
+# target to generate assembly for a file
+srcs/struct_init_parser.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/struct_init_parser.c.s
+.PHONY : srcs/struct_init_parser.c.s
+
 srcs/tokenize.o: srcs/tokenize.c.o
 .PHONY : srcs/tokenize.o
 
@@ -435,12 +507,15 @@ help:
 	@echo "... srcs/executor.o"
 	@echo "... srcs/executor.i"
 	@echo "... srcs/executor.s"
-	@echo "... srcs/ft_struct_init.o"
-	@echo "... srcs/ft_struct_init.i"
-	@echo "... srcs/ft_struct_init.s"
+	@echo "... srcs/get_data_token.o"
+	@echo "... srcs/get_data_token.i"
+	@echo "... srcs/get_data_token.s"
 	@echo "... srcs/get_path.o"
 	@echo "... srcs/get_path.i"
 	@echo "... srcs/get_path.s"
+	@echo "... srcs/lst_token.o"
+	@echo "... srcs/lst_token.i"
+	@echo "... srcs/lst_token.s"
 	@echo "... srcs/main.o"
 	@echo "... srcs/main.i"
 	@echo "... srcs/main.s"
@@ -453,6 +528,12 @@ help:
 	@echo "... srcs/shell_parser.o"
 	@echo "... srcs/shell_parser.i"
 	@echo "... srcs/shell_parser.s"
+	@echo "... srcs/struct_init_lexer.o"
+	@echo "... srcs/struct_init_lexer.i"
+	@echo "... srcs/struct_init_lexer.s"
+	@echo "... srcs/struct_init_parser.o"
+	@echo "... srcs/struct_init_parser.i"
+	@echo "... srcs/struct_init_parser.s"
 	@echo "... srcs/tokenize.o"
 	@echo "... srcs/tokenize.i"
 	@echo "... srcs/tokenize.s"

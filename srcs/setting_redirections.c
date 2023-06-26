@@ -49,8 +49,8 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 		//###SI LAST SIMPLE COMMANDE###
 		if (i == (cmd->nb_of_simpleCmds) - 1)
 		{
-			if (cmd->outfile != NULL)
-			fdout = open(cmd->outfile, O_CREAT | O_RDWR | O_TRUNC, 0644);
+			if (cmd->outputfile != NULL)
+			fdout = open(cmd->outputfile, O_CREAT | O_RDWR | O_TRUNC, 0644);
 		else
 			fdout = dup(tmpout);
 	}

@@ -317,7 +317,7 @@ Je reflechis au cas particulier de $VAR apres  export VAR="ls -la" ->  fonctionn
 
 											RULE:en appel simple $VAR->    1 SUBSTITUT d EXPAND quelque soit sa quoting rule va subir le trim and clear  +retokenize (d ou le cmd not found du 1 er element du subtitut) (si plusieurs espaces sont devant le dq on laissera 1 seul espace) MAIS PAS DE DEQUOTE(verifier si c est le cas pour tout)
 											AVEC une CMD en tete le SUBSTITUT D EXPAND sera un arg ou option
-											SI ECHO est la main cmd PAR CONTRE ON AURA LE SUBSTITUT EN BLOC , LE SUBSTITUT DE L EXPAND na PAS de trim and clear ni de retokenization: apres echo le substitut d expand est UNMODIFIED
+											SI ECHO est la main cmd PAR CONTRE ON AURA LE SUBSTITUT EN BLOC , LE SUBSTITUT DE L EXPAND na pas de retokenization.
 											RULE : ds 1 SUBSTITUT D EXPAND un pipe n a pas valeur de pipe, il est considere comme une [cmd] ou un [arg] 
 											exemples: export VAR="   5   esp   " et export VAR="\"   5   esp   \""
 													: export VAR="   ls    -la" va bien fonctionner cela verifie le trim and clear 
@@ -335,7 +335,7 @@ Je reflechis au cas particulier de $VAR apres  export VAR="ls -la" ->  fonctionn
 											voyons si elle se complique
 											export VAR="head -n 5"
 
-											CEPENDANT quand la commande ECHO est la curr simple_cmd, alors, il faudra mettre l expand $VAR en tant qu option de la commande. donc LE SUBSTITUT de l expand est unmodified il ne subit aucun traitement de trim and clear ou de retokenize.
+											CEPENDANT quand la commande ECHO est la curr simple_cmd, alors, il faudra mettre l expand $VAR en tant qu option de la commande. donc LE SUBSTITUT de l expand est etokenize.
 
 											on va donc determiner si simple_cmd est echo ou pas
 echo -nnnn -nnn -n abc -> execve se charge de considerer -nnnn comme une option valide
@@ -609,3 +609,140 @@ COMMENTAIRES TODO dans main.c
 //
 		// TODO : gerer les cas ou il n y a pas de PIPE existant : "ls "
 // 3 april spent the day having headaches and trying to make right choice and buy tickets. god I havent spent a good day at all. those teeths. anyway I hope to spend a bettet eveneing I need to work this out and start fresh tomorrow is another day. I ll come back here to write down if I was able to be favorite not outsider
+
+
+
+
+
+
+
+                                                   								LEXER.C
+//void ft_trim_and_clear(char *line)
+// je parcours ma line et en trimant et clearant les espaces je determine chaque <"token> : 1 token est soit separe par un espace, soit separe par un operand ou un metacharacter lui meme separateur de token. par ex |
+	// pour que trim and clear je dois etre en mode Whitespace_Separator, sinon .... mon espace n a pas de caractere special de separateur si je suis en quoting rule DQ ou SQ, ceci s applique egalement a tous les operands qui perdent toute valeur speciale
+	// donc je parcours char par char et si " ou ' je dois signaler un quoting rule. il faudra etre sorti du quoting rule mode pour pouvoir separer les tokens en fonction des espaces ou des operands
+	// je dois aussi determiner un start_token_pos et end_token_pos pour mon token puis je vais faire un ft strdup ou ndup pour dupliquer le token et remplir le content de mon maillon de la liste chainee
+	// je dois donc considerer deja etre dans mon premier maillon de liste chainee ici. trouver une condition qui me permet de generer mon premier maillon et je renseignerai donc le quoting rule ici
+	// remarque : si j ai ls -la >"outfile" | $VAR q: mon operator > GREAT doit il separer "outfile" ?OUI <>> <"outfile">
+	// si je tombe sur un \0 ou en Whitespace_separator rule sur un espace/operand -> c est la fin de mon token --->mon end_token_pos sera recycle pour etre le depart de la recherche du prochain token
+	//
+
+	// condition: des que je tombe sur un char je lst_add_new_token ->je ne respecte pas cette donnee ici je cree directement le token
+	// sont content sera NULL en attendant que .... on fixe tous les parametres de la structure
+
+
+
+
+
+
+DRAFTS to help between functions
+	/*main
+	//LE LEXING DEVRAIT ETRE FAIT DE MANIERE SEQUENTIELLE car :
+		//ON NE VA PAS POUVOIR SPLIT SUR whitespaces car si on a un operateur comme echo b |cat-e on veut que le pipe soit un token a part
+		//ANSI le lexing doit se faire de MANIERE SEQUENTIELLE  meme un "    " ca ne fonctionnera pas
+//utils
+		// gardons cette fonction pour ne pas faire crasher le code en attendant de fr la vraie tokenize line operationnelle qui redistribue les tokens dans la liste chainee directement et pas dans un double tab
+	// la liste chainee est vraiment justifiee car on a dans la cadre des expand, besoin de REtokenizer encore une fois avec le TRIM and ClEAR. on doit pouvoir manier les token de maniere flexible. un tableau serait tres galere a modifier et remodifier 
+// parcourir la line de maniere sequentielle puisque les quoting rules vont determiner les qualites des caracte speciaux et des operands, aussi nous avons besoin de passer les espaces pour trouver un token dans le cas de nos gestion de comportement de caracteres a la volee char on the fly ou motifs
+	// ex de <$VAR> et <ls> <|> <$VAR>
+	// 1
+	// j initialise ma liste chainee en mettant tout a 0
+	// ft_list_init(&token_list);
+	// en envoyant l adress de token_list, on viendra modifier directement en memoire sa valeur, donc pas bsoin de recuperer la structure token_list a la sortie de la fonction, on peut librement utiliser token_list dans un appel de fonction
+	// ft_trim_and_clear(line, token_list);
+
+	// reflechir a la meilleure option entre initialiser des le debut la liste chainee avec le 1 er maillon
+	// ou le faire dans la trim and clea
+	// copie n bytes dun bloc M de src (sans structuration) a la zone M dst.
+// strcpy != memcpy : strcpy : copie --> \0 ou -->segfault  memcpy : copie tt le buffer (s arrete a n bytes)
+	/ft_get_token_type : // mettre str pour checker l element precedent TODO : proteger str d un index qui n exste pas
+	parser.c :
+	/*3)  PARSER/yacc traite shell.y) == shell_parser.c on va essayer de mettre des regles de grammaire et labels qui vont generer la table de commande
+labels: cmd_and_args, arg_list ou pipe_list ou io_modifier_list ou background optional etc..
+Grammaire shell dans la forme Backus-Naur et
+regles de grammaire et labels du Parser (3)  :
+cmd[arg]* [| cmd[arg]*]*		[[> filename] [< filename] [>& filename] [>> filename] [>>& filename]]*			 [&]
+[cmd_and_args]+[arg_list]			[io_m]	+	[io_m]	+	[io_modifier]	+	io_m   	+	io_m
+  == [pipe_list]					==						[io_modifier_list]								 == background_opitonal
+
+les elements decrits ci dessus sont dits "lablels"
+ci dessous a quoi ressemble un fichier shell.y
+goal: command_list;
+arg_list:
+		arg_list WORD
+		| *empty
+			;
+cmd_and_args:
+		WORD arg_list
+			;
+pipe_list:
+		pipe_list PIPE cmd_and_args
+		|cmd_and_args
+		;
+
+io_modifier:
+		GREATGREAT WORD
+		| GREAT WORD
+		| GREATGREAGAMPERSAND WORD
+		| GREATAMPERSAND WORD
+		| LESS WORD
+		;
+
+io_modifier_list:
+		io_modifier_list io_modifier
+		|*empty
+		;
+background_optional:
+		AMPERSAND
+		|*empty
+		;
+
+command_line:
+		pipe_list io_modifier_list background_optional NEWLINE
+		| NEWLINE *accept empty command line
+		| error NEWLINE{yyerrok}
+		;
+		*error recovery
+command_list:
+		command_list command_line
+		; *command loop
+		*/
+
+
+/* //											PSEUDO CODE	PARSING_LST_TOKEN
+si simpleCmd_nbr > 1
+
+1)j identifie la position du premier operateur qui signifie la fin de la simpleCmd : la end_simpleCmd_pos
+ft_parse_lst_token_in_simpleCmds_and_cmd
+(utiliser lst_token+i (i sera la position de l operateur...)? ou un lst_token_tmp)
+
+
+2/je determine le nbre de infile errfile outfile ds  ma simpleCmd (attention si infile appartient a la last_simpleCmd alors il faudra le rattacher a la premiere commande)
+ft_count_nb_of_redir_token_in_simpleCmd : {
+	ft_count_nb_of_infile_in_simpleCmd
+	ft_count_nb_of_outfile_in_simpleCmd
+	ft_count_nb_of_errfile_in_simpleCmd
+}
+
+3/ft_malloc_redir_file_tabs_of_simpleCmd
+
+4/ft_parse_redir_token_in_simpleCmd
+{
+	ft_parse_infile_in_simpleCmd
+	ft_parse_outfile_in_simpleCmd
+	ft_parse_errfile_in_simpleCmd
+}
+5/ft_delete redir_token_from_lst_token
+6/compter le nombre de tokens dans la simpleCmd ft_count_final_nb_of_token_in_simpleCmd
+
+Avec l info de simpleCmds[i]->nb_of_outfile/infile/errfile on pourra malloc les double **tab de redirections. (infile**) (outfile**) (errfile**)
+7/mallocs : ft_malloc_cmd_and_args_tab_of_simpleCmd
+8/tant que lst_token->position != operator_pos
+		ft_parse_token_in_cmd_and_args
+		sinon lst->next && i++(pour passer a la simpleCmd suivante)
+
+
+Si simpleCmd == 1
+alors pas de condition pour operator_pos
+on y va directement sur les fonctions de parsing
+*/
