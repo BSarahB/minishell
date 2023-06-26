@@ -135,7 +135,35 @@ void	ft_parse_errfile_in_simpleCmd(t_simpleCmd *simpleCmd)
 
 }
 
-void	ft_parse_redir_token_in_simpleCmd(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list *dynamic_lst_token)
+void	parse(void *content, t_simpleCmd *simpleCmd)
+{
+	(void)content;
+	(void)simpleCmd;
+}
+
+void	ft_lstdelone(t_list *lst, void(*parse)(void *, t_simpleCmd *simpleCmd), t_simpleCmd *simpleCmd)
+{
+	/*t_list *tmp;
+	
+	tmp = lst;
+	while(*lst != NULL)
+	 {
+		tmp = (*lst)->next;
+		del((*lst)->content);
+		free(*lst);
+		*lst = tmp;
+	 }
+	 *lst = NULL;
+	 */
+	 if(lst && parse)
+	 {
+		parse(lst->content, simpleCmd);
+		free(lst);
+		lst = NULL;
+	 }
+}
+
+void	ft_del_and_parse_redir_token_in_simpleCmd(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list *dynamic_lst_token)
 {
 	t_list *tmp;
 	t_list *tmp_dynamic;
@@ -153,24 +181,27 @@ void	ft_parse_redir_token_in_simpleCmd(t_cmd *cmd, t_simpleCmd *simpleCmd, t_lis
 
 		if(tmp->title == redir_in)
 		{
-			tmp =tmp->next;
 			//bash syntax error si suivant le > on a un | ou un token fichier inexistant
-			ft_delete_redir_token_from_lst_token()
-
-
+			tmp_to_del = (tmp)->next;
+			ft_lstdelone(tmp, &parse, simpleCmd);
+			tmp = tmp_to_del->next;
+			ft_lstdelone(tmp_to_del, &parse, simpleCmd);
 		}
 		else if(tmp->title == redir_out)
 		{
-			simpleCmd->nb_of_outfile++;
-			simpleCmd->nb_of_redir_token =simpleCmd->nb_of_redir_token +2;
-			tmp = tmp->next;
+			tmp_to_del = (tmp)->next;
+			ft_lstdelone(tmp, &parse, simpleCmd);
+			tmp = tmp_to_del->next;
+			ft_lstdelone(tmp_to_del, &parse, simpleCmd);
 		}
 		else if(tmp->title == redir_err)
 		{
-			simpleCmd->nb_of_errfile++;
-			simpleCmd->nb_of_redir_token =simpleCmd->nb_of_redir_token +2;
-			tmp = tmp->next;
+			tmp_to_del = (tmp)->next;
+			ft_lstdelone(tmp, &parse, simpleCmd);
+			tmp = tmp_to_del->next;
+			ft_lstdelone(tmp_to_del, &parse, simpleCmd);
 		}
+		else
 			tmp = tmp->next;
 	}
 
@@ -294,8 +325,8 @@ int	ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_to
 		ft_count_nb_of_redir_token_in_simpleCmd(cmd, cmd->simpleCmds[i],dynamic_lst_token);
 		ft_malloc_redir_file_tabs_of_simpleCmd(cmd->simpleCmds[i]);
 		if(cmd->simpleCmds[i]->nb_of_redir_token > 0)
-			ft_parse_redir_token_in_simpleCmd(cmd, cmd->simpleCmds[i], dynamic_lst_token);//ft_lstdelone(t_list *lst, void (*del)(void *))
-		ft_delete_redir_token_from_lst_token(cmd, cmd->simpleCmds[i]);
+			ft_del_and_parse_redir_token_in_simpleCmd(cmd, cmd->simpleCmds[i], dynamic_lst_token);//ft_lstdelone(t_list *lst, void (*del)(void *))
+	//	ft_delete_redir_token_from_lst_token(cmd, cmd->simpleCmds[i]);
 		ft_count_final_nb_of_tokens_in_simpleCmd(lst_token,cmd->simpleCmds[i]);
 		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(lst_token, cmd->simpleCmds[i]);
 		i++;
