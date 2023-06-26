@@ -11,19 +11,24 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
 /*
+void	ft_parse_infile_in_simpleCmd(t_simpleCmd *simpleCmd)
+{
+	(void)simpleCmd;
+}
 
- int	ft_lst_token_redir_token_alone(char *token_content)
- {
-	(void)token_content;
-	//je vais comparer strcmp a > ou < ou autres
-	//if(ft_strcmp)
-	return(1); //essai avec >
- }
+void	ft_parse_outfile_in_simpleCmd(t_simpleCmd *simpleCmd)
+{
+	(void)simpleCmd;
+
+}
+
+void	ft_parse_errfile_in_simpleCmd(t_simpleCmd *simpleCmd)
+{
+	(void)simpleCmd;
+
+}
 */
-
 void	ft_aff_abs_cmd_and_args(t_cmd	*cmd)
 {
 	size_t i;
@@ -107,57 +112,19 @@ size_t	ft_count_final_nb_of_tokens_in_simpleCmd(t_list *lst_token, t_simpleCmd *
 	return (token_in_simpleCmd_nbr);
 }
 
-void	ft_delete_redir_token_from_lst_token(t_cmd *cmd, t_simpleCmd *simpleCmd)
+
+void	parse(char *content, t_simpleCmd *simpleCmd, size_t i)
 {
-	t_list *lst_token;
-
-	lst_token = cmd->lst_token;
-	//on travaille directement sur la vraie lst_token
-
-	(void)simpleCmd;
-	cmd->lst_token = lst_token;
+	simpleCmd->outfile[i] = content;
+	simpleCmd->errnum = 18;
 }
 
-void	ft_parse_infile_in_simpleCmd(t_simpleCmd *simpleCmd)
+void	ft_lstdelone(t_list *lst, void(*parse)(char *content, t_simpleCmd *simpleCmd, size_t i), t_simpleCmd *simpleCmd, size_t i, int redir)
 {
-	(void)simpleCmd;
-}
-
-void	ft_parse_outfile_in_simpleCmd(t_simpleCmd *simpleCmd)
-{
-	(void)simpleCmd;
-
-}
-
-void	ft_parse_errfile_in_simpleCmd(t_simpleCmd *simpleCmd)
-{
-	(void)simpleCmd;
-
-}
-
-void	parse(void *content, t_simpleCmd *simpleCmd)
-{
-	(void)content;
-	(void)simpleCmd;
-}
-
-void	ft_lstdelone(t_list *lst, void(*parse)(void *, t_simpleCmd *simpleCmd), t_simpleCmd *simpleCmd)
-{
-	/*t_list *tmp;
-	
-	tmp = lst;
-	while(*lst != NULL)
-	 {
-		tmp = (*lst)->next;
-		del((*lst)->content);
-		free(*lst);
-		*lst = tmp;
-	 }
-	 *lst = NULL;
-	 */
 	 if(lst && parse)
 	 {
-		parse(lst->content, simpleCmd);
+		if(redir == 1)
+			parse(lst->content, simpleCmd, i);
 		free(lst);
 		lst = NULL;
 	 }
@@ -168,10 +135,16 @@ void	ft_del_and_parse_redir_token_in_simpleCmd(t_cmd *cmd, t_simpleCmd *simpleCm
 	t_list *tmp;
 	t_list *tmp_dynamic;
 	t_list	*tmp_to_del;
+	size_t i;
+	size_t j;
+	size_t k;
 
 
 	tmp = cmd->lst_token;
 	tmp_dynamic = dynamic_lst_token;
+	i = 0;
+	j = 0;
+	k = 0;
 
 	(void)tmp;
 	(void)tmp_dynamic;
@@ -183,32 +156,36 @@ void	ft_del_and_parse_redir_token_in_simpleCmd(t_cmd *cmd, t_simpleCmd *simpleCm
 		{
 			//bash syntax error si suivant le > on a un | ou un token fichier inexistant
 			tmp_to_del = (tmp)->next;
-			ft_lstdelone(tmp, &parse, simpleCmd);
+			ft_lstdelone(tmp, &parse, simpleCmd, i, 0);
 			tmp = tmp_to_del->next;
-			ft_lstdelone(tmp_to_del, &parse, simpleCmd);
+			ft_lstdelone(tmp_to_del, &parse, simpleCmd, i, 1);
+			i++;
 		}
 		else if(tmp->title == redir_out)
 		{
 			tmp_to_del = (tmp)->next;
-			ft_lstdelone(tmp, &parse, simpleCmd);
+			ft_lstdelone(tmp, &parse, simpleCmd, j, 0);
 			tmp = tmp_to_del->next;
-			ft_lstdelone(tmp_to_del, &parse, simpleCmd);
+			ft_lstdelone(tmp_to_del, &parse, simpleCmd, j, 1);
+			j++;
 		}
 		else if(tmp->title == redir_err)
 		{
 			tmp_to_del = (tmp)->next;
-			ft_lstdelone(tmp, &parse, simpleCmd);
+			ft_lstdelone(tmp, &parse, simpleCmd, k, 0);
 			tmp = tmp_to_del->next;
-			ft_lstdelone(tmp_to_del, &parse, simpleCmd);
+			ft_lstdelone(tmp_to_del, &parse, simpleCmd, k, 1);
+			k++;
 		}
 		else
 			tmp = tmp->next;
 	}
 
-
+/*
 	ft_parse_infile_in_simpleCmd(simpleCmd);
 	ft_parse_outfile_in_simpleCmd(simpleCmd);
 	ft_parse_errfile_in_simpleCmd(simpleCmd);
+	*/
 }
 
 char **ft_malloc_errfile_tab(t_simpleCmd *simpleCmd)
@@ -326,7 +303,7 @@ int	ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_to
 		ft_malloc_redir_file_tabs_of_simpleCmd(cmd->simpleCmds[i]);
 		if(cmd->simpleCmds[i]->nb_of_redir_token > 0)
 			ft_del_and_parse_redir_token_in_simpleCmd(cmd, cmd->simpleCmds[i], dynamic_lst_token);//ft_lstdelone(t_list *lst, void (*del)(void *))
-	//	ft_delete_redir_token_from_lst_token(cmd, cmd->simpleCmds[i]);
+		printf("outfile de %zu: [%s] +  [%s] et errnum [%d]\n",i, cmd->simpleCmds[i]->outfile[0],cmd->simpleCmds[i]->outfile[1], cmd->simpleCmds[i]->errnum);
 		ft_count_final_nb_of_tokens_in_simpleCmd(lst_token,cmd->simpleCmds[i]);
 		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(lst_token, cmd->simpleCmds[i]);
 		i++;
