@@ -116,7 +116,7 @@ size_t	ft_count_final_nb_of_tokens_in_simpleCmd(t_list *lst_token, t_simpleCmd *
 void	parse(char *content, t_simpleCmd *simpleCmd, size_t i)
 {
 	simpleCmd->outfile[i] = content;
-	simpleCmd->errnum = 18;
+
 }
 
 void	ft_lstdelone(t_list *lst, void(*parse)(char *content, t_simpleCmd *simpleCmd, size_t i), t_simpleCmd *simpleCmd, size_t i, int redir)
@@ -125,11 +125,84 @@ void	ft_lstdelone(t_list *lst, void(*parse)(char *content, t_simpleCmd *simpleCm
 	 {
 		if(redir == 1)
 			parse(lst->content, simpleCmd, i);
+		//free ts les mallocs ici de str etc...
+		lst->content = NULL;	
 		free(lst);
 		lst = NULL;
-		//TODO lst->previous->next = lst->next; //retablir la liste chainee apres avoir delete les token de redirection
 	 }
 }
+
+
+void	ft_del_and_parse2_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpleCmd, t_list *dynamic_lst_token)
+{
+	t_list *curr;
+	t_list *tmp_dynamic;
+	size_t i;
+	size_t j;
+	size_t k;
+	t_list *lst_token_to_remove;
+	t_list *lst_token_to_remove2;
+
+	curr = *alst;
+	tmp_dynamic = dynamic_lst_token;
+	i = 0;
+	j = 0;
+
+	k = 0;
+	if(*alst == NULL)
+		return;
+
+	//ft_tag_redir_title_token(); //cf si necessaire car je risque de segfault si je vais chercher un next->next si jamais.... a verifier, je pourrais ainsi dans le tag redir ainsi gerer les bash syntax .... 
+
+	//je m occupe du 1 er maillon, car il pourrait tres bien etre une redirection >outfile 
+	while((*alst)->title == redir_out)
+	{
+		lst_token_to_remove = *alst;
+		lst_token_to_remove2 = (*alst)->next;
+		*alst = (*alst)->next->next;
+ 		ft_lstdelone(lst_token_to_remove, &parse, simpleCmd, i, 0);
+ 		ft_lstdelone(lst_token_to_remove2, &parse, simpleCmd, i, 1);
+		//free(lst_token_to_remove);
+		//free(lst_token_to_remove2);
+	}
+	curr = *alst;
+	while((curr->position < tmp_dynamic->position) && (curr->next != NULL && curr->next->position < tmp_dynamic->position))
+	{
+		if(curr->next->title == redir_in)
+		{
+			//bash syntax error si suivant le > on a un | ou un token fichier inexistant
+			lst_token_to_remove = curr->next;
+			ft_lstdelone(lst_token_to_remove, &parse, simpleCmd, i, 0);
+			lst_token_to_remove2 = curr->next->next;
+			curr->next = curr->next->next->next;
+			ft_lstdelone(lst_token_to_remove2, &parse, simpleCmd, i, 1);
+			i++;
+		}
+		else if(curr->next->title == redir_out)
+		{
+			lst_token_to_remove = curr->next;
+			ft_lstdelone(lst_token_to_remove, &parse, simpleCmd, i, 0);
+			lst_token_to_remove2 = curr->next->next;
+			curr->next = curr->next->next->next;
+			ft_lstdelone(lst_token_to_remove2, &parse, simpleCmd, i, 1);
+			j++;
+		}
+		else if(curr->next->title == redir_err)
+		{
+			lst_token_to_remove = curr->next;
+			ft_lstdelone(lst_token_to_remove, &parse, simpleCmd, i, 0);
+			lst_token_to_remove2 = curr->next->next;
+			curr->next = curr->next->next->next;
+			ft_lstdelone(lst_token_to_remove2, &parse, simpleCmd, i, 1);
+			k++;
+		}
+		else
+			curr = curr->next;
+	}
+
+}
+
+
 
 void	ft_del_and_parse_redir_token_in_simpleCmd(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list *dynamic_lst_token)
 {
@@ -145,6 +218,7 @@ void	ft_del_and_parse_redir_token_in_simpleCmd(t_cmd *cmd, t_simpleCmd *simpleCm
 	tmp_dynamic = dynamic_lst_token;
 	i = 0;
 	j = 0;
+
 	k = 0;
 
 	(void)tmp;
@@ -303,10 +377,14 @@ int	ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_to
 		ft_count_nb_of_redir_token_in_simpleCmd(cmd, cmd->simpleCmds[i],dynamic_lst_token);
 		ft_malloc_redir_file_tabs_of_simpleCmd(cmd->simpleCmds[i]);
 		if(cmd->simpleCmds[i]->nb_of_redir_token > 0)
-			ft_del_and_parse_redir_token_in_simpleCmd(cmd, cmd->simpleCmds[i], dynamic_lst_token);//ft_lstdelone(t_list *lst, void (*del)(void *))
-		printf("outfile de %zu: [%s] +  [%s] et errnum [%d]\n",i, cmd->simpleCmds[i]->outfile[0],cmd->simpleCmds[i]->outfile[1], cmd->simpleCmds[i]->errnum);
+			{
+			//	ft_del_and_parse_redir_token_in_simpleCmd(cmd, cmd->simpleCmds[i], dynamic_lst_token);//ft_lstdelone(t_list *lst, void (*del)(void *))
+				ft_del_and_parse2_redir_token_in_simpleCmd(&(cmd->lst_token), cmd->simpleCmds[i], dynamic_lst_token);
+			}
+		printf("outfile de %zu: [%s] +  [%s]\n",i, cmd->simpleCmds[i]->outfile[0],cmd->simpleCmds[i]->outfile[1]);
+		ft_aff_list_ptr_sur_char_content(lst_token);
 		ft_count_final_nb_of_tokens_in_simpleCmd(lst_token,cmd->simpleCmds[i]);
-		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(lst_token, cmd->simpleCmds[i]);
+		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(lst_token, cmd->simpleCmds[i]); 
 		i++;
 	}
 
