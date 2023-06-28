@@ -94,7 +94,7 @@ int		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(t_list *lst_token, t_simp
 	return(1);
 }
 
-size_t	ft_count_final_nb_of_tokens_in_simpleCmd(t_list *lst_token, t_simpleCmd *simpleCmd)
+void	ft_count_final_nb_of_tokens_in_simpleCmd(t_list *lst_token, t_simpleCmd *simpleCmd)
 {
 	size_t	k;
 	size_t	token_in_simpleCmd_nbr;
@@ -105,11 +105,13 @@ size_t	ft_count_final_nb_of_tokens_in_simpleCmd(t_list *lst_token, t_simpleCmd *
 
 	token_in_simpleCmd_nbr = 0;
 	tmp = lst_token;
-	while (tmp)
+	while (tmp->position < simpleCmd->end_simpleCmd_pos)
 	{
-		break;
+		token_in_simpleCmd_nbr++;
+		tmp = tmp->next;
+	
 	}
-	return (token_in_simpleCmd_nbr);
+	simpleCmd->nb_of_tokens_in_simpleCmd = token_in_simpleCmd_nbr;
 }
 
 
@@ -160,16 +162,36 @@ void	ft_del_and_parse2_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simp
 	//ft_tag_redir_title_token(); //cf si necessaire car je risque de segfault si je vais chercher un next->next si jamais.... a verifier, je pourrais ainsi dans le tag redir ainsi gerer les bash syntax .... 
 
 	//je m occupe du 1 er maillon, car il pourrait tres bien etre une redirection >outfile 
-	while((*alst)->title == redir_out)
+
+	//TODO redir _in et err
+	while(((*alst)->title == redir_out || (*alst)->title == redir_in || (*alst)->title == redir_err) && (*alst)->next != NULL) 
 	{
 		lst_token_to_remove = *alst;
 		lst_token_to_remove2 = (*alst)->next;
+		if((*alst)->title == redir_in)
+		{
+			(*alst)->next->title = redir_in;
+			ft_lstdelone(lst_token_to_remove, &parse, simpleCmd, i, 0);
+ 			ft_lstdelone(lst_token_to_remove2, &parse, simpleCmd, i, 1);
+			i++;
+		}
+		if((*alst)->title == redir_out)
+		{
+			(*alst)->next->title = redir_out;
+			ft_lstdelone(lst_token_to_remove, &parse, simpleCmd, j, 0);
+ 			ft_lstdelone(lst_token_to_remove2, &parse, simpleCmd, j, 1);
+			j++;
+		}
+		if((*alst)->title == redir_err)
+		{
+			(*alst)->next->title = redir_err;
+			ft_lstdelone(lst_token_to_remove, &parse, simpleCmd, k, 0);
+ 			ft_lstdelone(lst_token_to_remove2, &parse, simpleCmd, k, 1);
+			k++;
+		}	
 		*alst = (*alst)->next->next;
- 		ft_lstdelone(lst_token_to_remove, &parse, simpleCmd, i, 0);
- 		ft_lstdelone(lst_token_to_remove2, &parse, simpleCmd, i, 1);
-		//free(lst_token_to_remove);
-		//free(lst_token_to_remove2);
-		i++;
+ 	
+		
 	}
 	curr = *alst;
 	i = 0;
@@ -361,9 +383,11 @@ t_list	*ft_get_end_simpleCmd_pos(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list **dy
 		{
 			simpleCmd->end_simpleCmd_pos = tmp->position;
 			*dynamic_lst_token = tmp;
-			break;
+			return(tmp);			
+			//break;
 		}
-
+		if(tmp->next == NULL)
+			return(tmp);
 		tmp = tmp->next;
 	}
 	return(tmp);
@@ -380,7 +404,7 @@ int	ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_to
 	exec_return = 0;
 	i = 0;
 	dynamic_lst_token = lst_token;
-	while (i < cmd->nb_of_simpleCmds)
+	while (i < cmd->nb_of_simpleCmds && dynamic_lst_token != NULL)
 	{
 		if(cmd->nb_of_simpleCmds >1)
 			dynamic_lst_token = ft_get_end_simpleCmd_pos(cmd, cmd->simpleCmds[i], &dynamic_lst_token); //voir si je le retourne ou sije le change juste en memmoire (supprimer )
@@ -391,13 +415,14 @@ int	ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_to
 			//	ft_del_and_parse_redir_token_in_simpleCmd(cmd, cmd->simpleCmds[i], dynamic_lst_token);//ft_lstdelone(t_list *lst, void (*del)(void *))
 				ft_del_and_parse2_redir_token_in_simpleCmd(&(cmd->lst_token), cmd->simpleCmds[i], dynamic_lst_token);
 			}
-		printf("outfile de %zu: [%s] +  [%s]\n",i, cmd->simpleCmds[i]->outfile[0],cmd->simpleCmds[i]->outfile[1]);
-		printf("infile de %zu: [%s] +  [%s]\n",i, cmd->simpleCmds[i]->infile[0],cmd->simpleCmds[i]->infile[1]);
+	//	printf("outfile de %zu: [%s] +  [%s]  + [%s]\n",i, cmd->simpleCmds[i]->outfile[0],cmd->simpleCmds[i]->outfile[1],cmd->simpleCmds[i]->outfile[2]);
+	//	printf("infile de %zu: [%s] +  [%s]  +[%s]\n",i, cmd->simpleCmds[i]->infile[0],cmd->simpleCmds[i]->infile[1], cmd->simpleCmds[i]->infile[2]);
 
 		ft_aff_list_ptr_sur_char_content(lst_token);
 		ft_count_final_nb_of_tokens_in_simpleCmd(lst_token,cmd->simpleCmds[i]);
 		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(lst_token, cmd->simpleCmds[i]); 
 		i++;
+		dynamic_lst_token = dynamic_lst_token->next; //si le dynamic est un pipe
 	}
 
 	ft_aff_abs_cmd_and_args(cmd);
