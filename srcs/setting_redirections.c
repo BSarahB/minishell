@@ -15,24 +15,26 @@
 //TODO : appeler ft_checkopenerror au bon endroit, sinon la scinder en 2 fonctions
 void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 {
-	int	savein;
-	int	saveout;
-	int	fdin;
-	int fdout;
-	size_t i;
-	int ret;
-	int wstatus;
-	int exec_return;
+	int		savein;
+	int		saveout;
+	int		fdin;
+	int		fdout;
+	size_t	i;
+	size_t	j;
+	int 	ret;
+	int 	wstatus;
+	int 	exec_return;
 
 
 	i = 0;
+	j = 0;
 //sauvegardes des vrais in et out
 	savein = dup(0);//dup(STDIN_FILENO);
 	saveout = dup(1);//dup(STDOUT_FILENO);
 //on parametre infile + on parametre fdin
 	//sil existe ce sera l entree de toute la cmd
-	if (cmd->inputfile != NULL)
-		fdin = open(cmd->inputfile, O_RDONLY);//TODO cmt rendre compte du nom du inputfile si on ne le connait pas
+	if (cmd->simpleCmds[i]->infile != NULL)
+		fdin = open(cmd->simpleCmds[i]->infile[j], O_RDONLY);//TODO cmt rendre compte du nom du inputfile si on ne le connait pas
 
 
 	
@@ -49,10 +51,18 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 		//###SI LAST SIMPLE COMMANDE###
 		if (i == (cmd->nb_of_simpleCmds) - 1)
 		{
-			if (cmd->outputfile != NULL)
-			fdout = open(cmd->outputfile, O_CREAT | O_RDWR | O_TRUNC, 0644);
-		else
-			fdout = dup(saveout);
+			if (cmd->simpleCmds[i]->outfile != NULL)
+				{
+					while(j < cmd->simpleCmds[i]->nb_of_outfile)
+					{
+						if(j != 0 && fdout)//TODO proteger des pbs a l ouverture
+							close(fdout);
+						fdout = open(cmd->simpleCmds[i]->outfile[j], O_CREAT | O_RDWR | O_TRUNC, 0644);
+						j++;
+					}
+				}
+			else
+				fdout = dup(saveout);
 	}
 	//Redirection des vrais in et out dans le processus parent tjrs en bouclant sur les simpleCmds
 	//###SI SIMPLE COMMANDE REGULAR)###

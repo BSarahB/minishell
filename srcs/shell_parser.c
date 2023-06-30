@@ -106,13 +106,13 @@ void	ft_count_final_nb_of_tokens_in_simpleCmd(t_list *start_lst_token, t_simpleC
 	tmp = start_lst_token;
 
 	
-	while (tmp->position < simpleCmd->end_simpleCmd_pos && tmp !=NULL)
+	while (tmp !=NULL && tmp->position < simpleCmd->end_simpleCmd_pos)
 	{
 		token_in_simpleCmd_nbr++;
 		tmp = tmp->next;
 	}
 	
-	if(tmp->position == simpleCmd->end_simpleCmd_pos && tmp !=NULL && tmp->title != operator)
+	if(tmp !=NULL && tmp->position == simpleCmd->end_simpleCmd_pos && tmp->title != operator)
 	{
 		token_in_simpleCmd_nbr++;
 		simpleCmd->nb_of_tokens_in_simpleCmd = token_in_simpleCmd_nbr;
@@ -216,6 +216,8 @@ void	ft_del_and_parse2_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simp
 			curr->next = curr->next->next->next;
 			ft_lstdelone(lst_token_to_remove2, &parse, simpleCmd, i, 1);
 			i++;
+			if(curr->next == NULL)
+				simpleCmd->end_simpleCmd_pos = curr->position;
 		}
 		else if(curr->next->title == redir_out)
 		{
@@ -226,6 +228,8 @@ void	ft_del_and_parse2_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simp
 			curr->next = curr->next->next->next;
 			ft_lstdelone(lst_token_to_remove2, &parse, simpleCmd, j, 1);
 			j++;
+			if(curr->next == NULL)
+				simpleCmd->end_simpleCmd_pos = curr->position;
 		}
 		else if(curr->next->title == redir_err)
 		{
@@ -236,6 +240,9 @@ void	ft_del_and_parse2_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simp
 			curr->next = curr->next->next->next;
 			ft_lstdelone(lst_token_to_remove2, &parse, simpleCmd, k, 1);
 			k++;
+			if(curr->next == NULL)
+				simpleCmd->end_simpleCmd_pos = curr->position;
+
 		}
 		else
 			curr = curr->next;
@@ -290,7 +297,7 @@ void	ft_malloc_redir_file_tabs_of_simpleCmd(t_simpleCmd *simpleCmd)
 	 t_list *tmp;
 	(void)cmd;	//tmp = cmd->lst_token;
 	 tmp = start_lst_token;
-	while(tmp->position < simpleCmd->end_simpleCmd_pos)
+	while(tmp != NULL && tmp->position < simpleCmd->end_simpleCmd_pos)
 	{
 		if(tmp->title == redir_in)
 		{
@@ -312,6 +319,8 @@ void	ft_malloc_redir_file_tabs_of_simpleCmd(t_simpleCmd *simpleCmd)
 		}
 			tmp = tmp->next;
 	}
+
+	//if tmp == NULL -> reactualiser la end_simpleCmd_pos ici semble premature
  }
 
 void	ft_get_end_simpleCmd_pos(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list **start_lst_token)

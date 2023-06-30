@@ -7,6 +7,7 @@ void	ft_aff_list_ptr_sur_char_content(t_list *alst) // pour void		*content; de t
 		printf("%s , %zu\n",(char *)(alst)->content, alst->position); //ou printf("%d - ", (*(int *)(*alst)->content));
 		alst = (alst)->next;
 	}
+
 }
 
 void	ft_simplify_list(t_list *lst)
