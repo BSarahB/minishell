@@ -15,8 +15,8 @@
 //TODO : appeler ft_checkopenerror au bon endroit, sinon la scinder en 2 fonctions
 void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 {
-	int	tmpin;
-	int	tmpout;
+	int	savein;
+	int	saveout;
 	int	fdin;
 	int fdout;
 	size_t i;
@@ -27,8 +27,8 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 
 	i = 0;
 //sauvegardes des vrais in et out
-	tmpin = dup(0);//dup(STDIN_FILENO);
-	tmpout = dup(1);//dup(STDOUT_FILENO);
+	savein = dup(0);//dup(STDIN_FILENO);
+	saveout = dup(1);//dup(STDOUT_FILENO);
 //on parametre infile + on parametre fdin
 	//sil existe ce sera l entree de toute la cmd
 	if (cmd->inputfile != NULL)
@@ -38,7 +38,7 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 	
 	//s il n existe pas on prend stdin par defaut
 	else
-		fdin = dup(tmpin);
+		fdin = dup(savein);
 
 	while(i < cmd->nb_of_simpleCmds) //on parcourt ici chaque processus == chaque simple cmd pour les fr heriter des redirections
 	{
@@ -52,7 +52,7 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 			if (cmd->outputfile != NULL)
 			fdout = open(cmd->outputfile, O_CREAT | O_RDWR | O_TRUNC, 0644);
 		else
-			fdout = dup(tmpout);
+			fdout = dup(saveout);
 	}
 	//Redirection des vrais in et out dans le processus parent tjrs en bouclant sur les simpleCmds
 	//###SI SIMPLE COMMANDE REGULAR)###
@@ -76,8 +76,8 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 				exec_return = ft_execute_cmd(cmd, i, envp);//appel a execve
 				if (exec_return == -1 && (errno == 2 || errno == 13))
 				{
-					close(tmpin);
-					close(tmpout);
+					close(savein);
+					close(saveout);
 
 				}
 
@@ -88,10 +88,10 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 			i++;
 	}
 	//restauration des sauvegardes des vrais in et out :
-	dup2(tmpin, 0);
-	dup2(tmpout, 1);
-	close(tmpin);
-	close(tmpout);
+	dup2(savein, 0);
+	dup2(saveout, 1);
+	close(savein);
+	close(saveout);
 
 	
 	// gestion de & background ->on attendra pas la derniere commande sil n y est pas.

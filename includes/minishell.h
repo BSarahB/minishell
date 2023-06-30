@@ -238,10 +238,10 @@ void	ft_count_nb_of_infile_in_simpleCmd(t_simpleCmd *simpleCmd);
 void	ft_count_nb_of_outfile_in_simpleCmd(t_simpleCmd *simpleCmd);
 void	ft_count_nb_of_errfile_in_simpleCmd(t_simpleCmd *simpleCmd);
 void	ft_count_nb_of_redir_token_in_simpleCmd(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list *dynamic_lst_token);
-size_t	ft_count_nb_of_tokens_in_simpleCmd(t_list *lst_token, t_simpleCmd *simpleCmd);
+void	ft_count_nb_of_tokens_in_simpleCmd(t_list *start_lst_token, t_simpleCmd *simpleCmd);
 
 
-t_list	*ft_get_end_simpleCmd_pos(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list **dynamic_lst_token);
+void	ft_get_end_simpleCmd_pos(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list **dynamic_lst_token);
 
 
 #endif
