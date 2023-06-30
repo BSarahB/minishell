@@ -73,6 +73,18 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 			pipe(pip);
 			fdout = pip[1];
 			fdin = pip[0];//+++ ainsi au prochain tour de boucle, fdin (et donc la future entree standart) sera DEJA parametree pour preparer le fdin du processus suivant qui executera la commande du pipe suivant et sera verra donc deja redirigee son entree standard sur la sortie du tube soit pip[0] pour lire a partir de pip[0] ce qui aura ete jete dans pip[1](cmd actuelle)
+
+			if (cmd->simpleCmds[i]->outfile != NULL)
+				{
+					while(j < cmd->simpleCmds[i]->nb_of_outfile)
+					{
+						if(j != 0 && fdout)//TODO proteger des pbs a l ouverture
+							close(fdout);
+						fdout = open(cmd->simpleCmds[i]->outfile[j], O_CREAT | O_RDWR | O_TRUNC, 0644);
+						j++;
+					}
+					close(pip[1]);
+				}
 		}
 			//redirection de l output -> on redirige l output avant de creer les enfants pour qu ils en heritent.
 		dup2(fdout, STDOUT_FILENO);
