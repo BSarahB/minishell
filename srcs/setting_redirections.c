@@ -73,7 +73,12 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 			//on cree le pipe
 			int pip[2];
 
-			pipe(pip);
+
+			if (pipe(pip) == -1)
+			{
+               perror("pipe");
+               exit(EXIT_FAILURE);
+           	}
 			fdout = pip[1];
 			fdin = pip[0];//+++ ainsi au prochain tour de boucle, fdin (et donc la future entree standart) sera DEJA parametree pour preparer le fdin du processus suivant qui executera la commande du pipe suivant et sera verra donc deja redirigee son entree standard sur la sortie du tube soit pip[0] pour lire a partir de pip[0] ce qui aura ete jete dans pip[1](cmd actuelle)
 
@@ -95,23 +100,33 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 
 	//Creation des processus : il faudra creer autant de processus que de commandes donc faire dans le while.
 		ret = fork();
+	
 		if (ret == 0) //dans l enfant on execute la commande correspondant a la simplecmd
 			{
 				//si on est dans l enfant on va pouvoir lancer l execution de sa simpleCommande
 				exec_return = ft_execute_cmd(cmd, i, envp);//appel a execve
 				if (exec_return == -1 && (errno == 2 || errno == 13))
-				{
+				{	
+					
+				//	ft_check_close_error((*ptr).fd2);
 					close(savein);
 					close(saveout);
-
 				}
 
 				//il faudra imperativement SORTIR de la pour ne pas que le code du fork s execute derriere dans l enfant avec la boucle while
 				exit(1);//ou (0?) voir comment bien sortir
 			}
+			if (ret == -1)
+			{
+				//ft_free_t_struct(&ptr);
+				perror (" pb fork ");
+				exit(EXIT_FAILURE);//j avais mis 1 dans pipex cd la macro
+			}		
+
 
 			i++;
 	}
+
 	//restauration des sauvegardes des vrais in et out :
 	dup2(savein, 0);
 	dup2(saveout, 1);

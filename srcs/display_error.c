@@ -5,23 +5,37 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbenmesb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/20 18:13:33 by mbenmesb          #+#    #+#             */
-/*   Updated: 2023/03/20 18:22:46 by mbenmesb         ###   ########.fr       */
+/*   Created: 2023/07/03 13:56:21 by mbenmesb          #+#    #+#             */
+/*   Updated: 2023/07/03 13:56:25 by mbenmesb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 /*
-void	ft_putstr_fd(char *s, int fd)
+int	ft_check_open_error(t_struct *ptr)
 {
-	if (s != 0)
+	if ((*ptr).fd1 == -1)
 	{
-		while (*s)
-		{
-			write(fd, s, 1);
-			s++;
-		}
+		return (1);
 	}
+	if ((*ptr).fd2 == -1)
+	{
+		perror("minishell");
+		ft_free_t_struct(&ptr);
+		return (2);
+	}
+	return (0);
+}
+*/
+int	ft_check_close_error(int fd)
+{
+	if (close(fd) == -1)
+	{
+		perror("minishell");
+		return (1);
+	}
+	return (0);
 }
 
 void	ft_error(char *const str)
@@ -36,11 +50,14 @@ void	ft_error_msg(char **argv)
 	ft_error(argv[1]);//ON DOIT REMPLACER ARGV[1] par le nom d INFILE (normalement cela est la 1 ere simple_cmd) (verifier l impact d un infile dans un block)
 	ft_error("\n");
 }
+/*
+//SI PB D OUVERTURE DE FD1 ou FD2 (donc association a la simpleCmd fd1(pour scmd 1) et fd2 pour simpleCmd2) cf plus tard
 if(ret == 2 || ret == 1)
 { 
 	ft_check_fork_fd1();
 
 }
+
 void	ft_check_fork_fd1(t_struct *ptr, char **argv, char **envp, int ret)
 {
 	pid_t	retour_fd1;
@@ -66,29 +83,13 @@ void	ft_check_fork_fd1(t_struct *ptr, char **argv, char **envp, int ret)
 		}
 	}
 
-		//on s occupait ici du fork
-		retour_fd1 = fork();
-		if (retour_fd1 == -1) //GESTION D ERREUR DU FORK
-		{
-			ft_free_struct_t_cmd(&cmd); //on free et on degage
-			perror (" pb fork ");
-			exit(1);
-		}
-		if (retour_fd1 == 0)//
-		{
-			ret = ft_get_parent_ret(ptr, argv, envp);
-			(*ptr).errnum = ret;
-			exit(ret);
-		}
-		ret = (*ptr).errnum ;
-		ft_free_struct_t_cmd(&cmd); 
-		exit(ret);
-	}
-}
 
+}
+*/
 	//GESTION DE CAS OU INFILE OU OUTFILE S OUVRE PAS
 int	ft_check_open_error(int fdin, int fdout, t_cmd *cmd)
 {
+	(void)cmd;
 	if (fdin == -1)//si c est une erreur sur l ouverture open de infile, 
 	{
 		return (1);
@@ -96,22 +97,9 @@ int	ft_check_open_error(int fdin, int fdout, t_cmd *cmd)
 	if (fdout == -1) //si il y a un pb sur l open de l outfile on degage, on affiche le perror on free on a tt compris, et basta la vista
 	{
 		perror("minishell");
-		ft_free_struct_t_cmd(&cmd); 
+	//	ft_free_struct_t_cmd(&cmd); 
 		return (2);
 	}
 	return (0);
 }
 
-
-int	ft_check_close_error(int fd)
-{
-	if (close(fd) == -1)
-	{
-		perror("minishell");
-		return (1);
-	}
-	return (0);
-}
-
-
-*/

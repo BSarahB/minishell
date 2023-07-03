@@ -48,7 +48,10 @@ int	ft_execute_cmd(t_cmd *cmd, int i,char *envp[])
 		exec_return = ft_execve_join(cmd, envp, cmd->simpleCmds[i]->abs_cmd_and_args);
 	if (exec_return == -1 && (errno == 2 || errno == 13))
 		{
-			(cmd->simpleCmds[0])->errnum = 127;
+			cmd->simpleCmds[i]->errnum = 127;
+			ft_putstr_fd(cmd->simpleCmds[i]->cmd_and_args[0], 2);
+			ft_putstr_fd(": command not found: ", 2);
+			ft_putstr_fd("\n", 2);
 			ft_free_struct_t_cmd(&cmd);
 			return(exec_return);
 

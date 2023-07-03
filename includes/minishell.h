@@ -244,4 +244,8 @@ void	ft_count_nb_of_tokens_in_simpleCmd(t_list *start_lst_token, t_simpleCmd *si
 void	ft_get_end_simpleCmd_pos(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list **dynamic_lst_token);
 
 
+
+int	ft_check_close_error(int fd);
+
+
 #endif
