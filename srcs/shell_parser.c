@@ -204,6 +204,7 @@ void	ft_del_and_parse2_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simp
 		
 	}
 	curr = *alst;
+	*lst_token_addr = *alst;
 	i = 0;
 	while((curr->position < simpleCmd->end_simpleCmd_pos) && (curr->next != NULL && curr->next->position < simpleCmd->end_simpleCmd_pos))
 	{

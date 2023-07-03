@@ -144,4 +144,5 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 */
 
 }
-
+//TODO : toutes les protections et les returns echo $?
+//FAIRE mon document pour le minishell avec toutes les commandes -> triim and clear etc. avec ts les process pour preparer en bon et du form les commandes au parsing
