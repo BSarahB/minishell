@@ -109,6 +109,7 @@ void	ft_count_final_nb_of_tokens_in_simpleCmd(t_list *start_lst_token, t_simpleC
 	while (tmp !=NULL && tmp->position < simpleCmd->end_simpleCmd_pos)
 	{
 		token_in_simpleCmd_nbr++;
+
 		tmp = tmp->next;
 	}
 	
@@ -323,6 +324,29 @@ void	ft_malloc_redir_file_tabs_of_simpleCmd(t_simpleCmd *simpleCmd)
 	//if tmp == NULL -> reactualiser la end_simpleCmd_pos ici semble premature
  }
 
+void	ft_get_end_simpleCmd_pos2(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list **start_lst_token)
+{
+	(void)cmd;
+	(void)simpleCmd;
+	t_list *tmp;
+
+	tmp = *start_lst_token;
+	while(tmp)
+	{
+		if(tmp->title == operator)
+		{
+			simpleCmd->end_simpleCmd_pos = tmp->position;
+			break;
+		}
+		if(tmp->next == NULL)
+		{
+			simpleCmd->end_simpleCmd_pos = tmp->position;
+			break;
+		}
+		tmp = tmp->next;
+	}
+}
+
 void	ft_get_end_simpleCmd_pos(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list **start_lst_token)
 {
 	(void)cmd;
@@ -359,14 +383,11 @@ int	ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_to
 	start_lst_token = lst_token;
 	while (i < cmd->nb_of_simpleCmds && start_lst_token != NULL)
 	{
-		if(cmd->nb_of_simpleCmds >1)
-			ft_get_end_simpleCmd_pos(cmd, cmd->simpleCmds[i], &start_lst_token); //voir si je le retourne ou sije le change juste en memmoire (supprimer )
+		ft_get_end_simpleCmd_pos(cmd, cmd->simpleCmds[i], &start_lst_token); //voir si je le retourne ou sije le change juste en memmoire (supprimer )
 		ft_count_nb_of_redir_token_in_simpleCmd(cmd, cmd->simpleCmds[i],start_lst_token);
 		ft_malloc_redir_file_tabs_of_simpleCmd(cmd->simpleCmds[i]);
 		if(cmd->simpleCmds[i]->nb_of_redir_token > 0)
 			ft_del_and_parse2_redir_token_in_simpleCmd(&start_lst_token, cmd->simpleCmds[i],&(cmd->lst_token));
-
-			//ft_del_and_parse2_redir_token_in_simpleCmd(&(cmd->lst_token), cmd->simpleCmds[i], start_lst_token);
 	//	printf("outfile de %zu: [%s] +  [%s]  + [%s]\n",i, cmd->simpleCmds[i]->outfile[0],cmd->simpleCmds[i]->outfile[1],cmd->simpleCmds[i]->outfile[2]);
 	//	printf("infile de %zu: [%s] +  [%s]  +[%s]\n",i, cmd->simpleCmds[i]->infile[0],cmd->simpleCmds[i]->infile[1], cmd->simpleCmds[i]->infile[2]);
 		ft_aff_list_ptr_sur_char_content(lst_token);
@@ -383,10 +404,7 @@ int	ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_to
 	return (exec_return);
 }
 
-//TODO : bien REGLER le JEU de la liste dynamique de token et la end_cimplecmd pos comme borne
-// a chaque depart, je vais avoir une end_simpleCmd_pos, ce sera ma borne [ et cette derniere deviendra au maillon suivant le dynamic lst
-
-
+//TODO : add command not found
 
 
 

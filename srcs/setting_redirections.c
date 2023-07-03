@@ -33,6 +33,9 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 	saveout = dup(1);//dup(STDOUT_FILENO);
 //on parametre infile + on parametre fdin
 	//sil existe ce sera l entree de toute la cmd
+	//proteger si il n y a pas de token mais que des espaces
+	if(cmd->simpleCmds[i] == NULL)
+		return;
 	if (cmd->simpleCmds[i]->infile != NULL)
 		fdin = open(cmd->simpleCmds[i]->infile[j], O_RDONLY);//TODO cmt rendre compte du nom du inputfile si on ne le connait pas
 

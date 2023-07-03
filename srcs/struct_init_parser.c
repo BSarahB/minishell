@@ -103,6 +103,7 @@ t_cmd	*ft_struct_init_cmd(t_cmd **cmd, char init_value, t_list *lst_token)
 	(void)init_value;
 
 	nbr_of_simpleCmds = ft_count_simpleCmds_nbr(lst_token);
+	//on peut proteger ici si nbr == 0 et ne pas rentrer la dedans (ex : |)
 	*cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!(*cmd))
 		return (NULL);
