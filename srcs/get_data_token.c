@@ -105,6 +105,19 @@ int ft_get_token_type(char *str, t_list *token, t_data *data, size_t i, char *li
 		}
 		if (*str == '<')
 		{
+			//si loperateur est colle au token ls|grep c
+			if(data->token->start_token_pos_exists != 0)//on est colles a un token
+			{
+				data->token->end_token_pos = i - 1;
+				ft_get_token_content(data, data->token->start_token_pos, data->token->end_token_pos, line);
+				data->token->start_token_pos_exists = i;
+				data->token->end_token_pos = i;
+			//	ft_get_token_content(data,i, i, line);
+			//	data->token->start_token_pos_exists = 0;
+			//	data->token->end_token_pos = 0;
+			}
+
+
 			token->title = redir_in;
 			return (LESS);
 		}
