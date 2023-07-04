@@ -37,9 +37,20 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 	if(cmd->simpleCmds[i] == NULL)
 		return;
 	if (cmd->simpleCmds[i]->infile != NULL)
-		fdin = open(cmd->simpleCmds[i]->infile[j], O_RDONLY);//TODO cmt rendre compte du nom du inputfile si on ne le connait pas
-
-
+		{
+			while(j < cmd->simpleCmds[i]->nb_of_outfile)
+			{
+				if(j != 0 && fdin)//TODO proteger des pbs a l ouverture
+					close(fdin);
+				fdin = open(cmd->simpleCmds[i]->infile[j], O_RDONLY);//TODO cmt rendre compte du nom du inputfile si on ne le connait pas
+				if(fdin == -1) //ft_check open error quand on refactorisera plus tard
+				{	
+					ft_error_msg(cmd->simpleCmds[i]->infile[j]);	
+				}
+				j++;
+			}
+			j = 0;
+		}
 	
 	//s il n existe pas on prend stdin par defaut
 	else
@@ -61,12 +72,13 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 						if(j != 0 && fdout)//TODO proteger des pbs a l ouverture
 							close(fdout);
 						fdout = open(cmd->simpleCmds[i]->outfile[j], O_CREAT | O_RDWR | O_TRUNC, 0644);
+						// if(fdout == -1) gerer les erreurs d ouverture ici avec perror
 						j++;
 					}
 				}
 			else
 				fdout = dup(saveout);
-	}
+		}
 	//Redirection des vrais in et out dans le processus parent tjrs en bouclant sur les simpleCmds
 	//###SI SIMPLE COMMANDE REGULAR)###
 		else {
@@ -89,6 +101,11 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 						if(j != 0 && fdout)//TODO proteger des pbs a l ouverture
 							close(fdout);
 						fdout = open(cmd->simpleCmds[i]->outfile[j], O_CREAT | O_RDWR | O_TRUNC, 0644);
+						if(fdout == -1)
+							{
+
+							}
+						
 						j++;
 					}
 					close(pip[1]);
@@ -146,3 +163,6 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 }
 //TODO : toutes les protections et les returns echo $?
 //FAIRE mon document pour le minishell avec toutes les commandes -> triim and clear etc. avec ts les process pour preparer en bon et du form les commandes au parsing
+//TODO : wc -l <infile1 <infile2 : infile2 nexiste pas : wc -l ne s execute pas
+//en revanche : wc -l <infile1 <infile2 | ls  ls s execute, cmd1 renvoie no such file or directory
+//TODO: <infile_no_exist cat | rev >test0 --> devrait executer la cmd2 rev et avoir cree test0. on a donc le pipe qui est cree, c est juste que infile n existe pas donc il faut pas executer la cmd1

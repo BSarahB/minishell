@@ -244,7 +244,9 @@ void	ft_get_end_simpleCmd_pos(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list **dynam
 
 
 
-int	ft_check_close_error(int fd);
+int		ft_check_close_error(int fd);
+void	ft_error_msg(char *infile);
+void	ft_error(char *const str);
 
 
 #endif
