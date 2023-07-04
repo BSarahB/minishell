@@ -148,7 +148,7 @@ void	ft_lstdelone(t_list *lst, void(*parse)(char *content, t_simpleCmd *simpleCm
 }
 
 
-void	ft_del_and_parse2_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpleCmd, t_list **lst_token_addr)
+void	ft_del_and_parse2_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpleCmd, t_list **lst_token)
 {
 	t_list *curr;
 	//t_list *tmp;
@@ -159,7 +159,7 @@ void	ft_del_and_parse2_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simp
 	t_list *lst_token_to_remove2;
 
 
-	(void)lst_token_addr;
+	(void)lst_token;
 	curr = *alst;
 //	tmp = start_lst_token;
 	i = 0;
@@ -174,8 +174,41 @@ void	ft_del_and_parse2_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simp
 	//je m occupe du 1 er maillon, car il pourrait tres bien etre une redirection >outfile 
 
 	//TODO redir _in et err
+
+	curr = *alst;
+
+	while (curr !=NULL && curr->next != NULL && (curr->title == redir_out || curr->title == redir_in || curr->title == redir_err))
+	{
+		lst_token_to_remove = curr;
+		lst_token_to_remove2 = curr->next;
+		if(curr->title == redir_in)
+		{
+			curr->next->title = redir_in;
+			ft_lstdelone(lst_token_to_remove, &parse, simpleCmd, i, 0);
+ 			ft_lstdelone(lst_token_to_remove2, &parse, simpleCmd, i, 1);
+			i++;
+		}
+		if(curr->title == redir_out)
+		{
+			curr->next->title = redir_out;
+			ft_lstdelone(lst_token_to_remove, &parse, simpleCmd, j, 0);
+ 			ft_lstdelone(lst_token_to_remove2, &parse, simpleCmd, j, 1);
+			j++;
+		}
+		if(curr->title == redir_err)
+		{
+			curr->next->title = redir_err;
+			ft_lstdelone(lst_token_to_remove, &parse, simpleCmd, k, 0);
+ 			ft_lstdelone(lst_token_to_remove2, &parse, simpleCmd, k, 1);
+			k++;
+		}	
+		curr = curr->next->next;	
+	}
+/*
 	while(((*alst)->title == redir_out || (*alst)->title == redir_in || (*alst)->title == redir_err) && (*alst)->next != NULL) 
 	{
+		curr = *alst;
+
 		lst_token_to_remove = *alst;
 		lst_token_to_remove2 = (*alst)->next;
 		if((*alst)->title == redir_in)
@@ -203,10 +236,14 @@ void	ft_del_and_parse2_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simp
  	
 		
 	}
-	curr = *alst;
-	*lst_token_addr = *alst;
+	*/
+	*lst_token = curr;
+	printf("affiche list apres del");
+	ft_aff_list_ptr_sur_char_content(*lst_token);
+
+	*alst = curr;
 	i = 0;
-	while((curr->position < simpleCmd->end_simpleCmd_pos) && (curr->next != NULL && curr->next->position < simpleCmd->end_simpleCmd_pos))
+	while(curr != NULL && (curr->position < simpleCmd->end_simpleCmd_pos) && (curr->next != NULL && curr->next->position < simpleCmd->end_simpleCmd_pos))
 	{
 		if(curr->next->title == redir_in)
 		{
@@ -388,11 +425,11 @@ int	ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_to
 		ft_count_nb_of_redir_token_in_simpleCmd(cmd, cmd->simpleCmds[i],start_lst_token);
 		ft_malloc_redir_file_tabs_of_simpleCmd(cmd->simpleCmds[i]);
 		if(cmd->simpleCmds[i]->nb_of_redir_token > 0)
-			ft_del_and_parse2_redir_token_in_simpleCmd(&start_lst_token, cmd->simpleCmds[i],&(cmd->lst_token));
+			ft_del_and_parse2_redir_token_in_simpleCmd(&start_lst_token, cmd->simpleCmds[i], &lst_token);
 	//	printf("outfile de %zu: [%s] +  [%s]  + [%s]\n",i, cmd->simpleCmds[i]->outfile[0],cmd->simpleCmds[i]->outfile[1],cmd->simpleCmds[i]->outfile[2]);
 	//	printf("infile de %zu: [%s] +  [%s]  +[%s]\n",i, cmd->simpleCmds[i]->infile[0],cmd->simpleCmds[i]->infile[1], cmd->simpleCmds[i]->infile[2]);
-	//	ft_aff_list_ptr_sur_char_content(lst_token);
-		ft_count_final_nb_of_tokens_in_simpleCmd(start_lst_token,cmd->simpleCmds[i]);
+		ft_aff_list_ptr_sur_char_content(lst_token);
+		ft_count_final_nb_of_tokens_in_simpleCmd(start_lst_token, cmd->simpleCmds[i]);
 		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(start_lst_token, cmd->simpleCmds[i]);
 		while(start_lst_token->position < cmd->simpleCmds[i]->end_simpleCmd_pos)
 			start_lst_token = start_lst_token->next;//il faut ramener a end_token_pos
