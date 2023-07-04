@@ -391,7 +391,7 @@ int	ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_to
 			ft_del_and_parse2_redir_token_in_simpleCmd(&start_lst_token, cmd->simpleCmds[i],&(cmd->lst_token));
 	//	printf("outfile de %zu: [%s] +  [%s]  + [%s]\n",i, cmd->simpleCmds[i]->outfile[0],cmd->simpleCmds[i]->outfile[1],cmd->simpleCmds[i]->outfile[2]);
 	//	printf("infile de %zu: [%s] +  [%s]  +[%s]\n",i, cmd->simpleCmds[i]->infile[0],cmd->simpleCmds[i]->infile[1], cmd->simpleCmds[i]->infile[2]);
-		ft_aff_list_ptr_sur_char_content(lst_token);
+	//	ft_aff_list_ptr_sur_char_content(lst_token);
 		ft_count_final_nb_of_tokens_in_simpleCmd(start_lst_token,cmd->simpleCmds[i]);
 		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(start_lst_token, cmd->simpleCmds[i]);
 		while(start_lst_token->position < cmd->simpleCmds[i]->end_simpleCmd_pos)
@@ -405,7 +405,6 @@ int	ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_to
 	return (exec_return);
 }
 
-//TODO : add command not found
 
 
 
@@ -448,110 +447,6 @@ int	ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_to
 
 
 
-	 /*
-	 char	**ft_get_abs_arguments(int i, char **c_and_a_copy, size_t nb_of_tokens_in_simpleCmd)
-	 {
-		 (void)blocks;
-		 char	**abs_c_and_a;
-		 char	slash[2];
-
-
-		 slash[0] = '/';
-		 slash[1] = 0;
-	 //	abs_c_and_a = ft_split(blocks[i], ' ');
-		 abs_c_and_a = c_and_a_copy;
-
-		 //abs_c_and_a = malloc(sizeof(*abs_c_and_a) * (nb_of_tokens_in_simpleCmd + 1));
-		 if(!abs_c_and_a)
-		 return(NULL);
-		 ft_update_string(&abs_c_and_a[0], ft_strjoin(slash, abs_c_and_a[0]));
-		 return (abs_c_and_a);
-	 }
-	 */
-	 /*
-	 char	**ft_get_abs_argumentsb(size_t i, char **abs_c_and_a)
-	 {
-		 char	slash[2];
-		 (void)i;
-
-		 slash[0] = '/';
-		 slash[1] = 0;
-		 ft_update_string(&abs_c_and_a[0], ft_strjoin(slash, abs_c_and_a[0]));
-		 //ft_strjoin(slash, abs_c_and_a[0]);
-		 return (abs_c_and_a);
-	 }
-	 */
-
- /*
-size_t	ft_count_nb_of_tokens_in_simpleCmd(t_list *lst_token, t_simpleCmd *simpleCmd)
-{
-//je parcours la liste chainee jusqu a ce que je tombe sur un opeartor,
-	//si je tombe sur > token redir title seul (get content compare) le token d apres est considere comme outfile
-	//si je tombe sur < token redir title seul (get content compare) le token d apres est considere comme infile
-	// et on skippe ces 2 tokens
-
-	size_t	k;
-	size_t	token_in_simpleCmd_nbr;
-	t_list	*tmp;
-
-	token_in_simpleCmd_nbr = 0;
-	tmp = lst_token;
-
-	while (tmp)
-	{
-		if (tmp->title == operator)
-				{
-					simpleCmd->number_of_tokens_in_simpleCmd = token_in_simpleCmd_nbr;
-					lst_token++;
-					break;
-		}
-		k = 0;
-		while (tmp && tmp->title != operator)
-		{
-			if (tmp->title != redir_in || tmp->title != redir_out)
-			{
-				k++;
-				break;
-			}
-			else if ((tmp->title == redir_in || tmp->title == redir_out) && ft_lst_token_redir_token_alone(tmp->content))
-			{
-
-				//ft_remove_token_redir_from_list()
-			//	void	ft_lstdelone(t_list *lst, void (*del)(void *))
-				//{
-					//if (lst && del)
-					//{
-						//del(lst->content);
-						//free(lst);
-						//lst = NULL;
-					//}
-				//}
-
-
-				tmp = tmp->next;
-				tmp = tmp->next;//sil existe l >
-
-
-			}
-			else if((tmp->title == redir_in || tmp->title == redir_out) && ft_lst_token_redir_token_alone(tmp->content) == 0)
-			{
-				//ft_remove_token_redir_from_list()
-				tmp = tmp->next;
-
-			}
-		}
-		if (k != 0)
-			token_in_simpleCmd_nbr++;
-		//
-		tmp = tmp->next;
-
-	}
-	return (token_in_simpleCmd_nbr);
-}
-
-
-
-	 */
 
 
 

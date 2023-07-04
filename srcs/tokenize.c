@@ -95,7 +95,7 @@ size_t ft_char_is_whitespace(char *str, char *line, size_t i, t_data *data)
 			//ft_char_after_ws_is_no_ws_token_noexist_no_qr(line, i, lst_token);
 			if ((data->token->quoting_rule == whitespace_separator) && (data->token->start_token_pos_exists == 0) && (!(str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))))
 			{//char_after_ws_is_operator_no_token_exists_no_qr
-				if (ft_get_token_type(&str[i], data->token)) // si le char est un operateur (| < > etc &) on le considere DIRECT Comme un TOKEN et on l imprime. //TODO creer le cas de l operateur a 2 caracteres << >> &> etc
+				if (ft_get_token_type(&str[i], data->token, data, i, line)) // si le char est un operateur (| < > etc &) on le considere DIRECT Comme un TOKEN et on l imprime. //TODO creer le cas de l operateur a 2 caracteres << >> &> etc
 					i = ft_char_after_ws_is_operator_no_token_exists_no_qr(i, line, data);
 				else{ // on est sur un char non operateur qui suit un espace (no token no qr)
 					data->token->start_token_pos = i;//

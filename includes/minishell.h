@@ -207,14 +207,13 @@ t_list *ft_create_list(void);
 
 size_t	ft_char_is_whitespace(char *str, char *line, size_t i, t_data *data);
 int		ft_char_isnull_no_qr(char *line, size_t i, t_data *data);
-int		ft_get_token_type(char *str, t_list *token);
+int		ft_get_token_type(char *str, t_list *token, t_data *data, size_t i, char *line);
 void	ft_char_is_operator(char *line, size_t i, t_data *data);
 void	ft_char_after_ws_token_exist_no_qr(char *line, size_t i, t_data *data);
 size_t	ft_char_after_ws_is_operator_no_token_exists_no_qr(size_t i, char *line, t_data *data);
 
 
 
-void	ft_get_token_content(t_data *data, size_t start_token_pos, size_t end_token_pos, char *line);
 void	ft_char_or_token_is_unique(char *line, size_t i, t_data *data);//char or token is unique // faudrait  il recuperer ici la end pos puisqu on sort du code des token et qu on a atteint un \0 ?
 void	ft_char_after_ws_isnull_token_exists_noqr(char *line, size_t i, t_data *data);
 

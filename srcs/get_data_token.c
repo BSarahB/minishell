@@ -24,6 +24,7 @@ void ft_get_token_content_lengh_for_malloc(t_list *lst_token, size_t start_token
 void ft_get_token_content(t_data *data, size_t start_token_pos, size_t end_token_pos, char *line)
 {
 
+
 	t_list *new;
 
 	if (data->token->quoting_rule_adequate == 0 && data->token->quoting_rule != 0)
@@ -74,7 +75,7 @@ int	ft_is_char_operand(char *str, t_list *lst_token)
 					   return (0);
 }
 
-int ft_get_token_type(char *str, t_list *token)
+int ft_get_token_type(char *str, t_list *token, t_data *data, size_t i, char *line)
 {
 	if ((*str == '>') && (*(str - 1) == '>'))
 	{										  // TODO risque de segfault a str index 0
@@ -88,7 +89,17 @@ int ft_get_token_type(char *str, t_list *token)
 	if (token->quoting_rule != single_quote && token->quoting_rule != double_quote)
 	{
 		if (*str == '>')
-		{
+		{//si loperateur est colle au token ls>outfile
+			if(data->token->start_token_pos_exists != 0)//on est colles a un token
+			{
+				data->token->end_token_pos = i - 1;
+				ft_get_token_content(data, data->token->start_token_pos, data->token->end_token_pos, line);
+				data->token->start_token_pos_exists = i;
+				data->token->end_token_pos = i;
+			//	ft_get_token_content(data,i, i, line);
+			//	data->token->start_token_pos_exists = 0;
+			//	data->token->end_token_pos = 0;
+			}
 			token->title = redir_out;
 			return (GREAT);
 		}
