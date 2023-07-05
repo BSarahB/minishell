@@ -85,7 +85,7 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 		dup2(fdin, STDIN_FILENO);//durant la while, a partir de la 2 eme simplecmd  on va heriter du fdin du pipe COMMUN a la simplecmd precedente on avait parametre : fdin = pip[0]; cest cela qui est le coeur des multipipes
 		close(fdin);
 		//on parametre fdout
-		//###SI LAST SIMPLE COMMANDE###
+//###SI LAST SIMPLE COMMANDE###
 		if (i == (cmd->nb_of_simpleCmds) - 1)
 		{
 			if (cmd->simpleCmds[i]->outfile != NULL)
@@ -119,10 +119,17 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 						if(fdin == -1) //ft_check open error quand on refactorisera plus tard
 						{	
 							ft_error_msg(cmd->simpleCmds[i]->infile[j]);
-							i++;
+							i++;//cf
+							j = 0;
 							break;	
 						}
 						j++;
+					}
+					//si j != 0 alors on peut dire que un infile doit faire office d origine de lecture a la place du pip[0] donc on devrait rediriger STDIN sur fdin
+					if (j != 0)
+					{
+						dup2(fdin, STDIN_FILENO);
+						close(fdin);
 					}
 					j = 0;
 				}
@@ -161,7 +168,7 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 					close(pip[1]);
 				}
 			j = 0;
-			if (cmd->simpleCmds[i]->infile != NULL)
+			if  (cmd->simpleCmds[i]->infile != NULL && i != 0)
 				{
 					while(j < cmd->simpleCmds[i]->nb_of_infile)
 					{
@@ -236,3 +243,4 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 //TODO : wc -l <infile1 <infile2 : infile2 nexiste pas : wc -l ne s execute pas
 //en revanche : wc -l <infile1 <infile2 | ls  ls s execute, cmd1 renvoie no such file or directory
 //TODO: <infile_no_exist cat | rev >test0 --> devrait executer la cmd2 rev et avoir cree test0. on a donc le pipe qui est cree, c est juste que infile n existe pas donc il faut pas executer la cmd1
+//TODO: ls | wc -l <infileno | wc -l --> ici on a bien no such file or directory mais on devrait executer la cmd c est a cause du i++ a l interieur du bloc du ft_error_msg pour l infileno
