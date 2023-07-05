@@ -238,7 +238,7 @@ void	ft_del_and_parse2_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simp
 	}
 	*/
 	*lst_token = curr;
-	printf("affiche list apres del");
+	printf("affiche list avant del");
 	ft_aff_list_ptr_sur_char_content(*lst_token);
 
 	*alst = curr;

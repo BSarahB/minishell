@@ -38,14 +38,37 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 		return;
 	if (cmd->simpleCmds[i]->infile != NULL)
 		{
-			while(j < cmd->simpleCmds[i]->nb_of_outfile)
+			while(j < cmd->simpleCmds[i]->nb_of_infile)
 			{
 				if(j != 0 && fdin)//TODO proteger des pbs a l ouverture
 					close(fdin);
 				fdin = open(cmd->simpleCmds[i]->infile[j], O_RDONLY);//TODO cmt rendre compte du nom du inputfile si on ne le connait pas
 				if(fdin == -1) //ft_check open error quand on refactorisera plus tard
 				{	
-					ft_error_msg(cmd->simpleCmds[i]->infile[j]);	
+					ft_error_msg(cmd->simpleCmds[i]->infile[j]);
+					j = 0;
+					if (cmd->simpleCmds[i]->outfile != NULL)
+					{
+						while(j < cmd->simpleCmds[i]->nb_of_outfile)
+						{
+							if(j != 0 && fdout)//TODO proteger des pbs a l ouverture
+								close(fdout);
+							fdout = open(cmd->simpleCmds[i]->outfile[j], O_CREAT | O_RDWR | O_TRUNC, 0644);
+							// if(fdout == -1) gerer les erreurs d ouverture ici avec perror
+							if(fdout == -1)
+								{
+									perror("minishell");
+									exit(1);
+								//fermer les pipes, nettoyer la memoire etc...
+								}
+							j++;
+						}
+						j = 0;
+					}
+
+
+					i++;
+					break;	
 				}
 				j++;
 			}
@@ -73,11 +96,36 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 							close(fdout);
 						fdout = open(cmd->simpleCmds[i]->outfile[j], O_CREAT | O_RDWR | O_TRUNC, 0644);
 						// if(fdout == -1) gerer les erreurs d ouverture ici avec perror
+						if(fdout == -1)
+							{
+								perror("minishell");
+								exit(1);
+								//fermer les pipes, nettoyer la memoire etc...
+							}
 						j++;
 					}
 				}
 			else
 				fdout = dup(saveout);
+			j = 0;
+			if (cmd->simpleCmds[i]->infile != NULL)
+				{
+					while(j < cmd->simpleCmds[i]->nb_of_infile)
+					{
+
+						if(j != 0 && fdin)//TODO proteger des pbs a l ouverture
+							close(fdin);
+						fdin = open(cmd->simpleCmds[i]->infile[j], O_RDONLY);//TODO cmt rendre compte du nom du inputfile si on ne le connait pas
+						if(fdin == -1) //ft_check open error quand on refactorisera plus tard
+						{	
+							ft_error_msg(cmd->simpleCmds[i]->infile[j]);
+							i++;
+							break;	
+						}
+						j++;
+					}
+					j = 0;
+				}
 		}
 	//Redirection des vrais in et out dans le processus parent tjrs en bouclant sur les simpleCmds
 	//###SI SIMPLE COMMANDE REGULAR)###
@@ -93,7 +141,7 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
            	}
 			fdout = pip[1];
 			fdin = pip[0];//+++ ainsi au prochain tour de boucle, fdin (et donc la future entree standart) sera DEJA parametree pour preparer le fdin du processus suivant qui executera la commande du pipe suivant et sera verra donc deja redirigee son entree standard sur la sortie du tube soit pip[0] pour lire a partir de pip[0] ce qui aura ete jete dans pip[1](cmd actuelle)
-
+//TODO DETERMINER LA PRIORITE : SI INFILE APPARAIT AVANT OUTFILE IL FAUDRA PAS CREER OUTFILE, SI OUTFILE APPARAIT AVANT INFILE IL FAUDRA CREER OUTFILE MEME SIL N EST PAS REMPLI
 			if (cmd->simpleCmds[i]->outfile != NULL)
 				{
 					while(j < cmd->simpleCmds[i]->nb_of_outfile)
@@ -103,12 +151,34 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 						fdout = open(cmd->simpleCmds[i]->outfile[j], O_CREAT | O_RDWR | O_TRUNC, 0644);
 						if(fdout == -1)
 							{
-
+								perror("minishell");
+								exit(1);
+								//fermer les pipes, nettoyer la memoire etc...
 							}
 						
 						j++;
 					}
 					close(pip[1]);
+				}
+			j = 0;
+			if (cmd->simpleCmds[i]->infile != NULL)
+				{
+					while(j < cmd->simpleCmds[i]->nb_of_infile)
+					{
+
+						if(j != 0 && fdin)//TODO proteger des pbs a l ouverture
+							close(fdin);
+						fdin = open(cmd->simpleCmds[i]->infile[j], O_RDONLY);//TODO cmt rendre compte du nom du inputfile si on ne le connait pas
+						if(fdin == -1) //ft_check open error quand on refactorisera plus tard
+						{	
+							ft_error_msg(cmd->simpleCmds[i]->infile[j]);
+							i++;
+							break;	
+						}
+						j++;
+					}
+					close(pip[0]);
+					j = 0;
 				}
 		}
 			//redirection de l output -> on redirige l output avant de creer les enfants pour qu ils en heritent.
