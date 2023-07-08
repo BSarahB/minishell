@@ -65,7 +65,22 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 						}
 						j = 0;
 					}
+					if(cmd->nb_of_simpleCmds == 2)
+					{
+						//on cree le pipe
+						int pip[2];
+						if (pipe(pip) == -1)
+						{
+          				     perror("pipe");
+          				     exit(EXIT_FAILURE);
+          			 	}
+						//fdout = pip[1];
+						fdin = pip[0];
+						//dup2(fdin, STDIN_FILENO);//durant la while, a partir de la 2 eme simplecmd  on va heriter du fdin du pipe COMMUN a la simplecmd precedente on avait parametre : fdin = pip[0]; cest cela qui est le coeur des multipipes
+						//close(fdin);
+						close(pip[1]);
 
+					}
 
 					i++;
 					break;	
@@ -179,12 +194,13 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 						if(fdin == -1) //ft_check open error quand on refactorisera plus tard
 						{	
 							ft_error_msg(cmd->simpleCmds[i]->infile[j]);
-							i++;
+							//i++;
 							break;	
 						}
 						j++;
 					}
-					close(pip[0]);
+					//close(pip[0]);
+				
 					j = 0;
 				}
 		}
@@ -244,3 +260,7 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 //en revanche : wc -l <infile1 <infile2 | ls  ls s execute, cmd1 renvoie no such file or directory
 //TODO: <infile_no_exist cat | rev >test0 --> devrait executer la cmd2 rev et avoir cree test0. on a donc le pipe qui est cree, c est juste que infile n existe pas donc il faut pas executer la cmd1
 //TODO: ls | wc -l <infileno | wc -l --> ici on a bien no such file or directory mais on devrait executer la cmd c est a cause du i++ a l interieur du bloc du ft_error_msg pour l infileno
+
+
+
+//IL Y A UN PB Avec:  ls <infileno |wc -l | ls cela remet le prompt mais .... qque chose bugg
