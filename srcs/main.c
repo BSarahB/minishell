@@ -34,6 +34,7 @@ int main(int argc, char *argv[], char *envp[])
 			ft_putstr_fd("no line quit \n", 2);
 			break;
 		}
+		add_history(line);
 
 		if(mode_push == 0){
 			(void)envp;
@@ -45,6 +46,7 @@ int main(int argc, char *argv[], char *envp[])
 			lst_token = ft_tokenize_line_b(line);
 			cmd = ft_struct_init_cmd(&cmd, 0, lst_token);
 			cmd->path_tab = ft_get_path(envp);
+			
 			ft_parse_tokens_in_s_cmd(cmd, line, envp, lst_token);
 			ft_setting_redirections_and_pipes(cmd, envp);
 			ft_free_struct_str(&line);

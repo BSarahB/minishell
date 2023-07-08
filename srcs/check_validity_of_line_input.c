@@ -56,7 +56,7 @@ void    ft_check_prerequesite_of_line_input(char *line)
 	(void)line;
 	//ft_check_NULL_line PREREQUESITE
 
-
+	
 
 	//printf("check validity of line input : $> NULL readline \n");//soit line == NULL
 	//ft_check_only_spaces_line PREREQUESITE

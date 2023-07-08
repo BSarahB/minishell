@@ -256,11 +256,4 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 }
 //TODO : toutes les protections et les returns echo $?
 //FAIRE mon document pour le minishell avec toutes les commandes -> triim and clear etc. avec ts les process pour preparer en bon et du form les commandes au parsing
-//TODO : wc -l <infile1 <infile2 : infile2 nexiste pas : wc -l ne s execute pas
-//en revanche : wc -l <infile1 <infile2 | ls  ls s execute, cmd1 renvoie no such file or directory
-//TODO: <infile_no_exist cat | rev >test0 --> devrait executer la cmd2 rev et avoir cree test0. on a donc le pipe qui est cree, c est juste que infile n existe pas donc il faut pas executer la cmd1
-//TODO: ls | wc -l <infileno | wc -l --> ici on a bien no such file or directory mais on devrait executer la cmd c est a cause du i++ a l interieur du bloc du ft_error_msg pour l infileno
-
-
-
 //IL Y A UN PB Avec:  ls <infileno |wc -l | ls cela remet le prompt mais .... qque chose bugg
