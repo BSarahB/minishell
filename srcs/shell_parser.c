@@ -38,10 +38,11 @@ void	ft_aff_abs_cmd_and_args(t_cmd	*cmd)
 	while (i < cmd->nb_of_simpleCmds)
 	{
 		j = 0;
-		if(cmd->simpleCmds[i]->nb_of_tokens_in_simpleCmd == 0)
+		while(cmd->simpleCmds[i]->nb_of_tokens_in_simpleCmd == 0 &&  cmd->simpleCmds[i+1] != NULL)
 			i++;//protections pour >a | ls |grep c
-		
-		while (cmd->simpleCmds[i]->cmd_and_args[j] != NULL)
+		if(cmd->simpleCmds[i] != NULL && cmd->simpleCmds[i]->nb_of_tokens_in_simpleCmd != 0) 
+		{
+			while (cmd->simpleCmds[i]->cmd_and_args[j] != NULL)
 		{
 			printf("cmd_and_args de la simpleCmd[%zu] : <%s>\n", i,cmd->simpleCmds[i]->cmd_and_args[j]);
 			j++;
@@ -59,8 +60,11 @@ void	ft_aff_abs_cmd_and_args(t_cmd	*cmd)
 			j++;
 		}
 		printf("\n\n\n");
-		
 		i++;
+		}
+		else
+			break;
+
 	}
 }
 
@@ -441,10 +445,13 @@ int	ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_to
 		ft_aff_list_ptr_sur_char_content(lst_token);
 		ft_count_final_nb_of_tokens_in_simpleCmd(start_lst_token, cmd->simpleCmds[i]);
 		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(start_lst_token, cmd->simpleCmds[i]);
-		while(start_lst_token->position < cmd->simpleCmds[i]->end_simpleCmd_pos)
-			start_lst_token = start_lst_token->next;//il faut ramener a end_token_pos
-		if(start_lst_token->position == cmd->simpleCmds[i]->end_simpleCmd_pos)
-			start_lst_token = start_lst_token->next;
+		if(start_lst_token != NULL)
+		{	
+			while(start_lst_token->position < cmd->simpleCmds[i]->end_simpleCmd_pos)
+				start_lst_token = start_lst_token->next;//il faut ramener a end_token_pos
+			if(start_lst_token->position == cmd->simpleCmds[i]->end_simpleCmd_pos)
+				start_lst_token = start_lst_token->next;
+		}
 		i++;
 	}
 

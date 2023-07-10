@@ -28,7 +28,7 @@ int main(int argc, char *argv[], char *envp[])
 	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);
- 		line = readline(" ~ ");
+   		line = readline(" ~ ");
 		if (!line)
 		{
 			ft_putstr_fd("no line quit \n", 2);
