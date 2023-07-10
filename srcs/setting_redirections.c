@@ -99,8 +99,12 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 		//on redirige l input
 		dup2(fdin, STDIN_FILENO);//durant la while, a partir de la 2 eme simplecmd  on va heriter du fdin du pipe COMMUN a la simplecmd precedente on avait parametre : fdin = pip[0]; cest cela qui est le coeur des multipipes
 		close(fdin);
+
+		
+
+
 		//on parametre fdout
-//###SI LAST SIMPLE COMMANDE###
+//###SI lastSIMPlCOMMANDE###
 		if (i == (cmd->nb_of_simpleCmds) - 1)
 		{
 			if (cmd->simpleCmds[i]->outfile != NULL)
@@ -203,8 +207,14 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 				
 					j = 0;
 				}
+		
+		
+		
 		}
 			//redirection de l output -> on redirige l output avant de creer les enfants pour qu ils en heritent.
+	
+	
+	
 		dup2(fdout, STDOUT_FILENO);
 		close(fdout);
 

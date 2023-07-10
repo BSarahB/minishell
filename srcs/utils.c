@@ -28,7 +28,7 @@ void *ft_memcpy(void *dst, const void *src, size_t n)
 		s++;
 		n--;
 	}
-	printf("dst: <%s> apres memcpy\n", (unsigned char *)dst);
+	//printf("dst: <%s> apres memcpy\n", (unsigned char *)dst);
 	return (dst);
 }
 

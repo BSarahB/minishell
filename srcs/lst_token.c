@@ -2,11 +2,11 @@
 
 void	ft_aff_list_ptr_sur_char_content(t_list *alst) // pour void		*content; de type char *
 {
-			printf("list diplayed: \n");
+		//	printf("list diplayed: \n");
 
 	while(alst)
 	{
-		printf("%s , %zu\n",(char *)(alst)->content, alst->position); //ou printf("%d - ", (*(int *)(*alst)->content));
+	//	printf("%s , %zu\n",(char *)(alst)->content, alst->position); //ou printf("%d - ", (*(int *)(*alst)->content));
 		alst = (alst)->next;
 	}
 
