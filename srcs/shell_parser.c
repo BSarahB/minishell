@@ -38,6 +38,9 @@ void	ft_aff_abs_cmd_and_args(t_cmd	*cmd)
 	while (i < cmd->nb_of_simpleCmds)
 	{
 		j = 0;
+		if(cmd->simpleCmds[i]->nb_of_tokens_in_simpleCmd == 0)
+			i++;//protections pour >a | ls |grep c
+		
 		while (cmd->simpleCmds[i]->cmd_and_args[j] != NULL)
 		{
 			printf("cmd_and_args de la simpleCmd[%zu] : <%s>\n", i,cmd->simpleCmds[i]->cmd_and_args[j]);
@@ -45,13 +48,18 @@ void	ft_aff_abs_cmd_and_args(t_cmd	*cmd)
 
 		}
 		printf("\n\n\n");
+		
+			
 		j= 0;
+	
+		
 		while (cmd->simpleCmds[i]->abs_cmd_and_args[j] != NULL)
 		{
 			printf("abs_cmd_and_args[%zu]<%s>\n",i, cmd->simpleCmds[i]->abs_cmd_and_args[j]);
 			j++;
 		}
 		printf("\n\n\n");
+		
 		i++;
 	}
 }
@@ -73,6 +81,8 @@ int		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(t_list *lst_token, t_simp
 	char	**abs_c_and_a;
 
 	k = 0;
+	if(simpleCmd->nb_of_tokens_in_simpleCmd == 0)
+		return(0);
 	c_and_a = malloc(sizeof(*c_and_a) * (simpleCmd->nb_of_tokens_in_simpleCmd + 1));
 	abs_c_and_a = malloc(sizeof(*abs_c_and_a) * (simpleCmd->nb_of_tokens_in_simpleCmd + 1));
 	if(!c_and_a)

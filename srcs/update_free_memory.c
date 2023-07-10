@@ -18,6 +18,7 @@ void	ft_free_tab(char ***tab)
 	int	i;
 
 	i = 0;
+
 	while ((*tab)[i])
 	{
 		ft_free_struct_str(&(*tab)[i]);
@@ -34,7 +35,8 @@ void	ft_free_struct_t_simpleCmd(t_simpleCmd **simpleCmd)
 {
 //on est proteges dans notre code contre le double free
 //	ft_free_tab(&(*simpleCmd)->cmd_and_args);
-	ft_free_tab(&(*simpleCmd)->abs_cmd_and_args);
+	if((*simpleCmd)->abs_cmd_and_args != NULL)
+		ft_free_tab(&(*simpleCmd)->abs_cmd_and_args);
 	if (*simpleCmd != NULL)
 	{
 		free(*simpleCmd);
@@ -64,7 +66,7 @@ void	ft_free_struct_t_cmd(t_cmd **cmd)
 	//TODO : plus tard free les 3 io char * quand ils seront utilises
 	//ft_free_tab(&(cmd->simpleCmds[i]->cmd_and_args)); on a deja free ces elements dans la ft_execute_cmd
 	
-	ft_free_tab(&(*cmd)->path_tab);	
+	ft_free_tab(&(*cmd)->path_tab);
 	ft_free_struct_t_simpleCmds(&(*cmd)->simpleCmds);
 	if (*cmd != NULL)
 	{
