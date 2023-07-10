@@ -65,7 +65,7 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 						}
 						j = 0;
 					}
-					if(cmd->nb_of_simpleCmds == 2)
+					if(cmd->nb_of_simpleCmds > 1)
 					{
 						//on cree le pipe
 						int pip[2];

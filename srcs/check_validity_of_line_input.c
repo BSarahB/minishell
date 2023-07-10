@@ -38,7 +38,8 @@ void	ft_check_input_cases_for_return_empty_prompt(char *line)
 
 
 
-//	printf("check_input_cases_for_return_empty_prompt : $> # \n");
+//	printf("check_input_cases_for_return_empty_prompt : $> # \n"); ->il s agira soit du premiere caractere de line, soit d un debut de token $            #ls
+//a savoir, egalement, tout ce quil y a avant # sexecute normalement. $ls -la#| wc -l  --> le ls -la va s executer mais pas ce quil y a derriere #
 
 
 	//ft_check_double_point
@@ -48,12 +49,18 @@ void	ft_check_input_cases_for_return_empty_prompt(char *line)
 
 	//printf("check_input_cases_for_return_empty_prompt : $>: (double point) $> :something  $>: espace anything\n"); //ATTENTION: $>: seul aff prompt  $>: espace quoiquece soit aff prompt    $>:cmdcollee    on a cmd not found   $>: : : : aff prompt
 	//printf("check_input_cases_for_return_empty_prompt : $>! (seul)\n");//attention une commande apres ou colle
+	//
+	//
 }
 
 void    ft_check_prerequesite_of_line_input(char *line)
 {
 	//PREREQUESTITE N implique pas l extraction du token. les autres cas de motifs impliquent  
 	(void)line;
+
+
+
+
 	//ft_check_NULL_line PREREQUESITE
 
 	
@@ -68,5 +75,9 @@ void    ft_check_prerequesite_of_line_input(char *line)
 
 
 	// printf("check_input_cases_for_return_empty_prompt : $> entree \n");//soit line == "\0" -->return empty prompt
+
+//ft_check_comment_line //le # doit etre un caractere qui demande de ne plus mettre de tokens et d ignorer la suite considerons le comme un operand ignore il clot immediatement la liste chainee#define IGNORE 13 par contre, si on est en mode quoting SINGLE ou DOUBLE QUOTIng # est au sns litteral il perd son pouvoir de caractere special donc ATTENTION
+//ici on check seulement le 1 er carcatere de line . on laissera si $                      # gerer les erreurs de token plus tard
+
 
 }

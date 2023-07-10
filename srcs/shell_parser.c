@@ -242,7 +242,7 @@ void	ft_del_and_parse2_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simp
 	ft_aff_list_ptr_sur_char_content(*lst_token);
 
 	*alst = curr;
-	i = 0;
+	//i = 0;
 	while(curr != NULL && (curr->position < simpleCmd->end_simpleCmd_pos) && (curr->next != NULL && curr->next->position < simpleCmd->end_simpleCmd_pos))
 	{
 		if(curr->next->title == redir_in)
