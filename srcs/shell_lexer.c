@@ -11,9 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#define mode_lexing_build 1
-
-
 /*
 void	ft_is_trim_and_clear_and_retokenize_token_allowed(t_list *lst_token)
 {
@@ -83,8 +80,6 @@ void	ft_get_token_function(char c,t_list *lst_token)
 
 }
 */
-
-
 
 void	ft_char_is_operator(char *line, size_t i, t_data *data)
 {
@@ -204,14 +199,8 @@ t_list	*ft_tokenize_line_to_lst_b(char *line)
 t_list *ft_tokenize_line_b(char *line)
 {
 	t_list *lst_token;
-	lst_token = NULL;
 
-	if (mode_lexing_build == 0)
-	{
-		(void)lst_token;
-		ft_tokenize_line1(line);
-	}
-	else
-		lst_token = ft_tokenize_line_to_lst_b(line);
+	lst_token = NULL;
+	lst_token = ft_tokenize_line_to_lst_b(line);
 	return (lst_token);
 }

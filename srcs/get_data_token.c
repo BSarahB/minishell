@@ -20,7 +20,6 @@ void ft_get_token_content_lengh_for_malloc(t_list *lst_token, size_t start_token
 	lst_token->content = ft_init_cstring(&((lst_token)->content), size_content + 1, 0);
 }
 
-
 void ft_get_token_content(t_data *data, size_t start_token_pos, size_t end_token_pos, char *line)
 {
 
@@ -141,8 +140,6 @@ void ft_get_token_quoting_rule(char *str, t_list *lst_token, size_t i)
 	//  decrite ici separemment pour plus de visibilite mais sera intergree normalement et fondue dans la trim and clear
 	// mettre un INTERRUPTEUR ICI qui definit la regle du quoting rule  whitespace_Separator 0 single quoting 1 double quoting2 par ex il faudrait
 	// NB c est le premier quoting rule rencontre qui l emporte cf echo "'$VAR'" ou "'$VAR'"
-	//	(void)c;
-	//	(void)lst_token;
 	char c;
 
 	c = str[i];

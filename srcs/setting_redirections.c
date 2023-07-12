@@ -34,7 +34,6 @@
 	return(exit_status);
  }
 
-
 //TODO : appeler ft_checkopenerror au bon endroit, sinon la scinder en 2 fonctions
 void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 {
@@ -284,7 +283,6 @@ void	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 	//waitpid(ret, &wstatus, 0);//avant d imprimer dans la console, on demande au pere d attendre que les enfants aient fini.
  	//waitpid(0, &wstatus, 0);
  	ft_exit_status(ret);
-
 
 	//wait(&wstatus); 
 /*L'appel système waitpid() suspend l'exécution du processus appelant jusqu'à ce que le fils spécifié par son pid ait changé d'état. Par défaut, waitpid() n'attend que les fils terminés, mais ce comportement est modifiable avec l'argument options comme décrit plus loin.

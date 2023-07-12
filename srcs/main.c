@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#define mode_push 0
-
 
 int main(int argc, char *argv[], char *envp[])
 {
@@ -33,7 +31,6 @@ int main(int argc, char *argv[], char *envp[])
 			break;
 		}
 		add_history(line);
-		//AVANT DE tokenize l input on a : $>entree line =0 $>[que des espaces /tabulations] et line  ==NULL
 		ft_check_prerequesite_of_line_input(line);
 		ft_check_input_cases_for_return_empty_prompt(line);
 		ft_check_bash_syntax_error_caracteres_volee(line);

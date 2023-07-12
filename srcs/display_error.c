@@ -51,4 +51,3 @@ int	ft_check_open_error(int fdin, int fdout, t_cmd *cmd)
 	}
 	return (0);
 }
-

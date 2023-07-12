@@ -25,7 +25,6 @@ t_data	*ft_struct_init_data(t_data **data)
 	t_list	*token;
 	t_list	*lst_token;
 
-
 	*data = (t_data *)malloc(sizeof(t_data));
 	if (!(*data))
 		return (NULL);

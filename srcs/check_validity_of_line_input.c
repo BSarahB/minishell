@@ -8,7 +8,6 @@
 															line est '!'  ->nouveau prompt
 
                                                             */
-
 void	ft_check_bash_syntax_error_caracteres_volee(char *line)
 {
 	(void)line;
@@ -28,7 +27,6 @@ void	ft_check_bash_syntax_error_caracteres_volee(char *line)
 	//attention tous les motifs // \\ etc sont envoyes comme des commandes a l executio : cmd not found
 
 }
-
 
 void	ft_check_input_cases_for_return_empty_prompt(char *line)
 {
@@ -60,7 +58,6 @@ void    ft_check_prerequesite_of_line_input(char *line)
 
 
 
-
 	//ft_check_NULL_line PREREQUESITE
 
 	
@@ -78,6 +75,4 @@ void    ft_check_prerequesite_of_line_input(char *line)
 
 //ft_check_comment_line //le # doit etre un caractere qui demande de ne plus mettre de tokens et d ignorer la suite considerons le comme un operand ignore il clot immediatement la liste chainee#define IGNORE 13 par contre, si on est en mode quoting SINGLE ou DOUBLE QUOTIng # est au sns litteral il perd son pouvoir de caractere special donc ATTENTION
 //ici on check seulement le 1 er carcatere de line . on laissera si $                      # gerer les erreurs de token plus tard
-
-
 }

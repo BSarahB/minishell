@@ -63,9 +63,6 @@ void	ft_free_struct_t_simpleCmds(t_simpleCmd ***simpleCmds)
 
 void	ft_free_struct_t_cmd(t_cmd **cmd)
 {
-	//TODO : plus tard free les 3 io char * quand ils seront utilises
-	//ft_free_tab(&(cmd->simpleCmds[i]->cmd_and_args)); on a deja free ces elements dans la ft_execute_cmd
-	
 	ft_free_tab(&(*cmd)->path_tab);
 	ft_free_struct_t_simpleCmds(&(*cmd)->simpleCmds);
 	if (*cmd != NULL)

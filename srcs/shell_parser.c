@@ -306,7 +306,7 @@ void	ft_malloc_redir_file_tabs_of_simpleCmd(t_simpleCmd *simpleCmd)
  void	ft_count_nb_of_redir_token_in_simpleCmd(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list *start_lst_token)
  {
 	 t_list *tmp;
-	(void)cmd;	//tmp = cmd->lst_token;
+	(void)cmd;
 	 tmp = start_lst_token;
 	while(tmp != NULL && tmp->position < simpleCmd->end_simpleCmd_pos)
 	{
@@ -330,8 +330,6 @@ void	ft_malloc_redir_file_tabs_of_simpleCmd(t_simpleCmd *simpleCmd)
 		}
 			tmp = tmp->next;
 	}
-
-	//if tmp == NULL -> reactualiser la end_simpleCmd_pos ici semble premature
  }
 
 void	ft_get_end_simpleCmd_pos2(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list **start_lst_token)
@@ -393,7 +391,7 @@ int	ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_to
 	start_lst_token = lst_token;
 	while (i < cmd->nb_of_simpleCmds && start_lst_token != NULL)
 	{
-		ft_get_end_simpleCmd_pos(cmd, cmd->simpleCmds[i], &start_lst_token); //voir si je le retourne ou sije le change juste en memmoire (supprimer )
+		ft_get_end_simpleCmd_pos(cmd, cmd->simpleCmds[i], &start_lst_token); 
 		ft_count_nb_of_redir_token_in_simpleCmd(cmd, cmd->simpleCmds[i],start_lst_token);
 		ft_malloc_redir_file_tabs_of_simpleCmd(cmd->simpleCmds[i]);
 		if(cmd->simpleCmds[i]->nb_of_redir_token > 0)
