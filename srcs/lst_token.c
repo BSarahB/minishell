@@ -3,13 +3,11 @@
 void	ft_aff_list_ptr_sur_char_content(t_list *alst) // pour void		*content; de type char *
 {
 		//	printf("list diplayed: \n");
-
 	while(alst)
 	{
 	//	printf("%s , %zu\n",(char *)(alst)->content, alst->position); //ou printf("%d - ", (*(int *)(*alst)->content));
 		alst = (alst)->next;
 	}
-
 }
 
 void	ft_simplify_list(t_list *lst)
@@ -46,8 +44,6 @@ void ft_lstadd_back(t_list **alst, t_list *new)
 	else
 		ft_lstlast(*alst)->next = new;
 }
-
-
 
 t_list *ft_lstnew_for_lst(t_data *data)
 {

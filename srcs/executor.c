@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-
-
 int	ft_execve_join(t_cmd *cmd, char **envp, char **abs_cmd_and_args)
 {
 	char	*path_cmd_joined;
@@ -33,11 +31,8 @@ int	ft_execve_join(t_cmd *cmd, char **envp, char **abs_cmd_and_args)
 	return (exec_return);
 }
 
-
-
 int	ft_execute_cmd(t_cmd *cmd, int i,char *envp[])
 {
-
 	// int execve(const char *pathname, char *const argv[], char *const envp[]);
 	int exec_return;
 
@@ -58,11 +53,9 @@ int	ft_execute_cmd(t_cmd *cmd, int i,char *envp[])
 		}
 	//printf("%d\n",((cmd->simpleCmds[0])->errnum));
 		//est ce judicieux de free ici? ou ne vaut il mieux pas free tout a la fin?
-	
 	printf("freee\n");
 	ft_free_tab(&(cmd->simpleCmds[i]->cmd_and_args));
 	ft_free_tab(&(cmd->simpleCmds[i]->abs_cmd_and_args));
 	return (exec_return);
 
 }
-

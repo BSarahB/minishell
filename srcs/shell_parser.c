@@ -178,19 +178,10 @@ void	ft_del_and_parse2_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simp
 //	tmp = start_lst_token;
 	i = 0;
 	j = 0;
-
 	k = 0;
 	if(*alst == NULL)
 		return;
-
-	//ft_tag_redir_title_token(); //cf si necessaire car je risque de segfault si je vais chercher un next->next si jamais.... a verifier, je pourrais ainsi dans le tag redir ainsi gerer les bash syntax .... 
-
-	//je m occupe du 1 er maillon, car il pourrait tres bien etre une redirection >outfile 
-
-	//TODO redir _in et err
-
 	curr = *alst;
-
 	while (curr !=NULL && curr->next != NULL && (curr->title == redir_out || curr->title == redir_in || curr->title == redir_err))
 	{
 		lst_token_to_remove = curr;
@@ -218,45 +209,12 @@ void	ft_del_and_parse2_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simp
 		}	
 		curr = curr->next->next;	
 	}
-/*
-	while(((*alst)->title == redir_out || (*alst)->title == redir_in || (*alst)->title == redir_err) && (*alst)->next != NULL) 
-	{
-		curr = *alst;
 
-		lst_token_to_remove = *alst;
-		lst_token_to_remove2 = (*alst)->next;
-		if((*alst)->title == redir_in)
-		{
-			(*alst)->next->title = redir_in;
-			ft_lstdelone(lst_token_to_remove, &parse, simpleCmd, i, 0);
- 			ft_lstdelone(lst_token_to_remove2, &parse, simpleCmd, i, 1);
-			i++;
-		}
-		if((*alst)->title == redir_out)
-		{
-			(*alst)->next->title = redir_out;
-			ft_lstdelone(lst_token_to_remove, &parse, simpleCmd, j, 0);
- 			ft_lstdelone(lst_token_to_remove2, &parse, simpleCmd, j, 1);
-			j++;
-		}
-		if((*alst)->title == redir_err)
-		{
-			(*alst)->next->title = redir_err;
-			ft_lstdelone(lst_token_to_remove, &parse, simpleCmd, k, 0);
- 			ft_lstdelone(lst_token_to_remove2, &parse, simpleCmd, k, 1);
-			k++;
-		}	
-		*alst = (*alst)->next->next;
- 	
-		
-	}
-	*/
 	*lst_token = curr;
-	printf("affiche list avant del");
+	//printf("affiche list avant del");
 	ft_aff_list_ptr_sur_char_content(*lst_token);
 
 	*alst = curr;
-	//i = 0;
 	while(curr != NULL && (curr->position < simpleCmd->end_simpleCmd_pos) && (curr->next != NULL && curr->next->position < simpleCmd->end_simpleCmd_pos))
 	{
 		if(curr->next->title == redir_in)
@@ -458,196 +416,3 @@ int	ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_to
 	ft_aff_abs_cmd_and_args(cmd);
 	return (exec_return);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*mode push = 1 (le split sur | version pour tester les multiples pipes)
-int	ft_split_line_in_s_cmd(t_cmd *cmd, char *line, char **envp)
-{
-
-	char	**c_and_a;
-	char	**abs_c_and_a;
-	int		exec_return;
-	size_t		i;
-	int		j;
-
-	(void)envp;
-	(void)line;
-	exec_return = 0;
-	i = 0;
-	j = 0;
-
-	while (i < cmd->nb_of_simpleCmds)
-	{
-		c_and_a = ft_split(cmd->blocks[i], ' ');
-		printf("%s\n", c_and_a[0]);
-		abs_c_and_a = ft_get_abs_arguments(i, cmd->blocks);
-		cmd->simpleCmds[i]->cmd_and_args = c_and_a;
-		cmd->simpleCmds[i]->abs_cmd_and_args = abs_c_and_a;
-		i++;
-	}
-	i = 0;
-	while (i < cmd->nb_of_simpleCmds)
-	{
-		j = 0;
-	//	printf("blocks[%zu]: %s\n",i, cmd->blocks[i]);
-	//	printf("pr cmd_and_args de simple_Cmd %zu on a : \n", i);
-		while (cmd->simpleCmds[i]->cmd_and_args[j] != NULL)
-		{
-//			printf("%s*", cmd->simpleCmds[i]->cmd_and_args[j]);
-			j++;
-
-		}
-//		printf("\n");
-		j= 0;
-		while (cmd->simpleCmds[i]->abs_cmd_and_args[j] != NULL)
-		{
-///			printf("%s*", cmd->simpleCmds[i]->abs_cmd_and_args[j]);
-			j++;
-		}
-	//	printf("\n");
-		i++;
-	}
-	return (exec_return);
-}
-
-
-int	ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_token)
-{
-	char	**c_and_a;
-	char	**abs_c_and_a;
-	int		exec_return;
-	size_t	i;
-	int		j;
-	size_t	k;
-	size_t	nb_of_tokens_in_simpleCmd;
-
-
-	(void)line;
-	(void)envp;
-	exec_return = 0;
-	i = 0;
-	j = 0;
-	k = 0;
-
-	while (i < cmd->nb_of_simpleCmds)
-	{
-		nb_of_tokens_in_simpleCmd = ft_count_nb_of_tokens_in_simpleCmd(lst_token, cmd->simpleCmds[i]);
-		//si redirection dans la cmd_and_Args preciser/mentionner la redir dans la simple_Cmd
-		c_and_a = malloc(sizeof(*c_and_a) * (nb_of_tokens_in_simpleCmd + 1));
-		abs_c_and_a = malloc(sizeof(*abs_c_and_a) * (nb_of_tokens_in_simpleCmd + 1));
-
-		if(!c_and_a)
-			return(0);
-
-		if(!abs_c_and_a)
-			return(0);
-		//je parcours ma liste chainee et remplis : lst_token->content est mis dans c_and_a[i]	
-		//on termine 0 c_and_a
-		k = 0;
-		while (k < nb_of_tokens_in_simpleCmd)
-		{
-			c_and_a[k] = lst_token->content;
-			abs_c_and_a[k] = lst_token->content;
-			lst_token = lst_token->next;
-			k++;
-		}
-
-		c_and_a[k] = NULL;
-		cmd->simpleCmds[i]->cmd_and_args = c_and_a;
-
-		abs_c_and_a[k] = NULL;
-
-		abs_c_and_a = ft_get_abs_argumentsb(i, abs_c_and_a);
-		cmd->simpleCmds[i]->abs_cmd_and_args = abs_c_and_a;
-		i++;
-	}
-	i = 0;
-	while (i < cmd->nb_of_simpleCmds)
-	{
-		j = 0;
-		while (cmd->simpleCmds[i]->cmd_and_args[j] != NULL)
-		{
-			printf("cmd_and_args[%zu]<%s>\n", i,cmd->simpleCmds[i]->cmd_and_args[j]);
-			j++;
-
-		}
-		printf("\n\n\n");
-		j= 0;
-		while (cmd->simpleCmds[i]->abs_cmd_and_args[j] != NULL)
-		{
-			printf("abs_cmd_and_args[%zu]<%s>\n",i, cmd->simpleCmds[i]->abs_cmd_and_args[j]);
-			j++;
-		}
-		printf("\n\n\n");
-		i++;
-	}
-	return (exec_return);
-}
-*/

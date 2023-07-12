@@ -43,4 +43,3 @@ char	**ft_get_path(char **envp)
 	i = 0;
 	return (path_addr);
 }
-

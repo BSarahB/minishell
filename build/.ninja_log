@@ -1,0 +1,27 @@
+# ninja log v5
+10	125	1689086608869862107	CMakeFiles/my_minishell.dir/srcs/get_data_token.c.o	8602b516359d79c5
+10	96	1689086608839862105	CMakeFiles/my_minishell.dir/srcs/display_error.c.o	c1f3480f9db1d4ef
+77	221	1689088566602960761	my_minishell	2fd7e7ca19bd7339
+19	168	1689087942626942544	CMakeFiles/my_minishell.dir/srcs/struct_init_parser.c.o	51abb7ab5468216
+422	511	1689074919917700638	CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o	1ac29c5293c7e292
+12	170	1689087942628942544	CMakeFiles/my_minishell.dir/srcs/struct_init_lexer.c.o	35f35a24bd7d0bcf
+9	98	1689086608841862105	CMakeFiles/my_minishell.dir/srcs/executor.c.o	feac1a856490a577
+6	84	1689087942549942542	CMakeFiles/my_minishell.dir/srcs/shell_lexer.c.o	77bce9890fab6dc6
+7	78	1689086745555874924	CMakeFiles/my_minishell.dir/srcs/get_path.c.o	b6dde38c5b8ca9be
+0	76	1689088566458960757	CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.o	b1af6bae4dd75b9d
+6	174	1689087942630942544	CMakeFiles/my_minishell.dir/srcs/shell_parser.c.o	eab273505a264c2b
+84	188	1689087942654942545	CMakeFiles/my_minishell.dir/srcs/tokenize.c.o	5f560be30435eb67
+8	76	1689086745557874924	CMakeFiles/my_minishell.dir/srcs/lst_token.c.o	9a4f0209d5dd35a3
+11	145	1689087942602942543	CMakeFiles/my_minishell.dir/srcs/utils.c.o	ef5b581cce04ed5a
+342	476	1689074919829700644	CMakeFiles/my_minishell.dir/srcs/update_free_memory.c.o	96e52adf0b237fd3
+1	68	1689086325943835579	CMakeFiles/my_minishell.dir/srcs/main.c.o	4f2cb1eb90861884
+1	764	1689180757916461930	CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.o	b1af6bae4dd75b9d
+765	1097	1689180758250461913	my_minishell	2fd7e7ca19bd7339
+0	81	1689183557330370939	CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.o	b1af6bae4dd75b9d
+82	147	1689183557394370947	my_minishell	2fd7e7ca19bd7339
+1	128	1689183603300377339	CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.o	b1af6bae4dd75b9d
+128	196	1689183603367377349	my_minishell	2fd7e7ca19bd7339
+6	78	1689183671653386856	CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.o	b1af6bae4dd75b9d
+79	143	1689183671717386865	my_minishell	2fd7e7ca19bd7339
+1	77	1689184061185441093	CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.o	b1af6bae4dd75b9d
+78	144	1689184061251441102	my_minishell	2fd7e7ca19bd7339

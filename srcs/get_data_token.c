@@ -96,9 +96,6 @@ int ft_get_token_type(char *str, t_list *token, t_data *data, size_t i, char *li
 				ft_get_token_content(data, data->token->start_token_pos, data->token->end_token_pos, line);
 				data->token->start_token_pos_exists = i;
 				data->token->end_token_pos = i;
-			//	ft_get_token_content(data,i, i, line);
-			//	data->token->start_token_pos_exists = 0;
-			//	data->token->end_token_pos = 0;
 			}
 			token->title = redir_out;
 			return (GREAT);
@@ -112,19 +109,12 @@ int ft_get_token_type(char *str, t_list *token, t_data *data, size_t i, char *li
 				ft_get_token_content(data, data->token->start_token_pos, data->token->end_token_pos, line);
 				data->token->start_token_pos_exists = i;
 				data->token->end_token_pos = i;
-			//	ft_get_token_content(data,i, i, line);
-			//	data->token->start_token_pos_exists = 0;
-			//	data->token->end_token_pos = 0;
 			}
-
-
 			token->title = redir_in;
 			return (LESS);
 		}
-
 		if (*str == '|')
 		{
-
 			//si loperateur est colle au token ls|grep c
 			if(data->token->start_token_pos_exists != 0)//on est colles a un token
 			{
@@ -132,9 +122,6 @@ int ft_get_token_type(char *str, t_list *token, t_data *data, size_t i, char *li
 				ft_get_token_content(data, data->token->start_token_pos, data->token->end_token_pos, line);
 				data->token->start_token_pos_exists = i;
 				data->token->end_token_pos = i;
-			//	ft_get_token_content(data,i, i, line);
-			//	data->token->start_token_pos_exists = 0;
-			//	data->token->end_token_pos = 0;
 			}
 			token->title = operator;
 			return (PIPE);
@@ -164,13 +151,11 @@ void ft_get_token_quoting_rule(char *str, t_list *lst_token, size_t i)
 	else if (c == '\"' && lst_token->quoting_rule == 2)
 	{
 		lst_token->quoting_rule = 2;
-
-	lst_token->quoting_rule_adequate = 1;
-
-	if(str[i + 1] == '\0' || (str[i + 1] == ' ' || (str[i + 1] >= 9 && str[i + 1] <= 13)) || (ft_is_char_operand(&str[i + 1], lst_token) >= 3))
-		{
-			lst_token->end_token_pos = i;
-		}
+		lst_token->quoting_rule_adequate = 1;
+		if(str[i + 1] == '\0' || (str[i + 1] == ' ' || (str[i + 1] >= 9 && str[i + 1] <= 13)) || (ft_is_char_operand(&str[i + 1], lst_token) >= 3))
+			{
+				lst_token->end_token_pos = i;
+			}
 	}
 	else if (lst_token->quoting_rule == 0 && c == '\'' && str[i + 1] != '\0')
 		lst_token->quoting_rule = 1;
@@ -182,7 +167,6 @@ void ft_get_token_quoting_rule(char *str, t_list *lst_token, size_t i)
 		{
 			lst_token->end_token_pos = i;
 		}
-
 	}
 
 	else if (lst_token->quoting_rule == 0 && str[i + 1] == '\0') // c est le cas de $> l[s]    ->[s] est checke dans la ft_get_token_quoting rule on verifie si la quoting rule  == 0 et que lindex suivant est un \0 alors cela signifie qu on a la fin d un token

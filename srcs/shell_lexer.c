@@ -215,4 +215,3 @@ t_list *ft_tokenize_line_b(char *line)
 		lst_token = ft_tokenize_line_to_lst_b(line);
 	return (lst_token);
 }
-//TODO : fix le title 5 au token adequat lors du ft_get token type, la correction a ete apportee pour la redir out > le faire pour tous les operateurs
