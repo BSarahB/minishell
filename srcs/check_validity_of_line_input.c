@@ -28,7 +28,7 @@ int		ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token)
 	t_list *tmp;
 
 	if(lst_token == NULL)
-		return(0);
+		return(1);
 	tmp = lst_token;
 
 	while(tmp)
