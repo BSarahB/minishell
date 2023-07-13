@@ -34,11 +34,21 @@ int		ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token)
 	while(tmp)
 	{
 		//: doit etre un token 
-		if(ft_strcmp(lst_token->content, "<") == 0)
+		if((ft_strcmp(tmp->content, "<") == 0) || (ft_strcmp(tmp->content, ">")) == 0 || (ft_strcmp(tmp->content, "<<") == 0) || (ft_strcmp(tmp->content, ">>") == 0))
 			{
-				ft_error_msg2("`newline'");
-				return(1);
-				break;
+				if(tmp->next == NULL)
+				{
+					ft_error_msg2("`newline'");
+					return(1);
+					break;
+				}
+				if((ft_strcmp(tmp->next->content, "<") == 0) || (ft_strcmp(tmp->next->content, ">")) == 0 || (ft_strcmp(tmp->next->content, "<<") == 0) || (ft_strcmp(tmp->next->content, ">>") == 0))
+				{
+					ft_error_msg2(tmp->next->content);
+					return(1);
+					break;
+				}
+				
 			}
 
 		tmp = tmp->next;

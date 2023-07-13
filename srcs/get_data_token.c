@@ -102,6 +102,13 @@ int ft_get_token_type(char *str, t_list *token, t_data *data, size_t i, char *li
 		if (*str == '<')
 		{
 			//si loperateur est colle au token ls|grep c
+			if((*(str + 1)) != NULL) 
+			{
+				if ((*str == '<') && (*(str + 1) == '<'))
+					{										
+						return (LESSLESS);
+					}
+			}
 			if(data->token->start_token_pos_exists != 0)//on est colles a un token
 			{
 				data->token->end_token_pos = i - 1;
@@ -179,3 +186,4 @@ void ft_get_token_quoting_rule(char *str, t_list *lst_token, size_t i)
 		lst_token->end_token_pos = i;
 	}
 }
+//TODO : lexer << les heredocs

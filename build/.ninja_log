@@ -68,3 +68,12 @@
 312	418	1689263601354276555	my_minishell	2fd7e7ca19bd7339
 9	1093	1689263866306263306	CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o	1ac29c5293c7e292
 1094	1236	1689263866503263296	my_minishell	2fd7e7ca19bd7339
+0	419	1689264936798226529	CMakeFiles/my_minishell.dir/srcs/main.c.o	4f2cb1eb90861884
+4	77	1689264992682224920	CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o	1ac29c5293c7e292
+80	246	1689264992847224915	my_minishell	2fd7e7ca19bd7339
+0	75	1689265039865223562	CMakeFiles/my_minishell.dir/srcs/display_error.c.o	c1f3480f9db1d4ef
+76	144	1689265039932223560	my_minishell	2fd7e7ca19bd7339
+1	135	1689267934408165497	CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o	1ac29c5293c7e292
+135	218	1689267934491165495	my_minishell	2fd7e7ca19bd7339
+0	79	1689269226877152277	CMakeFiles/my_minishell.dir/srcs/main.c.o	4f2cb1eb90861884
+80	159	1689269226956152277	my_minishell	2fd7e7ca19bd7339
