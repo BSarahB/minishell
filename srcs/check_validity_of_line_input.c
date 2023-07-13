@@ -8,10 +8,46 @@
 															line est '!'  ->nouveau prompt
 
                                                             */
-void	ft_check_bash_syntax_error_caracteres_volee(char *line)
+
+int		ft_strcmp(char *s1, char *s2)
 {
-	(void)line;
-	//ft_syntax_error_newline
+	int i;
+
+	i = 0;
+	while(s1[i] != '\0' && s2[i] != '\0')
+	{
+		if(s1[i] != s2[i])
+			return	(s1[i] - s2[i]);
+		i++;
+	}
+	return (s1[i] - s2[i]);
+}
+
+int		ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token)
+{
+	t_list *tmp;
+
+	if(lst_token == NULL)
+		return(0);
+	tmp = lst_token;
+
+	while(tmp)
+	{
+		//: doit etre un token 
+		if(ft_strcmp(lst_token->content, "<") == 0)
+			{
+				ft_error_msg2("`newline'");
+				return(1);
+				break;
+			}
+
+		tmp = tmp->next;
+	}
+	return(0);
+	
+	
+	
+		//ft_syntax_error_newline
 
 
 

@@ -27,6 +27,14 @@ void	ft_error(char *const str)
 	ft_putstr_fd(str, 2);
 }
 
+void	ft_error_msg2(char *str)
+{
+	ft_error("minishell: ");
+	ft_error(": syntax error near unexpected token ");
+	ft_error(str);//ON DOIT REMPLACER ARGV[1] par le nom d INFILE (normalement cela est la 1 ere simple_cmd) (verifier l impact d un infile dans un block)
+	ft_error("\n");
+}
+
 void	ft_error_msg(char *infile)
 {
 	ft_error("minishell: ");

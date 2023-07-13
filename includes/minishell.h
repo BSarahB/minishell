@@ -190,7 +190,7 @@ void fr_insert_simpleCmd(t_simpleCmd *simpleCmd);
 
 void 	ft_check_prerequesite_of_line_input(char *line);
 void	ft_check_input_cases_for_return_empty_prompt(char *line);
-void	ft_check_bash_syntax_error_caracteres_volee(char *line);
+int		ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token);
 
 void	ft_get_token_quoting_rule(char *str, t_list  *lst_token, size_t i);
 void	ft_get_token_content(t_data *data, size_t start_token_pos, size_t end_token_pos, char *line);
@@ -246,6 +246,8 @@ void	ft_get_end_simpleCmd_pos(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list **dynam
 
 int		ft_check_close_error(int fd);
 void	ft_error_msg(char *infile);
+void	ft_error_msg2(char *str);
+
 void	ft_error(char *const str);
 
 
