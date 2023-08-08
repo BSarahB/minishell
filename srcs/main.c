@@ -25,7 +25,9 @@ int main(int argc, char *argv[], char *envp[])
 	char *line;
 	t_cmd *cmd;
 	t_list *lst_token;
+	int	exit_status;
 
+	exit_status = 0;
 	line = NULL;
 	while (1)
 	{
@@ -46,11 +48,13 @@ int main(int argc, char *argv[], char *envp[])
 			cmd = ft_struct_init_cmd(&cmd, 0, lst_token);
 			cmd->path_tab = ft_get_path(envp);	
 			ft_parse_tokens_in_s_cmd(cmd, line, envp, lst_token);
-			ft_setting_redirections_and_pipes(cmd, envp);
+			exit_status = ft_setting_redirections_and_pipes(cmd, envp);
+			//printf("exit_status = %d\n", exit_status);
 			ft_free_struct_str(&line);
 			ft_free_struct_t_cmd(&cmd);
 		}
 	}
 	ft_free_struct_t_cmd(&cmd);
-	return (0);
+
+	return (exit_status);
 }

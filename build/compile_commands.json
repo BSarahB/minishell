@@ -73,5 +73,25 @@
   "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
   "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/lst_token.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/lst_token.c",
   "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/lst_token.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/struct_init_execution.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/struct_init_execution.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/struct_init_execution.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/setting_redirections_first_simpleCmd_w_infile.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_redirections_first_simpleCmd_w_infile.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_redirections_first_simpleCmd_w_infile.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/setting_redirections_last_simpleCmd.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_redirections_last_simpleCmd.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_redirections_last_simpleCmd.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/setting_redirections_regular_simpleCmd.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_redirections_regular_simpleCmd.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_redirections_regular_simpleCmd.c"
 }
 ]

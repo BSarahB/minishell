@@ -188,7 +188,7 @@ t_list	*ft_trim_and_clear(char *line, t_data *data)
 
 t_list	*ft_tokenize_line_to_lst_b(char *line)
 {
-	 t_data	*data;
+	t_data	*data;
 	data = ft_struct_init_data(&data);
 	data->lst_token = ft_trim_and_clear(line, data);
 	//ft_retrim_and_clear()

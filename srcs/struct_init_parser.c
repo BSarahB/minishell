@@ -54,6 +54,10 @@ t_simpleCmd *ft_struct_init_simpleCmd(t_simpleCmd **simpleCmd, char init_value)
 	(*simpleCmd)->nb_of_infile = 0;
 	(*simpleCmd)->nb_of_outfile = 0;
 	(*simpleCmd)->nb_of_errfile = 0;
+	(*simpleCmd)->first_redir = 0;
+	(*simpleCmd)->nb_of_outfile_before_nofile = 0;
+	(*simpleCmd)->nb_of_errfile_before_nofile = 0;
+	(*simpleCmd)->nofile = 0;
 	return (*simpleCmd);
 }
 

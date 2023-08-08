@@ -171,6 +171,7 @@ void	ft_del_and_parse2_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simp
 	size_t k;
 	t_list *lst_token_to_remove;
 	t_list *lst_token_to_remove2;
+	int		fdin;
 
 
 	(void)lst_token;
@@ -189,12 +190,19 @@ void	ft_del_and_parse2_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simp
 		if(curr->title == redir_in)
 		{
 			curr->next->title = redir_in;
+			if(simpleCmd->nofile == 0)
+			{
+				if((fdin = open(lst_token_to_remove2->content, O_RDONLY) == -1))
+					simpleCmd->nofile = 1;
+			}
 			ft_lstdelone(lst_token_to_remove, &parse, simpleCmd, i, 0);
  			ft_lstdelone(lst_token_to_remove2, &parse, simpleCmd, i, 1);
 			i++;
 		}
 		if(curr->title == redir_out)
 		{
+			if(simpleCmd->nofile == 0)
+					simpleCmd->nb_of_outfile_before_nofile++;
 			curr->next->title = redir_out;
 			ft_lstdelone(lst_token_to_remove, &parse, simpleCmd, j, 0);
  			ft_lstdelone(lst_token_to_remove2, &parse, simpleCmd, j, 1);
@@ -202,6 +210,9 @@ void	ft_del_and_parse2_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simp
 		}
 		if(curr->title == redir_err)
 		{
+			if(simpleCmd->nofile == 0)
+					simpleCmd->nb_of_errfile_before_nofile++;
+
 			curr->next->title = redir_err;
 			ft_lstdelone(lst_token_to_remove, &parse, simpleCmd, k, 0);
  			ft_lstdelone(lst_token_to_remove2, &parse, simpleCmd, k, 1);
@@ -224,6 +235,12 @@ void	ft_del_and_parse2_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simp
 			ft_lstdelone(lst_token_to_remove, &parse, simpleCmd, i, 0);
 			curr->next->next->title = redir_in;
 			lst_token_to_remove2 = curr->next->next;
+
+			if(simpleCmd->nofile == 0)
+			{
+				if((fdin = open(lst_token_to_remove2->content, O_RDONLY) == -1))
+					simpleCmd->nofile = 1;
+			}
 			curr->next = curr->next->next->next;
 			ft_lstdelone(lst_token_to_remove2, &parse, simpleCmd, i, 1);
 			i++;
@@ -235,6 +252,10 @@ void	ft_del_and_parse2_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simp
 			lst_token_to_remove = curr->next;
 			ft_lstdelone(lst_token_to_remove, &parse, simpleCmd, j, 0);
 			curr->next->next->title = redir_out;
+
+			if(simpleCmd->nofile == 0)
+					simpleCmd->nb_of_outfile_before_nofile++;
+
 			lst_token_to_remove2 = curr->next->next;
 			curr->next = curr->next->next->next;
 			ft_lstdelone(lst_token_to_remove2, &parse, simpleCmd, j, 1);
@@ -246,7 +267,11 @@ void	ft_del_and_parse2_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simp
 		{
 			lst_token_to_remove = curr->next;
 			ft_lstdelone(lst_token_to_remove, &parse, simpleCmd, k, 0);
-			curr->next->next->title = redir_out;
+			curr->next->next->title = redir_err;
+
+			if(simpleCmd->nofile == 0)
+					simpleCmd->nb_of_errfile_before_nofile++;
+
 			lst_token_to_remove2 = curr->next->next;
 			curr->next = curr->next->next->next;
 			ft_lstdelone(lst_token_to_remove2, &parse, simpleCmd, k, 1);

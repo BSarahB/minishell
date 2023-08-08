@@ -40,17 +40,15 @@ int		ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token)
 				{
 					ft_error_msg2("`newline'");
 					return(1);
-					break;
+					//break;
 				}
 				if((ft_strcmp(tmp->next->content, "<") == 0) || (ft_strcmp(tmp->next->content, ">")) == 0 || (ft_strcmp(tmp->next->content, "<<") == 0) || (ft_strcmp(tmp->next->content, ">>") == 0))
 				{
 					ft_error_msg2(tmp->next->content);
 					return(1);
-					break;
+					//break;
 				}
-				
 			}
-
 		tmp = tmp->next;
 	}
 	return(0);

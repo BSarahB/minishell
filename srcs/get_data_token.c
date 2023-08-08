@@ -102,7 +102,7 @@ int ft_get_token_type(char *str, t_list *token, t_data *data, size_t i, char *li
 		if (*str == '<')
 		{
 			//si loperateur est colle au token ls|grep c
-			if((*(str + 1)) != NULL) 
+			if((*(str + 1)) != 0)
 			{
 				if ((*str == '<') && (*(str + 1) == '<'))
 					{										
@@ -187,3 +187,8 @@ void ft_get_token_quoting_rule(char *str, t_list *lst_token, size_t i)
 	}
 }
 //TODO : lexer << les heredocs
+//TODO : comparer quand cat est en deniere simple command cat outfile22 ne marche pas .
+//build-my_minishell-Desktop_GCC-Debug ls | wc -l | cat outfile22
+//19
+// build-my_minishell-Desktop_GCC-Debug ls | wc -l>outfile22 | cat outfile22
+//pas de resultat on a le prompt directement
