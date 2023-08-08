@@ -80,7 +80,8 @@
 				16,
 				17,
 				18,
-				19
+				19,
+				20
 			]
 		}
 	],
@@ -143,7 +144,8 @@
 				16,
 				17,
 				18,
-				19
+				19,
+				20
 			]
 		}
 	],
@@ -253,19 +255,25 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "srcs/setting_redirections_first_simpleCmd_w_infile.c",
+			"path" : "srcs/first_simpleCmd_w_infile_setting_redirections.c",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "srcs/setting_redirections_last_simpleCmd.c",
+			"path" : "srcs/last_simpleCmd_setting_redirections.c",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "srcs/setting_redirections_regular_simpleCmd.c",
+			"path" : "srcs/regular_simpleCmd_setting_redirections.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "srcs/utils_settings_redirections.c",
 			"sourceGroupIndex" : 1
 		}
 	],

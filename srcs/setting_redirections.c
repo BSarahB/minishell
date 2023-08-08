@@ -179,3 +179,9 @@ attendre n'importe lequel des processus fils dont le PID est égal à pid.
 //24
 //parfois on a 0 ->bon comportement si cmd2 est wc -l
 //TODO : wc -l <infile >outfile | wc -l  >outfile | wc -l >outfile ->bash me donne 2 , mon programme me donne 0. cmportement indefini
+
+
+
+
+//TODO bug creation des outfiles before nofile:
+// ls | ls >o1 >o2 <nofile o2 n est pas cree....

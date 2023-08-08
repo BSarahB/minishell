@@ -81,17 +81,22 @@
 },
 {
   "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
-  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/setting_redirections_first_simpleCmd_w_infile.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_redirections_first_simpleCmd_w_infile.c",
-  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_redirections_first_simpleCmd_w_infile.c"
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/first_simpleCmd_w_infile_setting_redirections.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/first_simpleCmd_w_infile_setting_redirections.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/first_simpleCmd_w_infile_setting_redirections.c"
 },
 {
   "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
-  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/setting_redirections_last_simpleCmd.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_redirections_last_simpleCmd.c",
-  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_redirections_last_simpleCmd.c"
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/last_simpleCmd_setting_redirections.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/last_simpleCmd_setting_redirections.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/last_simpleCmd_setting_redirections.c"
 },
 {
   "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
-  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/setting_redirections_regular_simpleCmd.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_redirections_regular_simpleCmd.c",
-  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_redirections_regular_simpleCmd.c"
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/regular_simpleCmd_setting_redirections.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/regular_simpleCmd_setting_redirections.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/regular_simpleCmd_setting_redirections.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/utils_settings_redirections.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils_settings_redirections.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils_settings_redirections.c"
 }
 ]

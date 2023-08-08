@@ -258,7 +258,18 @@ void ft_error(char *const str);
 
 void	ft_restore_original_in_and_out(t_settings *set);
 
+//***1st simpleCmd:
 void	ft_first_simpleCmd_w_infile(t_settings *set, t_cmd *cmd);
-void	ft_last_simpleCmd(t_settings *set, t_cmd *cmd);
+void    ft_outfiles_before_nofile(t_settings *set, t_cmd *cmd);
+void    ft_create_pipe(t_settings *set);
+void	ft_open_outfiles(t_settings *set, t_cmd *cmd);
+
+
+//****regular simpleCmd:
 void ft_regular_simpleCmd(t_settings *set, t_cmd *cmd);
+void    ft_open_infiles(t_settings *set, t_cmd *cmd)
+
+
+//*****last simpleCmd : 
+void	ft_last_simpleCmd(t_settings *set, t_cmd *cmd);
 #endif

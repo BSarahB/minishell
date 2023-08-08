@@ -1,0 +1,83 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   setting_redirections_first_simpleCmd_w_in          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbenmesb <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/08 13:16:55 by mbenmesb          #+#    #+#             */
+/*   Updated: 2023/08/08 13:20:07 by mbenmesb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void    ft_create_pipe(t_settings *set)
+{
+    int pip[2];
+	if (pipe(pip) == -1)
+	{
+        perror("pipe");
+        exit(EXIT_FAILURE);
+    }
+	//1 ER CAS de first_simpleCmd_w_infile et <nofile et on a une deuxieme simpleCmd derriere
+	//fdout = pip[1];
+	set->fdin = pip[0];
+	// commentaire : dup2(fdin, STDIN_FILENO);//durant la while, a partir de la 2 eme simplecmd  on va heriter du fdin du pipe COMMUN a la simplecmd precedente on avait parametre : fdin = pip[0]; cest cela qui est le coeur des multipipes
+	//commentaire :close(fdin);
+	close(pip[1]);
+
+
+//2 EME CAS: REGULAR COMMANDE
+	// set->fdout = pip[1];
+    //set->fdin = pip[0]; //+++ ainsi au prochain tour de boucle, fdin (et donc la future entree standart) sera DEJA parametree pour preparer le fdin du processus suivant qui executera la commande du pipe suivant et sera verra donc deja redirigee son entree standard sur la sortie du tube soit pip[0] pour lire a partir de pip[0] ce qui aura ete jete dans pip[1](cmd actuelle)
+    //if (cmd->simpleCmds[set->i]->nb_of_tokens_in_simpleCmd == 1 && ft_strcmp(cmd->simpleCmds[set->i]->cmd_and_args[0], "cat") == 0)
+     //   close(pip[0]);
+}
+
+void    ft_outfiles_before_nofile(t_settings *set, t_cmd *cmd)
+{
+		while(set->j < cmd->simpleCmds[set->i]->nb_of_outfile_before_nofile)//while(j < cmd->simpleCmds[i]->nb_of_outfile)
+		{
+            ft_open_outfiles(set, cmd);
+			set->j++;
+		}
+		set->j = 0;
+		while(set->j < cmd->simpleCmds[set->i]->nb_of_infile)//on reteste l ouverture du fichier si jamais il a ete cree en tant que outfile juste avant....cat >outfile2001 <outfile2001
+		{
+			if(set->j != 0 && set->fdin)//TODO proteger des pbs a l ouverture
+				close(set->fdin);
+			set->fdin = open(cmd->simpleCmds[set->i]->infile[set->j], O_RDONLY);//TODO cmt rendre compte du nom du inputfile si on ne le connait pas
+			if(set->fdin == -1)
+				{
+					ft_error_msg(cmd->simpleCmds[set->i]->infile[set->j]);
+					cmd->simpleCmds[set->i]->nofile = 1;
+				}
+			(set->j)++;
+		}
+}
+
+void	ft_first_simpleCmd_w_infile(t_settings *set, t_cmd *cmd)
+{
+	while(set->j < cmd->simpleCmds[set->i]->nb_of_infile)
+	{
+		if(set->j != 0 && set->fdin)//TODO proteger des pbs a l ouverture
+			close(set->fdin);
+		set->fdin = open(cmd->simpleCmds[set->i]->infile[set->j], O_RDONLY);//TODO cmt rendre compte du nom du inputfile si on ne le connait pas
+        if(set->fdin == -1) //ft_check open error quand on refactorisera plus tard
+		{	
+            cmd->simpleCmds[set->i]->nofile = 1;
+	        set->j = 0;
+	        if (cmd->simpleCmds[set->i]->outfile != NULL && cmd->simpleCmds[set->i]->nb_of_outfile_before_nofile != 0)
+                ft_outfiles_before_nofile(set, cmd);
+			else
+				ft_error_msg(cmd->simpleCmds[set->i]->infile[set->j]);
+			if(cmd->nb_of_simpleCmds > 1)
+                ft_create_pipe(set);
+			(set->i)++;
+			break;	
+		}
+		(set->j)++;
+	}
+	set->j = 0;
+}
