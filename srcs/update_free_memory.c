@@ -24,6 +24,27 @@ void	ft_free_struct_t_list_lst_token(t_list **lst_token)
 }
 
 
+
+
+void	ft_free_tab2(char ***tab)
+{
+	int	i;
+
+	i = 0;
+
+	if ((*tab)[i])
+	{
+		ft_free_struct_str(&(*tab)[i]);
+	}
+	if (*tab != NULL)
+	{
+		free(*tab);
+		*tab = NULL;
+	}
+}
+
+
+
 void	ft_free_tab(char ***tab)
 {
 	int	i;
@@ -46,10 +67,11 @@ void	ft_free_struct_t_simpleCmd(t_simpleCmd **simpleCmd)
 {
 //on est proteges dans notre code contre le double free
 //	ft_free_tab(&(*simpleCmd)->cmd_and_args);
-	if((*simpleCmd)->abs_cmd_and_args != NULL)
-		ft_free_tab(&(*simpleCmd)->abs_cmd_and_args);
+	
 	if((*simpleCmd)->cmd_and_args != NULL)
 		ft_free_tab(&(*simpleCmd)->cmd_and_args);	
+	if((*simpleCmd)->abs_cmd_and_args != NULL)
+		ft_free_tab2(&(*simpleCmd)->abs_cmd_and_args);	
 	if (*simpleCmd != NULL)
 	{
 		free(*simpleCmd);

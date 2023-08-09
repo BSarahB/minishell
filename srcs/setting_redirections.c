@@ -113,9 +113,8 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 	while(set->i < cmd->nb_of_simpleCmds) //on parcourt ici chaque processus == chaque simple cmd pour les fr heriter des redirections
 	{
 		ft_redirect_input(set);		//on redirige l input	//Redirection des vrais in et out dans le processus parent tjrs en bouclant sur les simpleCmds
-		//on parametre fdout
+		//on parametre fdout		//	ft_set_fdout
 //###SI lastSIMPlCOMMANDE###
-	//	ft_set_fdout
 		if (set->i == (cmd->nb_of_simpleCmds) - 1)
 			ft_last_simpleCmd(set, cmd);
 		else 		//###SI SIMPLE COMMANDE REGULAR)### cat|ls
@@ -125,8 +124,7 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 		ft_child_process(set, cmd, envp, ret);
 		(set->i)++;
 	}
-	ft_restore_original_in_and_out(set);
-	//restauration des sauvegardes des vrais in et out :
+	ft_restore_original_in_and_out(set);	//restauration des sauvegardes des vrais in et out 
 	exit_status = ft_exit_status(ret,set);
 	ft_free_struct_t_settings(&set);
 	return(exit_status);
