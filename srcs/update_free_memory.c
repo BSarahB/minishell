@@ -12,6 +12,17 @@
 
 #include "minishell.h"
 
+void	ft_free_struct_t_list_lst_token(t_list **lst_token)
+{
+	//dans lst_token j ai malloc str et content mais le str, je m en occupe dans le parsing du cmd_and_Args je crois 
+	if(*lst_token != NULL)
+	{
+		ft_free_struct_t_list_lst_token(&((*lst_token)->next));
+		free(*lst_token);
+		*lst_token = NULL;
+	}
+}
+
 
 void	ft_free_tab(char ***tab)
 {
@@ -37,6 +48,8 @@ void	ft_free_struct_t_simpleCmd(t_simpleCmd **simpleCmd)
 //	ft_free_tab(&(*simpleCmd)->cmd_and_args);
 	if((*simpleCmd)->abs_cmd_and_args != NULL)
 		ft_free_tab(&(*simpleCmd)->abs_cmd_and_args);
+	if((*simpleCmd)->cmd_and_args != NULL)
+		ft_free_tab(&(*simpleCmd)->cmd_and_args);	
 	if (*simpleCmd != NULL)
 	{
 		free(*simpleCmd);
@@ -65,6 +78,7 @@ void	ft_free_struct_t_cmd(t_cmd **cmd)
 {
 	ft_free_tab(&(*cmd)->path_tab);
 	ft_free_struct_t_simpleCmds(&(*cmd)->simpleCmds);
+	ft_free_struct_t_list_lst_token(&(*cmd)->lst_token);
 	if (*cmd != NULL)
 	{
 		free(*cmd);

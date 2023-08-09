@@ -51,6 +51,11 @@
 },
 {
   "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/update_free_memory_2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/update_free_memory_2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/update_free_memory_2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
   "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/check_validity_of_line_input.c",
   "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/check_validity_of_line_input.c"
 },

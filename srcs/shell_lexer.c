@@ -152,7 +152,8 @@ size_t	ft_tokenize(char *str, char *line, size_t i, t_data *data)
 	}
 	return (i);
 }
-t_list	*ft_trim_and_clear(char *line, t_data *data)
+
+t_data	*ft_trim_and_clear(char *line, t_data *data)
 {
 
 	char *str;
@@ -183,24 +184,26 @@ t_list	*ft_trim_and_clear(char *line, t_data *data)
 	//		ft_trim_and_clear_and_retokenize_token(lst_token);
 	// else : quote removal
 	//	ft_quote_removal : yes si quoting rule == 1 ou 2 soit sq ou dq
-	return (data->lst_token);
+	return (data);
 }
 
-t_list	*ft_tokenize_line_to_lst_b(char *line)
+t_data	*ft_tokenize_line(char *line)
 {
 	t_data	*data;
 	data = ft_struct_init_data(&data);
-	data->lst_token = ft_trim_and_clear(line, data);
+	data = ft_trim_and_clear(line, data);
 	//ft_retrim_and_clear()
 	//ft_retokenize()
-	return(data->lst_token);
+	return(data);
 }
-
+/*
 t_list *ft_tokenize_line_b(char *line)
 {
 	t_list *lst_token;
 
 	lst_token = NULL;
 	lst_token = ft_tokenize_line_to_lst_b(line);
+
 	return (lst_token);
 }
+*/

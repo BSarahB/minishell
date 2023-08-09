@@ -164,6 +164,11 @@ void ft_free_struct_t_cmd_only(t_cmd **cmd);
 void ft_free_struct_t_cmd(t_cmd **cmd);
 void ft_free_struct_t_simpleCmd(t_simpleCmd **simpleCmd);
 
+void    ft_free_struct_t_data(t_data **data);
+void    ft_free_struct_t_list_token(t_list **token);
+void    ft_free_struct_t_settings(t_settings **set);
+
+
 // void	ft_error_msg(char **argv);
 // void	ft_error(char *const str);
 void ft_putstr_fd(char *s, int fd);
@@ -174,8 +179,8 @@ t_cmd *ft_struct_init(t_cmd **cmd, char init_value, char **blocks); // original
 
 // replacements of original functions for parsing lst token to data strcture
 t_cmd *ft_struct_init_cmd(t_cmd **cmd, char init_value, t_list *lst_token);
-t_list *ft_tokenize_line_to_lst_b(char *line);
-t_list *ft_tokenize_line_b(char *line); // void pour commencer les tests
+t_data *ft_tokenize_line(char *line);
+//t_list *ft_tokenize_line_b(char *line); // void pour commencer les tests
 size_t ft_tokenize(char *str, char *line, size_t i, t_data *data);
 
 int ft_split_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_token);
@@ -206,7 +211,7 @@ int ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token);
 void ft_get_token_quoting_rule(char *str, t_list *lst_token, size_t i);
 void ft_get_token_content(t_data *data, size_t start_token_pos, size_t end_token_pos, char *line);
 // char	**ft_tokenize_line(char *line);
-void ft_tokenize_line(char *line); // void pour commencer les tests
+t_data *ft_tokenize_line(char *line); // void pour commencer les tests
 char **ft_tokenize_line1(char *line);
 
 t_list *ft_lstlast(t_list *lst);
