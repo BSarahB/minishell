@@ -1,15 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   setting_redirections_regular_simpleCmd.c           :+:      :+:    :+:   */
+/*   regular_simpleCmd_setting_redirections.c           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbenmesb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/08 13:48:21 by mbenmesb          #+#    #+#             */
-/*   Updated: 2023/08/08 13:48:24 by mbenmesb         ###   ########.fr       */
+/*   Created: 2023/08/09 10:35:58 by mbenmesb          #+#    #+#             */
+/*   Updated: 2023/08/09 10:36:03 by mbenmesb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
 void    ft_open_infiles(t_settings *set, t_cmd *cmd)

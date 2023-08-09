@@ -746,3 +746,52 @@ Si simpleCmd == 1
 alors pas de condition pour operator_pos
 on y va directement sur les fonctions de parsing
 */
+
+ds setting_redirections.c
+
+	//wait(&wstatus); 
+	// gestion de & background ->on attendra pas la derniere commande sil n y est pas.
+	//waitpid(ret, &wstatus, 0);//avant d imprimer dans la console, on demande au pere d attendre que les enfants aient fini.
+ 	//waitpid(0, &wstatus, 0);
+
+/*L'appel système waitpid() suspend l'exécution du processus appelant jusqu'à ce que le fils spécifié par son pid ait changé d'état. Par défaut, waitpid() n'attend que les fils terminés, mais ce comportement est modifiable avec l'argument options comme décrit plus loin.
+
+La valeur de pid peut être l'une des suivantes :
+
+< -1
+attendre la fin de n'importe lequel des processus fils dont le GID du processus est égal à la valeur absolue de pid.
+-1
+attendre n'importe lequel des processus fils.
+0
+attendre n'importe lequel des processus fils dont le GID du processus est égal à celui du processus appelant.
+> 0
+attendre n'importe lequel des processus fils dont le PID est égal à pid.
+
+*/
+/*  The waitpid() system call suspends execution of the calling thread  un‐
+	   til  a  child specified by pid argument has changed state.  By default,
+	   waitpid() waits only for terminated children, but this behavior is mod‐
+	   ifiable via the options argument, as described below.
+-1 : meaning wait for any child process.
+*/
+
+
+//http://manpagesfr.free.fr/man/man2/wait.2.html
+//TODO : toutes les protections et les returns echo $?
+//FAIRE mon document pour le minishell avec toutes les commandes -> triim and clear etc. avec ts les process pour preparer en bon et du form les commandes au parsing
+//~ ls -la <nofile |ls -la >outfilenani <nofile |wc -l
+//minishell: nofile: no such file or directory:
+//minishell: nofile: no such file or directory:
+//0
+//TODO : BUGG
+ //~ ls -la | grep c  <nofile | wc -l  -->ici specificite et diff  A CAUSE DE GREP QUI VIENT chercher dans le pip[0]
+//minishell: nofile: no such file or directory:
+//24
+//parfois on a 0 ->bon comportement si cmd2 est wc -l
+//TODO : wc -l <infile >outfile | wc -l  >outfile | wc -l >outfile ->bash me donne 2 , mon programme me donne 0. cmportement indefini
+
+
+
+
+//TODO bug creation des outfiles before nofile:
+// ls | ls >o1 >o2 <nofile o2 n est pas cree....

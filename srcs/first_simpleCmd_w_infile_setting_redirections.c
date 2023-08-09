@@ -1,15 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   setting_redirections_first_simpleCmd_w_in          :+:      :+:    :+:   */
+/*   first_simpleCmd_w_infile_setting_redirect          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbenmesb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/08 13:16:55 by mbenmesb          #+#    #+#             */
-/*   Updated: 2023/08/08 13:20:07 by mbenmesb         ###   ########.fr       */
+/*   Created: 2023/08/09 10:36:31 by mbenmesb          #+#    #+#             */
+/*   Updated: 2023/08/09 10:36:37 by mbenmesb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
 void    ft_create_pipe(t_settings *set)

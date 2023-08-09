@@ -267,9 +267,11 @@ void	ft_open_outfiles(t_settings *set, t_cmd *cmd);
 
 //****regular simpleCmd:
 void ft_regular_simpleCmd(t_settings *set, t_cmd *cmd);
-void    ft_open_infiles(t_settings *set, t_cmd *cmd)
+void    ft_open_infiles(t_settings *set, t_cmd *cmd);
 
 
 //*****last simpleCmd : 
 void	ft_last_simpleCmd(t_settings *set, t_cmd *cmd);
+void	ft_open_outfiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd, int k);
+
 #endif
