@@ -47,24 +47,24 @@ void ft_lstadd_back(t_list **alst, t_list *new)
 
 t_list *ft_lstnew_for_lst(t_data *data)
 {
-	t_list *list;
+	t_list *node;
 
-	list = malloc(sizeof(t_list));
-	if (!list)
+	node = malloc(sizeof(t_list));
+	if (!node)
 		return (NULL);
-	list->content = data->token->content;
-//	list->position = 0;
-//	list->end_token_pos = 0;
-//	list->start_token_pos = 0;
-//	list->start_token_pos_exists = 0;
-	list->type = data->token->type;
-	list->title = data->token->title;
-	list->quoting_rule = data->token->quoting_rule;
-//	list->quoting_rule_adequate = 0;
-//	list->retokenize_allowed = 0;
-	list->next = NULL;
-	list->previous = NULL;
-	return (list);
+	node->content = data->token->content;
+//	node->position = 0;
+//	node->end_token_pos = 0;
+//	node->start_token_pos = 0;
+//	node->start_token_pos_exists = 0;
+	node->type = data->token->type;
+	node->title = data->token->title;
+	node->quoting_rule = data->token->quoting_rule;
+//	node->quoting_rule_adequate = 0;
+//	node->retokenize_allowed = 0;
+	node->next = NULL;
+	node->previous = NULL;
+	return (node);
 }
 
 t_list *ft_lstnew_data_token(char *content)

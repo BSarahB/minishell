@@ -1,0 +1,7 @@
+{
+ignore_Readline
+Memcheck:Leak
+...
+obj:*/libreadline.so.*
+#complete
+}

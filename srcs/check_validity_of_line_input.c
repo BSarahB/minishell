@@ -107,7 +107,7 @@ void    ft_check_prerequesite_of_line_input(char *line)
 	
 
 	//printf("check validity of line input : $> NULL readline \n");//soit line == NULL
-	//ft_check_only_spaces_line PREREQUESITE
+	//ft_check_only_spaces_line PREREQUESITE 
 
 
 	//printf("check_input_cases_for_return_empty_prompt : $> [que des espaces] ou [que des tabulations] (only spaces)\n");

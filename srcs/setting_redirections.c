@@ -119,7 +119,7 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 			ft_last_simpleCmd(set, cmd);
 		else 		//###SI SIMPLE COMMANDE REGULAR)### cat|ls
 			ft_regular_simpleCmd(set, cmd);
-		ft_redirect_ouput(set);	//Redirection des vrais in et out dans le processus parent tjrs en bouclant sur les simpleCmds
+		ft_redirect_output(set);	//Redirection des vrais in et out dans le processus parent tjrs en bouclant sur les simpleCmds
 		ret = fork();//Creation des processus : il faudra creer autant de processus que de commandes donc faire dans le while.
 		ft_child_process(set, cmd, envp, ret);
 		(set->i)++;
