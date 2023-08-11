@@ -795,3 +795,22 @@ attendre n'importe lequel des processus fils dont le PID est égal à pid.
 
 //TODO bug creation des outfiles before nofile:
 // ls | ls >o1 >o2 <nofile o2 n est pas cree....
+
+
+
+VALGRIND
+//NOTE PERSONNELLE: une journee 10 aout de debuggage de memory leaks qui commence bien mais ensuite aucune solution n est bonne poour les autres leaks. j en ai 2 ou 3 pas plus(tjrs les memeds) et je n arrive meme pas a les resoudre. cela signifie que j interprete mal les messages d erreur de valgrind  le pire etant que j ai deja eu ces lleaks dans d autres projets et je m en rappelle vaguement. ---> faire une FICHE qui recense toutes les erreurs valgrind avec procedure CLAIRE et Bonnes pratiques pour arreter de me retrouver tjrs a la fin des projets avec des fondations merdiques  dues aux mauvaises pratiques
+-j ai un msg d erreur valgrind qui dit:  2 bytes donc 2 octets sont perdus. 
+-quelle est la cause? ->pls possibilites : mais en general cela veut dire que les donnees ne sont plus accessibles. : les donnees ne sont plus pointees ? ou le pointeur a change de place? ou qu on a remplace un champ sans le free? etc....a creuser
+tester hypotheses le double tab n a pas ete \0 a la fin. d ou le invalide read of size 8...?
+
+
+
+//BASH SYNTAX ERROR ----CAS PARTICULIERS A GERER
+:
+cas a gerer particulier == $ : | 
+le pipe est en attente de la cmd a executer. gerer plus tard
+$ :|
+> (sur saisie user CTRLD on obtient:)
+bash: syntax error: unexpected end of file
+exit

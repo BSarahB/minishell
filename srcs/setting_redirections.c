@@ -39,7 +39,7 @@ void	ft_set_fdin_for_first_simpleCmd(t_settings *set, t_cmd *cmd)
 		set->fdin = dup(set->savein);
 }
 
-void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], int ret)
+void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], int ret, t_data *data)
 {
 	int	exec_return;
 
@@ -52,7 +52,13 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], int ret)
 		//	ft_check_close_error((*ptr).fd2);
 			close(set->savein);
 			close(set->saveout);
+
 		}
+
+		ft_free_struct_t_data(&data);
+		ft_free_struct_t_settings(&set);
+
+
 		//il faudra imperativement SORTIR de la pour ne pas que le code du fork s execute derriere dans l enfant avec la boucle while
 		exit(1);//ou (0?) voir comment bien sortir
 	}
@@ -98,17 +104,16 @@ void	ft_restore_original_in_and_out(t_settings *set)
 }
 
 //TODO : appeler ft_checkopenerror au bon endroit, sinon la scinder en 2 fonctions
-int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
+int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data)
 {
 	int 	ret;
 	int 	exit_status;
 	t_settings	*set;
 
 	set = ft_struct_init_settings(&set);
-	ft_save_in_and_out(set);//sauvegardes des vrais in et out
 	if(cmd->simpleCmds[set->i] == NULL)
 		return 0;//TODO rectifier le bon exit status
-	ft_save_in_and_out(set);
+	ft_save_in_and_out(set);//sauvegardes des vrais in et out
 	ft_set_fdin_for_first_simpleCmd(set, cmd);//on parametre infile + on parametre fdin
 	while(set->i < cmd->nb_of_simpleCmds) //on parcourt ici chaque processus == chaque simple cmd pour les fr heriter des redirections
 	{
@@ -121,7 +126,7 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[])
 			ft_regular_simpleCmd(set, cmd);
 		ft_redirect_output(set);	//Redirection des vrais in et out dans le processus parent tjrs en bouclant sur les simpleCmds
 		ret = fork();//Creation des processus : il faudra creer autant de processus que de commandes donc faire dans le while.
-		ft_child_process(set, cmd, envp, ret);
+		ft_child_process(set, cmd, envp, ret, data);
 		(set->i)++;
 	}
 	ft_restore_original_in_and_out(set);	//restauration des sauvegardes des vrais in et out 

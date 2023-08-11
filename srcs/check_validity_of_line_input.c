@@ -23,16 +23,58 @@ int		ft_strcmp(char *s1, char *s2)
 	return (s1[i] - s2[i]);
 }
 
+
+int		ft_is_check_for_token(t_list *lst_token, char *str)
+{
+	t_list *tmp;
+
+	tmp = lst_token;
+	while(tmp)
+	{
+		
+		if(ft_strcmp(tmp->content, str) == 0)
+			return (1);
+		tmp = tmp->next;
+	}
+	return(0);
+}
+
+int ft_check_double_points_token(t_list *tmp)
+{
+		if(tmp->next)
+		{
+			if (ft_is_check_for_token(tmp->next, "|") == 1)
+				return(0);//TO DO on va exec la commande en attente
+			else
+					return (1);	//echo $? 0
+		}
+		if(tmp->prev)
+		{
+			if(ft_strcmp(tmp->prev->content, "|") != 0 && ft_strcmp(tmp->prev->content, "!") != 0) //&& (ft_strcmp(tmp->prev->content, "!") != 0))
+				return(0);
+			if(ft_strcmp(tmp->prev->content, "!@") == 0)
+				{
+					ft_error("minishell: !@: event not found");
+					return(1);
+				}
+		}
+		return(1);//echo $? 0 
+}
+
 int		ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token)
 {
 	t_list *tmp;
 
-	if(lst_token == NULL)
-		return(1);
+	if(lst_token == NULL) //cas de l entree
+		return(1);//echo $? 0
 	tmp = lst_token;
 
 	while(tmp)
 	{
+		if((ft_strcmp(tmp->content, ":") == 0))
+			return(ft_check_double_points_token(tmp));
+		
+		
 		//: doit etre un token 
 		if((ft_strcmp(tmp->content, "<") == 0) || (ft_strcmp(tmp->content, ">")) == 0 || (ft_strcmp(tmp->content, "<<") == 0) || (ft_strcmp(tmp->content, ">>") == 0))
 			{

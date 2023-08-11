@@ -17,6 +17,7 @@ void	ft_free_struct_t_list_lst_token(t_list **lst_token)
 	//dans lst_token j ai malloc str et content mais le str, je m en occupe dans le parsing du cmd_and_Args je crois 
 	if(*lst_token != NULL)
 	{
+		//free((*lst_token)->content); pas bon deja free dans simpleCmd cmd and args
 		ft_free_struct_t_list_lst_token(&((*lst_token)->next));
 		free(*lst_token);
 		*lst_token = NULL;
@@ -71,7 +72,9 @@ void	ft_free_struct_t_simpleCmd(t_simpleCmd **simpleCmd)
 	if((*simpleCmd)->cmd_and_args != NULL)
 		ft_free_tab(&(*simpleCmd)->cmd_and_args);	
 	if((*simpleCmd)->abs_cmd_and_args != NULL)
-		ft_free_tab2(&(*simpleCmd)->abs_cmd_and_args);	
+		ft_free_tab2(&(*simpleCmd)->abs_cmd_and_args);
+	if((*simpleCmd)->outfile != NULL)
+		ft_free_tab(&(*simpleCmd)->outfile);
 	if (*simpleCmd != NULL)
 	{
 		free(*simpleCmd);

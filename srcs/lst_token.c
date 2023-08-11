@@ -37,34 +37,48 @@ t_list *ft_lstlast(t_list *lst)
 
 void ft_lstadd_back(t_list **alst, t_list *new)
 {
+	t_list *tmp;
+
 	if (new)
-		new->next = NULL;
+		{
+			new->next = NULL;
+			new->prev = NULL;
+		}
 	if (!(*alst))
 		*alst = new;
 	else
-		ft_lstlast(*alst)->next = new;
+		{
+			tmp = ft_lstlast(*alst);
+			ft_lstlast(*alst)->next = new;
+			new->prev = tmp;
+		}
 }
 
 t_list *ft_lstnew_for_lst(t_data *data)
 {
-	t_list *node;
+	t_list *new;
 
-	node = malloc(sizeof(t_list));
-	if (!node)
+	new = malloc(sizeof(t_list));
+	if (!new)
 		return (NULL);
-	node->content = data->token->content;
-//	node->position = 0;
-//	node->end_token_pos = 0;
-//	node->start_token_pos = 0;
-//	node->start_token_pos_exists = 0;
-	node->type = data->token->type;
-	node->title = data->token->title;
-	node->quoting_rule = data->token->quoting_rule;
-//	node->quoting_rule_adequate = 0;
-//	node->retokenize_allowed = 0;
-	node->next = NULL;
-	node->previous = NULL;
-	return (node);
+	
+	//ici on va swap les pointeurs (ou) update_string ft_update_string mnode es malloc pas content punaise bon pause la je suis totalement a cote ma plaque. 
+
+	//new->content = malloc(sizeof(char));
+	//if(!new->content)
+	//	return(NULL);
+	//new->content = ft_swap_ptr((&(data->token->content)), new->content);
+
+
+	new->content = data->token->content;
+	new->type = data->token->type;
+	new->title = data->token->title;
+	new->quoting_rule = data->token->quoting_rule;
+//	new->quoting_rule_adequate = 0;
+//	new->retokenize_allowed = 0;
+	new->next = NULL;
+	new->prev = NULL;
+	return (new);
 }
 
 t_list *ft_lstnew_data_token(char *content)
@@ -85,7 +99,7 @@ t_list *ft_lstnew_data_token(char *content)
 	list->quoting_rule_adequate = 0;
 	list->retokenize_allowed = 0;
 	list->next = NULL;
-	list->previous = NULL;
+	list->prev = NULL;
 	return (list);
 }
 

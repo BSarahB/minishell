@@ -140,11 +140,15 @@ void	ft_count_final_nb_of_tokens_in_simpleCmd(t_list *start_lst_token, t_simpleC
 void	parse(char *content, t_simpleCmd *simpleCmd, size_t i, int title)
 {
 	if(title == redir_out)
-		simpleCmd->outfile[i] = content;
+	{
+		simpleCmd->outfile[i] = content; //ft_strdup(content);
+		//if (i == simpleCmd->nb_of_outfile -1) //val error invalid write
+		//	simpleCmd->outfile[i + 1] = 0;
+	} 
 	if(title == redir_in)
-		simpleCmd->infile[i] = content;
+		simpleCmd->infile[i] = content; //ft_strdup(content);
 	if(title == redir_err)
-		simpleCmd->errfile[i] = content;
+		simpleCmd->errfile[i] = content; //ft_strdup(content);
 
 }
 
@@ -309,10 +313,11 @@ char **ft_malloc_infile_tab(t_simpleCmd *simpleCmd)
 char **ft_malloc_outfile_tab(t_simpleCmd *simpleCmd)
 {
 	char **outfile;
-
+	
 	outfile = malloc(sizeof(*outfile) * (simpleCmd->nb_of_outfile + 1));
 	if(!outfile)
 		return(NULL);
+	//outfile[simpleCmd->nb_of_outfile + 1] = 0; // val invalid write
 	return(outfile);
 }
 void	ft_malloc_redir_file_tabs_of_simpleCmd(t_simpleCmd *simpleCmd)

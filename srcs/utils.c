@@ -53,6 +53,19 @@ void	ft_free_struct_str(char **p)
 	}
 }
 
+char	*ft_swap_ptr(char **token_content, char *blank_node)
+{
+	char	*tmp;
+
+	tmp = *token_content;
+	*token_content = blank_node;
+	blank_node = tmp;
+	ft_free_struct_str(token_content);
+	return (blank_node);
+}
+
+
+
 char	*ft_update_string(char **str, char *new)
 {
 	//char	*str_old;
@@ -211,5 +224,20 @@ char	*ft_strjoin(char *s1, char const *s2)
 	if (!s1 || !s2 || !str)
 		return (NULL);
 	str = ft_strcat(ft_strcpy(str, s1), s2);
+	return (str);
+}
+
+char	*ft_strdup(const char *s)
+{
+	char	*str;
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	str = (char *)malloc((i + 1) * sizeof(char));
+	if (!str)
+		return (NULL);
+	ft_strcpy(str, s);
 	return (str);
 }

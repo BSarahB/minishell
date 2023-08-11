@@ -24,12 +24,13 @@ void    ft_free_struct_t_settings(t_settings **set)
 
 void    ft_free_struct_t_list_token(t_list **token)
 {
-  // ft_free_struct_str(&(*token)->content); content est a NULL pas besoin de le free
+  // ft_free_struct_str(&(*token)->content); //content est a NULL si pas de token tokenize, mais siinon il est malloc a ft_initcstring dans le ft_get_token
     if (*token != NULL)
     {
         free(*token);
         *token = NULL;
     }
+    printf("done\n");
 }
 
 void    ft_free_struct_t_data(t_data **data)

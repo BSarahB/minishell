@@ -84,7 +84,7 @@ typedef struct s_list
 	int quoting_rule;		// whitwspace_separator 0 ,single quote 1, d_quote 2
 	int retokenize_allowed; // pour trim and clear et retokenizer un expand par ex/
 	struct s_list *next;
-	struct s_list *previous;
+	struct s_list *prev;
 	size_t start_token_pos;
 	size_t start_token_pos_exists;
 	size_t end_token_pos;
@@ -167,6 +167,7 @@ void ft_free_struct_t_simpleCmd(t_simpleCmd **simpleCmd);
 void    ft_free_struct_t_data(t_data **data);
 void    ft_free_struct_t_list_token(t_list **token);
 void    ft_free_struct_t_settings(t_settings **set);
+void	ft_free_struct_t_list_lst_token(t_list **lst_token);
 
 
 // void	ft_error_msg(char **argv);
@@ -193,9 +194,8 @@ t_simpleCmd **ft_struct_array_init(t_simpleCmd **ptr, char init_value, size_t si
 char **ft_get_path(char **envp);
 
 int ft_execute_cmd(t_cmd *cmd, int i, char *envp[]);
-int ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[]);
+int ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data);
 
-char *ft_init_cstring(char **str, size_t len, char init_value);
 char *ft_init_cstring(char **str, size_t len, char init_value);
 void *ft_memset(void *b, char c, size_t len);
 
@@ -231,7 +231,7 @@ void ft_char_or_token_is_unique(char *line, size_t i, t_data *data); // char or 
 void ft_char_after_ws_isnull_token_exists_noqr(char *line, size_t i, t_data *data);
 
 int ft_is_char_operand(char *str, t_list *lst_token);
-void ft_get_token_content_lengh_for_malloc(t_list *lst_token, size_t start_token_pos, size_t end_token_pos);
+void ft_get_token_content_lengh_for_malloc(t_list *token, size_t start_token_pos, size_t end_token_pos);
 
 void *ft_memcpy(void *dst, const void *src, size_t n);
 void *ft_memset(void *b, char c, size_t len);
@@ -278,5 +278,11 @@ void    ft_open_infiles(t_settings *set, t_cmd *cmd);
 //*****last simpleCmd : 
 void	ft_last_simpleCmd(t_settings *set, t_cmd *cmd);
 void	ft_open_outfiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd, int k);
+
+
+
+//char	*ft_swap_ptr(char **token_content, char *blank_node);
+char	*ft_strdup(const char *s);
+
 
 #endif
