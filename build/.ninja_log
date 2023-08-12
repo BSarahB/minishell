@@ -32,3 +32,10 @@
 0	36	1691860905926333779	CMakeFiles/my_minishell.dir/srcs/update_free_memory.c.o	96e52adf0b237fd3
 0	38	1691860905930333779	CMakeFiles/my_minishell.dir/srcs/shell_parser.c.o	eab273505a264c2b
 38	93	1691860905980333790	my_minishell	9dfe9c89173be4f6
+0	35	1691863755620792967	CMakeFiles/my_minishell.dir/srcs/regular_simpleCmd_setting_redirections.c.o	23755a72bc6e7d60
+0	37	1691863755621792967	CMakeFiles/my_minishell.dir/srcs/update_free_memory.c.o	96e52adf0b237fd3
+37	99	1691863755682792976	my_minishell	9dfe9c89173be4f6
+0	32	1691864043893831727	CMakeFiles/my_minishell.dir/srcs/regular_simpleCmd_setting_redirections.c.o	23755a72bc6e7d60
+33	90	1691864043945831734	my_minishell	9dfe9c89173be4f6
+0	32	1691864172663849042	CMakeFiles/my_minishell.dir/srcs/regular_simpleCmd_setting_redirections.c.o	23755a72bc6e7d60
+32	88	1691864172714849048	my_minishell	9dfe9c89173be4f6
