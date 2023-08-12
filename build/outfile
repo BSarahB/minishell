@@ -1,1 +1,13 @@
-0
+build.ninja
+CMakeCache.txt
+CMakeFiles
+cmake_install.cmake
+compile_commands.json
+ignore_rl_leaks
+infile
+infile2
+my_minishell
+outfike
+outfile
+outfile2000
+test

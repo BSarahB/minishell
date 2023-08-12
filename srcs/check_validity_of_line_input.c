@@ -65,7 +65,7 @@ int		ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token)
 {
 	t_list *tmp;
 
-	if(lst_token == NULL) //cas de l entree
+	if(lst_token == NULL || *lst_token->content == '#') //cas de l entree
 		return(1);//echo $? 0
 	tmp = lst_token;
 
@@ -73,7 +73,8 @@ int		ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token)
 	{
 		if((ft_strcmp(tmp->content, ":") == 0))
 			return(ft_check_double_points_token(tmp));
-		
+		if((ft_strcmp(tmp->content, "#") == 0))
+			return(-1);//TODO ft_modify_lst_token()
 		
 		//: doit etre un token 
 		if((ft_strcmp(tmp->content, "<") == 0) || (ft_strcmp(tmp->content, ">")) == 0 || (ft_strcmp(tmp->content, "<<") == 0) || (ft_strcmp(tmp->content, ">>") == 0))

@@ -7,5 +7,6 @@ ignore_rl_leaks
 infile
 infile2
 my_minishell
-out
+outfike
 outfile
+test
