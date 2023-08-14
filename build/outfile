@@ -1,0 +1,4 @@
+drwxr-xr-x 3 mbenmesb 2020_paris  4096 Aug  8 12:58 .cmake
+-rw-r--r-- 1 mbenmesb 2020_paris 13399 Aug  8 12:58 CMakeCache.txt
+-rw-r--r-- 1 mbenmesb 2020_paris  1673 Aug  8 12:58 cmake_install.cmake
+-rw-r--r-- 1 mbenmesb 2020_paris  8615 Aug 14 16:32 compile_commands.json

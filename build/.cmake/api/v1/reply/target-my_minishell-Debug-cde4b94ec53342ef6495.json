@@ -82,7 +82,11 @@
 				18,
 				19,
 				20,
-				21
+				21,
+				22,
+				23,
+				24,
+				25
 			]
 		}
 	],
@@ -147,7 +151,11 @@
 				18,
 				19,
 				20,
-				21
+				21,
+				22,
+				23,
+				24,
+				25
 			]
 		}
 	],
@@ -179,7 +187,31 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
+			"path" : "srcs/parsing_lst_token_in_cmd_and_args.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
 			"path" : "srcs/utils.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "srcs/utils_parser.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "srcs/utils_parser2_malloc_redir_files.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "srcs/utils_parser3_count.c",
 			"sourceGroupIndex" : 1
 		},
 		{

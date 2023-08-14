@@ -16,8 +16,28 @@
 },
 {
   "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/parsing_lst_token_in_cmd_and_args.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/parsing_lst_token_in_cmd_and_args.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/parsing_lst_token_in_cmd_and_args.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
   "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/utils.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils.c",
   "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/utils_parser.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils_parser.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils_parser.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/utils_parser2_malloc_redir_files.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils_parser2_malloc_redir_files.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils_parser2_malloc_redir_files.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -o CMakeFiles/my_minishell.dir/srcs/utils_parser3_count.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils_parser3_count.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils_parser3_count.c"
 },
 {
   "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
