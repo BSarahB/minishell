@@ -68,11 +68,11 @@ char	*ft_swap_ptr(char **token_content, char *blank_node)
 
 char	*ft_update_string(char **str, char *new)
 {
-	//char	*str_old;
+	char	*str_old;
 
-	//str_old = *str;
+	str_old = *str;
 	*str = new;
-	//ft_free_struct_str(&str_old);
+	ft_free_struct_str(&str_old);
 	return (*str);
 }
 

@@ -95,8 +95,8 @@ int		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(t_list *lst_token, t_simp
 		return(0);
 	while (k < simpleCmd->nb_of_tokens_in_simpleCmd)
 	{
-		c_and_a[k] = lst_token->content;
-		abs_c_and_a[k] = lst_token->content;
+		c_and_a[k] = ft_strdup(lst_token->content);
+		abs_c_and_a[k] = ft_strdup(lst_token->content);
 		lst_token = lst_token->next;
 		k++;
 	}

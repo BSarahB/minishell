@@ -18,6 +18,11 @@ void	ft_free_struct_t_list_lst_token(t_list **lst_token)
 	if(*lst_token != NULL)
 	{
 		//free((*lst_token)->content); pas bon deja free dans simpleCmd cmd and args
+		if((*lst_token)->content != NULL)
+		{
+			free((*lst_token)->content);
+			(*lst_token)->content = NULL;
+		}
 		ft_free_struct_t_list_lst_token(&((*lst_token)->next));
 		free(*lst_token);
 		*lst_token = NULL;
