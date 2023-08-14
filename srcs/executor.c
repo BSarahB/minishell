@@ -56,7 +56,7 @@ int	ft_execute_cmd(t_cmd *cmd, int i,char *envp[])
 	printf("freee\n");
 	ft_free_tab(&(cmd->simpleCmds[i]->cmd_and_args));
 	ft_free_tab(&(cmd->simpleCmds[i]->abs_cmd_and_args));
-	ft_free_struct_t_cmd(&cmd);
+	//ft_free_struct_t_cmd(&cmd);
 	return (exec_return);
 
 }

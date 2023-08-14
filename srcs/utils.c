@@ -73,6 +73,7 @@ char	*ft_update_string(char **str, char *new)
 	str_old = *str;
 	*str = new;
 	ft_free_struct_str(&str_old);
+	//ft_free_tab()
 	return (*str);
 }
 

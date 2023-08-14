@@ -17,7 +17,7 @@ void ft_get_token_content_lengh_for_malloc(t_list *token, size_t start_token_pos
 	size_t size_content;
 
 	size_content = end_token_pos - start_token_pos;
-	token->content = ft_init_cstring(&((token)->content), size_content + 1, '0');
+	token->content = ft_init_cstring(&((token)->content), size_content + 1, '\0');
 }
 
 void ft_get_token_content(t_data *data, size_t start_token_pos, size_t end_token_pos, char *line)

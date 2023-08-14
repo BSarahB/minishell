@@ -75,9 +75,9 @@ char	**ft_get_abs_argumentsb(char **abs_c_and_a)
 	slash[0] = '/';
 	slash[1] = 0;
 	ft_update_string(&abs_c_and_a[0], ft_strjoin(slash, abs_c_and_a[0]));
+	
 	return (abs_c_and_a);
 }
-
 int		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(t_list *lst_token, t_simpleCmd *simpleCmd)
 {
 	size_t	k;
@@ -105,6 +105,7 @@ int		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(t_list *lst_token, t_simp
 	abs_c_and_a[k] = NULL;
 	abs_c_and_a = ft_get_abs_argumentsb(abs_c_and_a);
 	simpleCmd->abs_cmd_and_args = abs_c_and_a;
+
 	return(1);
 }
 

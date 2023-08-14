@@ -77,7 +77,7 @@ void	ft_free_struct_t_simpleCmd(t_simpleCmd **simpleCmd)
 	if((*simpleCmd)->cmd_and_args != NULL)
 		ft_free_tab(&(*simpleCmd)->cmd_and_args);	
 	if((*simpleCmd)->abs_cmd_and_args != NULL)
-		ft_free_tab2(&(*simpleCmd)->abs_cmd_and_args);
+		ft_free_tab(&(*simpleCmd)->abs_cmd_and_args);
 	if((*simpleCmd)->outfile != NULL)
 		ft_free_tab(&(*simpleCmd)->outfile);
 	if (*simpleCmd != NULL)
