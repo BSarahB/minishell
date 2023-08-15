@@ -201,6 +201,30 @@ srcs/executor.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/executor.c.s
 .PHONY : srcs/executor.c.s
 
+srcs/first_simpleCmd_w_infile_setting_redirections.o: srcs/first_simpleCmd_w_infile_setting_redirections.c.o
+.PHONY : srcs/first_simpleCmd_w_infile_setting_redirections.o
+
+# target to build an object file
+srcs/first_simpleCmd_w_infile_setting_redirections.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/first_simpleCmd_w_infile_setting_redirections.c.o
+.PHONY : srcs/first_simpleCmd_w_infile_setting_redirections.c.o
+
+srcs/first_simpleCmd_w_infile_setting_redirections.i: srcs/first_simpleCmd_w_infile_setting_redirections.c.i
+.PHONY : srcs/first_simpleCmd_w_infile_setting_redirections.i
+
+# target to preprocess a source file
+srcs/first_simpleCmd_w_infile_setting_redirections.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/first_simpleCmd_w_infile_setting_redirections.c.i
+.PHONY : srcs/first_simpleCmd_w_infile_setting_redirections.c.i
+
+srcs/first_simpleCmd_w_infile_setting_redirections.s: srcs/first_simpleCmd_w_infile_setting_redirections.c.s
+.PHONY : srcs/first_simpleCmd_w_infile_setting_redirections.s
+
+# target to generate assembly for a file
+srcs/first_simpleCmd_w_infile_setting_redirections.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/first_simpleCmd_w_infile_setting_redirections.c.s
+.PHONY : srcs/first_simpleCmd_w_infile_setting_redirections.c.s
+
 srcs/get_data_token.o: srcs/get_data_token.c.o
 .PHONY : srcs/get_data_token.o
 
@@ -249,6 +273,30 @@ srcs/get_path.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/get_path.c.s
 .PHONY : srcs/get_path.c.s
 
+srcs/last_simpleCmd_setting_redirections.o: srcs/last_simpleCmd_setting_redirections.c.o
+.PHONY : srcs/last_simpleCmd_setting_redirections.o
+
+# target to build an object file
+srcs/last_simpleCmd_setting_redirections.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/last_simpleCmd_setting_redirections.c.o
+.PHONY : srcs/last_simpleCmd_setting_redirections.c.o
+
+srcs/last_simpleCmd_setting_redirections.i: srcs/last_simpleCmd_setting_redirections.c.i
+.PHONY : srcs/last_simpleCmd_setting_redirections.i
+
+# target to preprocess a source file
+srcs/last_simpleCmd_setting_redirections.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/last_simpleCmd_setting_redirections.c.i
+.PHONY : srcs/last_simpleCmd_setting_redirections.c.i
+
+srcs/last_simpleCmd_setting_redirections.s: srcs/last_simpleCmd_setting_redirections.c.s
+.PHONY : srcs/last_simpleCmd_setting_redirections.s
+
+# target to generate assembly for a file
+srcs/last_simpleCmd_setting_redirections.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/last_simpleCmd_setting_redirections.c.s
+.PHONY : srcs/last_simpleCmd_setting_redirections.c.s
+
 srcs/lst_token.o: srcs/lst_token.c.o
 .PHONY : srcs/lst_token.o
 
@@ -296,6 +344,78 @@ srcs/main.s: srcs/main.c.s
 srcs/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/main.c.s
 .PHONY : srcs/main.c.s
+
+srcs/parsing_lst_token_in_cmd_and_args.o: srcs/parsing_lst_token_in_cmd_and_args.c.o
+.PHONY : srcs/parsing_lst_token_in_cmd_and_args.o
+
+# target to build an object file
+srcs/parsing_lst_token_in_cmd_and_args.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/parsing_lst_token_in_cmd_and_args.c.o
+.PHONY : srcs/parsing_lst_token_in_cmd_and_args.c.o
+
+srcs/parsing_lst_token_in_cmd_and_args.i: srcs/parsing_lst_token_in_cmd_and_args.c.i
+.PHONY : srcs/parsing_lst_token_in_cmd_and_args.i
+
+# target to preprocess a source file
+srcs/parsing_lst_token_in_cmd_and_args.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/parsing_lst_token_in_cmd_and_args.c.i
+.PHONY : srcs/parsing_lst_token_in_cmd_and_args.c.i
+
+srcs/parsing_lst_token_in_cmd_and_args.s: srcs/parsing_lst_token_in_cmd_and_args.c.s
+.PHONY : srcs/parsing_lst_token_in_cmd_and_args.s
+
+# target to generate assembly for a file
+srcs/parsing_lst_token_in_cmd_and_args.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/parsing_lst_token_in_cmd_and_args.c.s
+.PHONY : srcs/parsing_lst_token_in_cmd_and_args.c.s
+
+srcs/parsing_redir_lst_token.o: srcs/parsing_redir_lst_token.c.o
+.PHONY : srcs/parsing_redir_lst_token.o
+
+# target to build an object file
+srcs/parsing_redir_lst_token.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/parsing_redir_lst_token.c.o
+.PHONY : srcs/parsing_redir_lst_token.c.o
+
+srcs/parsing_redir_lst_token.i: srcs/parsing_redir_lst_token.c.i
+.PHONY : srcs/parsing_redir_lst_token.i
+
+# target to preprocess a source file
+srcs/parsing_redir_lst_token.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/parsing_redir_lst_token.c.i
+.PHONY : srcs/parsing_redir_lst_token.c.i
+
+srcs/parsing_redir_lst_token.s: srcs/parsing_redir_lst_token.c.s
+.PHONY : srcs/parsing_redir_lst_token.s
+
+# target to generate assembly for a file
+srcs/parsing_redir_lst_token.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/parsing_redir_lst_token.c.s
+.PHONY : srcs/parsing_redir_lst_token.c.s
+
+srcs/regular_simpleCmd_setting_redirections.o: srcs/regular_simpleCmd_setting_redirections.c.o
+.PHONY : srcs/regular_simpleCmd_setting_redirections.o
+
+# target to build an object file
+srcs/regular_simpleCmd_setting_redirections.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/regular_simpleCmd_setting_redirections.c.o
+.PHONY : srcs/regular_simpleCmd_setting_redirections.c.o
+
+srcs/regular_simpleCmd_setting_redirections.i: srcs/regular_simpleCmd_setting_redirections.c.i
+.PHONY : srcs/regular_simpleCmd_setting_redirections.i
+
+# target to preprocess a source file
+srcs/regular_simpleCmd_setting_redirections.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/regular_simpleCmd_setting_redirections.c.i
+.PHONY : srcs/regular_simpleCmd_setting_redirections.c.i
+
+srcs/regular_simpleCmd_setting_redirections.s: srcs/regular_simpleCmd_setting_redirections.c.s
+.PHONY : srcs/regular_simpleCmd_setting_redirections.s
+
+# target to generate assembly for a file
+srcs/regular_simpleCmd_setting_redirections.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/regular_simpleCmd_setting_redirections.c.s
+.PHONY : srcs/regular_simpleCmd_setting_redirections.c.s
 
 srcs/setting_redirections.o: srcs/setting_redirections.c.o
 .PHONY : srcs/setting_redirections.o
@@ -368,6 +488,30 @@ srcs/shell_parser.s: srcs/shell_parser.c.s
 srcs/shell_parser.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/shell_parser.c.s
 .PHONY : srcs/shell_parser.c.s
+
+srcs/struct_init_execution.o: srcs/struct_init_execution.c.o
+.PHONY : srcs/struct_init_execution.o
+
+# target to build an object file
+srcs/struct_init_execution.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/struct_init_execution.c.o
+.PHONY : srcs/struct_init_execution.c.o
+
+srcs/struct_init_execution.i: srcs/struct_init_execution.c.i
+.PHONY : srcs/struct_init_execution.i
+
+# target to preprocess a source file
+srcs/struct_init_execution.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/struct_init_execution.c.i
+.PHONY : srcs/struct_init_execution.c.i
+
+srcs/struct_init_execution.s: srcs/struct_init_execution.c.s
+.PHONY : srcs/struct_init_execution.s
+
+# target to generate assembly for a file
+srcs/struct_init_execution.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/struct_init_execution.c.s
+.PHONY : srcs/struct_init_execution.c.s
 
 srcs/struct_init_lexer.o: srcs/struct_init_lexer.c.o
 .PHONY : srcs/struct_init_lexer.o
@@ -465,6 +609,30 @@ srcs/update_free_memory.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/update_free_memory.c.s
 .PHONY : srcs/update_free_memory.c.s
 
+srcs/update_free_memory_2.o: srcs/update_free_memory_2.c.o
+.PHONY : srcs/update_free_memory_2.o
+
+# target to build an object file
+srcs/update_free_memory_2.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/update_free_memory_2.c.o
+.PHONY : srcs/update_free_memory_2.c.o
+
+srcs/update_free_memory_2.i: srcs/update_free_memory_2.c.i
+.PHONY : srcs/update_free_memory_2.i
+
+# target to preprocess a source file
+srcs/update_free_memory_2.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/update_free_memory_2.c.i
+.PHONY : srcs/update_free_memory_2.c.i
+
+srcs/update_free_memory_2.s: srcs/update_free_memory_2.c.s
+.PHONY : srcs/update_free_memory_2.s
+
+# target to generate assembly for a file
+srcs/update_free_memory_2.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/update_free_memory_2.c.s
+.PHONY : srcs/update_free_memory_2.c.s
+
 srcs/utils.o: srcs/utils.c.o
 .PHONY : srcs/utils.o
 
@@ -489,6 +657,102 @@ srcs/utils.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/utils.c.s
 .PHONY : srcs/utils.c.s
 
+srcs/utils_parser.o: srcs/utils_parser.c.o
+.PHONY : srcs/utils_parser.o
+
+# target to build an object file
+srcs/utils_parser.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/utils_parser.c.o
+.PHONY : srcs/utils_parser.c.o
+
+srcs/utils_parser.i: srcs/utils_parser.c.i
+.PHONY : srcs/utils_parser.i
+
+# target to preprocess a source file
+srcs/utils_parser.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/utils_parser.c.i
+.PHONY : srcs/utils_parser.c.i
+
+srcs/utils_parser.s: srcs/utils_parser.c.s
+.PHONY : srcs/utils_parser.s
+
+# target to generate assembly for a file
+srcs/utils_parser.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/utils_parser.c.s
+.PHONY : srcs/utils_parser.c.s
+
+srcs/utils_parser2_malloc_redir_files.o: srcs/utils_parser2_malloc_redir_files.c.o
+.PHONY : srcs/utils_parser2_malloc_redir_files.o
+
+# target to build an object file
+srcs/utils_parser2_malloc_redir_files.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/utils_parser2_malloc_redir_files.c.o
+.PHONY : srcs/utils_parser2_malloc_redir_files.c.o
+
+srcs/utils_parser2_malloc_redir_files.i: srcs/utils_parser2_malloc_redir_files.c.i
+.PHONY : srcs/utils_parser2_malloc_redir_files.i
+
+# target to preprocess a source file
+srcs/utils_parser2_malloc_redir_files.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/utils_parser2_malloc_redir_files.c.i
+.PHONY : srcs/utils_parser2_malloc_redir_files.c.i
+
+srcs/utils_parser2_malloc_redir_files.s: srcs/utils_parser2_malloc_redir_files.c.s
+.PHONY : srcs/utils_parser2_malloc_redir_files.s
+
+# target to generate assembly for a file
+srcs/utils_parser2_malloc_redir_files.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/utils_parser2_malloc_redir_files.c.s
+.PHONY : srcs/utils_parser2_malloc_redir_files.c.s
+
+srcs/utils_parser3_count.o: srcs/utils_parser3_count.c.o
+.PHONY : srcs/utils_parser3_count.o
+
+# target to build an object file
+srcs/utils_parser3_count.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/utils_parser3_count.c.o
+.PHONY : srcs/utils_parser3_count.c.o
+
+srcs/utils_parser3_count.i: srcs/utils_parser3_count.c.i
+.PHONY : srcs/utils_parser3_count.i
+
+# target to preprocess a source file
+srcs/utils_parser3_count.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/utils_parser3_count.c.i
+.PHONY : srcs/utils_parser3_count.c.i
+
+srcs/utils_parser3_count.s: srcs/utils_parser3_count.c.s
+.PHONY : srcs/utils_parser3_count.s
+
+# target to generate assembly for a file
+srcs/utils_parser3_count.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/utils_parser3_count.c.s
+.PHONY : srcs/utils_parser3_count.c.s
+
+srcs/utils_settings_redirections.o: srcs/utils_settings_redirections.c.o
+.PHONY : srcs/utils_settings_redirections.o
+
+# target to build an object file
+srcs/utils_settings_redirections.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/utils_settings_redirections.c.o
+.PHONY : srcs/utils_settings_redirections.c.o
+
+srcs/utils_settings_redirections.i: srcs/utils_settings_redirections.c.i
+.PHONY : srcs/utils_settings_redirections.i
+
+# target to preprocess a source file
+srcs/utils_settings_redirections.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/utils_settings_redirections.c.i
+.PHONY : srcs/utils_settings_redirections.c.i
+
+srcs/utils_settings_redirections.s: srcs/utils_settings_redirections.c.s
+.PHONY : srcs/utils_settings_redirections.s
+
+# target to generate assembly for a file
+srcs/utils_settings_redirections.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_minishell.dir/build.make CMakeFiles/my_minishell.dir/srcs/utils_settings_redirections.c.s
+.PHONY : srcs/utils_settings_redirections.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -507,18 +771,33 @@ help:
 	@echo "... srcs/executor.o"
 	@echo "... srcs/executor.i"
 	@echo "... srcs/executor.s"
+	@echo "... srcs/first_simpleCmd_w_infile_setting_redirections.o"
+	@echo "... srcs/first_simpleCmd_w_infile_setting_redirections.i"
+	@echo "... srcs/first_simpleCmd_w_infile_setting_redirections.s"
 	@echo "... srcs/get_data_token.o"
 	@echo "... srcs/get_data_token.i"
 	@echo "... srcs/get_data_token.s"
 	@echo "... srcs/get_path.o"
 	@echo "... srcs/get_path.i"
 	@echo "... srcs/get_path.s"
+	@echo "... srcs/last_simpleCmd_setting_redirections.o"
+	@echo "... srcs/last_simpleCmd_setting_redirections.i"
+	@echo "... srcs/last_simpleCmd_setting_redirections.s"
 	@echo "... srcs/lst_token.o"
 	@echo "... srcs/lst_token.i"
 	@echo "... srcs/lst_token.s"
 	@echo "... srcs/main.o"
 	@echo "... srcs/main.i"
 	@echo "... srcs/main.s"
+	@echo "... srcs/parsing_lst_token_in_cmd_and_args.o"
+	@echo "... srcs/parsing_lst_token_in_cmd_and_args.i"
+	@echo "... srcs/parsing_lst_token_in_cmd_and_args.s"
+	@echo "... srcs/parsing_redir_lst_token.o"
+	@echo "... srcs/parsing_redir_lst_token.i"
+	@echo "... srcs/parsing_redir_lst_token.s"
+	@echo "... srcs/regular_simpleCmd_setting_redirections.o"
+	@echo "... srcs/regular_simpleCmd_setting_redirections.i"
+	@echo "... srcs/regular_simpleCmd_setting_redirections.s"
 	@echo "... srcs/setting_redirections.o"
 	@echo "... srcs/setting_redirections.i"
 	@echo "... srcs/setting_redirections.s"
@@ -528,6 +807,9 @@ help:
 	@echo "... srcs/shell_parser.o"
 	@echo "... srcs/shell_parser.i"
 	@echo "... srcs/shell_parser.s"
+	@echo "... srcs/struct_init_execution.o"
+	@echo "... srcs/struct_init_execution.i"
+	@echo "... srcs/struct_init_execution.s"
 	@echo "... srcs/struct_init_lexer.o"
 	@echo "... srcs/struct_init_lexer.i"
 	@echo "... srcs/struct_init_lexer.s"
@@ -540,9 +822,24 @@ help:
 	@echo "... srcs/update_free_memory.o"
 	@echo "... srcs/update_free_memory.i"
 	@echo "... srcs/update_free_memory.s"
+	@echo "... srcs/update_free_memory_2.o"
+	@echo "... srcs/update_free_memory_2.i"
+	@echo "... srcs/update_free_memory_2.s"
 	@echo "... srcs/utils.o"
 	@echo "... srcs/utils.i"
 	@echo "... srcs/utils.s"
+	@echo "... srcs/utils_parser.o"
+	@echo "... srcs/utils_parser.i"
+	@echo "... srcs/utils_parser.s"
+	@echo "... srcs/utils_parser2_malloc_redir_files.o"
+	@echo "... srcs/utils_parser2_malloc_redir_files.i"
+	@echo "... srcs/utils_parser2_malloc_redir_files.s"
+	@echo "... srcs/utils_parser3_count.o"
+	@echo "... srcs/utils_parser3_count.i"
+	@echo "... srcs/utils_parser3_count.s"
+	@echo "... srcs/utils_settings_redirections.o"
+	@echo "... srcs/utils_settings_redirections.i"
+	@echo "... srcs/utils_settings_redirections.s"
 .PHONY : help
 
 

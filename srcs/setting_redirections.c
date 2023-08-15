@@ -57,7 +57,7 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], int ret, t_data
 
 		ft_free_struct_t_data(&data);
 		ft_free_struct_t_settings(&set);
-		ft_free_struct_t_cmd(&cmd);
+		//ft_free_struct_t_cmd(&cmd);
 
 		//il faudra imperativement SORTIR de la pour ne pas que le code du fork s execute derriere dans l enfant avec la boucle while
 		exit(1);//ou (0?) voir comment bien sortir
@@ -110,6 +110,7 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data)
 	int 	exit_status;
 	t_settings	*set;
 
+	ft_aff_abs_cmd_and_args(cmd);
 	set = ft_struct_init_settings(&set);
 	if(cmd->simpleCmds[set->i] == NULL)
 		return 0;//TODO rectifier le bon exit status

@@ -252,7 +252,7 @@ void 	ft_count_nb_of_outfile_in_simpleCmd(t_simpleCmd *simpleCmd);
 void 	ft_count_nb_of_errfile_in_simpleCmd(t_simpleCmd *simpleCmd);
 void 	ft_count_nb_of_redir_token_in_simpleCmd(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list *dynamic_lst_token);
 void 	ft_count_nb_of_tokens_in_simpleCmd(t_list *start_lst_token, t_simpleCmd *simpleCmd);
-void	ft_readjust_start_lst_token(t_list *start_lst_token, t_cmd *cmd, size_t i);
+t_list 	*ft_readjust_start_lst_token(t_list *start_lst_token, t_cmd *cmd, size_t i);
 void	ft_get_end_simpleCmd_pos(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list **dynamic_lst_token);
 void	ft_aff_abs_cmd_and_args(t_cmd	*cmd);
 void	ft_get_end_simpleCmd_pos(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list **start_lst_token);

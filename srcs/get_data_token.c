@@ -22,8 +22,6 @@ void ft_get_token_content_lengh_for_malloc(t_list *token, size_t start_token_pos
 
 void ft_get_token_content(t_data *data, size_t start_token_pos, size_t end_token_pos, char *line)
 {
-
-
 	t_list *new;
 
 	if (data->token->quoting_rule_adequate == 0 && data->token->quoting_rule != 0)
@@ -32,7 +30,6 @@ void ft_get_token_content(t_data *data, size_t start_token_pos, size_t end_token
 	}
 	ft_get_token_content_lengh_for_malloc(data->token, start_token_pos, end_token_pos);
 	data->token->content = ft_memcpy(data->token->content, &line[start_token_pos], end_token_pos - start_token_pos + 1);
-
 //si token nul -> on ne le rajoute pas a la liste
 	new = ft_lstnew_for_lst(data);
 	ft_lstadd_back(&(data->lst_token), new);
@@ -44,46 +41,29 @@ void ft_get_token_content(t_data *data, size_t start_token_pos, size_t end_token
 int	ft_is_char_operand(char *str, t_list *lst_token)
 {
 	(void)lst_token;
-					   if (*str == '>')
-					   {
-						   return (GREAT);
-					   }
-					   if (*str == '<')
-					   {
-						   return (LESS);
-					   }
-					   if ((*str == '>') && (*(str - 1) == '>')) // mettre str pour checker l element precedent TODO : proteger str d un index qui n exste pas
-					   {										  // TODO risque de segfault a str index 0
-						   return (GREATGREAT);
-					   }
+	if (*str == '>')
+		return (GREAT);
+	if (*str == '<')
+		return (LESS);
+	if ((*str == '>') && (*(str - 1) == '>')) // mettre str pour checker l element precedent TODO : proteger str d un index qui n exste pas
+		return (GREATGREAT);  // TODO risque de segfault a str index 0
 					   //LESSLESS << pour les heredocs : faire plus de recherches sur les heredocs
-					   if ((*str == '&') && (*(str - 1) == '>')) // proteger egalement d un ouot of range se proteger de segfault en mettant la condition d existence
-					   {
-						   return (GREAT_AND_AMPERSAND);
-					   }
-					   if (*str == '|')
-					   {
-						   return (PIPE);
-						   //		<|>,<|>,<|>   je me souviens plus pkoi j ai mis ceux la....CQFD
-					   }
-					   if (*str == '&')
-					   {
-						   return (AMPERSAND);
-					   }
-					   return (0);
+	if ((*str == '&') && (*(str - 1) == '>')) // proteger egalement d un ouot of range se proteger de segfault en mettant la condition d existence
+		return (GREAT_AND_AMPERSAND);
+	if (*str == '|')
+		return (PIPE); //		<|>,<|>,<|>   je me souviens plus pkoi j ai mis ceux la....CQFD
+	if (*str == '&')
+		return (AMPERSAND);
+	return (0);
 }
 
 int ft_get_token_type(char *str, t_list *token, t_data *data, size_t i, char *line)
 {
 	if ((*str == '>') && (*(str - 1) == '>'))
-	{										  // TODO risque de segfault a str index 0
-		return (GREATGREAT);
-	}
+		return (GREATGREAT);  // TODO risque de segfault a str index 0
 	//LESSLESS << pour les heredocs : faire plus de recherches sur les heredocs
 	if ((*str == '&') && (*(str - 1) == '>')) // proteger egalement d un ouot of range se proteger de segfault en mettant la condition d existence
-	{
 		return (GREAT_AND_AMPERSAND);
-	}
 	if (token->quoting_rule != single_quote && token->quoting_rule != double_quote)
 	{
 		if (*str == '>')
@@ -133,9 +113,7 @@ int ft_get_token_type(char *str, t_list *token, t_data *data, size_t i, char *li
 			//		<|>,<|>,<|>   je me souviens plus pkoi j ai mis ceux la....CQFD
 		}
 		if (*str == '&')
-		{
 			return (AMPERSAND);
-		}
 	}
 	return (0);
 }
@@ -171,7 +149,6 @@ void ft_get_token_quoting_rule(char *str, t_list *lst_token, size_t i)
 			lst_token->end_token_pos = i;
 		}
 	}
-
 	else if (lst_token->quoting_rule == 0 && str[i + 1] == '\0') // c est le cas de $> l[s]    ->[s] est checke dans la ft_get_token_quoting rule on verifie si la quoting rule  == 0 et que lindex suivant est un \0 alors cela signifie qu on a la fin d un token
 	{
 		lst_token->end_token_pos = i;

@@ -78,17 +78,17 @@ void	ft_aff_abs_cmd_and_args(t_cmd	*cmd)
 		{
 			while (cmd->simpleCmds[i]->cmd_and_args[j] != NULL)
 		{
-		//	printf("cmd_and_args de la simpleCmd[%zu] : <%s>\n", i,cmd->simpleCmds[i]->cmd_and_args[j]);
+			//printf("cmd_and_args de la simpleCmd[%zu] : <%s>\n", i,cmd->simpleCmds[i]->cmd_and_args[j]);
 			j++;
 		}
 		//printf("\n\n\n");		
 		j= 0;
 		while (cmd->simpleCmds[i]->abs_cmd_and_args[j] != NULL)
 		{
-		//	printf("abs_cmd_and_args[%zu]<%s>\n",i, cmd->simpleCmds[i]->abs_cmd_and_args[j]);
+			//printf("abs_cmd_and_args[%zu]<%s>\n",i, cmd->simpleCmds[i]->abs_cmd_and_args[j]);
 			j++;
 		}
-	//	printf("\n\n\n");
+//	printf("\n\n\n");
 		i++;
 		}
 		else

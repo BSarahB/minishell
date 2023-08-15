@@ -77,6 +77,13 @@ build CMakeFiles/my_minishell.dir/srcs/parsing_lst_token_in_cmd_and_args.c.o: C_
   OBJECT_DIR = CMakeFiles/my_minishell.dir
   OBJECT_FILE_DIR = CMakeFiles/my_minishell.dir/srcs
 
+build CMakeFiles/my_minishell.dir/srcs/parsing_redir_lst_token.c.o: C_COMPILER__my_minishell_Debug /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/parsing_redir_lst_token.c || cmake_object_order_depends_target_my_minishell
+  DEP_FILE = CMakeFiles/my_minishell.dir/srcs/parsing_redir_lst_token.c.o.d
+  FLAGS = -Wall -Wextra -Werror -g
+  INCLUDES = -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes
+  OBJECT_DIR = CMakeFiles/my_minishell.dir
+  OBJECT_FILE_DIR = CMakeFiles/my_minishell.dir/srcs
+
 build CMakeFiles/my_minishell.dir/srcs/utils.c.o: C_COMPILER__my_minishell_Debug /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils.c || cmake_object_order_depends_target_my_minishell
   DEP_FILE = CMakeFiles/my_minishell.dir/srcs/utils.c.o.d
   FLAGS = -Wall -Wextra -Werror -g
@@ -232,7 +239,7 @@ build CMakeFiles/my_minishell.dir/srcs/utils_settings_redirections.c.o: C_COMPIL
 #############################################
 # Link the executable my_minishell
 
-build my_minishell: C_EXECUTABLE_LINKER__my_minishell_Debug CMakeFiles/my_minishell.dir/srcs/main.c.o CMakeFiles/my_minishell.dir/srcs/shell_lexer.c.o CMakeFiles/my_minishell.dir/srcs/shell_parser.c.o CMakeFiles/my_minishell.dir/srcs/parsing_lst_token_in_cmd_and_args.c.o CMakeFiles/my_minishell.dir/srcs/utils.c.o CMakeFiles/my_minishell.dir/srcs/utils_parser.c.o CMakeFiles/my_minishell.dir/srcs/utils_parser2_malloc_redir_files.c.o CMakeFiles/my_minishell.dir/srcs/utils_parser3_count.c.o CMakeFiles/my_minishell.dir/srcs/struct_init_lexer.c.o CMakeFiles/my_minishell.dir/srcs/struct_init_parser.c.o CMakeFiles/my_minishell.dir/srcs/executor.c.o CMakeFiles/my_minishell.dir/srcs/get_path.c.o CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.o CMakeFiles/my_minishell.dir/srcs/update_free_memory.c.o CMakeFiles/my_minishell.dir/srcs/update_free_memory_2.c.o CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o CMakeFiles/my_minishell.dir/srcs/display_error.c.o CMakeFiles/my_minishell.dir/srcs/tokenize.c.o CMakeFiles/my_minishell.dir/srcs/get_data_token.c.o CMakeFiles/my_minishell.dir/srcs/lst_token.c.o CMakeFiles/my_minishell.dir/srcs/struct_init_execution.c.o CMakeFiles/my_minishell.dir/srcs/first_simpleCmd_w_infile_setting_redirections.c.o CMakeFiles/my_minishell.dir/srcs/last_simpleCmd_setting_redirections.c.o CMakeFiles/my_minishell.dir/srcs/regular_simpleCmd_setting_redirections.c.o CMakeFiles/my_minishell.dir/srcs/utils_settings_redirections.c.o
+build my_minishell: C_EXECUTABLE_LINKER__my_minishell_Debug CMakeFiles/my_minishell.dir/srcs/main.c.o CMakeFiles/my_minishell.dir/srcs/shell_lexer.c.o CMakeFiles/my_minishell.dir/srcs/shell_parser.c.o CMakeFiles/my_minishell.dir/srcs/parsing_lst_token_in_cmd_and_args.c.o CMakeFiles/my_minishell.dir/srcs/parsing_redir_lst_token.c.o CMakeFiles/my_minishell.dir/srcs/utils.c.o CMakeFiles/my_minishell.dir/srcs/utils_parser.c.o CMakeFiles/my_minishell.dir/srcs/utils_parser2_malloc_redir_files.c.o CMakeFiles/my_minishell.dir/srcs/utils_parser3_count.c.o CMakeFiles/my_minishell.dir/srcs/struct_init_lexer.c.o CMakeFiles/my_minishell.dir/srcs/struct_init_parser.c.o CMakeFiles/my_minishell.dir/srcs/executor.c.o CMakeFiles/my_minishell.dir/srcs/get_path.c.o CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.o CMakeFiles/my_minishell.dir/srcs/update_free_memory.c.o CMakeFiles/my_minishell.dir/srcs/update_free_memory_2.c.o CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o CMakeFiles/my_minishell.dir/srcs/display_error.c.o CMakeFiles/my_minishell.dir/srcs/tokenize.c.o CMakeFiles/my_minishell.dir/srcs/get_data_token.c.o CMakeFiles/my_minishell.dir/srcs/lst_token.c.o CMakeFiles/my_minishell.dir/srcs/struct_init_execution.c.o CMakeFiles/my_minishell.dir/srcs/first_simpleCmd_w_infile_setting_redirections.c.o CMakeFiles/my_minishell.dir/srcs/last_simpleCmd_setting_redirections.c.o CMakeFiles/my_minishell.dir/srcs/regular_simpleCmd_setting_redirections.c.o CMakeFiles/my_minishell.dir/srcs/utils_settings_redirections.c.o
   FLAGS = -Wall -Wextra -Werror -g
   LINK_FLAGS = -rdynamic
   LINK_LIBRARIES = -lreadline

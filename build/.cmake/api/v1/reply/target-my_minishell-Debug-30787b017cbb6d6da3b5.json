@@ -32,7 +32,7 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 11,
+				"line" : 12,
 				"parent" : 0
 			},
 			{
@@ -86,7 +86,8 @@
 				22,
 				23,
 				24,
-				25
+				25,
+				26
 			]
 		}
 	],
@@ -155,7 +156,8 @@
 				22,
 				23,
 				24,
-				25
+				25,
+				26
 			]
 		}
 	],
@@ -188,6 +190,12 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "srcs/parsing_lst_token_in_cmd_and_args.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "srcs/parsing_redir_lst_token.c",
 			"sourceGroupIndex" : 1
 		},
 		{
