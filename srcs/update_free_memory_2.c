@@ -30,7 +30,6 @@ void    ft_free_struct_t_list_token(t_list **token)
         free(*token);
         *token = NULL;
     }
-    printf("done\n");
 }
 
 void    ft_free_struct_t_data(t_data **data)

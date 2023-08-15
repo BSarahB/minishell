@@ -46,9 +46,8 @@ int main(int argc, char *argv[], char *envp[])
 			cmd->path_tab = ft_get_path(envp);	
 			ft_parse_tokens_in_s_cmd(cmd, line, envp, lst_token);
 			exit_status = ft_setting_redirections_and_pipes(cmd, envp, data);
-			//printf("exit_status = 00%d\n", exit_status);
+			//printf("exit_status = %d\n", exit_status);
 		}
-		printf("here\n");
 			ft_free_struct_str(&line);
 			if (cmd != NULL)
 				ft_free_struct_t_cmd(&cmd);
