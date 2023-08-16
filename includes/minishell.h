@@ -118,14 +118,12 @@ typedef struct s_simpleCmd
 	char **outfile;
 	char **errfile;
 	size_t end_simpleCmd_pos;
-
 } t_simpleCmd;
 
 // description d une commande complete avec les multiples pipes eventuels et les IO redirections eventuels
 
 typedef struct s_cmd
 {
-
 	size_t nb_of_simpleCmds;
 	t_simpleCmd **simpleCmds;
 
@@ -133,7 +131,7 @@ typedef struct s_cmd
 	//	char		**blocks; //original
 	//	size_t		nb_of_blocks;//original
 
-	char *outputfile; //-> sera rempli par le token de redirection
+	char *outputfile;
 	char *inputfile;
 	char *errfile;
 	// a voir si on met tous les char * dans un double tab io_redirections(**)

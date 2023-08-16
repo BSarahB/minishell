@@ -58,7 +58,6 @@ int main(int argc, char *argv[], char *envp[])
 				}
 
 			ft_free_struct_t_data(&data);
-
 	}
 	//ft_free_struct_t_cmd(&cmd);
 	return (exit_status);

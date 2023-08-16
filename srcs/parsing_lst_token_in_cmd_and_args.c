@@ -52,4 +52,3 @@ int		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(t_list *lst_token, t_simp
 	simpleCmd->abs_cmd_and_args = abs_c_and_a;
 	return(1);
 }
-

@@ -12,6 +12,14 @@
 
 #include "minishell.h"
 
+
+void	ft_first_token_in_simpleCmd_is_redir()
+{
+
+	
+}
+
+
 void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpleCmd, t_list **lst_token)
 {
 	t_list *curr;

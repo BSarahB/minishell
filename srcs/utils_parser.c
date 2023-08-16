@@ -33,6 +33,8 @@ void	ft_lstdelone(t_list **lst, void(*parse)(char *content, t_simpleCmd *simpleC
 		if(redir == 1)
 			parse((*lst)->content, simpleCmd, i, (*lst)->title);
 		//free ts les mallocs ici de str etc...
+		if(redir == 0)
+			free((*lst)->content);
 		(*lst)->content = NULL;	
 		free(*lst);
 		*lst = NULL;

@@ -29,9 +29,6 @@ void	ft_free_struct_t_list_lst_token(t_list **lst_token)
 	}
 }
 
-
-
-
 void	ft_free_tab2(char ***tab)
 {
 	int	i;
@@ -48,8 +45,6 @@ void	ft_free_tab2(char ***tab)
 		*tab = NULL;
 	}
 }
-
-
 
 void	ft_free_tab(char ***tab)
 {
