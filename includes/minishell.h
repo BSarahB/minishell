@@ -41,6 +41,8 @@ enum e_title // a renommer en function
 	redir_in,
 	redir_out,
 	redir_err, // TODO determiner stderr dans le token type
+	redir_append,
+	redir_heredoc,
 	metacharacter,
 	// necessaire args? et option? je ne pense pas
 	// control operator :A token that performs a control function. It is a newline or one of the following: ‘||’, ‘&&’, ‘&’, ‘;’, ‘;;’, ‘;&’, ‘;;&’, ‘|’, ‘|&’, ‘(’, or ‘)’.
@@ -221,7 +223,7 @@ t_list *ft_create_list(void);
 size_t ft_char_is_whitespace(char *str, char *line, size_t i, t_data *data);
 int ft_char_isnull_no_qr(char *line, size_t i, t_data *data);
 int ft_get_token_type(char *str, t_list *token, t_data *data, size_t i, char *line);
-void ft_char_is_operator(char *line, size_t i, t_data *data);
+size_t ft_char_is_operator(char *line, size_t i, t_data *data);
 void ft_char_after_ws_token_exist_no_qr(char *line, size_t i, t_data *data);
 size_t ft_char_after_ws_is_operator_no_token_exists_no_qr(size_t i, char *line, t_data *data);
 

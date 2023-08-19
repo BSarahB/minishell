@@ -81,16 +81,24 @@ void	ft_get_token_function(char c,t_list *lst_token)
 }
 */
 
-void	ft_char_is_operator(char *line, size_t i, t_data *data)
+size_t		ft_char_is_operator(char *line, size_t i, t_data *data)
 {
 	if(data->token->start_token_pos_exists == 0)//on n est pas colles a un token
 	{
 		data->token->start_token_pos = i;
 		data->token->end_token_pos = i;
-		ft_get_token_content(data,i, i, line);
+		if(data->token->title == redir_append)
+			{
+				data->token->end_token_pos = i + 1;
+				ft_get_token_content(data,i, data->token->end_token_pos, line);//ou i + 1
+				i++;
+			}
+		else
+			ft_get_token_content(data,i, i, line);
 		data->token->start_token_pos_exists = 0;
 		data->token->end_token_pos = 0;
 		//i++;
+		return(i);
 	}
 	else if(data->token->start_token_pos_exists != 0)//on est colles a un token
 	{
@@ -98,11 +106,20 @@ void	ft_char_is_operator(char *line, size_t i, t_data *data)
 		//ft_get_token_content(data, data->token->start_token_pos, data->token->end_token_pos, line);
 		//data->token->start_token_pos_exists = i;
 		//data->token->end_token_pos = i;
-		ft_get_token_content(data,i, i, line);
+		if(data->token->title == redir_append)
+			{
+				data->token->end_token_pos = i + 1;
+				ft_get_token_content(data,i, data->token->end_token_pos, line);//ou i + 1
+				i++;
+			}
+		else
+			ft_get_token_content(data,i, i, line);
 		data->token->start_token_pos_exists = 0;
 		data->token->end_token_pos = 0;
 		//i++;
+		return(i);
 	}
+	return(i);
 }
 
 void	ft_char_or_token_is_unique(char *line, size_t i, t_data *data)//char or token is unique // faudrait  il recuperer ici la end pos puisqu on sort du code des token et qu on a atteint un \0 ?
@@ -138,7 +155,7 @@ size_t	ft_tokenize(char *str, char *line, size_t i, t_data *data)
 		}
 		ft_get_token_quoting_rule(str, data->token, i);
 		if (ft_get_token_type(&str[i], data->token, data, i, line)) //si on est sur un operator
-			ft_char_is_operator(line, i, data);
+			i = ft_char_is_operator(line, i, data);
 		//		ft_get_token_function(c, lst_token);
 //on a un token abouti ici donc on peut l imprimer. il vient soit de la ft get token quoting rule car le car qui suit est un \0 indiquant la fin du token par ex
 		if (data->token->end_token_pos != 0)//ic i on a imprime l <l> , ou ""^
