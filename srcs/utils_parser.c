@@ -14,7 +14,7 @@
 
 void	parse(char *content, t_simpleCmd *simpleCmd, size_t i, int title)
 {
-	if(title == redir_out)
+	if(title == redir_out || title == redir_append)
 	{
 		simpleCmd->outfile[i] = content; //ft_strdup(content);
 		//if (i == simpleCmd->nb_of_outfile -1) //val error invalid write

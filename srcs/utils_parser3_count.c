@@ -63,6 +63,13 @@ void	ft_count_final_nb_of_tokens_in_simpleCmd(t_list *start_lst_token, t_simpleC
 			simpleCmd->nb_of_redir_token =simpleCmd->nb_of_redir_token +2;
 			tmp = tmp->next;
 		}
+		
+		else if(tmp->title == redir_append)
+		{
+			simpleCmd->nb_of_outfile++;
+			simpleCmd->nb_of_redir_token =simpleCmd->nb_of_redir_token +2;
+			tmp = tmp->next;
+		}
 			tmp = tmp->next;
 	}
  }

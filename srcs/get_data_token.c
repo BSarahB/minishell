@@ -71,7 +71,6 @@ int ft_get_token_type(char *str, t_list *token, t_data *data, size_t i, char *li
 			{
 				if ((*str == '>') && (*(str + 1) == '>'))
 				{
-					printf("GREATGREAT HERE\n");
 					data->token->title = redir_append;
 					data->token->type = 5;
 					return (GREATGREAT);

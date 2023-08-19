@@ -54,11 +54,14 @@ void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpl
  			ft_lstdelone(&lst_token_to_remove2, &parse, simpleCmd, i, 1);
 			i++;
 		}
-		if(curr->title == redir_out)
+		if(curr->title == redir_out || curr->title == redir_append)
 		{
 			if(simpleCmd->nofile == 0)
 					simpleCmd->nb_of_outfile_before_nofile++;
-			curr->next->title = redir_out;
+			if(curr->title == redir_out)
+				curr->next->title = redir_out;
+			if(curr->title == redir_append)
+				curr->next->title = redir_append;
 			ft_lstdelone(&lst_token_to_remove, &parse, simpleCmd, j, 0);
  			ft_lstdelone(&lst_token_to_remove2, &parse, simpleCmd, j, 1);
 			j++;
@@ -99,12 +102,14 @@ void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpl
 			if(curr->next == NULL)
 				simpleCmd->end_simpleCmd_pos = curr->position;
 		}
-		else if(curr->next->title == redir_out)
+		else if(curr->next->title == redir_out || curr->next->title == redir_append)
 		{
+			if(curr->next->title == redir_out)
+				curr->next->next->title = redir_out;
+			if(curr->next->title == redir_append)
+				curr->next->next->title = redir_append;	
 			lst_token_to_remove = curr->next;
-			ft_lstdelone(&lst_token_to_remove, &parse, simpleCmd, j, 0);
-			curr->next->next->title = redir_out;
-
+			ft_lstdelone(&lst_token_to_remove, &parse, simpleCmd, j, 0);//semble etre normalise NANI DANS DEBUGGOR CONTENT DE CURR NEXT EST MIS EN ERROR CANNOT ACCESS
 			if(simpleCmd->nofile == 0)
 					simpleCmd->nb_of_outfile_before_nofile++;
 
