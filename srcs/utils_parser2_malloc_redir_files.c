@@ -37,6 +37,7 @@ char **ft_malloc_outfile_tab(t_simpleCmd *simpleCmd)
 {
 	char **outfile;
 	
+	outfile = NULL;
 	outfile = malloc(sizeof(*outfile) * (simpleCmd->nb_of_outfile + 1));
 	if(!outfile)
 		return(NULL);

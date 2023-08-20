@@ -46,13 +46,13 @@ void	ft_free_tab2(char ***tab)
 	}
 }
 
-void	ft_free_tab(char ***tab)
+void	ft_free_tab(char ***tab)//&tab    (**)
 {
 	int	i;
 
 	i = 0;
 
-	while ((*tab)[i])
+	while ((*tab)[i]) //
 	{
 		ft_free_struct_str(&(*tab)[i]);
 		i++;
@@ -63,6 +63,8 @@ void	ft_free_tab(char ***tab)
 		*tab = NULL;
 	}
 }
+
+
 
 void	ft_free_struct_t_simpleCmd(t_simpleCmd **simpleCmd)
 {

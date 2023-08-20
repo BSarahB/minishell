@@ -19,6 +19,8 @@ void	parse(char *content, t_simpleCmd *simpleCmd, size_t i, int title)
 		simpleCmd->outfile[i] = content; //ft_strdup(content);
 		//if (i == simpleCmd->nb_of_outfile -1) //val error invalid write
 		//	simpleCmd->outfile[i + 1] = 0;
+		if(i == simpleCmd->nb_of_outfile -1)
+			simpleCmd->outfile[i+1] = NULL;
 	} 
 	if(title == redir_in)
 		simpleCmd->infile[i] = content; //ft_strdup(content);

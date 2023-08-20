@@ -1,8 +1,1 @@
-build.ninja
-CMakeCache.txt
-CMakeFiles
-cmake_install.cmake
-compile_commands.json
-infile
-my_minishell
-outfile
+      8       8     108
