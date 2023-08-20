@@ -15,7 +15,10 @@ void	ft_open_outfiles(t_settings *set, t_cmd *cmd)
 {
 	if(set->j != 0 && set->fdout)//TODO proteger des pbs a l ouverture
 		close(set->fdout);
-	set->fdout = open(cmd->simpleCmds[set->i]->outfile[set->j], O_CREAT | O_RDWR | O_TRUNC, 0644);
+	if(cmd->simpleCmds[set->i]->append_track_index[set->j] == 1)
+		set->fdout = open(cmd->simpleCmds[set->i]->outfile[set->j], O_CREAT | O_RDWR | O_APPEND, 0644);
+	else
+		set->fdout = open(cmd->simpleCmds[set->i]->outfile[set->j], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	// if(fdout == -1) gerer les erreurs d ouverture ici avec perror
 	if(set->fdout == -1)
 	{
@@ -29,8 +32,11 @@ void	ft_open_outfiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cm
 {
 	if(k != 0 && set->fdout)//TODO proteger des pbs a l ouverture
 		close(set->fdout);
-	set->j = k;	
-	set->fdout = open(cmd->simpleCmds[set->i]->outfile[set->j], O_CREAT | O_RDWR | O_TRUNC, 0644);
+	set->j = k;
+	if(cmd->simpleCmds[set->i]->append_track_index[set->j] == 1)
+		set->fdout = open(cmd->simpleCmds[set->i]->outfile[set->j], O_CREAT | O_RDWR | O_APPEND, 0644);
+	else	
+		set->fdout = open(cmd->simpleCmds[set->i]->outfile[set->j], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	// if(fdout == -1) gerer les erreurs d ouverture ici avec perror
 	if(set->fdout == -1)
 	{
@@ -39,3 +45,5 @@ void	ft_open_outfiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cm
 		//fermer les pipes, nettoyer la memoire etc...
 	}				
 }
+//if(cmd->simpleCmds[set->i]->append_track_index[set->j] == 1)
+	//set->fdout = open(cmd->simpleCmds[set->i]->outfile[set->j], O_CREAT | O_RDWR | O_TRUNC, 0644);

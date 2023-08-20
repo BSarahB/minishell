@@ -20,12 +20,22 @@ void	parse(char *content, t_simpleCmd *simpleCmd, size_t i, int title)
 		//if (i == simpleCmd->nb_of_outfile -1) //val error invalid write
 		//	simpleCmd->outfile[i + 1] = 0;
 		if(i == simpleCmd->nb_of_outfile -1)
-			simpleCmd->outfile[i+1] = NULL;
+			simpleCmd->outfile[i + 1] = NULL;
+		if(title == redir_append)
+			simpleCmd->append_track_index[i] = 1;
 	} 
 	if(title == redir_in)
+	{
 		simpleCmd->infile[i] = content; //ft_strdup(content);
+		if(i == simpleCmd->nb_of_infile -1)
+			simpleCmd->infile[i + 1] = NULL;
+	}
 	if(title == redir_err)
+	{
 		simpleCmd->errfile[i] = content; //ft_strdup(content);
+		if(i == simpleCmd->nb_of_errfile -1)
+			simpleCmd->errfile[i + 1] = NULL;
+	}
 }
 
 void	ft_lstdelone(t_list **lst, void(*parse)(char *content, t_simpleCmd *simpleCmd, size_t i, int title), t_simpleCmd *simpleCmd, size_t i, int redir)
@@ -33,7 +43,11 @@ void	ft_lstdelone(t_list **lst, void(*parse)(char *content, t_simpleCmd *simpleC
 	 if(*lst && parse)
 	 {
 		if(redir == 1)
-			parse((*lst)->content, simpleCmd, i, (*lst)->title);
+			{
+				parse((*lst)->content, simpleCmd, i, (*lst)->title);
+
+			}
+
 		//free ts les mallocs ici de str etc...
 		if(redir == 0)
 			free((*lst)->content);

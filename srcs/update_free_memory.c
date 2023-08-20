@@ -64,7 +64,14 @@ void	ft_free_tab(char ***tab)//&tab    (**)
 	}
 }
 
-
+void	ft_free_struct_int_tab(int **p)
+{
+	if (*p != NULL)
+	{
+		free(*p);
+		*p = NULL;
+	}
+}
 
 void	ft_free_struct_t_simpleCmd(t_simpleCmd **simpleCmd)
 {
@@ -76,7 +83,15 @@ void	ft_free_struct_t_simpleCmd(t_simpleCmd **simpleCmd)
 	if((*simpleCmd)->abs_cmd_and_args != NULL)
 		ft_free_tab(&(*simpleCmd)->abs_cmd_and_args);
 	if((*simpleCmd)->outfile != NULL)
-		ft_free_tab(&(*simpleCmd)->outfile);
+		{
+			ft_free_tab(&(*simpleCmd)->outfile);
+			ft_free_struct_int_tab(&(*simpleCmd)->append_track_index);
+		}
+
+	if((*simpleCmd)->infile != NULL)
+		ft_free_tab(&(*simpleCmd)->infile);	
+	if((*simpleCmd)->errfile != NULL)
+		ft_free_tab(&(*simpleCmd)->errfile);
 	if (*simpleCmd != NULL)
 	{
 		free(*simpleCmd);

@@ -119,6 +119,7 @@ typedef struct s_simpleCmd
 	char **infile;
 	char **outfile;
 	char **errfile;
+	int	 *append_track_index;
 	size_t end_simpleCmd_pos;
 } t_simpleCmd;
 

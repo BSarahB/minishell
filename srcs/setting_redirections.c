@@ -110,7 +110,7 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data)
 	int 	exit_status;
 	t_settings	*set;
 
-	ft_aff_abs_cmd_and_args(cmd);
+	//ft_aff_abs_cmd_and_args(cmd);
 	set = ft_struct_init_settings(&set);
 	if(cmd->simpleCmds[set->i] == NULL)
 		return 0;//TODO rectifier le bon exit status

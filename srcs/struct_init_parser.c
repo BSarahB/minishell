@@ -48,6 +48,7 @@ t_simpleCmd *ft_struct_init_simpleCmd(t_simpleCmd **simpleCmd, char init_value)
 	(*simpleCmd)->infile = NULL;
 	(*simpleCmd)->outfile = NULL;
 	(*simpleCmd)->errfile = NULL;
+	(*simpleCmd)->append_track_index = NULL;
 	(*simpleCmd)->end_simpleCmd_pos = 0;
 	(*simpleCmd)->nb_of_tokens_in_simpleCmd = 0;
 	(*simpleCmd)->nb_of_redir_token = 0;
