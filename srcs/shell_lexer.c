@@ -87,7 +87,7 @@ size_t		ft_char_is_operator(char *line, size_t i, t_data *data)
 	{
 		data->token->start_token_pos = i;
 		data->token->end_token_pos = i;
-		if(data->token->title == redir_append)
+		if(data->token->title == redir_append || data->token->title == redir_heredoc)
 			{
 				data->token->end_token_pos = i + 1;
 				ft_get_token_content(data,i, data->token->end_token_pos, line);//ou i + 1
@@ -106,7 +106,7 @@ size_t		ft_char_is_operator(char *line, size_t i, t_data *data)
 		//ft_get_token_content(data, data->token->start_token_pos, data->token->end_token_pos, line);
 		//data->token->start_token_pos_exists = i;
 		//data->token->end_token_pos = i;
-		if(data->token->title == redir_append)
+		if(data->token->title == redir_append  || data->token->title == redir_heredoc)
 			{
 				data->token->end_token_pos = i + 1;
 				ft_get_token_content(data,i, data->token->end_token_pos, line);//ou i + 1
@@ -158,7 +158,7 @@ size_t	ft_tokenize(char *str, char *line, size_t i, t_data *data)
 			i = ft_char_is_operator(line, i, data);
 		//		ft_get_token_function(c, lst_token);
 //on a un token abouti ici donc on peut l imprimer. il vient soit de la ft get token quoting rule car le car qui suit est un \0 indiquant la fin du token par ex
-		if (data->token->end_token_pos != 0)//ic i on a imprime l <l> , ou ""^
+		if (data->token->end_token_pos != 0)//ic i on a imprime l <l> , ou ""^  ou ls>>outfile pour tokeniser outfile
 			{
 				ft_get_token_content(data, data->token->start_token_pos, data->token->end_token_pos, line);//on ne remet pas a 0 les compteurs start et end?
 				data->token->start_token_pos_exists = 0;

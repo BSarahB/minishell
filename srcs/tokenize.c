@@ -20,7 +20,7 @@ size_t	ft_char_after_ws_is_operator_no_token_exists_no_qr(size_t i, char *line, 
 		data->token->start_token_pos = i;
 		data->token->end_token_pos = i;
 		//TODO
-		if(data->token->title == redir_append)
+		if(data->token->title == redir_append || data->token->title == redir_heredoc)
 			{
 				data->token->end_token_pos = i + 1;
 				ft_get_token_content(data,i, data->token->end_token_pos, line);//ou i + 1
