@@ -814,3 +814,14 @@ $ :|
 > (sur saisie user CTRLD on obtient:)
 bash: syntax error: unexpected end of file
 exit
+
+
+//MISE EN PLACE DES HEREDOCS
+
+1/lexing des heredocs << token -> faire comme le lexing de la redir_infile < , definir egalement le token EOF le tagger de redir_heredoc type
+
+2/afficher un prompt > pour recueillir l entree utilisateur , on va creer le fichier .heredoc_tmp par ex pour eviter tout conflit avec un fichier du systeme qui pourrait provoquer des pbs lors de son open. Pour generer un fichier cache, on mettra simplement . devant. 
+
+3/Recueillir l entree user :  soit readline soit gnl sur le fd 0 entree standard, et write chaque return de gnl (ans) 
+4/boucler sur le readline avec pr condition d arret EOF le nom du token heredoc. tout en remplissant le ficher .heredoc_tmp
+5/ quand on sort de la while en touchant la condition d arret  : on passe a l execution
