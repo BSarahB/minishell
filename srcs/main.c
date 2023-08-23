@@ -45,6 +45,8 @@ int main(int argc, char *argv[], char *envp[])
 			cmd = ft_struct_init_cmd(&cmd, 0, lst_token);
 			cmd->path_tab = ft_get_path(envp);	
 			ft_parse_tokens_in_s_cmd(cmd, line, envp, lst_token);
+			//ft_heredoc_interaction()
+
 			exit_status = ft_setting_redirections_and_pipes(cmd, envp, data);
 			//printf("exit_status = %d\n", exit_status);
 		}

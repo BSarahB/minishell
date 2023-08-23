@@ -105,6 +105,8 @@ typedef struct s_simpleCmd
 {
 	size_t nb_of_tokens_in_simpleCmd;
 	size_t nb_of_redir_token;
+	size_t nb_of_heredoc;
+	size_t k;
 	size_t nb_of_infile;
 	size_t nb_of_outfile;
 	size_t nb_of_errfile;
@@ -117,9 +119,11 @@ typedef struct s_simpleCmd
 	char **cmd_and_args;
 	char **abs_cmd_and_args;
 	char **infile;
+	char **heredoc;
 	char **outfile;
 	char **errfile;
 	int	 *append_track_index;
+	int		*heredoc_track_index;
 	size_t end_simpleCmd_pos;
 } t_simpleCmd;
 
@@ -130,16 +134,20 @@ typedef struct s_cmd
 	size_t nb_of_simpleCmds;
 	t_simpleCmd **simpleCmds;
 
-	char **path_tab;
+	char 	**path_tab;
 	//	char		**blocks; //original
 	//	size_t		nb_of_blocks;//original
 
-	char *outputfile;
-	char *inputfile;
-	char *errfile;
+	char 	*outputfile;
+	char	*inputfile;
+	char	*errfile;
+	int		*heredocs_track_index;
+	char 	**heredocs;
+	size_t k;
+	size_t  nb_of_heredocs;
 	// a voir si on met tous les char * dans un double tab io_redirections(**)
-	int background;
-	t_list *lst_token; // notre liste chainee de tokens
+	int 	background;
+	t_list 	*lst_token; // notre liste chainee de tokens
 
 	size_t nb_of_infile;
 	size_t nb_of_outfile;
@@ -251,7 +259,6 @@ t_settings	*ft_struct_init_settings(t_settings **set);
 void 	ft_count_nb_of_infile_in_simpleCmd(t_simpleCmd *simpleCmd);
 void 	ft_count_nb_of_outfile_in_simpleCmd(t_simpleCmd *simpleCmd);
 void 	ft_count_nb_of_errfile_in_simpleCmd(t_simpleCmd *simpleCmd);
-void 	ft_count_nb_of_redir_token_in_simpleCmd(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list *dynamic_lst_token);
 void 	ft_count_nb_of_tokens_in_simpleCmd(t_list *start_lst_token, t_simpleCmd *simpleCmd);
 t_list 	*ft_readjust_start_lst_token(t_list *start_lst_token, t_cmd *cmd, size_t i);
 void	ft_get_end_simpleCmd_pos(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list **dynamic_lst_token);
@@ -261,13 +268,17 @@ void	ft_malloc_redir_file_tabs_of_simpleCmd(t_simpleCmd *simpleCmd);
 char **ft_malloc_outfile_tab(t_simpleCmd *simpleCmd);
 char **ft_malloc_infile_tab(t_simpleCmd *simpleCmd);
 char **ft_malloc_errfile_tab(t_simpleCmd *simpleCmd);
-void	ft_count_nb_of_redir_token_in_simpleCmd(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list *start_lst_token);
+void	ft_count_nb_of_redir_token_in_simpleCmd(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list *start_lst_token, size_t i);
 void	ft_count_final_nb_of_tokens_in_simpleCmd(t_list *start_lst_token, t_simpleCmd *simpleCmd);
-void	ft_lstdelone(t_list **lst, void(*parse)(char *content, t_simpleCmd *simpleCmd, size_t i, int title), t_simpleCmd *simpleCmd, size_t i, int redir);
-void	parse(char *content, t_simpleCmd *simpleCmd, size_t i, int title);
+//void	ft_lstdelone(t_list **lst, void(*parse)(char *content, t_simpleCmd *simpleCmd, size_t i, int title), t_simpleCmd *simpleCmd, size_t i, int redir);
+//void	parse(char *content, t_simpleCmd *simpleCmd, size_t i, int title);
+void	parse(char *content, t_simpleCmd *simpleCmd, size_t i, int title, t_cmd *cmd);
+void	ft_lstdelone(t_list **lst, void(*parse)(char *content, t_simpleCmd *simpleCmd, size_t i, int title, t_cmd *cmd), t_simpleCmd *simpleCmd, size_t i, int redir, t_cmd *cmd);
+
 int		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(t_list *lst_token, t_simpleCmd *simpleCmd);
 char	**ft_get_abs_argumentsb(char **abs_c_and_a);
-void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpleCmd, t_list **lst_token);
+void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpleCmd, t_list **lst_token, t_cmd *cmd);
+int *ft_init_ctab(int **int_tab, size_t len, int init_value);
 
 
 

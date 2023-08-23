@@ -9,6 +9,7 @@ ignore_rl_leaks
 infile
 infile2
 my_minishell
+o
 o1
 o2
 o3

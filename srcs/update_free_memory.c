@@ -87,9 +87,16 @@ void	ft_free_struct_t_simpleCmd(t_simpleCmd **simpleCmd)
 			ft_free_tab(&(*simpleCmd)->outfile);
 			ft_free_struct_int_tab(&(*simpleCmd)->append_track_index);
 		}
-
+	if((*simpleCmd)->heredoc != NULL)
+		{
+			ft_free_tab(&(*simpleCmd)->heredoc);
+		}
 	if((*simpleCmd)->infile != NULL)
-		ft_free_tab(&(*simpleCmd)->infile);	
+		{
+			ft_free_tab(&(*simpleCmd)->infile);
+			ft_free_struct_int_tab(&(*simpleCmd)->heredoc_track_index);
+		}
+
 	if((*simpleCmd)->errfile != NULL)
 		ft_free_tab(&(*simpleCmd)->errfile);
 	if (*simpleCmd != NULL)
@@ -121,6 +128,10 @@ void	ft_free_struct_t_cmd(t_cmd **cmd)
 	ft_free_tab(&(*cmd)->path_tab);
 	ft_free_struct_t_simpleCmds(&(*cmd)->simpleCmds);
 	ft_free_struct_t_list_lst_token(&(*cmd)->lst_token);
+	ft_free_struct_int_tab(&(*cmd)->heredocs_track_index);
+	if((*cmd)->nb_of_heredocs != 0)
+		ft_free_tab(&(*cmd)->heredocs);
+	
 	if (*cmd != NULL)
 	{
 		free(*cmd);

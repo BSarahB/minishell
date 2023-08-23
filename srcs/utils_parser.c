@@ -12,23 +12,38 @@
 
 #include "minishell.h"
 
-void	parse(char *content, t_simpleCmd *simpleCmd, size_t i, int title)
+void	parse(char *content, t_simpleCmd *simpleCmd, size_t i, int title, t_cmd *cmd)
 {
 	if(title == redir_out || title == redir_append)
 	{
 		simpleCmd->outfile[i] = content; //ft_strdup(content);
-		//if (i == simpleCmd->nb_of_outfile -1) //val error invalid write
-		//	simpleCmd->outfile[i + 1] = 0;
+	
 		if(i == simpleCmd->nb_of_outfile -1)
 			simpleCmd->outfile[i + 1] = NULL;
 		if(title == redir_append)
 			simpleCmd->append_track_index[i] = 1;
 	} 
-	if(title == redir_in)
+	if(title == redir_in || title == redir_heredoc)
 	{
 		simpleCmd->infile[i] = content; //ft_strdup(content);
 		if(i == simpleCmd->nb_of_infile -1)
 			simpleCmd->infile[i + 1] = NULL;
+		if(title == redir_heredoc)
+			simpleCmd->heredoc_track_index[i] = 1;
+	}
+	if(title == redir_heredoc)
+	{
+		simpleCmd->heredoc[simpleCmd->k] = ft_strdup(content);
+		
+		if(simpleCmd->k == simpleCmd->nb_of_heredoc -1)
+			simpleCmd->heredoc[simpleCmd->k + 1] = NULL;
+		simpleCmd->k = simpleCmd->k + 1;
+
+		cmd->heredocs[cmd->k] =ft_strdup(content); //ft_strdup(content);
+		if(cmd->k == cmd->nb_of_heredocs -1)
+			cmd->heredocs[cmd->k + 1] = NULL;
+		cmd->k = cmd->k +1; //ICI l index sera +1 a la sortie .... si on voulait s en servir pour recuperer last .... il faut mettre le else
+
 	}
 	if(title == redir_err)
 	{
@@ -38,13 +53,13 @@ void	parse(char *content, t_simpleCmd *simpleCmd, size_t i, int title)
 	}
 }
 
-void	ft_lstdelone(t_list **lst, void(*parse)(char *content, t_simpleCmd *simpleCmd, size_t i, int title), t_simpleCmd *simpleCmd, size_t i, int redir)
+void	ft_lstdelone(t_list **lst, void(*parse)(char *content, t_simpleCmd *simpleCmd, size_t i, int title, t_cmd *cmd), t_simpleCmd *simpleCmd, size_t i, int redir, t_cmd *cmd)
 {
 	 if(*lst && parse)
 	 {
 		if(redir == 1)
 			{
-				parse((*lst)->content, simpleCmd, i, (*lst)->title);
+				parse((*lst)->content, simpleCmd, i, (*lst)->title, cmd);
 
 			}
 

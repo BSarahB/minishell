@@ -45,5 +45,3 @@ void	ft_open_outfiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cm
 		//fermer les pipes, nettoyer la memoire etc...
 	}				
 }
-//if(cmd->simpleCmds[set->i]->append_track_index[set->j] == 1)
-	//set->fdout = open(cmd->simpleCmds[set->i]->outfile[set->j], O_CREAT | O_RDWR | O_TRUNC, 0644);

@@ -45,13 +45,17 @@ t_simpleCmd *ft_struct_init_simpleCmd(t_simpleCmd **simpleCmd, char init_value)
 	(*simpleCmd)->errnum = 0;
 	(*simpleCmd)->cmd_and_args = NULL;
 	(*simpleCmd)->abs_cmd_and_args = NULL;
+	(*simpleCmd)->heredoc = NULL;
 	(*simpleCmd)->infile = NULL;
 	(*simpleCmd)->outfile = NULL;
 	(*simpleCmd)->errfile = NULL;
 	(*simpleCmd)->append_track_index = NULL;
+	(*simpleCmd)->heredoc_track_index = NULL;
 	(*simpleCmd)->end_simpleCmd_pos = 0;
 	(*simpleCmd)->nb_of_tokens_in_simpleCmd = 0;
 	(*simpleCmd)->nb_of_redir_token = 0;
+	(*simpleCmd)->nb_of_heredoc = 0;
+	(*simpleCmd)->k = 0;
 	(*simpleCmd)->nb_of_infile = 0;
 	(*simpleCmd)->nb_of_outfile = 0;
 	(*simpleCmd)->nb_of_errfile = 0;
@@ -103,10 +107,12 @@ t_cmd	*ft_struct_init_cmd(t_cmd **cmd, char init_value, t_list *lst_token)
 	size_t 		k;
 	size_t 		nbr_of_simpleCmds;
 	t_simpleCmd	*simpleCmd;
+	int			*heredocs_track_index;
 
 	k = 0;
 	(void)init_value;
-
+	heredocs_track_index = NULL;
+	//TODO METTRE A NULL ICI LES VARIABLES AVANT DE LES MALLOC
 	nbr_of_simpleCmds = ft_count_simpleCmds_nbr(lst_token);
 	//on peut proteger ici si nbr == 0 et ne pas rentrer la dedans (ex : |)
 	*cmd = (t_cmd *)malloc(sizeof(t_cmd));
@@ -121,13 +127,22 @@ t_cmd	*ft_struct_init_cmd(t_cmd **cmd, char init_value, t_list *lst_token)
 		k++;
 	}
 	(*cmd)->simpleCmds[k] = 0;
+
+	(*cmd)->heredocs_track_index = ft_init_ctab(&heredocs_track_index, nbr_of_simpleCmds, 0);
+	if (!((*cmd)->heredocs_track_index))
+		return (NULL);
+	
+	(*cmd)->nb_of_heredocs = 0;
+	(*cmd)->k = 0;
 	(*cmd)->nb_of_simpleCmds = nbr_of_simpleCmds;
 	(*cmd)->background = 0;
 	(*cmd)->path_tab = 0;
 	(*cmd)->lst_token = lst_token;
+	(*cmd)->heredocs = NULL;
 	(*cmd)->outputfile = NULL;
 	(*cmd)->inputfile = NULL;
 	(*cmd)->errfile = NULL;
+	(*cmd)->background = 0;
 
 	
 //	(*cmd)->outfile = ft_init_cstring(&((*cmd)->outfile), 0, init_value);

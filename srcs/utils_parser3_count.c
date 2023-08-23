@@ -37,18 +37,26 @@ void	ft_count_final_nb_of_tokens_in_simpleCmd(t_list *start_lst_token, t_simpleC
 	simpleCmd->nb_of_tokens_in_simpleCmd = token_in_simpleCmd_nbr;
 }
 
- void	ft_count_nb_of_redir_token_in_simpleCmd(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list *start_lst_token)
+ void	ft_count_nb_of_redir_token_in_simpleCmd(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list *start_lst_token, size_t i)
  {
 	t_list *tmp;
 	(void)cmd;
+	int k;
 
+	k = 0;
 	tmp = start_lst_token;
 	while(tmp != NULL && tmp->position < simpleCmd->end_simpleCmd_pos)
 	{
-		if(tmp->title == redir_in)
+		if(tmp->title == redir_in || tmp->title == redir_heredoc)
 		{
 			simpleCmd->nb_of_infile++;
 			simpleCmd->nb_of_redir_token =simpleCmd->nb_of_redir_token +2;
+			if(tmp->title == redir_heredoc)
+			{
+				k++;
+				cmd->heredocs_track_index[i] = k;
+				simpleCmd->nb_of_heredoc++;
+			}
 			tmp =tmp->next;
 		}
 		else if(tmp->title == redir_out)
@@ -70,6 +78,6 @@ void	ft_count_final_nb_of_tokens_in_simpleCmd(t_list *start_lst_token, t_simpleC
 			simpleCmd->nb_of_redir_token =simpleCmd->nb_of_redir_token +2;
 			tmp = tmp->next;
 		}
-			tmp = tmp->next;
+		tmp = tmp->next;
 	}
  }

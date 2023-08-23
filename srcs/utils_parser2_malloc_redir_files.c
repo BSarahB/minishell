@@ -47,10 +47,15 @@ char **ft_malloc_errfile_tab(t_simpleCmd *simpleCmd)
 char **ft_malloc_infile_tab(t_simpleCmd *simpleCmd)
 {
 	char **infile;
+	int *heredoc_track_index;
 
+	heredoc_track_index = NULL;
+	infile = NULL;
 	infile = malloc(sizeof(*infile) * (simpleCmd->nb_of_infile + 1));
 	if(!infile)
 		return(NULL);
+
+	simpleCmd->heredoc_track_index = ft_init_ctab(&heredoc_track_index, simpleCmd->nb_of_infile, -1);	
 	return(infile);
 }
 
@@ -58,7 +63,8 @@ char **ft_malloc_outfile_tab(t_simpleCmd *simpleCmd)
 {
 	char **outfile;
 	int *append_track_index;
-	
+
+	append_track_index = NULL;
 	outfile = NULL;
 	outfile = malloc(sizeof(*outfile) * (simpleCmd->nb_of_outfile + 1));
 	if(!outfile)
@@ -66,10 +72,22 @@ char **ft_malloc_outfile_tab(t_simpleCmd *simpleCmd)
 
 	simpleCmd->append_track_index = ft_init_ctab(&append_track_index, simpleCmd->nb_of_outfile, -1);
 	//outfile[simpleCmd->nb_of_outfile + 1] = 0; // val invalid write
+	//TODO proteger if not append_track_index : return NULL
 	return(outfile);
 }
 
 
+char **ft_malloc_heredoc_tab(t_simpleCmd *simpleCmd)
+{
+	char **heredoc;
+
+	heredoc = NULL;
+	heredoc = malloc(sizeof(*heredoc) * (simpleCmd->nb_of_heredoc + 1));
+	if(!heredoc)
+		return(NULL);
+	
+	return(heredoc);
+}
 
 
 void	ft_malloc_redir_file_tabs_of_simpleCmd(t_simpleCmd *simpleCmd)
@@ -82,5 +100,8 @@ void	ft_malloc_redir_file_tabs_of_simpleCmd(t_simpleCmd *simpleCmd)
 			simpleCmd->infile = ft_malloc_infile_tab(simpleCmd);
 		if(simpleCmd->nb_of_errfile != 0)
 			simpleCmd->errfile = ft_malloc_errfile_tab(simpleCmd);
+		if(simpleCmd->nb_of_heredoc != 0)
+			simpleCmd->heredoc = ft_malloc_heredoc_tab(simpleCmd);
+			
 	}
 }
