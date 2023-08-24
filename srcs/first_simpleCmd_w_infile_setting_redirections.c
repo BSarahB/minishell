@@ -42,11 +42,17 @@ void    ft_outfiles_before_nofile(t_settings *set, t_cmd *cmd)
 			set->j++;
 		}
 		set->j = 0;
-		while(set->j < cmd->simpleCmds[set->i]->nb_of_infile)//on reteste l ouverture du fichier si jamais il a ete cree en tant que outfile juste avant....cat >outfile2001 <outfile2001
+		while(set->j < cmd->simpleCmds[set->i]->nb_of_infile)// TODO : revenir ici our gerer  wc -l <infile >outfile <nofile <infile :  on repasse dans la while apres le nofile .... pour le infile suivant , je ne sais pas sil faut l ouvrir le dernier infile apres le nofile....                           on reteste l ouverture du fichier si jamais il a ete cree en tant que outfile juste avant....cat >outfile2001 <outfile2001
 		{
 			if(set->j != 0 && set->fdin)//TODO proteger des pbs a l ouverture
 				close(set->fdin);
-			set->fdin = open(cmd->simpleCmds[set->i]->infile[set->j], O_RDONLY);//TODO cmt rendre compte du nom du inputfile si on ne le connait pas
+			if(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == 42)
+				set->fdin = open(".heredoc", O_RDONLY);
+			else
+			{
+				if(!(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == -1))
+					set->fdin = open(cmd->simpleCmds[set->i]->infile[set->j], O_RDONLY);//TODO cmt rendre compte du nom du inputfile si on ne le connait pas
+			}
 			if(set->fdin == -1)
 				{
 					ft_error_msg(cmd->simpleCmds[set->i]->infile[set->j]);
@@ -62,8 +68,14 @@ void	ft_first_simpleCmd_w_infile(t_settings *set, t_cmd *cmd)
 	{
 		if(set->j != 0 && set->fdin)//TODO proteger des pbs a l ouverture
 			close(set->fdin);
-		set->fdin = open(cmd->simpleCmds[set->i]->infile[set->j], O_RDONLY);//TODO cmt rendre compte du nom du inputfile si on ne le connait pas
-        if(set->fdin == -1) //ft_check open error quand on refactorisera plus tard
+		if(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == 42)
+			set->fdin = open(".heredoc", O_RDONLY); //open(cmd->simpleCmds[set->i]->infile[set->j], O_RDONLY);
+		else
+			{
+				if(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == -1)//-1 ->infile normal, 42 infile heredoc LAST , 1->random infile heredoc
+					set->fdin = open(cmd->simpleCmds[set->i]->infile[set->j], O_RDONLY);//TODO cmt rendre compte du nom du inputfile si on ne le connait pas
+			}
+		if(set->fdin == -1) //ft_check open error quand on refactorisera plus tard
 		{	
             cmd->simpleCmds[set->i]->nofile = 1;
 	        set->j = 0;

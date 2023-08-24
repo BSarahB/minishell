@@ -235,14 +235,17 @@ void	ft_tag_last_heredoc_in_infile(t_simpleCmd *simpleCmd)
 void	ft_get_last_heredoc_position(t_cmd *cmd)
 {
 	int	simpleCmd_index;
+	simpleCmd_index = 0;
+	if(cmd->nb_of_heredocs != 0)
+	{
+		//1 recuperer l index de la simpleCmd qui a le plus de heredoc
+		simpleCmd_index = ft_get_max_heredoc_index(cmd->heredocs_track_index, cmd->nb_of_simpleCmds);
+		printf("simpleCmd_index = %d\n", simpleCmd_index);
+		//2 parcourir l infile prendre le last infile et lui mettre le tag de 42 dans le heredoc_track_index de la simpleCmd
+		ft_tag_last_heredoc_in_infile(cmd->simpleCmds[simpleCmd_index]);
 
-	//1 recuperer l index de la simpleCmd qui a le plus de heredoc
-	simpleCmd_index = ft_get_max_heredoc_index(cmd->heredocs_track_index, cmd->nb_of_simpleCmds);
-	printf("simpleCmd_index = %d\n", simpleCmd_index);
-	//2 parcourir l infile prendre le last infile et lui mettre le tag de 42 dans le heredoc_track_index de la simpleCmd
-	ft_tag_last_heredoc_in_infile(cmd->simpleCmds[simpleCmd_index]);
-
-	//3 mettre dans l execution (setting redirections) la condition pour empecher les heredocs d etre ouverts comme des infile, SAUF le Last qui a le tag. auquel cas il faudra l ouvrir  
+		//3 mettre dans l execution (setting redirections) la condition pour empecher les heredocs d etre ouverts comme des infile, SAUF le Last qui a le tag. auquel cas il faudra l ouvrir  
+	}
 }
 
 int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_token)

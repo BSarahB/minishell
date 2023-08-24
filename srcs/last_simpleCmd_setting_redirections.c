@@ -14,11 +14,26 @@
 
 void	ft_open_infiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd)
 {
+	int flag_random_heredoc;
+
+	flag_random_heredoc = 0;
 	while(set->j < cmd->simpleCmds[set->i]->nb_of_infile)
 	{	
 		if(set->j != 0 && set->fdin)//TODO proteger des pbs a l ouverture
-			close(set->fdin);
-		set->fdin = open(cmd->simpleCmds[set->i]->infile[set->j], O_RDONLY);//TODO cmt rendre compte du nom du inputfile si on ne le connait pas
+			{if(flag_random_heredoc == 1)
+				flag_random_heredoc = 0;
+			else
+				close(set->fdin);
+			}
+		if(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == 1)
+			flag_random_heredoc = 1;	
+		if(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == 42)
+			set->fdin = open(".heredoc", O_RDONLY); //open(cmd->simpleCmds[set->i]->infile[set->j], O_RDONLY);
+		else
+			{
+				if(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == -1)
+					set->fdin = open(cmd->simpleCmds[set->i]->infile[set->j], O_RDONLY);//TODO cmt rendre compte du nom du inputfile si on ne le connait pas
+			}
 		if(set->fdin == -1) //ft_check open error quand on refactorisera plus tard
 		{
 			ft_error_msg(cmd->simpleCmds[set->i]->infile[set->j]);
@@ -31,7 +46,7 @@ void	ft_open_infiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd
 						k++;
 					}	
 			}
-			(set->i)++;
+			(set->i)++; //TODO voir si completer idem avec first_simple_cmd
 			set->j = 0;
 			break;
 			}
