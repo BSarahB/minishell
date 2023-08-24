@@ -20,10 +20,11 @@ void	ft_open_infiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd
 	while(set->j < cmd->simpleCmds[set->i]->nb_of_infile)
 	{	
 		if(set->j != 0 && set->fdin)//TODO proteger des pbs a l ouverture
-			{if(flag_random_heredoc == 1)
-				flag_random_heredoc = 0;
-			else
-				close(set->fdin);
+			{
+				if(flag_random_heredoc == 1)
+					flag_random_heredoc = 0;
+				else
+					close(set->fdin);
 			}
 		if(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == 1)
 			flag_random_heredoc = 1;	
