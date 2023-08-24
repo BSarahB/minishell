@@ -12,6 +12,26 @@
 
 #include "minishell.h"
 
+void	ft_heredoc_interaction(void)
+{
+	char *line_heredoc;
+
+	line_heredoc = NULL;
+
+	while (1)
+	{
+		signal(SIGQUIT, SIG_IGN);
+   		line_heredoc = readline(" > ");
+		if (!line_heredoc)
+		{
+			// on passe ici avec CTRL D
+			break;
+		}
+		add_history(line_heredoc);
+	}
+
+}
+
 int main(int argc, char *argv[], char *envp[])
 {
 	(void)argc;
@@ -45,7 +65,8 @@ int main(int argc, char *argv[], char *envp[])
 			cmd = ft_struct_init_cmd(&cmd, 0, lst_token);
 			cmd->path_tab = ft_get_path(envp);	
 			ft_parse_tokens_in_s_cmd(cmd, line, envp, lst_token);
-			//ft_heredoc_interaction()
+			if(cmd->nb_of_heredocs != 0)
+				ft_heredoc_interaction();
 
 			exit_status = ft_setting_redirections_and_pipes(cmd, envp, data);
 			//printf("exit_status = %d\n", exit_status);

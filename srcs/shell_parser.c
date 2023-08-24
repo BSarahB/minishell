@@ -231,7 +231,7 @@ void	ft_tag_last_heredoc_in_infile(t_simpleCmd *simpleCmd)
 				break;
 			}
 	}
-	printf(" index de heredoc_track_index : i = %d et de infile : %s\n", i, simpleCmd->infile[i]);
+	//printf(" index de heredoc_track_index : i = %d et de infile : %s\n", i, simpleCmd->infile[i]);
 
 }
 
@@ -243,7 +243,8 @@ void	ft_get_last_heredoc_position(t_cmd *cmd)
 	{
 		//1 recuperer l index de la simpleCmd qui a le plus de heredoc
 		simpleCmd_index = ft_get_max_heredoc_index(cmd->heredocs_track_index, cmd->nb_of_simpleCmds);
-		printf("simpleCmd_index = %d\n", simpleCmd_index);
+		//printf("simpleCmd_index = %d\n", simpleCmd_index);
+		
 		//2 parcourir l infile prendre le last infile et lui mettre le tag de 42 dans le heredoc_track_index de la simpleCmd
 		ft_tag_last_heredoc_in_infile(cmd->simpleCmds[simpleCmd_index]);
 
