@@ -38,14 +38,17 @@ void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpl
 	if(*alst == NULL)
 		return;
 	curr = *alst;
-	while (curr !=NULL && curr->next != NULL && (curr->title == redir_out || curr->title == redir_in || curr->title == redir_err))
+	while (curr !=NULL && curr->next != NULL && (curr->title == redir_out || curr->title == redir_in || curr->title == redir_heredoc || curr->title == redir_err))
 	{
 		lst_token_to_remove = curr;
 		lst_token_to_remove2 = curr->next;
-		if(curr->title == redir_in)
+		if(curr->title == redir_in || curr->title == redir_heredoc)
 		{
-			curr->next->title = redir_in;
-			if(simpleCmd->nofile == 0)
+			if(curr->title == redir_in)
+				curr->next->title = redir_in;
+			if(curr->title == redir_heredoc)
+				curr->next->title = redir_heredoc;		
+			if(simpleCmd->nofile == 0  && curr->next->next->title == redir_in)
 			{
 				if((fdin = open(lst_token_to_remove2->content, O_RDONLY) == -1))
 					simpleCmd->nofile = 1;
