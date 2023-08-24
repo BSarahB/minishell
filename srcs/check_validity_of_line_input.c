@@ -95,9 +95,11 @@ int		ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token)
 		tmp = tmp->next;
 	}
 	return(0);
-	
-	
-	
+//bash error for heredoc	
+//	$ ls <<10<<12
+//bash: syntax error near unexpected token `10'
+
+	//
 		//ft_syntax_error_newline
 
 
