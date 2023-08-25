@@ -152,6 +152,7 @@ typedef struct s_cmd
 	size_t nb_of_infile;
 	size_t nb_of_outfile;
 	size_t nb_of_errfile;
+	int		line_count;
 
 } t_cmd;
 
@@ -288,6 +289,7 @@ void ft_error_msg(char *infile);
 void ft_error_msg2(char *str);
 
 void ft_error(char *const str);
+void	ft_error_heredoc(char *const str, int line_count);
 
 void	ft_restore_original_in_and_out(t_settings *set);
 

@@ -134,6 +134,7 @@ t_cmd	*ft_struct_init_cmd(t_cmd **cmd, char init_value, t_list *lst_token)
 	
 	(*cmd)->nb_of_heredocs = 0;
 	(*cmd)->k = 0;
+	(*cmd)->line_count = 0;
 	(*cmd)->nb_of_simpleCmds = nbr_of_simpleCmds;
 	(*cmd)->background = 0;
 	(*cmd)->path_tab = 0;

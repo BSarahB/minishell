@@ -12,24 +12,50 @@
 
 #include "minishell.h"
 
-void	ft_heredoc_interaction(void)
+
+size_t	ft_strlen(const char *s)
 {
-	char *line_heredoc;
+	size_t i;
+
+	i = 0;
+	if(s == NULL)
+		return (0);
+	while (s[i])
+		i++;
+	return (i);
+}
+
+void	ft_heredoc_interaction(t_cmd *cmd, size_t i)
+{
+	char	*line_heredoc;
+	int		fd;
 
 	line_heredoc = NULL;
-
+	fd = open(".heredoc", O_CREAT | O_RDWR | O_APPEND, 0644);
+	printf("%d\n",fd);
+	if(fd == -1)
+	{
+		perror("minishell");//ERROR ouverture .heredoc
+		exit(1);
+	}
 	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);
    		line_heredoc = readline(" > ");
+		cmd->line_count++;//TODO line_count doit s accumuler jusqu a quand on quitte le programme
+		write(fd, line_heredoc, ft_strlen(line_heredoc));
+		write(fd, "\n", 1);
+
 		if (!line_heredoc)
 		{
 			// on passe ici avec CTRL D
+			ft_error_heredoc(cmd->heredocs[i], cmd->line_count);
+			if(cmd->heredocs[++i])
+				ft_heredoc_interaction(cmd, i);
 			break;
 		}
-		add_history(line_heredoc);
+		add_history(line_heredoc); //on est 
 	}
-
 }
 
 int main(int argc, char *argv[], char *envp[])
@@ -66,7 +92,7 @@ int main(int argc, char *argv[], char *envp[])
 			cmd->path_tab = ft_get_path(envp);	
 			ft_parse_tokens_in_s_cmd(cmd, line, envp, lst_token);
 			if(cmd->nb_of_heredocs != 0)
-				ft_heredoc_interaction();
+				ft_heredoc_interaction(cmd, 0);
 
 			exit_status = ft_setting_redirections_and_pipes(cmd, envp, data);
 			//printf("exit_status = %d\n", exit_status);

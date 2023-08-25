@@ -12,6 +12,48 @@
 
 #include "minishell.h"
 
+
+int		find_length(int n)
+{
+	int length;
+
+	length = (n <= 0) ? 1 : 0;
+	while (n != 0)
+	{
+		length++;
+		n = n / 10;
+	}
+	return (length);
+}
+
+char	*ft_itoa(int n)
+{
+	char	*result;
+	int		length;
+	long	nb;
+
+	nb = n;
+	length = find_length(n);
+	if (!(result = (char *)malloc(sizeof(*result) * length + 1)))
+		return (NULL);
+	result[length] = '\0';
+	if (nb < 0)
+		result[0] = '-';
+	else if (nb == 0)
+		result[0] = '0';
+	if (nb < 0)
+		nb = -nb;
+	while (nb != 0)
+	{
+		--length;
+		result[length] = nb % 10 + '0';
+		nb = nb / 10;
+	}
+	return (result);
+}
+
+
+
 int	ft_check_close_error(int fd)
 {
 	if (close(fd) == -1)
@@ -25,6 +67,15 @@ int	ft_check_close_error(int fd)
 void	ft_error(char *const str)
 {
 	ft_putstr_fd(str, 2);
+}
+
+void	ft_error_heredoc(char *const str, int line_count)
+{
+	ft_error("minishell: warning: here-document at line ");
+	ft_error(ft_itoa(line_count));//TODO determiner le nombre de lignes quil reste dans le fichier ->comment compter les lignes du fichier.
+	ft_error(" delimited by end-of-file (wanted `");
+	ft_error(str);
+	ft_error("')\n");
 }
 
 void	ft_error_msg2(char *str)
