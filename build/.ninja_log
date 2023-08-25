@@ -28,3 +28,9 @@
 105	159	1692948282908964462	CMakeFiles/my_minishell.dir/srcs/last_simpleCmd_setting_redirections.c.o	54802c0149e3d317
 1	32	1692951773475256714	CMakeFiles/my_minishell.dir/srcs/main.c.o	4f2cb1eb90861884
 33	94	1692951773530256720	my_minishell	d248b4b630d5190
+0	50	1692953101493090199	CMakeFiles/my_minishell.dir/srcs/main.c.o	4f2cb1eb90861884
+51	118	1692953101559090199	my_minishell	d248b4b630d5190
+1	33	1692953113469090227	CMakeFiles/my_minishell.dir/srcs/main.c.o	4f2cb1eb90861884
+34	93	1692953113523090227	my_minishell	d248b4b630d5190
+16	49	1692954344076102302	CMakeFiles/my_minishell.dir/srcs/main.c.o	4f2cb1eb90861884
+49	107	1692954344130102302	my_minishell	d248b4b630d5190

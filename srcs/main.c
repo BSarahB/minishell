@@ -32,7 +32,6 @@ void	ft_heredoc_interaction(t_cmd *cmd, size_t i)
 
 	line_heredoc = NULL;
 	fd = open(".heredoc", O_CREAT | O_RDWR | O_APPEND, 0644);
-	printf("%d\n",fd);
 	if(fd == -1)
 	{
 		perror("minishell");//ERROR ouverture .heredoc
@@ -49,7 +48,10 @@ void	ft_heredoc_interaction(t_cmd *cmd, size_t i)
 		if (!line_heredoc)
 		{
 			// on passe ici avec CTRL D
+			//IL FAUT CONSIDERER LE FICHIER COMME UN INFILE MALGRE LE CTLD et executer la commande
+			//SI HEREDOCS[i] est le dernier on execute la cmd line on break
 			ft_error_heredoc(cmd->heredocs[i], cmd->line_count);
+			close(fd);
 			if(cmd->heredocs[++i])
 				ft_heredoc_interaction(cmd, i);
 			break;
