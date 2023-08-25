@@ -71,6 +71,8 @@ void	ft_error(char *const str)
 
 void	ft_error_heredoc(char *const str, int line_count)
 {
+	if(line_count == 0)
+		line_count = 1;
 	ft_error("minishell: warning: here-document at line ");
 	ft_error(ft_itoa(line_count));//TODO determiner le nombre de lignes quil reste dans le fichier ->comment compter les lignes du fichier.
 	ft_error(" delimited by end-of-file (wanted `");

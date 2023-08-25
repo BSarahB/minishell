@@ -25,13 +25,17 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-void	ft_heredoc_interaction(t_cmd *cmd, size_t i)
+void	ft_heredoc_interaction(t_cmd *cmd, size_t i, int mode)
 {
 	char	*line_heredoc;
 	int		fd;
 
 	line_heredoc = NULL;
-	fd = open(".heredoc", O_CREAT | O_RDWR | O_APPEND, 0644);
+	if(mode == 1)
+		fd = open(".heredoc", O_CREAT | O_RDWR | O_APPEND, 0644);
+	if(mode == 2)
+		fd = open(".heredoc", O_CREAT | O_RDWR | O_TRUNC, 0644);
+
 	if(fd == -1)
 	{
 		perror("minishell");//ERROR ouverture .heredoc
@@ -39,25 +43,41 @@ void	ft_heredoc_interaction(t_cmd *cmd, size_t i)
 	}
 	while (1)
 	{
-		signal(SIGQUIT, SIG_IGN);
+		//signal(SIGQUIT, SIG_IGN);
    		line_heredoc = readline(" > ");
 		cmd->line_count++;//TODO line_count doit s accumuler jusqu a quand on quitte le programme
-		write(fd, line_heredoc, ft_strlen(line_heredoc));
-		write(fd, "\n", 1);
-
+		if(line_heredoc != NULL)
+		{
+		
+			if(ft_strcmp(line_heredoc, cmd->heredocs[i]) == 0)
+			{
+				if(i  == cmd->k -1)
+					break;
+				else
+					{
+						if(cmd->heredocs[++i])
+							ft_heredoc_interaction(cmd, i, 2);
+						break;
+					}
+			}
+			write(fd, line_heredoc, ft_strlen(line_heredoc));
+			write(fd, "\n", 1);
+		}
 		if (!line_heredoc)
 		{
-			// on passe ici avec CTRL D
+			//if (cmd->line_count == 1) pour quand le CTLR
+			cmd->line_count = cmd->line_count -1;
+						// on passe ici avec CTRL D
 			//IL FAUT CONSIDERER LE FICHIER COMME UN INFILE MALGRE LE CTLD et executer la commande
 			//SI HEREDOCS[i] est le dernier on execute la cmd line on break
 			ft_error_heredoc(cmd->heredocs[i], cmd->line_count);
-			close(fd);
 			if(cmd->heredocs[++i])
-				ft_heredoc_interaction(cmd, i);
+				ft_heredoc_interaction(cmd, i, 2);
 			break;
 		}
 		add_history(line_heredoc); //on est 
 	}
+
 }
 
 int main(int argc, char *argv[], char *envp[])
@@ -94,7 +114,7 @@ int main(int argc, char *argv[], char *envp[])
 			cmd->path_tab = ft_get_path(envp);	
 			ft_parse_tokens_in_s_cmd(cmd, line, envp, lst_token);
 			if(cmd->nb_of_heredocs != 0)
-				ft_heredoc_interaction(cmd, 0);
+				ft_heredoc_interaction(cmd, 0, 1);
 
 			exit_status = ft_setting_redirections_and_pipes(cmd, envp, data);
 			//printf("exit_status = %d\n", exit_status);
