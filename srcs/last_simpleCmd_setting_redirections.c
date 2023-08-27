@@ -29,7 +29,9 @@ void	ft_open_infiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd
 		if(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == 1)
 			flag_random_heredoc = 1;	
 		if(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == 42)
+			{set->fdin = 7;
 			set->fdin = open(".heredoc", O_RDONLY); //open(cmd->simpleCmds[set->i]->infile[set->j], O_RDONLY);
+			}
 		else
 			{
 				if(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == -1)

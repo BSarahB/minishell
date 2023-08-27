@@ -35,13 +35,6 @@ void    ft_open_infiles(t_settings *set, t_cmd *cmd)
 				if(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == -1)//-1 ->infile normal, 42 infile heredoc LAST , 1->random infile heredoc
 					set->fdin = open(cmd->simpleCmds[set->i]->infile[set->j], O_RDONLY);//TODO cmt rendre compte du nom du inputfile si on ne le connait pas
 			}
-
-
-
-
-      //  if (set->j != 0 && set->fdin) // TODO proteger des pbs a l ouverture
-      //      close(set->fdin);
-        set->fdin = open(cmd->simpleCmds[set->i]->infile[set->j], O_RDONLY); // TODO cmt rendre compte du nom du inputfile si on ne le connait pas
         if (set->fdin == -1)                                       // ft_check open error quand on refactorisera plus tard
         {
             ft_error_msg(cmd->simpleCmds[set->i]->infile[set->j]);
