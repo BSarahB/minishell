@@ -28,10 +28,14 @@ void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpl
 	size_t k;
 	t_list *lst_token_to_remove;
 	t_list *lst_token_to_remove2;
+	t_list *next;
 	int		fdin;
 
 	(void)lst_token;
 	curr = *alst;
+	//lst_token_to_remove = NULL;
+	//lst_token_to_remove2 = NULL;
+	//next = NULL;
 	i = 0;
 	j = 0;
 	k = 0;
@@ -40,24 +44,31 @@ void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpl
 	curr = *alst;
 	while (curr !=NULL && curr->next != NULL && (curr->title == redir_out || curr->title == redir_in || curr->title == redir_heredoc || curr->title == redir_err))
 	{
-		lst_token_to_remove = curr;
-		lst_token_to_remove2 = curr->next;
+
+
+		lst_token_to_remove = curr;// >
+		lst_token_to_remove2 = curr->next; //outfile
+		next = curr->next->next;//\0
+
 		if(curr->title == redir_in || curr->title == redir_heredoc)
 		{
 			if(curr->title == redir_in)
 				curr->next->title = redir_in;
 			if(curr->title == redir_heredoc)
 				curr->next->title = redir_heredoc;		
-			if(simpleCmd->nofile == 0  && curr->next->next->title == redir_in)
+			if(simpleCmd->nofile == 0  && curr->next->title == redir_in) //J AI RETIRE UN ->next
 			{
-				if((fdin = open(lst_token_to_remove2->content, O_RDONLY) == -1))
+				if((fdin = open(lst_token_to_remove2->content, O_RDONLY)) == -1)
 					simpleCmd->nofile = 1;
+				else
+					close(fdin);
 			}
 			ft_lstdelone(&lst_token_to_remove, &parse, simpleCmd, i, 0, cmd);
  			ft_lstdelone(&lst_token_to_remove2, &parse, simpleCmd, i, 1, cmd);
 			i++;
+
 		}
-		if(curr->title == redir_out || curr->title == redir_append)
+		else if(curr->title == redir_out || curr->title == redir_append)
 		{
 			if(simpleCmd->nofile == 0)
 					simpleCmd->nb_of_outfile_before_nofile++;
@@ -65,11 +76,12 @@ void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpl
 				curr->next->title = redir_out;
 			if(curr->title == redir_append)
 				curr->next->title = redir_append;
+
 			ft_lstdelone(&lst_token_to_remove, &parse, simpleCmd, j, 0, cmd);
  			ft_lstdelone(&lst_token_to_remove2, &parse, simpleCmd, j, 1, cmd);
 			j++;
 		}
-		if(curr->title == redir_err)
+		else if(curr->title == redir_err)
 		{
 			if(simpleCmd->nofile == 0)
 					simpleCmd->nb_of_errfile_before_nofile++;
@@ -79,7 +91,10 @@ void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpl
  			ft_lstdelone(&lst_token_to_remove2, &parse, simpleCmd, k, 1, cmd);
 			k++;
 		}	
-		curr = curr->next->next;	
+
+		curr = next;
+		//curr = curr->next->next;
+
 	}
 	*lst_token = curr;
 	ft_aff_list_ptr_sur_char_content(*lst_token);
@@ -88,21 +103,26 @@ void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpl
 	{
 		if(curr->next->title == redir_in || curr->next->title == redir_heredoc)
 		{
+			lst_token_to_remove = curr->next;
+			lst_token_to_remove2 = curr->next->next;
+
 			//bash syntax error si suivant le > on a un | ou un token fichier inexistant
 			if(curr->next->title == redir_in)
 				curr->next->next->title = redir_in;
 			if(curr->next->title == redir_heredoc)
-				curr->next->next->title = redir_heredoc;		
-			lst_token_to_remove = curr->next;
-			ft_lstdelone(&lst_token_to_remove, &parse, simpleCmd, i, 0, cmd);
-			lst_token_to_remove2 = curr->next->next;
+				curr->next->next->title = redir_heredoc;
 
-			if(simpleCmd->nofile == 0 && curr->next->next->title == redir_in) 
+			if(simpleCmd->nofile == 0 && curr->next->next->title == redir_in)
 			{
-				if((fdin = open(lst_token_to_remove2->content, O_RDONLY) == -1))
-					simpleCmd->nofile = 1;
+				fdin = 21;
+
+			if((fdin = open(lst_token_to_remove2->content, O_RDONLY)) == -1)//open(lst_token_to_remove2->content, O_RDONLY) == -1))
+				simpleCmd->nofile = 1;
+			else
+				close(fdin);
 			}
-			curr->next = curr->next->next->next;
+			curr->next =  curr->next->next->next;//ls
+			ft_lstdelone(&lst_token_to_remove, &parse, simpleCmd, i, 0, cmd);
 			ft_lstdelone(&lst_token_to_remove2, &parse, simpleCmd, i, 1, cmd);
 			i++;
 			if(curr->next == NULL)
@@ -110,17 +130,17 @@ void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpl
 		}
 		else if(curr->next->title == redir_out || curr->next->title == redir_append)
 		{
+			lst_token_to_remove = curr->next;
+			lst_token_to_remove2 = curr->next->next;
+
 			if(curr->next->title == redir_out)
 				curr->next->next->title = redir_out;
 			if(curr->next->title == redir_append)
 				curr->next->next->title = redir_append;	
-			lst_token_to_remove = curr->next;
+			curr->next = curr->next->next->next;
 			ft_lstdelone(&lst_token_to_remove, &parse, simpleCmd, j, 0, cmd);//semble etre normalise NANI DANS DEBUGGOR CONTENT DE CURR NEXT EST MIS EN ERROR CANNOT ACCESS
 			if(simpleCmd->nofile == 0)
 					simpleCmd->nb_of_outfile_before_nofile++;
-
-			lst_token_to_remove2 = curr->next->next;
-			curr->next = curr->next->next->next;
 			ft_lstdelone(&lst_token_to_remove2, &parse, simpleCmd, j, 1, cmd);
 			j++;
 			if(curr->next == NULL)

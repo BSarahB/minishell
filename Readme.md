@@ -746,82 +746,17 @@ Si simpleCmd == 1
 alors pas de condition pour operator_pos
 on y va directement sur les fonctions de parsing
 */
+//LIBRAIRIE 
+==27127==ASan runtime does not come first in initial library list; you should either link runtime to your application or manually preload it with LD_PRELOAD.
+est une erreur qui dit quil faut mettre le flag -lasan avant -lreadline
+CFLAGS = -Wall -Wextra -Werror -I $(INCLUDE_DIR) -fsanitize=address -fsanitize=leak
+Dans Le MAkefile(42)
+$(NAME):	$(OBJS)
+	$(CC) -o $@ $^ -lasan -lreadline  #-lasan == dynamique == necessite installation sur ordi VS -static-libasan == STATIC == inclus dans l executable ==pas de necessite d installation sur l ordi pour verfier $ldconfig -p  pour lister les librairies de l ordi
+	au niveau des extensions :
+	static c est .a
+	dynamic c est .so (shared object?)
+les flags -fsanitize=address -fsanitize=leak sont dans la compilation
+et la librairie est dans le linkage des fichiers .o
 
-ds setting_redirections.c
-
-	//wait(&wstatus); 
-	// gestion de & background ->on attendra pas la derniere commande sil n y est pas.
-	//waitpid(ret, &wstatus, 0);//avant d imprimer dans la console, on demande au pere d attendre que les enfants aient fini.
- 	//waitpid(0, &wstatus, 0);
-
-/*L'appel système waitpid() suspend l'exécution du processus appelant jusqu'à ce que le fils spécifié par son pid ait changé d'état. Par défaut, waitpid() n'attend que les fils terminés, mais ce comportement est modifiable avec l'argument options comme décrit plus loin.
-
-La valeur de pid peut être l'une des suivantes :
-
-< -1
-attendre la fin de n'importe lequel des processus fils dont le GID du processus est égal à la valeur absolue de pid.
--1
-attendre n'importe lequel des processus fils.
-0
-attendre n'importe lequel des processus fils dont le GID du processus est égal à celui du processus appelant.
-> 0
-attendre n'importe lequel des processus fils dont le PID est égal à pid.
-
-*/
-/*  The waitpid() system call suspends execution of the calling thread  un‐
-	   til  a  child specified by pid argument has changed state.  By default,
-	   waitpid() waits only for terminated children, but this behavior is mod‐
-	   ifiable via the options argument, as described below.
--1 : meaning wait for any child process.
-*/
-
-
-//http://manpagesfr.free.fr/man/man2/wait.2.html
-//TODO : toutes les protections et les returns echo $?
-//FAIRE mon document pour le minishell avec toutes les commandes -> triim and clear etc. avec ts les process pour preparer en bon et du form les commandes au parsing
-//~ ls -la <nofile |ls -la >outfilenani <nofile |wc -l
-//minishell: nofile: no such file or directory:
-//minishell: nofile: no such file or directory:
-//0
-//TODO : BUGG
- //~ ls -la | grep c  <nofile | wc -l  -->ici specificite et diff  A CAUSE DE GREP QUI VIENT chercher dans le pip[0]
-//minishell: nofile: no such file or directory:
-//24
-//parfois on a 0 ->bon comportement si cmd2 est wc -l
-//TODO : wc -l <infile >outfile | wc -l  >outfile | wc -l >outfile ->bash me donne 2 , mon programme me donne 0. cmportement indefini
-
-
-
-
-//TODO bug creation des outfiles before nofile:
-// ls | ls >o1 >o2 <nofile o2 n est pas cree....
-
-
-
-VALGRIND
-//NOTE PERSONNELLE: une journee 10 aout de debuggage de memory leaks qui commence bien mais ensuite aucune solution n est bonne poour les autres leaks. j en ai 2 ou 3 pas plus(tjrs les memeds) et je n arrive meme pas a les resoudre. cela signifie que j interprete mal les messages d erreur de valgrind  le pire etant que j ai deja eu ces lleaks dans d autres projets et je m en rappelle vaguement. ---> faire une FICHE qui recense toutes les erreurs valgrind avec procedure CLAIRE et Bonnes pratiques pour arreter de me retrouver tjrs a la fin des projets avec des fondations merdiques  dues aux mauvaises pratiques
--j ai un msg d erreur valgrind qui dit:  2 bytes donc 2 octets sont perdus. 
--quelle est la cause? ->pls possibilites : mais en general cela veut dire que les donnees ne sont plus accessibles. : les donnees ne sont plus pointees ? ou le pointeur a change de place? ou qu on a remplace un champ sans le free? etc....a creuser
-tester hypotheses le double tab n a pas ete \0 a la fin. d ou le invalide read of size 8...?
-
-
-
-//BASH SYNTAX ERROR ----CAS PARTICULIERS A GERER
-:
-cas a gerer particulier == $ : | 
-le pipe est en attente de la cmd a executer. gerer plus tard
-$ :|
-> (sur saisie user CTRLD on obtient:)
-bash: syntax error: unexpected end of file
-exit
-
-
-//MISE EN PLACE DES HEREDOCS
-
-1/lexing des heredocs << token -> faire comme le lexing de la redir_infile < , definir egalement le token EOF le tagger de redir_heredoc type
-
-2/afficher un prompt > pour recueillir l entree utilisateur , on va creer le fichier .heredoc_tmp par ex pour eviter tout conflit avec un fichier du systeme qui pourrait provoquer des pbs lors de son open. Pour generer un fichier cache, on mettra simplement . devant. 
-
-3/Recueillir l entree user :  soit readline soit gnl sur le fd 0 entree standard, et write chaque return de gnl (ans) 
-4/boucler sur le readline avec pr condition d arret EOF le nom du token heredoc. tout en remplissant le ficher .heredoc_tmp
-5/ quand on sort de la while en touchant la condition d arret  : on passe a l execution
+ #-lasan == dynamique == necessite installation sur ordi VS -static-libasan == STATIC == inclus dans l executable ==pas de necessite d installation sur l ordi pour verfier $ldconfig -p  pour lister les librairies de l ordi

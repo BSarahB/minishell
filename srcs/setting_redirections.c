@@ -53,6 +53,7 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], int ret, t_data
 			close(set->savein);
 			close(set->saveout);
 
+
 		}
 
 		ft_free_struct_t_data(&data);
@@ -76,6 +77,7 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], int ret, t_data
 	int		wstatus;
 	int		exit_status;
 
+	exit_status = 0;
 	while(1)
 	{
 		wpid = waitpid(-1, &wstatus, 0);
@@ -131,7 +133,7 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data)
 		(set->i)++;
 	}
 	ft_restore_original_in_and_out(set);	//restauration des sauvegardes des vrais in et out 
-	exit_status = ft_exit_status(ret,set);
+	exit_status = ft_exit_status(ret, set);
 	ft_free_struct_t_settings(&set);
 	return(exit_status);
 }

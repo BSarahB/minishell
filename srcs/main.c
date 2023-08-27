@@ -12,7 +12,30 @@
 
 #include "minishell.h"
 
+void	ft_free(t_cmd *cmd, t_list *lst_token, t_data *data, char *line)
+{
+	ft_free_struct_str(&line);
 
+	if (cmd != NULL)
+		ft_free_struct_t_cmd(&cmd);
+	else
+		{
+			if(lst_token)
+				ft_free_struct_t_list_lst_token(&lst_token);
+		}
+
+	ft_free_struct_t_data(&data);
+}
+
+
+//TODO:
+/*~ ls << A| wc <<B
+ > A
+ > B
+/wc: 'standard input': Bad file descriptor
+/wc: -: Bad file descriptor
+/wc: write error
+*/
 size_t	ft_strlen(const char *s)
 {
 	size_t i;
@@ -30,11 +53,20 @@ void	ft_heredoc_interaction(t_cmd *cmd, size_t i, int mode)
 	char	*line_heredoc;
 	int		fd;
 
+	//fd = -1;
 	line_heredoc = NULL;
 	if(mode == 1)
+	{
+		//if(fd != -1)
+		//	close(fd)
 		fd = open(".heredoc", O_CREAT | O_RDWR | O_APPEND, 0644);
+	}
 	if(mode == 2)
+	{
+		//if(fd != -1)
+		//	close(fd)
 		fd = open(".heredoc", O_CREAT | O_RDWR | O_TRUNC, 0644);
+	}
 
 	if(fd == -1)
 	{
@@ -43,7 +75,7 @@ void	ft_heredoc_interaction(t_cmd *cmd, size_t i, int mode)
 	}
 	while (1)
 	{
-		//signal(SIGQUIT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
    		line_heredoc = readline(" > ");
 		cmd->line_count++;//TODO line_count doit s accumuler jusqu a quand on quitte le programme
 		if(line_heredoc != NULL)
@@ -52,11 +84,17 @@ void	ft_heredoc_interaction(t_cmd *cmd, size_t i, int mode)
 			if(ft_strcmp(line_heredoc, cmd->heredocs[i]) == 0)
 			{
 				if(i  == cmd->k -1)
+				{
+				//	close(fd);
 					break;
+				}
 				else
 					{
 						if(cmd->heredocs[++i])
+						{
+							close(fd);
 							ft_heredoc_interaction(cmd, i, 2);
+						}
 						break;
 					}
 			}
@@ -119,16 +157,8 @@ int main(int argc, char *argv[], char *envp[])
 			exit_status = ft_setting_redirections_and_pipes(cmd, envp, data);
 			//printf("exit_status = %d\n", exit_status);
 		}
-			ft_free_struct_str(&line);
-			if (cmd != NULL)
-				ft_free_struct_t_cmd(&cmd);
-			else
-				{
-					if(lst_token)
-						ft_free_struct_t_list_lst_token(&lst_token);
-				}
+		ft_free(cmd, lst_token, data, line);
 
-			ft_free_struct_t_data(&data);
 	}
 	//ft_free_struct_t_cmd(&cmd);
 	return (exit_status);
