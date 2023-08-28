@@ -292,6 +292,7 @@ void ft_error(char *const str);
 void	ft_error_heredoc(char *const str, int line_count);
 
 void	ft_restore_original_in_and_out(t_settings *set);
+void	ft_redirect_input(t_settings *set);
 
 //***1st simpleCmd:
 void	ft_first_simpleCmd_w_infile(t_settings *set, t_cmd *cmd);

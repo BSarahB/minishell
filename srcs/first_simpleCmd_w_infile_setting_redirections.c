@@ -78,7 +78,12 @@ void	ft_first_simpleCmd_w_infile(t_settings *set, t_cmd *cmd)
 					close(set->fdin);
 			}
 		if(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == 1)
-			flag_random_heredoc = 1;
+			{
+				flag_random_heredoc = 1;
+				//set->fdin = dup(set->savein);
+				set->fdin = open(".heredoc", O_RDONLY);
+			}
+
 		if(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == 42)
 			set->fdin = open(".heredoc", O_RDONLY); //open(cmd->simpleCmds[set->i]->infile[set->j], O_RDONLY);
 		else

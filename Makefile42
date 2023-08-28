@@ -34,7 +34,7 @@ OBJS = $(SRCS:.c=.o)
 
 RM = rm -f
 
-CFLAGS = -Wall -Wextra -Werror -I $(INCLUDE_DIR) -fsanitize=address -fsanitize=leak
+CFLAGS = -Wall -Wextra -Werror -I $(INCLUDE_DIR) #-fsanitize=address -fsanitize=leak
 
 all:		$(NAME)
 
