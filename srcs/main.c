@@ -115,7 +115,8 @@ void	ft_heredoc_interaction(t_cmd *cmd, size_t i, int mode)
 		}
 		add_history(line_heredoc); //on est 
 	}
-
+	if(fd)
+		close(fd);
 }
 
 int main(int argc, char *argv[], char *envp[])
