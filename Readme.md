@@ -760,3 +760,11 @@ les flags -fsanitize=address -fsanitize=leak sont dans la compilation
 et la librairie est dans le linkage des fichiers .o
 
  #-lasan == dynamique == necessite installation sur ordi VS -static-libasan == STATIC == inclus dans l executable ==pas de necessite d installation sur l ordi pour verfier $ldconfig -p  pour lister les librairies de l ordi
+
+
+
+//FIXME
+ ~ <infile  >outfile 33wc -l <infile <nofile >outfile
+minishell: infile: No such file or directory
+minishell: infile: No such file or directory
+minishell: nofile: No such file or directory

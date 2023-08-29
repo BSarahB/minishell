@@ -41,6 +41,21 @@ void    ft_open_infiles(t_settings *set, t_cmd *cmd)
         if (set->fdin == -1)                                       // ft_check open error quand on refactorisera plus tard
         {
             ft_error_msg(cmd->simpleCmds[set->i]->infile[set->j]);
+           
+            if(cmd->simpleCmds[set->i]->outfile != NULL && cmd->simpleCmds[set->i]->nb_of_outfile_before_nofile != 0)
+			{
+				size_t k = 0;
+				while(k < cmd->simpleCmds[set->i]->nb_of_outfile_before_nofile)//while(j < cmd->simpleCmds[i]->nb_of_outfile)
+					{
+						ft_open_outfiles_in_last_but_not_first_simpleCmd(set, cmd, k);
+						k++;
+					}	
+                       //close(pip[1]); pas de scope ici trouver une parade 
+
+			}
+
+
+           
             break;
         }
         (set->j)++;
@@ -70,16 +85,17 @@ void ft_regular_simpleCmd(t_settings *set, t_cmd *cmd)
     set->fdin = pip[0]; //+++ ainsi au prochain tour de boucle, fdin (et donc la future entree standart) sera DEJA parametree pour preparer le fdin du processus suivant qui executera la commande du pipe suivant et sera verra donc deja redirigee son entree standard sur la sortie du tube soit pip[0] pour lire a partir de pip[0] ce qui aura ete jete dans pip[1](cmd actuelle)
     if ((cmd->simpleCmds[set->i]->nb_of_tokens_in_simpleCmd == 1) && (cmd->simpleCmds[set->i]->infile == NULL) && (ft_strcmp(cmd->simpleCmds[set->i]->cmd_and_args[0], "cat") == 0)) //&& (cmd->simpleCmds[set->i]->infile == NULL)
         close(pip[0]);
-    if (cmd->simpleCmds[set->i]->outfile != NULL)    // TODO DETERMINER LA PRIORITE : SI INFILE APPARAIT AVANT OUTFILE IL FAUDRA PAS CREER OUTFILE, SI OUTFILE APPARAIT AVANT INFILE IL FAUDRA CREER OUTFILE MEME SIL N EST PAS REMPLI
-    {
+    if (cmd->simpleCmds[set->i]->outfile != NULL && (cmd->simpleCmds[set->i]->nofile == 0))
+	{
         while (set->j < cmd->simpleCmds[set->i]->nb_of_outfile)
         {
            ft_open_outfiles(set, cmd);
             (set->j)++;
         }
         close(pip[1]);
-
     }
+
+
 
      set->j = 0;
 

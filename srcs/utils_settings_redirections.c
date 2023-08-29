@@ -35,7 +35,7 @@ void	ft_open_outfiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cm
 	set->j = k;
 	if(cmd->simpleCmds[set->i]->append_track_index[set->j] == 1)
 		set->fdout = open(cmd->simpleCmds[set->i]->outfile[set->j], O_CREAT | O_RDWR | O_APPEND, 0644);
-	else	
+	else
 		set->fdout = open(cmd->simpleCmds[set->i]->outfile[set->j], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	// if(fdout == -1) gerer les erreurs d ouverture ici avec perror
 	if(set->fdout == -1)
