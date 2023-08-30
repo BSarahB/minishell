@@ -39,7 +39,7 @@ void	ft_set_fdin_for_first_simpleCmd(t_settings *set, t_cmd *cmd)
 		set->fdin = dup(set->savein);
 }
 
-void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], int ret, t_data *data)
+void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], int ret, t_data *data, t_list *lst_token, char *line)
 {
 	int	exec_return;
 
@@ -56,14 +56,24 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], int ret, t_data
 			close(set->saveout);
 		}
 	
+		ft_free_struct_t_settings(&set);
+		ft_free(cmd, lst_token, data, line);
+		ft_free_struct_t_cmd_only(&cmd);
+
+
+	/*
 		if (cmd != NULL)
 		{
 			ft_free_struct_t_cmd(&cmd);
 			ft_free_struct_t_cmd_only(&cmd);
 		}
+
+
+
 		ft_free_struct_t_data(&data);
 		ft_free_struct_t_settings(&set);
-		//ft_free_struct_t_cmd(&cmd);
+		
+*/
 
 		//il faudra imperativement SORTIR de la pour ne pas que le code du fork s execute derriere dans l enfant avec la boucle while
 		exit(1);//ou (0?) voir comment bien sortir
@@ -111,7 +121,7 @@ void	ft_restore_original_in_and_out(t_settings *set)
 }
 
 //TODO : appeler ft_checkopenerror au bon endroit, sinon la scinder en 2 fonctions
-int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data)
+int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, t_list *lst_token, char *line)
 {
 	int 	ret;
 	int 	exit_status;
@@ -134,7 +144,7 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data)
 			ft_regular_simpleCmd(set, cmd);
 		ft_redirect_output(set);	//Redirection des vrais in et out dans le processus parent tjrs en bouclant sur les simpleCmds
 		ret = fork();//Creation des processus : il faudra creer autant de processus que de commandes donc faire dans le while.
-		ft_child_process(set, cmd, envp, ret, data);
+		ft_child_process(set, cmd, envp, ret, data, lst_token, line);
 		(set->i)++;
 	}
 	ft_restore_original_in_and_out(set);	//restauration des sauvegardes des vrais in et out 

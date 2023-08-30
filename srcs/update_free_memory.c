@@ -127,10 +127,15 @@ void	ft_free_struct_t_cmd(t_cmd **cmd)
 {
 	if((*cmd)->path_tab != NULL)
 		ft_free_tab(&(*cmd)->path_tab);
-		
-	ft_free_struct_t_simpleCmds(&(*cmd)->simpleCmds);
-	ft_free_struct_t_list_lst_token(&(*cmd)->lst_token);
-	ft_free_struct_int_tab(&(*cmd)->heredocs_track_index);
+	
+	if((*cmd)->simpleCmds != NULL)
+		ft_free_struct_t_simpleCmds(&(*cmd)->simpleCmds);
+	
+	if((*cmd)->lst_token != NULL)
+		ft_free_struct_t_list_lst_token(&(*cmd)->lst_token);
+	
+	if((*cmd)->heredocs_track_index != NULL)
+		ft_free_struct_int_tab(&(*cmd)->heredocs_track_index);
 	if((*cmd)->nb_of_heredocs != 0)
 		ft_free_tab(&(*cmd)->heredocs);
 	

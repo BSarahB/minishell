@@ -158,7 +158,7 @@ int main(int argc, char *argv[], char *envp[])
 			if(cmd->nb_of_heredocs != 0)
 				ft_heredoc_interaction(cmd, 0, 1);
 
-			exit_status = ft_setting_redirections_and_pipes(cmd, envp, data);
+			exit_status = ft_setting_redirections_and_pipes(cmd, envp, data, lst_token, line);
 			//printf("exit_status = %d\n", exit_status);
 		}
 		ft_free(cmd, lst_token, data, line);

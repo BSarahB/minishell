@@ -298,6 +298,18 @@ void	ft_get_last_heredoc_position(t_cmd *cmd)
 	}
 }
 
+
+t_list	*ft_lst_first(t_list *lst)
+{
+
+	if(!lst)
+		return (NULL);
+	while (lst->prev)
+		lst = lst->prev;
+	return(lst);
+
+}
+
 int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_token)
 {
 	int		exec_return;
@@ -327,6 +339,7 @@ int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_t
 		i++;
 	}
 	ft_get_last_heredoc_position(cmd);
+	lst_token = ft_lst_first(lst_token);
 	cmd->lst_token = lst_token;
 	ft_aff_abs_cmd_and_args(cmd);
 	return (exec_return);

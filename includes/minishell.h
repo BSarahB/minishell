@@ -168,6 +168,9 @@ char *ft_strjoin(char *s1, char const *s2);
 char *ft_strndup(char *src, int n);
 char *ft_update_string(char **str, char *new);
 
+
+
+void	ft_free(t_cmd *cmd, t_list *lst_token, t_data *data, char *line);
 void ft_free_struct_str(char **p);
 void ft_free_tab(char ***tab);
 void ft_free_struct_t_cmd_only(t_cmd **cmd);
@@ -204,7 +207,7 @@ t_simpleCmd **ft_struct_array_init(t_simpleCmd **ptr, char init_value, size_t si
 char **ft_get_path(char **envp);
 
 int ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set);
-int ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data);
+int ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, t_list *lst_token, char *line);
 
 char *ft_init_cstring(char **str, size_t len, char init_value);
 void *ft_memset(void *b, char c, size_t len);
