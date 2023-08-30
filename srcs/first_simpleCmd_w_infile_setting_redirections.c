@@ -42,6 +42,7 @@ void    ft_outfiles_before_nofile(t_settings *set, t_cmd *cmd)
 		{
             ft_open_outfiles(set, cmd);
 			set->j++;
+			close(set->fdout);
 		}
 
 		

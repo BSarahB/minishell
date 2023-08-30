@@ -31,14 +31,20 @@ int	ft_execve_join(t_cmd *cmd, char **envp, char **abs_cmd_and_args)
 	return (exec_return);
 }
 
-int	ft_execute_cmd(t_cmd *cmd, int i,char *envp[])
+int	ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 {
 	// int execve(const char *pathname, char *const argv[], char *const envp[]);
 	int exec_return;
 
 	exec_return = 0;
 	(void)cmd;
+		if(cmd->simpleCmds[i]->cmd_and_args == NULL)
+		{
+			close(set->savein);
+			close(set->saveout);
+			return(exec_return);
 
+		}
 	if (execve(cmd->simpleCmds[i]->cmd_and_args[0], cmd->simpleCmds[i]->cmd_and_args, envp) == -1)
 		exec_return = ft_execve_join(cmd, envp, cmd->simpleCmds[i]->abs_cmd_and_args);
 	if (exec_return == -1 && (errno == 2 || errno == 13))

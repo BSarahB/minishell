@@ -203,7 +203,7 @@ t_simpleCmd *ft_struct_init_simpleCmd(t_simpleCmd **ptr, char init_value);
 t_simpleCmd **ft_struct_array_init(t_simpleCmd **ptr, char init_value, size_t simpleCmds_nbr);
 char **ft_get_path(char **envp);
 
-int ft_execute_cmd(t_cmd *cmd, int i, char *envp[]);
+int ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set);
 int ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data);
 
 char *ft_init_cstring(char **str, size_t len, char init_value);

@@ -46,14 +46,14 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], int ret, t_data
 	if(ret == 0) //dans l enfant on execute la commande correspondant a la simplecmd
 	{			
 	//si on est dans l enfant on va pouvoir lancer l execution de sa simpleCommande
-		exec_return = ft_execute_cmd(cmd, set->i, envp);//appel a execve
+	
+		
+		exec_return = ft_execute_cmd(cmd, set->i, envp, set);//appel a execve
 		if (exec_return == -1 && (errno == 2 || errno == 13))
 		{	
 		//	ft_check_close_error((*ptr).fd2);
 			close(set->savein);
 			close(set->saveout);
-
-
 		}
 	
 		if (cmd != NULL)
