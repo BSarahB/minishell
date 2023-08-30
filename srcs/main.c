@@ -17,7 +17,10 @@ void	ft_free(t_cmd *cmd, t_list *lst_token, t_data *data, char *line)
 	ft_free_struct_str(&line);
 
 	if (cmd != NULL)
-		ft_free_struct_t_cmd(&cmd);
+		{
+			ft_free_struct_t_cmd(&cmd);
+			
+		}
 	else
 		{
 			if(lst_token)
@@ -159,7 +162,7 @@ int main(int argc, char *argv[], char *envp[])
 			//printf("exit_status = %d\n", exit_status);
 		}
 		ft_free(cmd, lst_token, data, line);
-
+		ft_free_struct_t_cmd_only(&cmd);
 	}
 	//ft_free_struct_t_cmd(&cmd);
 	return (exit_status);

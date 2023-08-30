@@ -55,7 +55,12 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], int ret, t_data
 
 
 		}
-
+	
+		if (cmd != NULL)
+		{
+			ft_free_struct_t_cmd(&cmd);
+			ft_free_struct_t_cmd_only(&cmd);
+		}
 		ft_free_struct_t_data(&data);
 		ft_free_struct_t_settings(&set);
 		//ft_free_struct_t_cmd(&cmd);
