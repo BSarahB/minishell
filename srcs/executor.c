@@ -42,14 +42,12 @@ int	ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 	{
 		close(set->savein);
 		close(set->saveout);
-		printf("dan le smpleCmds null c\n");
 		return(exec_return);
 	}
 	if(cmd->simpleCmds[i]->cmd_and_args == NULL)
 	{
 		close(set->savein);
 		close(set->saveout);
-		printf("dans le cmd_and_Args null\n");
 		return(exec_return);
 	}
 
@@ -67,7 +65,6 @@ int	ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 		}
 	//printf("%d\n",((cmd->simpleCmds[0])->errnum));
 		//est ce judicieux de free ici? ou ne vaut il mieux pas free tout a la fin?
-	printf("freee\n");
 	ft_free_tab(&(cmd->simpleCmds[i]->cmd_and_args));
 	ft_free_tab(&(cmd->simpleCmds[i]->abs_cmd_and_args));
 	//ft_free_struct_t_cmd(&cmd);

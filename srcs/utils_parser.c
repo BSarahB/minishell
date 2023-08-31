@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	parse(char *content, t_simpleCmd *simpleCmd, size_t i, int title, t_cmd *cmd)
+void	parse(char *content, t_simpleCmd *simpleCmd, size_t i, int title,int tag_expand, t_cmd *cmd)
 {
 	if(title == redir_out || title == redir_append)
 	{
@@ -22,6 +22,8 @@ void	parse(char *content, t_simpleCmd *simpleCmd, size_t i, int title, t_cmd *cm
 			simpleCmd->outfile[i + 1] = NULL;
 		if(title == redir_append)
 			simpleCmd->append_track_index[i] = 1;
+		
+
 	} 
 	if(title == redir_in || title == redir_heredoc)
 	{
@@ -30,6 +32,10 @@ void	parse(char *content, t_simpleCmd *simpleCmd, size_t i, int title, t_cmd *cm
 			simpleCmd->infile[i + 1] = NULL;
 		if(title == redir_heredoc)
 			simpleCmd->heredoc_track_index[i] = 1;
+		if(tag_expand == 1)
+			simpleCmd->heredoc_track_index[i] = 2;
+
+		
 	}
 	if(title == redir_heredoc)
 	{
@@ -53,13 +59,13 @@ void	parse(char *content, t_simpleCmd *simpleCmd, size_t i, int title, t_cmd *cm
 	}
 }
 
-void	ft_lstdelone(t_list **lst, void(*parse)(char *content, t_simpleCmd *simpleCmd, size_t i, int title, t_cmd *cmd), t_simpleCmd *simpleCmd, size_t i, int redir, t_cmd *cmd)
+void	ft_lstdelone(t_list **lst, void(*parse)(char *content, t_simpleCmd *simpleCmd, size_t i, int title, int tag_expand, t_cmd *cmd), t_simpleCmd *simpleCmd, size_t i, int redir, t_cmd *cmd)
 {
 	 if(*lst && parse)
 	 {
 		if(redir == 1)
 			{
-				parse((*lst)->content, simpleCmd, i, (*lst)->title, cmd);
+				parse((*lst)->content, simpleCmd, i, (*lst)->title, (*lst)->tag_expand, cmd);
 
 			}
 

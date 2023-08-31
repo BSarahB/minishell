@@ -91,6 +91,8 @@ typedef struct s_list
 	size_t start_token_pos_exists;
 	size_t end_token_pos;
 	size_t quoting_rule_adequate;
+	int	tag_expand;
+
 } t_list;
 
 typedef struct s_data
@@ -276,8 +278,8 @@ void	ft_count_nb_of_redir_token_in_simpleCmd(t_cmd *cmd, t_simpleCmd *simpleCmd,
 void	ft_count_final_nb_of_tokens_in_simpleCmd(t_list *start_lst_token, t_simpleCmd *simpleCmd);
 //void	ft_lstdelone(t_list **lst, void(*parse)(char *content, t_simpleCmd *simpleCmd, size_t i, int title), t_simpleCmd *simpleCmd, size_t i, int redir);
 //void	parse(char *content, t_simpleCmd *simpleCmd, size_t i, int title);
-void	parse(char *content, t_simpleCmd *simpleCmd, size_t i, int title, t_cmd *cmd);
-void	ft_lstdelone(t_list **lst, void(*parse)(char *content, t_simpleCmd *simpleCmd, size_t i, int title, t_cmd *cmd), t_simpleCmd *simpleCmd, size_t i, int redir, t_cmd *cmd);
+void	parse(char *content, t_simpleCmd *simpleCmd, size_t i, int title, int tag_expand, t_cmd *cmd);
+void	ft_lstdelone(t_list **lst, void(*parse)(char *content, t_simpleCmd *simpleCmd, size_t i, int title, int tag_expand, t_cmd *cmd), t_simpleCmd *simpleCmd, size_t i, int redir, t_cmd *cmd);
 
 int		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(t_list *lst_token, t_simpleCmd *simpleCmd);
 char	**ft_get_abs_argumentsb(char **abs_c_and_a);
@@ -287,9 +289,11 @@ int *ft_init_ctab(int **int_tab, size_t len, int init_value);
 
 
 
-int ft_check_close_error(int fd);
-void ft_error_msg(char *infile);
-void ft_error_msg2(char *str);
+int 	ft_check_close_error(int fd);
+void	ft_error_msg(char *infile);
+void 	ft_error_msg2(char *str);
+void	ft_error_msg3(char *str);
+
 
 void ft_error(char *const str);
 void	ft_error_heredoc(char *const str, int line_count);

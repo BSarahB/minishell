@@ -122,6 +122,24 @@ void	ft_heredoc_interaction(t_cmd *cmd, size_t i, int mode)
 		close(fd);
 }
 
+
+void ft_tag_expand(t_list *lst_token)
+{
+	t_list *tmp;
+
+	tmp = lst_token;
+
+
+}
+
+void	ft_modify_lst_token(t_list *lst_token)
+{
+	ft_tag_expand(lst_token);
+}
+
+
+
+
 int main(int argc, char *argv[], char *envp[])
 {
 	(void)argc;
@@ -152,6 +170,7 @@ int main(int argc, char *argv[], char *envp[])
 		lst_token = data->lst_token;
 		if(ft_check_bash_syntax_error_caracteres_volee(lst_token) == 0)
 		{	
+			ft_modify_lst_token(lst_token);
 			cmd = ft_struct_init_cmd(&cmd, 0, lst_token);
 			cmd->path_tab = ft_get_path(envp);	
 			ft_parse_tokens_in_s_cmd(cmd, line, envp, lst_token);

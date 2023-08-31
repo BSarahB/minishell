@@ -36,10 +36,15 @@ void	ft_open_infiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd
 			{
 				if(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == -1)
 					set->fdin = open(cmd->simpleCmds[set->i]->infile[set->j], O_RDONLY);//TODO cmt rendre compte du nom du inputfile si on ne le connait pas
+				if(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == 2)
+					set->fdin = -2;
 			}
-		if(set->fdin == -1) //ft_check open error quand on refactorisera plus tard
+		if(set->fdin == -1 || set->fdin == -2) //ft_check open error quand on refactorisera plus tard
 		{
-			ft_error_msg(cmd->simpleCmds[set->i]->infile[set->j]);
+			if(set->fdin == -1)
+				ft_error_msg(cmd->simpleCmds[set->i]->infile[set->j]);
+			if(set->fdin == -2)
+				ft_error_msg(cmd->simpleCmds[set->i]->infile[set->j]);
 			if(cmd->simpleCmds[set->i]->outfile != NULL && cmd->simpleCmds[set->i]->nb_of_outfile_before_nofile != 0)
 			{
 				size_t k = 0;

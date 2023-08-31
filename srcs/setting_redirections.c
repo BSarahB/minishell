@@ -47,7 +47,6 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], int ret, t_data
 	{			
 	//si on est dans l enfant on va pouvoir lancer l execution de sa simpleCommande
 	
-		printf("in child\n");
 		exec_return = ft_execute_cmd(cmd, set->i, envp, set);//appel a execve
 		if (exec_return == -1 && (errno == 2 || errno == 13))
 		{	

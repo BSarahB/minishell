@@ -768,3 +768,9 @@ et la librairie est dans le linkage des fichiers .o
 minishell: infile: No such file or directory
 minishell: infile: No such file or directory
 minishell: nofile: No such file or directory
+
+
+
+//FIXME
+~ <infile >outfile <infile <<A | ls <infile
+->FD EST OUVERT (PIPE)

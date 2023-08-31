@@ -15,6 +15,7 @@ void	ft_open_outfiles(t_settings *set, t_cmd *cmd)
 {
 	if(set->j != 0 && set->fdout)//TODO proteger des pbs a l ouverture
 		close(set->fdout);
+	
 	if(cmd->simpleCmds[set->i]->append_track_index[set->j] == 1)
 		set->fdout = open(cmd->simpleCmds[set->i]->outfile[set->j], O_CREAT | O_RDWR | O_APPEND, 0644);
 	else
@@ -33,6 +34,7 @@ void	ft_open_outfiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cm
 	if(k != 0 && set->fdout)//TODO proteger des pbs a l ouverture
 		close(set->fdout);
 	set->j = k;
+	
 	if(cmd->simpleCmds[set->i]->append_track_index[set->j] == 1)
 		set->fdout = open(cmd->simpleCmds[set->i]->outfile[set->j], O_CREAT | O_RDWR | O_APPEND, 0644);
 	else
@@ -43,5 +45,5 @@ void	ft_open_outfiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cm
 		perror("minishell");
 		exit(1);
 		//fermer les pipes, nettoyer la memoire etc...
-	}				
+	}		
 }
