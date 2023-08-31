@@ -148,7 +148,7 @@ typedef struct s_cmd
 	// a voir si on met tous les char * dans un double tab io_redirections(**)
 	int 	background;
 	t_list 	*lst_token; // notre liste chainee de tokens
-
+	int 	flag_head_list;
 	size_t nb_of_infile;
 	size_t nb_of_outfile;
 	size_t nb_of_errfile;
@@ -281,7 +281,7 @@ void	ft_lstdelone(t_list **lst, void(*parse)(char *content, t_simpleCmd *simpleC
 
 int		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(t_list *lst_token, t_simpleCmd *simpleCmd);
 char	**ft_get_abs_argumentsb(char **abs_c_and_a);
-void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpleCmd, t_list **lst_token, t_cmd *cmd);
+void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpleCmd, size_t index, t_list **lst_token, t_cmd *cmd);
 int *ft_init_ctab(int **int_tab, size_t len, int init_value);
 
 

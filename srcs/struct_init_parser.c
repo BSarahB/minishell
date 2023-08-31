@@ -139,6 +139,7 @@ t_cmd	*ft_struct_init_cmd(t_cmd **cmd, char init_value, t_list *lst_token)
 	(*cmd)->background = 0;
 	(*cmd)->path_tab = 0;
 	(*cmd)->lst_token = lst_token;
+	(*cmd)->flag_head_list = -1;
 	(*cmd)->heredocs = NULL;
 	(*cmd)->outputfile = NULL;
 	(*cmd)->inputfile = NULL;

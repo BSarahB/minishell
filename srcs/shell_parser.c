@@ -19,8 +19,30 @@ void	ft_first_token_in_simpleCmd_is_redir()
 	
 }
 
+void ft_reconnect_lst_token(t_list *lst_token, size_t position)
+{
+	t_list *curr;
+	t_list *next;
+	t_list *prev;
 
-void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpleCmd, t_list **lst_token, t_cmd *cmd)
+	curr = lst_token;
+	next = NULL;
+	prev = NULL;
+	while(curr)
+	{
+		if(curr->position == position)
+		{
+			next = curr->next;
+			prev = curr->prev;
+			prev->next = next;
+			if(next != NULL)
+				next->prev = prev;
+		}
+		curr = curr->next;
+	}
+}
+
+void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpleCmd, size_t index, t_list **lst_token, t_cmd *cmd)
 {
 	t_list *curr;
 	size_t i;
@@ -29,7 +51,9 @@ void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpl
 	t_list *lst_token_to_remove;
 	t_list *lst_token_to_remove2;
 	t_list *next;
+	t_list *prev;
 	int		fdin;
+	
 
 	(void)lst_token;
 	curr = *alst;
@@ -39,16 +63,22 @@ void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpl
 	i = 0;
 	j = 0;
 	k = 0;
+
 	if(*alst == NULL)
 		return;
 	curr = *alst;
 	while (curr !=NULL && curr->next != NULL && (curr->title == redir_out || curr->title == redir_in || curr->title == redir_heredoc || curr->title == redir_err))
 	{
-
-
+		if(cmd->flag_head_list == -1 && index == 0)
+			cmd->flag_head_list = 1;
 		lst_token_to_remove = curr;// >
 		lst_token_to_remove2 = curr->next; //outfile
 		next = curr->next->next;//\0
+		
+		if(next && index == 0)
+			next->prev = NULL;
+		else
+			prev = curr->prev;
 
 		if(curr->title == redir_in || curr->title == redir_heredoc)
 		{
@@ -63,8 +93,15 @@ void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpl
 				else
 					close(fdin);
 			}
+			if(index != 0)
+			{
+				ft_reconnect_lst_token(*lst_token, lst_token_to_remove->position);
+				ft_reconnect_lst_token(*lst_token, lst_token_to_remove2->position);
+			}
+
 			ft_lstdelone(&lst_token_to_remove, &parse, simpleCmd, i, 0, cmd);
  			ft_lstdelone(&lst_token_to_remove2, &parse, simpleCmd, i, 1, cmd);
+
 			i++;
 
 		}
@@ -76,6 +113,12 @@ void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpl
 				curr->next->title = redir_out;
 			if(curr->title == redir_append)
 				curr->next->title = redir_append;
+			
+			if(index != 0)
+			{
+				ft_reconnect_lst_token(*lst_token, lst_token_to_remove->position);
+				ft_reconnect_lst_token(*lst_token, lst_token_to_remove2->position);
+			}
 
 			ft_lstdelone(&lst_token_to_remove, &parse, simpleCmd, j, 0, cmd);
  			ft_lstdelone(&lst_token_to_remove2, &parse, simpleCmd, j, 1, cmd);
@@ -86,7 +129,7 @@ void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpl
 			if(simpleCmd->nofile == 0)
 					simpleCmd->nb_of_errfile_before_nofile++;
 
-			curr->next->title = redir_err;
+			curr->next->title = redir_err;			
 			ft_lstdelone(&lst_token_to_remove, &parse, simpleCmd, k, 0, cmd);
  			ft_lstdelone(&lst_token_to_remove2, &parse, simpleCmd, k, 1, cmd);
 			k++;
@@ -96,8 +139,12 @@ void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpl
 		//curr = curr->next->next;
 
 	}
-	*lst_token = curr;
-	ft_aff_list_ptr_sur_char_content(*lst_token);
+	if(cmd->flag_head_list == 1)
+		{
+			*lst_token = curr;
+			cmd->flag_head_list = 0;
+		}
+//	ft_aff_list_ptr_sur_char_content(*lst_token);
 	*alst = curr;
 	while(curr != NULL && (curr->position < simpleCmd->end_simpleCmd_pos) && (curr->next != NULL && curr->next->position < simpleCmd->end_simpleCmd_pos))
 	{
@@ -330,12 +377,13 @@ int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_t
 		ft_count_nb_of_redir_token_in_simpleCmd(cmd, cmd->simpleCmds[i], start_lst_token, i);
 		ft_malloc_redir_file_tabs_of_simpleCmd(cmd->simpleCmds[i]);
 		if(cmd->simpleCmds[i]->nb_of_redir_token > 0)
-			ft_del_and_parse_redir_token_in_simpleCmd(&start_lst_token, cmd->simpleCmds[i], &lst_token, cmd);
+			ft_del_and_parse_redir_token_in_simpleCmd(&start_lst_token, cmd->simpleCmds[i], i, &lst_token, cmd);
 		ft_aff_list_ptr_sur_char_content(lst_token);
 		ft_count_final_nb_of_tokens_in_simpleCmd(start_lst_token, cmd->simpleCmds[i]);
 		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(start_lst_token, cmd->simpleCmds[i]);
 		if(start_lst_token != NULL)
 			start_lst_token = ft_readjust_start_lst_token(start_lst_token, cmd, i);
+
 		i++;
 	}
 	ft_get_last_heredoc_position(cmd);
