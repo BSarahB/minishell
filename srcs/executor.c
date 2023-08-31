@@ -38,13 +38,21 @@ int	ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 
 	exec_return = 0;
 	(void)cmd;
-	
+	if(cmd->simpleCmds[i] == NULL)
+	{
+		close(set->savein);
+		close(set->saveout);
+		printf("dan le smpleCmds null c\n");
+		return(exec_return);
+	}
 	if(cmd->simpleCmds[i]->cmd_and_args == NULL)
 	{
 		close(set->savein);
 		close(set->saveout);
+		printf("dans le cmd_and_Args null\n");
 		return(exec_return);
 	}
+
 	if (execve(cmd->simpleCmds[i]->cmd_and_args[0], cmd->simpleCmds[i]->cmd_and_args, envp) == -1)
 		exec_return = ft_execve_join(cmd, envp, cmd->simpleCmds[i]->abs_cmd_and_args);
 	if (exec_return == -1 && (errno == 2 || errno == 13))
