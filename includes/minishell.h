@@ -249,6 +249,9 @@ void ft_lstadd_back(t_list **alst, t_list *new);
 t_list *ft_lstnew_for_lst(t_data *data);
 t_list *ft_lstnew_data_token(char *content);
 t_list *ft_create_list(void);
+void	ft_simplify_list(t_list *lst);
+void	ft_aff_list_ptr_sur_char_content(t_list *alst); // pour void		*content; de type char *
+
 
 size_t ft_char_is_whitespace(char *str, char *line, size_t i, t_data *data);
 int ft_char_isnull_no_qr(char *line, size_t i, t_data *data);

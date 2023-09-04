@@ -29,6 +29,18 @@ SRCS	=	$(SRC_DIR)/main.c \
 			$(SRC_DIR)/last_simpleCmd_setting_redirections.c \
 			$(SRC_DIR)/regular_simpleCmd_setting_redirections.c \
 			$(SRC_DIR)/utils_settings_redirections.c \
+			$(SRC_DIR)/heredoc_interaction.c \
+			$(SRC_DIR)/update_free_memory_3.c \
+			$(SRC_DIR)/expand.c \
+			$(SRC_DIR)/parse_heredoc.c \
+			$(SRC_DIR)/parse_heredoc_2.c \
+			$(SRC_DIR)/parse_redir_head_token.c \
+			$(SRC_DIR)/parse_redir_middle_token.c \
+			$(SRC_DIR)/del_and_parse.c \
+			$(SRC_DIR)/lst_token_2.c \
+			$(SRC_DIR)/expand_and_retokenize.c
+
+
 
 OBJS = $(SRCS:.c=.o)
 

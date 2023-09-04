@@ -117,7 +117,9 @@
 				31,
 				32,
 				33,
-				34
+				34,
+				35,
+				36
 			]
 		}
 	],
@@ -205,7 +207,9 @@
 				31,
 				32,
 				33,
-				34
+				34,
+				35,
+				36
 			]
 		}
 	],
@@ -418,6 +422,18 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "srcs/del_and_parse.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "srcs/lst_token_2.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "srcs/expand_and_retokenize.c",
 			"sourceGroupIndex" : 1
 		}
 	],

@@ -40,13 +40,14 @@ void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, size_t index, t_li
 	t_list			*curr;
 	t_settings_del	*del;
 
+
 	curr = *alst;
 	if(*alst == NULL)
 		return;
 	del = ft_struct_init_settings_del(&del);//proteger del si ==NULL
 	del->index = index;
 	curr = *alst;
-	while (curr !=NULL && curr->next != NULL && (curr->title == redir_out || curr->title == redir_in || curr->title == redir_heredoc || curr->title == redir_err))
+	while (curr !=NULL && curr->next != NULL && (curr->title == redir_out || curr->title == redir_append || curr->title == redir_in || curr->title == redir_heredoc || curr->title == redir_err))
 		curr = ft_head_redir_token(curr, cmd, *lst_token, del);
 	if(cmd->flag_head_list == 1)
 		{

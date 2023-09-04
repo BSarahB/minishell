@@ -1,30 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lst_token.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbenmesb <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/04 13:47:12 by mbenmesb          #+#    #+#             */
+/*   Updated: 2023/09/04 13:47:15 by mbenmesb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-
-void	ft_aff_list_ptr_sur_char_content(t_list *alst) // pour void		*content; de type char *
-{
-		//	printf("list diplayed: \n");
-	while(alst)
-	{
-	//	printf("%s , %zu\n",(char *)(alst)->content, alst->position); //ou printf("%d - ", (*(int *)(*alst)->content));
-		alst = (alst)->next;
-	}
-}
-
-void	ft_simplify_list(t_list *lst)
-{
-	t_list	*tmp;
-	size_t	position;
-
-	tmp = lst;
-	position = 1;
-
-	while (tmp)
-	{
-		tmp->position = position;
-		tmp = tmp->next;
-		position++;
-	}
-}
 
 t_list *ft_lstlast(t_list *lst)
 {
@@ -61,15 +47,6 @@ t_list *ft_lstnew_for_lst(t_data *data)
 	new = malloc(sizeof(t_list));
 	if (!new)
 		return (NULL);
-	
-	//ici on va swap les pointeurs (ou) update_string ft_update_string mnode es malloc pas content punaise bon pause la je suis totalement a cote ma plaque. 
-
-	//new->content = malloc(sizeof(char));
-	//if(!new->content)
-	//	return(NULL);
-	//new->content = ft_swap_ptr((&(data->token->content)), new->content);
-
-
 	new->content = data->token->content;
 	new->type = data->token->type;
 	new->title = data->token->title;
