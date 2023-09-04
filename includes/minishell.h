@@ -77,6 +77,19 @@ typedef struct s_settings
 	
 } t_settings;
 
+
+typedef struct s_settings_del
+{
+//	int 	fdin;
+
+	size_t 	i;
+	size_t 	j;
+	size_t	k;
+	size_t index;
+
+} t_settings_del;
+
+
 typedef struct s_list
 {
 	char *content;
@@ -84,7 +97,8 @@ typedef struct s_list
 	int type;
 	int title;
 	int quoting_rule;		// whitwspace_separator 0 ,single quote 1, d_quote 2
-	int retokenize_allowed; // pour trim and clear et retokenizer un expand par ex/
+	int retokenize_allowed;// pour trim and clear et retokenizer un expand par ex/
+	int expand_exists;
 	struct s_list *next;
 	struct s_list *prev;
 	size_t start_token_pos;
@@ -182,6 +196,7 @@ void ft_free_struct_t_simpleCmd(t_simpleCmd **simpleCmd);
 void    ft_free_struct_t_data(t_data **data);
 void    ft_free_struct_t_list_token(t_list **token);
 void    ft_free_struct_t_settings(t_settings **set);
+void    ft_free_struct_t_settings_del(t_settings_del **del);
 void	ft_free_struct_t_list_lst_token(t_list **lst_token);
 
 
@@ -214,8 +229,8 @@ int ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, t_
 char *ft_init_cstring(char **str, size_t len, char init_value);
 void *ft_memset(void *b, char c, size_t len);
 
-void ft_insert_argument(char *argument);
-void fr_insert_simpleCmd(t_simpleCmd *simpleCmd);
+void ft_insert_argument(char *argument);//TOREMOV
+void fr_insert_simpleCmd(t_simpleCmd *simpleCmd);//TOREMOV
 
 // lexer
 
@@ -260,6 +275,8 @@ int ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_to
 t_data *ft_struct_init_data(t_data **data);
 t_data *ft_struct_init_data2(t_data **data, t_list *lst_token, t_list *token);
 t_settings	*ft_struct_init_settings(t_settings **set);
+t_settings_del	*ft_struct_init_settings_del(t_settings_del **del);
+
 
 // PARSING LST_TOKEN in SimpleCmd
 void 	ft_count_nb_of_infile_in_simpleCmd(t_simpleCmd *simpleCmd);
@@ -276,14 +293,14 @@ char **ft_malloc_infile_tab(t_simpleCmd *simpleCmd);
 char **ft_malloc_errfile_tab(t_simpleCmd *simpleCmd);
 void	ft_count_nb_of_redir_token_in_simpleCmd(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list *start_lst_token, size_t i);
 void	ft_count_final_nb_of_tokens_in_simpleCmd(t_list *start_lst_token, t_simpleCmd *simpleCmd);
-//void	ft_lstdelone(t_list **lst, void(*parse)(char *content, t_simpleCmd *simpleCmd, size_t i, int title), t_simpleCmd *simpleCmd, size_t i, int redir);
-//void	parse(char *content, t_simpleCmd *simpleCmd, size_t i, int title);
-void	parse(char *content, t_simpleCmd *simpleCmd, size_t i, int title, int tag_expand, t_cmd *cmd);
-void	ft_lstdelone(t_list **lst, void(*parse)(char *content, t_simpleCmd *simpleCmd, size_t i, int title, int tag_expand, t_cmd *cmd), t_simpleCmd *simpleCmd, size_t i, int redir, t_cmd *cmd);
+
+void	parse(t_list *lst, t_simpleCmd *simpleCmd, size_t i, t_cmd *cmd);
+void	ft_lstdelone2(t_list **lst, t_simpleCmd *simpleCmd, size_t i, t_cmd *cmd);
+void	ft_lstdelone(t_list **lst);
 
 int		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(t_list *lst_token, t_simpleCmd *simpleCmd);
 char	**ft_get_abs_argumentsb(char **abs_c_and_a);
-void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpleCmd, size_t index, t_list **lst_token, t_cmd *cmd);
+void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, size_t index, t_list **lst_token, t_cmd *cmd);
 int *ft_init_ctab(int **int_tab, size_t len, int init_value);
 
 

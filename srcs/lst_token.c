@@ -77,6 +77,7 @@ t_list *ft_lstnew_for_lst(t_data *data)
 //	new->quoting_rule_adequate = 0;
 //	new->retokenize_allowed = 0;
 	new->tag_expand = data->token->tag_expand;
+	new->expand_exists = data->token->expand_exists;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
@@ -99,6 +100,7 @@ t_list *ft_lstnew_data_token(char *content)
 	list->title = -1;
 	list->quoting_rule = 0; 
 	list->quoting_rule_adequate = 0;
+	list->expand_exists = 0;
 	list->retokenize_allowed = 0;
 	list->next = NULL;
 	list->prev = NULL;

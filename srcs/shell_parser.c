@@ -12,13 +12,6 @@
 
 #include "minishell.h"
 
-
-void	ft_first_token_in_simpleCmd_is_redir()
-{
-
-	
-}
-
 void ft_reconnect_lst_token(t_list *lst_token, size_t position)
 {
 	t_list *curr;
@@ -42,177 +35,217 @@ void ft_reconnect_lst_token(t_list *lst_token, size_t position)
 	}
 }
 
-void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, t_simpleCmd *simpleCmd, size_t index, t_list **lst_token, t_cmd *cmd)
+t_settings_del *ft_redir_err_middle(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del)
 {
-	t_list *curr;
-	size_t i;
-	size_t j;
-	size_t k;
+	//TODO REGLER L ORDRE COMME POUR LES OUT ET IN
 	t_list *lst_token_to_remove;
 	t_list *lst_token_to_remove2;
-	t_list *next;
-	t_list *prev;
-	int		fdin;
-	
 
 	(void)lst_token;
-	curr = *alst;
-	//lst_token_to_remove = NULL;
-	//lst_token_to_remove2 = NULL;
-	//next = NULL;
-	i = 0;
-	j = 0;
-	k = 0;
+	lst_token_to_remove = curr->next;
+	ft_lstdelone(&lst_token_to_remove);
+	curr->next->next->title = redir_err;
 
+	if(cmd->simpleCmds[del->index]->nofile == 0)
+		cmd->simpleCmds[del->index]->nb_of_errfile_before_nofile++;
+
+	lst_token_to_remove2 = curr->next->next;
+	curr->next = curr->next->next->next;
+	ft_lstdelone2(&lst_token_to_remove2,
+	 cmd->simpleCmds[del->index], del->k, cmd);
+	del->k++;
+	if(curr->next == NULL)
+		cmd->simpleCmds[del->index]->end_simpleCmd_pos = curr->position;
+	return(del);
+}
+
+t_settings_del *ft_redir_out_middle(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del)
+{
+	t_list *lst_token_to_remove;
+	t_list *lst_token_to_remove2;
+
+	(void)lst_token;
+	lst_token_to_remove = curr->next;
+	lst_token_to_remove2 = curr->next->next;
+	if(curr->next->title == redir_out)
+		curr->next->next->title = redir_out;
+	if(curr->next->title == redir_append)
+		curr->next->next->title = redir_append;
+	curr->next = curr->next->next->next;
+	ft_lstdelone(&lst_token_to_remove);//semble etre normalise NANI DANS DEBUGGOR CONTENT DE CURR NEXT EST MIS EN ERROR CANNOT ACCESS
+	if(cmd->simpleCmds[del->index]->nofile == 0)
+		cmd->simpleCmds[del->index]->nb_of_outfile_before_nofile++;
+	ft_lstdelone2(&lst_token_to_remove2, cmd->simpleCmds[del->index], del->j, cmd);
+	del->j++;
+	if(curr->next == NULL)
+		cmd->simpleCmds[del->index]->end_simpleCmd_pos = curr->position;
+	return(del);
+}
+
+t_settings_del *ft_redir_in_middle(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del)
+{
+	t_list *lst_token_to_remove;
+	t_list *lst_token_to_remove2;
+	int fdin;
+
+	(void)lst_token;
+	lst_token_to_remove = curr->next;
+	lst_token_to_remove2 = curr->next->next;
+	if(curr->next->title == redir_in)
+		curr->next->next->title = redir_in;
+	if(curr->next->title == redir_heredoc)
+		curr->next->next->title = redir_heredoc;
+	if(cmd->simpleCmds[del->index]->nofile == 0 && curr->next->next->title == redir_in)
+	{
+		if((fdin = open(lst_token_to_remove2->content, O_RDONLY)) == -1)
+			cmd->simpleCmds[del->index]->nofile = 1;
+		else
+			close(fdin);
+	}
+	curr->next =  curr->next->next->next;//ls
+	ft_lstdelone(&lst_token_to_remove);
+	ft_lstdelone2(&lst_token_to_remove2, cmd->simpleCmds[del->index], del->i, cmd);
+	del->i++;
+	if(curr->next == NULL)
+		cmd->simpleCmds[del->index]->end_simpleCmd_pos = curr->position;
+	return(del);
+}
+
+t_settings_del 	*ft_redir_err_head(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del)
+{
+	//TODO REGLER L ORDRE COMME POUR LES OUT ET IN
+	t_list *lst_token_to_remove;
+	t_list *lst_token_to_remove2;
+
+	(void)lst_token;
+	lst_token_to_remove = curr;
+	lst_token_to_remove2 = curr->next;
+
+	if(cmd->simpleCmds[del->index]->nofile == 0)
+		cmd->simpleCmds[del->index]->nb_of_errfile_before_nofile++;
+
+	curr->next->title = redir_err;
+	ft_lstdelone(&lst_token_to_remove);
+	ft_lstdelone2(&lst_token_to_remove2, cmd->simpleCmds[del->index], del->k, cmd);
+	del->k++;
+	return(del);
+}
+
+t_settings_del *ft_redir_out_head(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del)
+{
+	t_list *lst_token_to_remove;
+	t_list *lst_token_to_remove2;
+
+	lst_token_to_remove = curr;
+	lst_token_to_remove2 = curr->next;
+	if(cmd->simpleCmds[del->index]->nofile == 0)
+		cmd->simpleCmds[del->index]->nb_of_outfile_before_nofile++;
+	if(curr->title == redir_out)
+		curr->next->title = redir_out;
+	if(curr->title == redir_append)
+		curr->next->title = redir_append;
+	if(del->index != 0)
+	{
+		ft_reconnect_lst_token(lst_token, lst_token_to_remove->position);
+		ft_reconnect_lst_token(lst_token, lst_token_to_remove2->position);
+	}
+	ft_lstdelone(&lst_token_to_remove);
+	ft_lstdelone2(&lst_token_to_remove2, cmd->simpleCmds[del->index], del->j, cmd);
+	del->j++;
+	return(del);
+}
+
+t_settings_del	*ft_redir_in_head(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del)
+{
+	t_list *lst_token_to_remove;
+	t_list *lst_token_to_remove2;
+	int fdin;
+
+	lst_token_to_remove = curr;
+	lst_token_to_remove2 = curr->next;
+	if(curr->title == redir_in)
+		curr->next->title = redir_in;
+	if(curr->title == redir_heredoc)
+		curr->next->title = redir_heredoc;
+	if(cmd->simpleCmds[del->index]->nofile == 0  && curr->next->title == redir_in) //J AI RETIRE UN ->next
+	{
+		if((fdin = open(lst_token_to_remove2->content, O_RDONLY)) == -1) //TODO revenir ici
+			cmd->simpleCmds[del->index]->nofile = 1;
+		else
+			close(fdin);
+	}
+	if(del->index != 0)
+	{
+		ft_reconnect_lst_token(lst_token, lst_token_to_remove->position);
+		ft_reconnect_lst_token(lst_token, lst_token_to_remove2->position);
+	}
+	ft_lstdelone(&lst_token_to_remove);
+	ft_lstdelone2(&lst_token_to_remove2, cmd->simpleCmds[del->index], del->i, cmd);
+	del->i++;
+	return(del);
+}
+
+void	ft_flag_head_list(t_cmd *cmd, t_settings_del *del)
+{
+	if(cmd->flag_head_list == -1 && del->index == 0)
+		cmd->flag_head_list = 1;
+}
+
+
+t_list	*ft_middle_redir_token(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del)
+{
+	if(curr->next->title == redir_in || curr->next->title == redir_heredoc)
+		del = ft_redir_in_middle(curr, cmd, lst_token, del);
+	else if(curr->next->title == redir_out || curr->next->title == redir_append)
+		del = ft_redir_out_middle(curr, cmd, lst_token, del);
+	else if(curr->next->title == redir_err)
+		del = ft_redir_err_middle(curr, cmd, lst_token, del);
+	else
+		curr = curr->next;	
+	return(curr);
+}
+
+t_list	*ft_head_redir_token(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del)
+{
+	t_list			*next;
+
+	next = NULL;
+	ft_flag_head_list(cmd, del);
+	next = curr->next->next;
+	if(next && del->index == 0)
+		next->prev = NULL;
+	if(curr->title == redir_in || curr->title == redir_heredoc)
+		del = ft_redir_in_head(curr, cmd, lst_token, del);
+	else if(curr->title == redir_out || curr->title == redir_append)
+		del = ft_redir_out_head(curr, cmd, lst_token, del);
+	else if(curr->title == redir_err)
+		del = ft_redir_err_head(curr, cmd, lst_token, del);
+	curr = next;
+	return(curr);
+}
+
+void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, size_t index, t_list **lst_token, t_cmd *cmd)
+{
+	t_list			*curr;
+	t_settings_del	*del;
+
+	curr = *alst;
 	if(*alst == NULL)
 		return;
+	del = ft_struct_init_settings_del(&del);//proteger del si ==NULL
+	del->index = index;
 	curr = *alst;
 	while (curr !=NULL && curr->next != NULL && (curr->title == redir_out || curr->title == redir_in || curr->title == redir_heredoc || curr->title == redir_err))
-	{
-		if(cmd->flag_head_list == -1 && index == 0)
-			cmd->flag_head_list = 1;
-		lst_token_to_remove = curr;// >
-		lst_token_to_remove2 = curr->next; //outfile
-		next = curr->next->next;//\0
-		
-		if(next && index == 0)
-			next->prev = NULL;
-		else
-			prev = curr->prev;
-
-		if(curr->title == redir_in || curr->title == redir_heredoc)
-		{
-			if(curr->title == redir_in)
-				curr->next->title = redir_in;
-			if(curr->title == redir_heredoc)
-				curr->next->title = redir_heredoc;		
-			if(simpleCmd->nofile == 0  && curr->next->title == redir_in) //J AI RETIRE UN ->next
-			{
-				if((fdin = open(lst_token_to_remove2->content, O_RDONLY)) == -1)
-					simpleCmd->nofile = 1;
-				else
-					close(fdin);
-			}
-			if(index != 0)
-			{
-				ft_reconnect_lst_token(*lst_token, lst_token_to_remove->position);
-				ft_reconnect_lst_token(*lst_token, lst_token_to_remove2->position);
-			}
-
-			ft_lstdelone(&lst_token_to_remove, &parse, simpleCmd, i, 0, cmd);
- 			ft_lstdelone(&lst_token_to_remove2, &parse, simpleCmd, i, 1, cmd);
-
-			i++;
-
-		}
-		else if(curr->title == redir_out || curr->title == redir_append)
-		{
-			if(simpleCmd->nofile == 0)
-					simpleCmd->nb_of_outfile_before_nofile++;
-			if(curr->title == redir_out)
-				curr->next->title = redir_out;
-			if(curr->title == redir_append)
-				curr->next->title = redir_append;
-			
-			if(index != 0)
-			{
-				ft_reconnect_lst_token(*lst_token, lst_token_to_remove->position);
-				ft_reconnect_lst_token(*lst_token, lst_token_to_remove2->position);
-			}
-
-			ft_lstdelone(&lst_token_to_remove, &parse, simpleCmd, j, 0, cmd);
- 			ft_lstdelone(&lst_token_to_remove2, &parse, simpleCmd, j, 1, cmd);
-			j++;
-		}
-		else if(curr->title == redir_err)
-		{
-			if(simpleCmd->nofile == 0)
-					simpleCmd->nb_of_errfile_before_nofile++;
-
-			curr->next->title = redir_err;			
-			ft_lstdelone(&lst_token_to_remove, &parse, simpleCmd, k, 0, cmd);
- 			ft_lstdelone(&lst_token_to_remove2, &parse, simpleCmd, k, 1, cmd);
-			k++;
-		}	
-
-		curr = next;
-		//curr = curr->next->next;
-
-	}
+		curr = ft_head_redir_token(curr, cmd, *lst_token, del);
 	if(cmd->flag_head_list == 1)
 		{
 			*lst_token = curr;
 			cmd->flag_head_list = 0;
 		}
-//	ft_aff_list_ptr_sur_char_content(*lst_token);
 	*alst = curr;
-	while(curr != NULL && (curr->position < simpleCmd->end_simpleCmd_pos) && (curr->next != NULL && curr->next->position < simpleCmd->end_simpleCmd_pos))
-	{
-		if(curr->next->title == redir_in || curr->next->title == redir_heredoc)
-		{
-			lst_token_to_remove = curr->next;
-			lst_token_to_remove2 = curr->next->next;
-
-			//bash syntax error si suivant le > on a un | ou un token fichier inexistant
-			if(curr->next->title == redir_in)
-				curr->next->next->title = redir_in;
-			if(curr->next->title == redir_heredoc)
-				curr->next->next->title = redir_heredoc;
-
-			if(simpleCmd->nofile == 0 && curr->next->next->title == redir_in)
-			{
-				fdin = 21;
-
-			if((fdin = open(lst_token_to_remove2->content, O_RDONLY)) == -1)//open(lst_token_to_remove2->content, O_RDONLY) == -1))
-				simpleCmd->nofile = 1;
-			else
-				close(fdin);
-			}
-			curr->next =  curr->next->next->next;//ls
-			ft_lstdelone(&lst_token_to_remove, &parse, simpleCmd, i, 0, cmd);
-			ft_lstdelone(&lst_token_to_remove2, &parse, simpleCmd, i, 1, cmd);
-			i++;
-			if(curr->next == NULL)
-				simpleCmd->end_simpleCmd_pos = curr->position;
-		}
-		else if(curr->next->title == redir_out || curr->next->title == redir_append)
-		{
-			lst_token_to_remove = curr->next;
-			lst_token_to_remove2 = curr->next->next;
-
-			if(curr->next->title == redir_out)
-				curr->next->next->title = redir_out;
-			if(curr->next->title == redir_append)
-				curr->next->next->title = redir_append;	
-			curr->next = curr->next->next->next;
-			ft_lstdelone(&lst_token_to_remove, &parse, simpleCmd, j, 0, cmd);//semble etre normalise NANI DANS DEBUGGOR CONTENT DE CURR NEXT EST MIS EN ERROR CANNOT ACCESS
-			if(simpleCmd->nofile == 0)
-					simpleCmd->nb_of_outfile_before_nofile++;
-			ft_lstdelone(&lst_token_to_remove2, &parse, simpleCmd, j, 1, cmd);
-			j++;
-			if(curr->next == NULL)
-				simpleCmd->end_simpleCmd_pos = curr->position;
-		}
-		else if(curr->next->title == redir_err)
-		{
-			lst_token_to_remove = curr->next;
-			ft_lstdelone(&lst_token_to_remove, &parse, simpleCmd, k, 0, cmd);
-			curr->next->next->title = redir_err;
-
-			if(simpleCmd->nofile == 0)
-					simpleCmd->nb_of_errfile_before_nofile++;
-
-			lst_token_to_remove2 = curr->next->next;
-			curr->next = curr->next->next->next;
-			ft_lstdelone(&lst_token_to_remove2, &parse, simpleCmd, k, 1, cmd);
-			k++;
-			if(curr->next == NULL)
-				simpleCmd->end_simpleCmd_pos = curr->position;
-		}
-		else
-			curr = curr->next;
-	}
-
+	while(curr != NULL && (curr->position < cmd->simpleCmds[del->index]->end_simpleCmd_pos) && (curr->next != NULL && curr->next->position < cmd->simpleCmds[del->index]->end_simpleCmd_pos))
+		curr = ft_middle_redir_token(curr, cmd, *lst_token, del);
+	ft_free_struct_t_settings_del(&del);
 }
 
 t_list 	*ft_readjust_start_lst_token(t_list *start_lst_token, t_cmd *cmd, size_t i)
@@ -262,27 +295,24 @@ void	ft_malloc_heredocs_of_cmd(t_cmd *cmd)
 
 int ft_get_last_heredoc_index(int *tab, int len)
 {
-	int last_positiv_value;
 	int simpleCmd_index;
 
+	len = len - 1;
+	simpleCmd_index = len;
 	if(!len)
 		return (0);
-	last_positiv_value = tab[--len];
-	simpleCmd_index = len;
 	while(len >= 0)
 	{
 		if(tab[len] == 0)
 			len = len -1;
 		else
 		{
-			last_positiv_value = tab[len];
 			simpleCmd_index = len;
 			break;
 		}
 	}
 	return (simpleCmd_index);
 }
-
 
 int ft_get_max_heredoc_index(int *tab, int len)
 {
@@ -303,7 +333,6 @@ int ft_get_max_heredoc_index(int *tab, int len)
 	}
 	return (simpleCmd_index);
 }
-
 
 void	ft_tag_last_heredoc_in_infile(t_simpleCmd *simpleCmd)
 {
@@ -368,22 +397,19 @@ int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_t
 	exec_return = 0;
 	i = 0;
 	start_lst_token = lst_token;
-
 	ft_malloc_heredocs_of_cmd(cmd);
-
 	while (i < cmd->nb_of_simpleCmds && start_lst_token != NULL)
 	{
 		ft_get_end_simpleCmd_pos(cmd, cmd->simpleCmds[i], &start_lst_token); 
 		ft_count_nb_of_redir_token_in_simpleCmd(cmd, cmd->simpleCmds[i], start_lst_token, i);
 		ft_malloc_redir_file_tabs_of_simpleCmd(cmd->simpleCmds[i]);
 		if(cmd->simpleCmds[i]->nb_of_redir_token > 0)
-			ft_del_and_parse_redir_token_in_simpleCmd(&start_lst_token, cmd->simpleCmds[i], i, &lst_token, cmd);
+			ft_del_and_parse_redir_token_in_simpleCmd(&start_lst_token, i, &lst_token, cmd);
 		ft_aff_list_ptr_sur_char_content(lst_token);
 		ft_count_final_nb_of_tokens_in_simpleCmd(start_lst_token, cmd->simpleCmds[i]);
 		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(start_lst_token, cmd->simpleCmds[i]);
 		if(start_lst_token != NULL)
 			start_lst_token = ft_readjust_start_lst_token(start_lst_token, cmd, i);
-
 		i++;
 	}
 	ft_get_last_heredoc_position(cmd);

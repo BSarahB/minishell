@@ -50,7 +50,7 @@ int	ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 		close(set->saveout);
 		return(exec_return);
 	}
-
+	//cmd->simpleCmds[i]->cmd_and_args[0] = '\0'; ASK NANI
 	if (execve(cmd->simpleCmds[i]->cmd_and_args[0], cmd->simpleCmds[i]->cmd_and_args, envp) == -1)
 		exec_return = ft_execve_join(cmd, envp, cmd->simpleCmds[i]->abs_cmd_and_args);
 	if (exec_return == -1 && (errno == 2 || errno == 13))

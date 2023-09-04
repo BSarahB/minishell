@@ -127,7 +127,7 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, t_
 	t_settings	*set;
 
 	//ft_aff_abs_cmd_and_args(cmd);
-	set = ft_struct_init_settings(&set);
+	set = ft_struct_init_settings(&set); //todo proteger si set ==NULL
 	if(cmd->simpleCmds[set->i] == NULL)
 		return 0;//TODO rectifier le bon exit status
 	ft_save_in_and_out(set);//sauvegardes des vrais in et out
@@ -151,3 +151,17 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, t_
 	ft_free_struct_t_settings(&set);
 	return(exit_status);
 }
+
+
+//FIXME
+/* ~ ls | <nofile  ls | wc -l
+minishell: nofile: No such file or directory
+12
+*/
+
+/*FIXME 
+ <nofile ls | <infile  wc -l >outfile >outfile2 <nofile | wc -l
+minishell: nofile: No such file or directory
+minishell: nofile: No such file or directory
+1 --> normalement 0
+*/

@@ -774,3 +774,13 @@ minishell: nofile: No such file or directory
 //FIXME
 ~ <infile >outfile <infile <<A | ls <infile
 ->FD EST OUVERT (PIPE)
+
+//TODO
+heredoc
+<<A bash
+>echo bonjour
+>exit 12
+>A
+va display bonjour 
+et echo $? donner 
+12

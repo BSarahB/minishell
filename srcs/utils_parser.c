@@ -12,68 +12,74 @@
 
 #include "minishell.h"
 
-void	parse(char *content, t_simpleCmd *simpleCmd, size_t i, int title,int tag_expand, t_cmd *cmd)
+void	ft_parse(t_list *lst, t_simpleCmd *simpleCmd, size_t i, t_cmd *cmd)
 {
-	if(title == redir_out || title == redir_append)
+	if(lst->title == redir_out || lst->title == redir_append)
 	{
-		simpleCmd->outfile[i] = ft_strdup(content);
+		simpleCmd->outfile[i] = ft_strdup(lst->content);
 	
 		if(i == simpleCmd->nb_of_outfile -1)
 			simpleCmd->outfile[i + 1] = NULL;
-		if(title == redir_append)
+		if(lst->title == redir_append)
 			simpleCmd->append_track_index[i] = 1;
 		
 
 	} 
-	if(title == redir_in || title == redir_heredoc)
+	if(lst->title == redir_in || lst->title == redir_heredoc)
 	{
-		simpleCmd->infile[i] = ft_strdup(content);
+		simpleCmd->infile[i] = ft_strdup(lst->content);
 		if(i == simpleCmd->nb_of_infile -1)
 			simpleCmd->infile[i + 1] = NULL;
-		if(title == redir_heredoc)
+		if(lst->title == redir_heredoc)
 			simpleCmd->heredoc_track_index[i] = 1;
-		if(tag_expand == 1)
+		if(lst->tag_expand == 1)
 			simpleCmd->heredoc_track_index[i] = 2;
 
 		
 	}
-	if(title == redir_heredoc)
+	if(lst->title == redir_heredoc)
 	{
-		simpleCmd->heredoc[simpleCmd->k] = ft_strdup(content);
+		simpleCmd->heredoc[simpleCmd->k] = ft_strdup(lst->content);
 		
 		if(simpleCmd->k == simpleCmd->nb_of_heredoc -1)
 			simpleCmd->heredoc[simpleCmd->k + 1] = NULL;
 		simpleCmd->k = simpleCmd->k + 1;
 
-		cmd->heredocs[cmd->k] =ft_strdup(content); //ft_strdup(content);
+		cmd->heredocs[cmd->k] =ft_strdup(lst->content); //ft_strdup(content);
 		if(cmd->k == cmd->nb_of_heredocs -1)
 			cmd->heredocs[cmd->k + 1] = NULL;
 		cmd->k = cmd->k +1; //ICI l index sera +1 a la sortie .... si on voulait s en servir pour recuperer last .... il faut mettre le else
 
 	}
-	if(title == redir_err)
+	if(lst->title == redir_err)
 	{
-		simpleCmd->errfile[i] = ft_strdup(content);
+		simpleCmd->errfile[i] = ft_strdup(lst->content);
 		if(i == simpleCmd->nb_of_errfile -1)
 			simpleCmd->errfile[i + 1] = NULL;
 	}
 }
 
-void	ft_lstdelone(t_list **lst, void(*parse)(char *content, t_simpleCmd *simpleCmd, size_t i, int title, int tag_expand, t_cmd *cmd), t_simpleCmd *simpleCmd, size_t i, int redir, t_cmd *cmd)
+
+
+void	ft_lstdelone2(t_list **lst, t_simpleCmd *simpleCmd, size_t i, t_cmd *cmd)
 {
-	 if(*lst && parse)
+	 if(*lst)
 	 {
-		if(redir == 1)
-			{
-				parse((*lst)->content, simpleCmd, i, (*lst)->title, (*lst)->tag_expand, cmd);
+		
+		ft_parse(*lst, simpleCmd, i, cmd);
+		free((*lst)->content);
+		(*lst)->content = NULL;
+		free(*lst);
+		*lst = NULL;
+	 }
+}
 
-			}
 
-		//free ts les mallocs ici de str etc...
-		if(redir == 0)
-			free((*lst)->content);
-		if(redir == 1)
-			free((*lst)->content);
+void	ft_lstdelone(t_list **lst)
+{
+	 if(*lst)
+	 {
+		free((*lst)->content);
 		(*lst)->content = NULL;
 		free(*lst);
 		*lst = NULL;
