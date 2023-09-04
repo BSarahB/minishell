@@ -49,6 +49,20 @@ int	ft_expand_exists(t_list *lst_token)
 	return (0);
 }
 
+int ft_check_expand(t_list *lst_token)
+{
+	//compter le nb d expand ici
+	printf("expand here\n");
+	if(ft_expand_exists(lst_token) == 1)
+	lst_token->expand_exists = 1;
+	if(lst_token->expand_exists == 0)
+	{
+		lst_token->tag_ambigeous = 1;
+		lst_token->prev->title = redir_in;
+	}
+	return(1);
+}
+
 int ft_find_expand(t_list *lst_token)
 {
 	char *str;
@@ -68,18 +82,8 @@ int ft_find_expand(t_list *lst_token)
 	{
 		quoting_rule_adequate = ft_get_token_quoting_rule2(str, i, &quoting_rule, &quoting_rule_adequate);
 		if(str[i] == '$' && quoting_rule != 1) //&& que $ n est pas suivi de '\0' ->suivi de \0 signifie que ce n est pas un expand , mais simplement un caractere $
-			{
-			//compter le nb d expand ici
-				printf("expand valid\n");
-				if(ft_expand_exists(lst_token) == 1)
-					lst_token->expand_exists = 1;
-				if(lst_token->expand_exists == 0)
-					{
-						lst_token->tag_expand = 1;
-						lst_token->prev->title = redir_in;
-					}
-					return(1);
-			}
+			if(ft_check_expand(lst_token) == 1)
+                return(1);
 		i++;
 	}
 	return(0);
@@ -95,7 +99,6 @@ void ft_tag_expand(t_list *lst_token)
 	tmp = lst_token;
 	if(tmp == NULL)
 		return;
-
 	while(lst_token)
 	{
 		if(lst_token->title == redir_out || lst_token->title == redir_append || lst_token->title == redir_in)
@@ -107,7 +110,6 @@ void ft_tag_expand(t_list *lst_token)
 				return;
 			}
 		}
-		
 		lst_token = lst_token->next;
 	}
 lst_token = tmp;

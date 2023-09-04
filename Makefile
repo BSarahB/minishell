@@ -38,9 +38,9 @@ SRCS	=	$(SRC_DIR)/main.c \
 			$(SRC_DIR)/parse_redir_middle_token.c \
 			$(SRC_DIR)/del_and_parse.c \
 			$(SRC_DIR)/lst_token_2.c \
-			$(SRC_DIR)/expand_and_retokenize.c
-
-
+			$(SRC_DIR)/expand_and_retokenize.c \
+			$(SRC_DIR)/del_and_parse_2.c \
+			$(SRC_DIR)/display_error_2.c
 
 OBJS = $(SRCS:.c=.o)
 

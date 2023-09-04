@@ -30,27 +30,19 @@ int	ft_execve_join(t_cmd *cmd, char **envp, char **abs_cmd_and_args)
 	}
 	return (exec_return);
 }
-
+// int execve(const char *pathname, char *const argv[], char *const envp[]);
 int	ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 {
-	// int execve(const char *pathname, char *const argv[], char *const envp[]);
 	int exec_return;
 
 	exec_return = 0;
 	(void)cmd;
-	if(cmd->simpleCmds[i] == NULL)
+	if(cmd->simpleCmds[i] == NULL || cmd->simpleCmds[i]->cmd_and_args == NULL)
 	{
 		close(set->savein);
 		close(set->saveout);
 		return(exec_return);
 	}
-	if(cmd->simpleCmds[i]->cmd_and_args == NULL)
-	{
-		close(set->savein);
-		close(set->saveout);
-		return(exec_return);
-	}
-	//cmd->simpleCmds[i]->cmd_and_args[0] = '\0'; ASK NANI
 	if (execve(cmd->simpleCmds[i]->cmd_and_args[0], cmd->simpleCmds[i]->cmd_and_args, envp) == -1)
 		exec_return = ft_execve_join(cmd, envp, cmd->simpleCmds[i]->abs_cmd_and_args);
 	if (exec_return == -1 && (errno == 2 || errno == 13))
@@ -61,13 +53,8 @@ int	ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 			ft_putstr_fd("\n", 2);
 			ft_free_struct_t_cmd(&cmd);
 			return(exec_return);
-
 		}
-	//printf("%d\n",((cmd->simpleCmds[0])->errnum));
-		//est ce judicieux de free ici? ou ne vaut il mieux pas free tout a la fin?
 	ft_free_tab(&(cmd->simpleCmds[i]->cmd_and_args));
 	ft_free_tab(&(cmd->simpleCmds[i]->abs_cmd_and_args));
-	//ft_free_struct_t_cmd(&cmd);
 	return (exec_return);
-
 }

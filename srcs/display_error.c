@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-
 int		find_length(int n)
 {
 	int length;
@@ -52,23 +51,6 @@ char	*ft_itoa(int n)
 	return (result);
 }
 
-
-
-int	ft_check_close_error(int fd)
-{
-	if (close(fd) == -1)
-	{
-		perror("minishell");
-		return (1);
-	}
-	return (0);
-}
-
-void	ft_error(char *const str)
-{
-	ft_putstr_fd(str, 2);
-}
-
 void	ft_error_heredoc(char *const str, int line_count)
 {
 	char *result;
@@ -84,31 +66,15 @@ void	ft_error_heredoc(char *const str, int line_count)
 	free(result);
 }
 
-void	ft_error_msg3(char *str)
+int	ft_check_close_error(int fd)
 {
-	ft_error("minishell: ");
-	ft_error(str);//ON DOIT REMPLACER ARGV[1] par le nom d INFILE (normalement cela est la 1 ere simple_cmd) (verifier l impact d un infile dans un block)
-	ft_error(": ambiguous redirect");
-	ft_error("\n");
+	if (close(fd) == -1)
+	{
+		perror("minishell");
+		return (1);
+	}
+	return (0);
 }
-
-
-void	ft_error_msg2(char *str)
-{
-	ft_error("minishell: ");
-	ft_error("syntax error near unexpected token ");
-	ft_error(str);//ON DOIT REMPLACER ARGV[1] par le nom d INFILE (normalement cela est la 1 ere simple_cmd) (verifier l impact d un infile dans un block)
-	ft_error("\n");
-}
-
-void	ft_error_msg(char *infile)
-{
-	ft_error("minishell: ");
-	ft_error(infile);//ON DOIT REMPLACER ARGV[1] par le nom d INFILE (normalement cela est la 1 ere simple_cmd) (verifier l impact d un infile dans un block)
-	ft_error(": No such file or directory");
-	ft_error("\n");
-}
-
 	//GESTION DE CAS OU INFILE OU OUTFILE S OUVRE PAS
 int	ft_check_open_error(int fdin, int fdout, t_cmd *cmd)
 {

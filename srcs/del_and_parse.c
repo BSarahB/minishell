@@ -38,7 +38,7 @@ void    ft_parse_redir_in(t_list *lst, t_simpleCmd *simpleCmd, size_t i)
 		simpleCmd->infile[i + 1] = NULL;
 	if(lst->title == redir_heredoc)
 		simpleCmd->heredoc_track_index[i] = 1;
-	if(lst->tag_expand == 1)
+	if(lst->tag_ambigeous == 1)
 		simpleCmd->heredoc_track_index[i] = 2;		
 }
 
@@ -61,28 +61,4 @@ void	ft_parse(t_list *lst, t_simpleCmd *simpleCmd, size_t i, t_cmd *cmd)
         ft_parse_redir_heredoc(lst, simpleCmd, cmd);
 	if(lst->title == redir_err)
         ft_parse_redir_err(lst, simpleCmd, i);
-}
-
-void	ft_lstdelone2(t_list **lst, t_simpleCmd *simpleCmd, size_t i, t_cmd *cmd)
-{
-	 if(*lst)
-	 {
-		
-		ft_parse(*lst, simpleCmd, i, cmd);
-		free((*lst)->content);
-		(*lst)->content = NULL;
-		free(*lst);
-		*lst = NULL;
-	 }
-}
-
-void	ft_lstdelone(t_list **lst)
-{
-	 if(*lst)
-	 {
-		free((*lst)->content);
-		(*lst)->content = NULL;
-		free(*lst);
-		*lst = NULL;
-	 }
 }
