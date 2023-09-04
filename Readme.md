@@ -763,6 +763,15 @@ et la librairie est dans le linkage des fichiers .o
 
 
 
+//VERIFIER je ne sais pas si j ai regle ces pbs deja je pense que oui
+// TODO : comparer quand cat est en deniere simple command cat outfile22 ne marche pas .
+// build-my_minishell-Desktop_GCC-Debug ls | wc -l | cat outfile22
+// 19
+//  build-my_minishell-Desktop_GCC-Debug ls | wc -l>outfile22 | cat outfile22
+// pas de resultat on a le prompt directement
+
+
+
 //FIXME
  ~ <infile  >outfile 33wc -l <infile <nofile >outfile
 minishell: infile: No such file or directory
@@ -794,3 +803,44 @@ LEAKS
 ==632313== Open file descriptor 5:
 ==632313==    at 0x49DD22D: pipe (pipe.c:29)
 ==632313==    by 0x406A3B: ft_regular_simpleCmd
+
+LEAKS
+~ <infile >>outfile ls | wc -l <infile >outfile <nofile >outfile <<B
+ > B
+minishell: nofile: No such file or directory
+==646832== 
+==646832== FILE DESCRIPTORS: 4 open (3 std) at exit.
+==646832== Open file descriptor 5: /dev/pts/6
+==646832==    at 0x49DD19B: dup (syscall-template.S:120)
+==646832==    by 0x40668A: ft_last_simpleCmd (in /mnt/nfs/homes/mbenmesb/Documents/my_minishell/minishell)
+
+LEAKS
+ ~ ~ <infile >>outfile ls | wc -l <infile <<B
+ > B
+~: command not found: 
+==647188== Invalid read of size 8
+==647188==    at 0x40408E: ft_free_tab (in /mnt/nfs/homes/mbenmesb/Documents/my_minishell/minishell)
+==647188==    by 0x4043A5: ft_free_struct_t_cmd (in /mnt/nfs/homes/mbenmesb/Documents/my_minishell/minishell)
+==647188==    by 0x4070A4: ft_free (in /mnt/nfs/homes/mbenmesb/Documents/my_minishell/minishell)
+==647188==    by 0x403D06: ft_child_process 
+
+LEAKS
+~ ~ | ls
+~: command not found: 
+build  CMakeCache.txt  CMakeFiles  cmake_install.cmake	CMakeLists.txt	CMakeLists.txt.user  ignore_rl_leaks  includes	infile	Makefile  Makefile_CMAke  minishell  outfile  Readme.md  srcs
+==647675== 
+==647675== FILE DESCRIPTORS: 5 open (3 std) at exit.
+==647675== Open file descriptor 6:
+==647675==    at 0x49DD22D: pipe (pipe.c:29)
+==647675==    by 0x406A7B: ft_regular_simpleCmd (in /mnt/nfs/homes/mbenmesb/Documents/my_minishell/minishell)
+==647675==    by 0x403EFE: ft_setting_redirections_and_pipes (in /mnt/nfs/homes/mbenmesb/Documents/my_minishell/minishell)
+==647675==    by 0x401367: main (in /mnt/nfs/homes/mbenmesb/Documents/my_minishell/minishell)
+==647675== 
+==647675== Open file descriptor 5: /dev/pts/6
+==647675==    at 0x49DD19B: dup (syscall-template.S:120)
+==647675==    by 0x40668A: ft_last_simpleCmd 
+
+
+
+//NORMEME
+void ft_get_token_quoting_rule(char *str, t_list *lst_token, size_t i) //NORMEME >25 lignes

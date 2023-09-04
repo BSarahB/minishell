@@ -200,6 +200,9 @@ void			ft_aff_list_ptr_sur_char_content(t_list *alst); // pour void		*content; d
 size_t			ft_char_is_whitespace(char *str, char *line, size_t i, t_data *data);
 int 			ft_char_isnull_no_qr(char *line, size_t i, t_data *data);
 int 			ft_get_token_type(char *str, t_list *token, t_data *data, size_t i, char *line);
+int				ft_get_token_type_great_or_greatgreat(char *str, t_data *data, size_t i, char *line);
+int				ft_get_token_type_less_or_lessless(char *str, t_data *data, size_t i, char *line);
+int				ft_get_token_type_pipe(char *str, t_data *data, size_t i, char *line);
 size_t 			ft_char_is_operator(char *line, size_t i, t_data *data);
 void 			ft_char_after_ws_token_exist_no_qr(char *line, size_t i, t_data *data);
 size_t 			ft_char_after_ws_is_operator_no_token_exists_no_qr(size_t i, char *line, t_data *data);

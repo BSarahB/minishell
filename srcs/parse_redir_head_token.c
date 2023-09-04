@@ -21,10 +21,8 @@ t_settings_del 	*ft_redir_err_head(t_list *curr, t_cmd *cmd, t_list *lst_token, 
 	(void)lst_token;
 	lst_token_to_remove = curr;
 	lst_token_to_remove2 = curr->next;
-
 	if(cmd->simpleCmds[del->index]->nofile == 0)
 		cmd->simpleCmds[del->index]->nb_of_errfile_before_nofile++;
-
 	curr->next->title = redir_err;
 	ft_lstdelone(&lst_token_to_remove);
 	ft_lstdelone2(&lst_token_to_remove2, cmd->simpleCmds[del->index], del->k, cmd);
