@@ -89,7 +89,6 @@ char **ft_malloc_heredoc_tab(t_simpleCmd *simpleCmd)
 	return(heredoc);
 }
 
-
 void	ft_malloc_redir_file_tabs_of_simpleCmd(t_simpleCmd *simpleCmd)
 {
 	if(simpleCmd->nb_of_redir_token != 0)

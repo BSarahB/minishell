@@ -12,6 +12,18 @@
 
 #include "minishell.h"
 
+size_t	ft_strlen(const char *s)
+{
+	size_t i;
+
+	i = 0;
+	if(s == NULL)
+		return (0);
+	while (s[i])
+		i++;
+	return (i);
+}
+
 void *ft_memcpy(void *dst, const void *src, size_t n)
 {
 	unsigned char *s;

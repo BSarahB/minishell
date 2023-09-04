@@ -266,6 +266,8 @@ void ft_get_token_content_lengh_for_malloc(t_list *token, size_t start_token_pos
 void *ft_memcpy(void *dst, const void *src, size_t n);
 void *ft_memset(void *b, char c, size_t len);
 int ft_strcmp(char *s1, char *s2);
+size_t	ft_strlen(const char *s);
+
 
 void ft_aff_list_ptr_sur_char_content(t_list *alst); // pour void		*content; de type char *
 void ft_simplify_list(t_list *lst);
@@ -302,6 +304,40 @@ int		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(t_list *lst_token, t_simp
 char	**ft_get_abs_argumentsb(char **abs_c_and_a);
 void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, size_t index, t_list **lst_token, t_cmd *cmd);
 int *ft_init_ctab(int **int_tab, size_t len, int init_value);
+void ft_reconnect_lst_token(t_list *lst_token, size_t position);
+t_list 	*ft_readjust_start_lst_token(t_list *start_lst_token, t_cmd *cmd, size_t i);
+
+
+//parse_redir_head_token.c
+t_list	*ft_head_redir_token(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del);
+void	ft_flag_head_list(t_cmd *cmd, t_settings_del *del);
+t_settings_del	*ft_redir_in_head(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del);
+t_settings_del *ft_redir_out_head(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del);
+t_settings_del 	*ft_redir_err_head(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del);
+
+//parse_redir_middle_token.c
+t_list	*ft_middle_redir_token(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del);
+t_settings_del *ft_redir_in_middle(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del);
+t_settings_del *ft_redir_out_middle(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del);
+t_settings_del *ft_redir_err_middle(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del);
+
+//parse_heredoc.c 
+void	ft_get_last_heredoc_position(t_cmd *cmd);
+void	ft_tag_last_heredoc_in_infile(t_simpleCmd *simpleCmd);
+int ft_get_max_heredoc_index(int *tab, int len);
+int ft_get_last_heredoc_index(int *tab, int len);
+void	ft_malloc_heredocs_of_cmd(t_cmd *cmd);
+void	ft_count_nbr_of_heredocs_in_cmd_line(t_cmd *cmd);
+char	**ft_malloc_heredocs_tab(t_cmd *cmd);
+
+//del_and_parse.c
+void	ft_lstdelone(t_list **lst);
+void	ft_lstdelone2(t_list **lst, t_simpleCmd *simpleCmd, size_t i, t_cmd *cmd);
+void	ft_parse(t_list *lst, t_simpleCmd *simpleCmd, size_t i, t_cmd *cmd);
+void    ft_parse_redir_out(t_list *lst, t_simpleCmd *simpleCmd, size_t i);
+void    ft_parse_redir_in(t_list *lst, t_simpleCmd *simpleCmd, size_t i);
+void    ft_parse_redir_heredoc(t_list *lst, t_simpleCmd *simpleCmd, t_cmd *cmd);
+void    ft_parse_redir_err(t_list *lst, t_simpleCmd *simpleCmd, size_t i);
 
 
 
@@ -338,6 +374,18 @@ void	ft_open_outfiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cm
 
 //char	*ft_swap_ptr(char **token_content, char *blank_node);
 char	*ft_strdup(const char *s);
+
+
+//expand.c
+int ft_get_token_quoting_rule2(char *str, size_t i, int *quoting_rule, int *quoting_rule_adequate);
+int	ft_expand_exists(t_list *lst_token);
+int ft_find_expand(t_list *lst_token);
+void ft_tag_expand(t_list *lst_token);
+void	ft_modify_lst_token(t_list *lst_token);
+
+//heredoc.c
+void	ft_heredoc_interaction(t_cmd *cmd, size_t i, int mode);
+
 
 
 #endif

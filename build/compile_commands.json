@@ -128,5 +128,45 @@
   "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
   "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/utils_settings_redirections.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils_settings_redirections.c",
   "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils_settings_redirections.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/heredoc_interaction.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/heredoc_interaction.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/heredoc_interaction.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/update_free_memory_3.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/update_free_memory_3.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/update_free_memory_3.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/expand.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/expand.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/expand.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/parse_heredoc.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/parse_heredoc.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/parse_heredoc.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/parse_heredoc_2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/parse_heredoc_2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/parse_heredoc_2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/parse_redir_head_token.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/parse_redir_head_token.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/parse_redir_head_token.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/parse_redir_middle_token.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/parse_redir_middle_token.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/parse_redir_middle_token.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/del_and_parse.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/del_and_parse.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/del_and_parse.c"
 }
 ]
