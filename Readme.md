@@ -795,7 +795,7 @@ et echo $? donner
 12
 
 LEAKS
-<<A | <<B
+<<A | <<B   
  > A
  > B
 ==632313== 
@@ -803,6 +803,16 @@ LEAKS
 ==632313== Open file descriptor 5:
 ==632313==    at 0x49DD22D: pipe (pipe.c:29)
 ==632313==    by 0x406A3B: ft_regular_simpleCmd
+
+
+~ ls <<A |  <<B
+ > 
+ > A
+ > B
+
+=================================================================
+==664161==ERROR: LeakSanitizer: detected memory leaks
+
 
 LEAKS
 ~ <infile >>outfile ls | wc -l <infile >outfile <nofile >outfile <<B

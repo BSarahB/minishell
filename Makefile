@@ -7,7 +7,6 @@ SRCS	=	$(SRC_DIR)/main.c \
 			$(SRC_DIR)/shell_lexer.c \
 			$(SRC_DIR)/shell_parser.c \
 			$(SRC_DIR)/parsing_lst_token_in_cmd_and_args.c \
-			$(SRC_DIR)/parsing_redir_lst_token.c \
 			$(SRC_DIR)/utils_parser.c \
 			$(SRC_DIR)/utils_parser2_malloc_redir_files.c \
 			$(SRC_DIR)/utils.c \
@@ -40,7 +39,9 @@ SRCS	=	$(SRC_DIR)/main.c \
 			$(SRC_DIR)/lst_token_2.c \
 			$(SRC_DIR)/expand_and_retokenize.c \
 			$(SRC_DIR)/del_and_parse_2.c \
-			$(SRC_DIR)/display_error_2.c
+			$(SRC_DIR)/display_error_2.c \
+			$(SRC_DIR)/get_token_type.c
+
 
 OBJS = $(SRCS:.c=.o)
 

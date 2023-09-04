@@ -307,4 +307,7 @@ int				 ft_check_expand(t_list *lst_token);
 void			ft_modify_lst_token(t_list *lst_token);
 //heredoc.c
 void			ft_heredoc_interaction(t_cmd *cmd, size_t i, int mode);
+int 			ft_open_heredoc_hidden_file(int mode, int fd);
+void 			ft_get_EOF(t_cmd *cmd, size_t i, char *line_heredoc, int fd);
+
 #endif

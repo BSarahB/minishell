@@ -12,6 +12,77 @@
 
 #include "minishell.h"
 
+
+void ft_get_EOF(t_cmd *cmd, size_t i, char *line_heredoc, int fd)
+{
+	while (1)
+	{
+		signal(SIGQUIT, SIG_IGN);
+   		line_heredoc = readline(" > ");
+		cmd->line_count++;
+		if(line_heredoc != NULL)
+		{
+			if(ft_strcmp(line_heredoc, cmd->heredocs[i]) == 0)
+			{
+				if(i  == cmd->k -1)
+					break;
+				else
+					{
+						if(cmd->heredocs[++i])
+						{
+							close(fd);//proteger le close
+							ft_heredoc_interaction(cmd, i, 2);
+						}
+						break;
+					}
+			}
+			write(fd, line_heredoc, ft_strlen(line_heredoc));
+			write(fd, "\n", 1);
+		}
+		if (!line_heredoc)
+		{
+			cmd->line_count = cmd->line_count -1;						
+			ft_error_heredoc(cmd->heredocs[i], cmd->line_count);
+			if(cmd->heredocs[++i])
+				ft_heredoc_interaction(cmd, i, 2);
+			break;
+		}
+		add_history(line_heredoc); 
+	}
+	
+}
+
+int ft_open_heredoc_hidden_file(int mode, int fd)
+{
+	if(mode == 1)
+		fd = open(".heredoc", O_CREAT | O_RDWR | O_APPEND, 0644);
+	if(mode == 2)
+		fd = open(".heredoc", O_CREAT | O_RDWR | O_TRUNC, 0644);
+	if(fd == -1)
+	{
+		perror("minishell");
+		exit(1);
+	}
+	return(fd);
+}
+
+void	ft_heredoc_interaction(t_cmd *cmd, size_t i, int mode)
+{
+	char	*line_heredoc;
+	int		fd;
+
+	fd = -1;
+	line_heredoc = NULL;
+	fd = ft_open_heredoc_hidden_file(mode, fd);
+
+	ft_get_EOF(cmd, i, line_heredoc, fd);
+	if(fd)
+		close(fd);
+}
+
+
+
+/* //Original avant factorisation
 void	ft_heredoc_interaction(t_cmd *cmd, size_t i, int mode)
 {
 	char	*line_heredoc;
@@ -50,7 +121,6 @@ void	ft_heredoc_interaction(t_cmd *cmd, size_t i, int mode)
 			{
 				if(i  == cmd->k -1)
 				{
-				//	close(fd);
 					break;
 				}
 				else
@@ -83,3 +153,6 @@ void	ft_heredoc_interaction(t_cmd *cmd, size_t i, int mode)
 	if(fd)
 		close(fd);
 }
+
+
+*/
