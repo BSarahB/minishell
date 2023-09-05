@@ -188,5 +188,10 @@
   "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
   "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/get_token_type.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_token_type.c",
   "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_token_type.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/heredoc_interaction_2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/heredoc_interaction_2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/heredoc_interaction_2.c"
 }
 ]

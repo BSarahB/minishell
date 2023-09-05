@@ -314,6 +314,10 @@ int 			ft_open_heredoc_hidden_file(int mode, int fd);
 void 			ft_get_EOF(t_cmd *cmd, size_t i, char *line_heredoc, int fd);
 void			ft_recursiv(t_cmd *cmd, size_t i, int fd);
 void			ft_fill_heredocument(int fd, char *line_heredoc);
+int 			ft_last_heredoc(t_cmd *cmd, char *line_heredoc, size_t i);
+void			ft_add_history_and_free_rl(char *line_heredoc);
+void			ft_heredoc_input_is_null(t_cmd *cmd, size_t i);
+
 
 
 #endif

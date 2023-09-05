@@ -27,8 +27,7 @@ int	ft_get_token_type_pipe(t_list *token, t_data *data, size_t i, char *line)
 }
 
 int	ft_get_token_type_less_or_lessless(char *str, t_list *token, t_data *data, size_t i, char *line)
-{
-	// si loperateur est colle au token ls|grep c
+{// si loperateur est colle au token ls|grep c
 	if ((*(str + 1)) != 0 && data->token->start_token_pos_exists == 0)
 	{
 		if ((*str == '<') && (*(str + 1) == '<'))

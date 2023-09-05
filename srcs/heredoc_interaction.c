@@ -38,13 +38,8 @@ void ft_get_EOF(t_cmd *cmd, size_t i, char *line_heredoc, int fd)
 		{
 			if(ft_strcmp(line_heredoc, cmd->heredocs[i]) == 0)
 			{
-				if(i  == cmd->k -1) //last_heredoc
-				{
-					add_history(line_heredoc); 
-					free(line_heredoc);
+				if(ft_last_heredoc(cmd, line_heredoc, i) ==1)
 					break;
-				}
-					
 				else
 					{
 						ft_recursiv(cmd, i, fd);
@@ -55,14 +50,10 @@ void ft_get_EOF(t_cmd *cmd, size_t i, char *line_heredoc, int fd)
 		}
 		if (!line_heredoc)
 		{
-			cmd->line_count = cmd->line_count -1;						
-			ft_error_heredoc(cmd->heredocs[i], cmd->line_count);
-			if(cmd->heredocs[++i])
-				ft_heredoc_interaction(cmd, i, 2);
+			ft_heredoc_input_is_null(cmd, i);
 			break;
 		}
-		add_history(line_heredoc); 
-		free(line_heredoc);
+	ft_add_history_and_free_rl(line_heredoc);
 	}	
 }
 
@@ -93,7 +84,6 @@ void	ft_heredoc_interaction(t_cmd *cmd, size_t i, int mode)
 	if(fd)
 		close(fd);
 }
-
 
 
 /* //Original avant factorisation

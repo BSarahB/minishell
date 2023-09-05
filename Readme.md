@@ -784,6 +784,8 @@ minishell: nofile: No such file or directory
 ~ <infile >outfile <infile <<A | ls <infile
 ->FD EST OUVERT (PIPE)
 
+
+POUR LES LEAKS SUR LES HEREDOC  SIMPLEMENT FAIRE LE MEME COMPORTEMENT QUE LES INFILES QUI EUX N ONT PAS DE LEAKS voir ce quil manque que j ai oublie de fermer fd pipe  
 //TODO
 heredoc
 <<A bash
@@ -793,6 +795,16 @@ heredoc
 va display bonjour 
 et echo $? donner 
 12
+
+
+~ <<A <<B   sans commande. car avec commande pas de leaks
+ > A
+ > B
+
+=================================================================
+==97023==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 2 byte(s) in 1 object(s) allocated from:
 
 LEAKS
 <<A | <<B   
@@ -836,7 +848,8 @@ LEAKS
 
 LEAKS
 ~ ~ | ls
-~: command not found: 
+~: command not found: on devrait avoir:  bash: /mnt/nfs/homes/mbenmesb: Is a directory (probablement a implementer avec cd)
+
 build  CMakeCache.txt  CMakeFiles  cmake_install.cmake	CMakeLists.txt	CMakeLists.txt.user  ignore_rl_leaks  includes	infile	Makefile  Makefile_CMAke  minishell  outfile  Readme.md  srcs
 ==647675== 
 ==647675== FILE DESCRIPTORS: 5 open (3 std) at exit.
@@ -867,3 +880,25 @@ void ft_get_token_quoting_rule(char *str, t_list *lst_token, size_t i) //NORMEME
 //FIXME
 LEXING -->BUG introduit lors de la factorisation d hier: 
 ls|wc le pipe colle n est pas bien determine 
+
+
+//FIXME
+/* ~ ls | <nofile  ls | wc -l
+minishell: nofile: No such file or directory
+12  ->normalement 0 : comme ls <nofile |wc -l qui donne bien 0
+*/
+
+<infile ls >outfile | <<A <<B wc -l <infile <<C  >outfile  REQUEST PEER : JE NE COMPRENDS PAS PKOI outfile n a pas ete ecrase par le wc -l qui prendrait normalement le <<C comme infile
+
+
+
+/*FIXME 
+ <nofile ls | <infile  wc -l >outfile >outfile2 <nofile | wc -l
+minishell: nofile: No such file or directory
+minishell: nofile: No such file or directory
+1 --> normalement 0
+*/
+
+
+//FACTORIZE
+get_token_type.c ->il y a un parametre en trop
