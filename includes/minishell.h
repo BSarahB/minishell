@@ -8,7 +8,7 @@
 #include <readline/history.h>
 #include <sys/types.h> //pour open les 3 directives de preprocesseur
 #include <sys/stat.h>
-#include <fcntl.h> //pr pipe
+#include <fcntl.h> //pr pipe pr unlink
 #include <errno.h>
 #include <sys/wait.h> //pour le waitpid
 #include <signal.h>
@@ -309,5 +309,7 @@ void			ft_modify_lst_token(t_list *lst_token);
 void			ft_heredoc_interaction(t_cmd *cmd, size_t i, int mode);
 int 			ft_open_heredoc_hidden_file(int mode, int fd);
 void 			ft_get_EOF(t_cmd *cmd, size_t i, char *line_heredoc, int fd);
+void			ft_recursiv(t_cmd *cmd, size_t i, int fd);
+void			ft_fill_heredocument(int fd, char *line_heredoc);
 
 #endif

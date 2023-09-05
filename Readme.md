@@ -851,6 +851,24 @@ build  CMakeCache.txt  CMakeFiles  cmake_install.cmake	CMakeLists.txt	CMakeLists
 ==647675==    by 0x40668A: ft_last_simpleCmd 
 
 
+ ~ <<A WC -L             //on dirait qu apres un heredoc si une commande not found   nest 								pas trouve cela fait un leaks
+ > A
+WC: command not found: 
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==33526==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x0000004d8c89 bp 0x7fffffffd800 sp 0x7fffffffd7c0 T0)
+==33526==The signal is caused by a READ memory access.
+
+
 
 //NORMEME
 void ft_get_token_quoting_rule(char *str, t_list *lst_token, size_t i) //NORMEME >25 lignes
+
+
+//FIXME
+<<A wc -l
+ > dl
+ > del
+ > A
+13
+IL FAUT AVOIR VIDE LE FICHIER A entre les readline

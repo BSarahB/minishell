@@ -12,6 +12,21 @@
 
 #include "minishell.h"
 
+void ft_fill_heredocument(int fd, char *line_heredoc)
+{
+	write(fd, line_heredoc, ft_strlen(line_heredoc));
+	write(fd, "\n", 1);
+}
+
+
+void	ft_recursiv(t_cmd *cmd, size_t i, int fd)
+{
+	if(cmd->heredocs[++i])
+	{
+		close(fd);//proteger le close
+		ft_heredoc_interaction(cmd, i, 2);
+	}
+}
 
 void ft_get_EOF(t_cmd *cmd, size_t i, char *line_heredoc, int fd)
 {
@@ -24,20 +39,20 @@ void ft_get_EOF(t_cmd *cmd, size_t i, char *line_heredoc, int fd)
 		{
 			if(ft_strcmp(line_heredoc, cmd->heredocs[i]) == 0)
 			{
-				if(i  == cmd->k -1)
+				if(i  == cmd->k -1) //last_heredoc
+				{
+					add_history(line_heredoc); 
+					free(line_heredoc);
 					break;
+				}
+					
 				else
 					{
-						if(cmd->heredocs[++i])
-						{
-							close(fd);//proteger le close
-							ft_heredoc_interaction(cmd, i, 2);
-						}
+						ft_recursiv(cmd, i, fd);
 						break;
 					}
 			}
-			write(fd, line_heredoc, ft_strlen(line_heredoc));
-			write(fd, "\n", 1);
+			ft_fill_heredocument(fd, line_heredoc);
 		}
 		if (!line_heredoc)
 		{
@@ -48,8 +63,8 @@ void ft_get_EOF(t_cmd *cmd, size_t i, char *line_heredoc, int fd)
 			break;
 		}
 		add_history(line_heredoc); 
-	}
-	
+		free(line_heredoc);
+	}	
 }
 
 int ft_open_heredoc_hidden_file(int mode, int fd)

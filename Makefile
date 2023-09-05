@@ -47,8 +47,7 @@ OBJS = $(SRCS:.c=.o)
 
 RM = rm -f
 
-CFLAGS = -Wall -Wextra -Werror -I $(INCLUDE_DIR) # -fsanitize=address -fsanitize=leak
-
+CFLAGS = -Wall -Wextra -Werror -I $(INCLUDE_DIR) -fsanitize=address -fsanitize=leak
 all:		$(NAME)
 
 
@@ -56,7 +55,7 @@ all:		$(NAME)
 		$(CC) $(CFLAGS) -c $< -o $(<:.c=.o) 
 
 $(NAME):	$(OBJS)
-	$(CC) -o $@ $^ -lreadline #-lasan -lreadline
+	$(CC) -o $@ $^ -lasan -lreadline #-lasan -lreadline
 
 clean:
 			$(RM) $(OBJS) 

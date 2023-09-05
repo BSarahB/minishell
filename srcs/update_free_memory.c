@@ -137,7 +137,10 @@ void	ft_free_struct_t_cmd(t_cmd **cmd)
 	if((*cmd)->heredocs_track_index != NULL)
 		ft_free_struct_int_tab(&(*cmd)->heredocs_track_index);
 	if((*cmd)->nb_of_heredocs != 0)
-		ft_free_tab(&(*cmd)->heredocs);
+		{
+			ft_free_tab(&(*cmd)->heredocs);
+			unlink(".heredoc");
+		}
 	
 }
 
