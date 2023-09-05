@@ -44,13 +44,12 @@ int ft_is_char_operand(char *str, t_list *lst_token)
 		return (GREAT);
 	if (*str == '<')
 		return (LESS);
-	if ((*str == '>') && (*(str - 1) == '>')) // mettre str pour checker l element precedent TODO : proteger str d un index qui n exste pas
-		return (GREATGREAT);				  // TODO risque de segfault a str index 0
-											  // LESSLESS << pour les heredocs : faire plus de recherches sur les heredocs
-	if ((*str == '&') && (*(str - 1) == '>')) // proteger egalement d un ouot of range se proteger de segfault en mettant la condition d existence
+	if ((*str == '>') && (*(str - 1) == '>'))
+		return (GREATGREAT);
+	if ((*str == '&') && (*(str - 1) == '>'))
 		return (GREAT_AND_AMPERSAND);
 	if (*str == '|')
-		return (PIPE); //		<|>,<|>,<|>   je me souviens plus pkoi j ai mis ceux la....CQFD
+		return (PIPE);
 	if (*str == '&')
 		return (AMPERSAND);
 	return (0);

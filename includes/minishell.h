@@ -200,9 +200,9 @@ void			ft_aff_list_ptr_sur_char_content(t_list *alst); // pour void		*content; d
 size_t			ft_char_is_whitespace(char *str, char *line, size_t i, t_data *data);
 int 			ft_char_isnull_no_qr(char *line, size_t i, t_data *data);
 int 			ft_get_token_type(char *str, t_list *token, t_data *data, size_t i, char *line);
-int				ft_get_token_type_great_or_greatgreat(char *str, t_data *data, size_t i, char *line);
-int				ft_get_token_type_less_or_lessless(char *str, t_data *data, size_t i, char *line);
-int				ft_get_token_type_pipe(char *str, t_data *data, size_t i, char *line);
+int				ft_get_token_type_great_or_greatgreat(char *str, t_list *token, t_data *data, size_t i, char *line);
+int				ft_get_token_type_less_or_lessless(char *str, t_list *token, t_data *data, size_t i, char *line);
+int				ft_get_token_type_pipe(t_list *token, t_data *data, size_t i, char *line);
 size_t 			ft_char_is_operator(char *line, size_t i, t_data *data);
 void 			ft_char_after_ws_token_exist_no_qr(char *line, size_t i, t_data *data);
 size_t 			ft_char_after_ws_is_operator_no_token_exists_no_qr(size_t i, char *line, t_data *data);
@@ -298,6 +298,9 @@ void    		ft_open_infiles(t_settings *set, t_cmd *cmd);
 //*****last simpleCmd : 
 void			ft_last_simpleCmd(t_settings *set, t_cmd *cmd);
 void			ft_open_outfiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd, int k);
+int 			ft_set_fdin_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd, int flag_random_heredoc);
+void 			ft_set_fdin_error_msg(t_settings *set, t_cmd *cmd);
+
 //expand.c
 int 			ft_get_token_quoting_rule2(char *str, size_t i, int *quoting_rule, int *quoting_rule_adequate);
 int				ft_expand_exists(t_list *lst_token);
@@ -311,5 +314,6 @@ int 			ft_open_heredoc_hidden_file(int mode, int fd);
 void 			ft_get_EOF(t_cmd *cmd, size_t i, char *line_heredoc, int fd);
 void			ft_recursiv(t_cmd *cmd, size_t i, int fd);
 void			ft_fill_heredocument(int fd, char *line_heredoc);
+
 
 #endif

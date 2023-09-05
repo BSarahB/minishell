@@ -18,7 +18,6 @@ void ft_fill_heredocument(int fd, char *line_heredoc)
 	write(fd, "\n", 1);
 }
 
-
 void	ft_recursiv(t_cmd *cmd, size_t i, int fd)
 {
 	if(cmd->heredocs[++i])

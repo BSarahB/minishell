@@ -79,7 +79,7 @@ int	ft_check_close_error(int fd)
 int	ft_check_open_error(int fdin, int fdout, t_cmd *cmd)
 {
 	(void)cmd;
-	if (fdin == -1)//si c est une erreur sur l ouverture open de infile, 
+	if (fdin == -1)
 	{
 		return (1);
 	}

@@ -11,6 +11,36 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
+void ft_set_fdin_error_msg(t_settings *set, t_cmd *cmd)
+{
+	if(set->fdin == -1)
+		ft_error_msg(cmd->simpleCmds[set->i]->infile[set->j]);
+	if(set->fdin == -2)
+		ft_error_msg(cmd->simpleCmds[set->i]->infile[set->j]);
+}
+
+int 	ft_set_fdin_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd, int flag_random_heredoc)
+{
+	if(set->j != 0 && set->fdin)//TODO proteger des pbs a l ouverture
+	{
+		if(flag_random_heredoc == 1)
+			flag_random_heredoc = 0;
+		else
+			close(set->fdin);
+	}
+	if(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == 1)
+		flag_random_heredoc = 1;	
+	if(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == 42)
+		set->fdin = open(".heredoc", O_RDONLY); //open(cmd->simpleCmds[set->i]->infile[set->j], O_RDONLY);
+	else
+	{
+		if(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == -1)
+			set->fdin = open(cmd->simpleCmds[set->i]->infile[set->j], O_RDONLY);//TODO cmt rendre compte du nom du inputfile si on ne le connait pas
+		if(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == 2)
+			set->fdin = -2;
+	}
+	return(flag_random_heredoc);
+}
 
 void	ft_open_infiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd)
 {
@@ -19,32 +49,10 @@ void	ft_open_infiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd
 	flag_random_heredoc = 0;
 	while(set->j < cmd->simpleCmds[set->i]->nb_of_infile)
 	{	
-		if(set->j != 0 && set->fdin)//TODO proteger des pbs a l ouverture
-			{
-				if(flag_random_heredoc == 1)
-					flag_random_heredoc = 0;
-				else
-					close(set->fdin);
-			}
-		if(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == 1)
-			flag_random_heredoc = 1;	
-		if(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == 42)
-			{set->fdin = 7;
-			set->fdin = open(".heredoc", O_RDONLY); //open(cmd->simpleCmds[set->i]->infile[set->j], O_RDONLY);
-			}
-		else
-			{
-				if(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == -1)
-					set->fdin = open(cmd->simpleCmds[set->i]->infile[set->j], O_RDONLY);//TODO cmt rendre compte du nom du inputfile si on ne le connait pas
-				if(cmd->simpleCmds[set->i]->heredoc_track_index[set->j] == 2)
-					set->fdin = -2;
-			}
-		if(set->fdin == -1 || set->fdin == -2) //ft_check open error quand on refactorisera plus tard
+		flag_random_heredoc = ft_set_fdin_in_last_but_not_first_simpleCmd(set, cmd, flag_random_heredoc);
+		if(set->fdin == -1 || set->fdin == -2)
 		{
-			if(set->fdin == -1)
-				ft_error_msg(cmd->simpleCmds[set->i]->infile[set->j]);
-			if(set->fdin == -2)
-				ft_error_msg(cmd->simpleCmds[set->i]->infile[set->j]);
+			ft_set_fdin_error_msg(set, cmd);
 			if(cmd->simpleCmds[set->i]->outfile != NULL && cmd->simpleCmds[set->i]->nb_of_outfile_before_nofile != 0)
 			{
 				size_t k = 0;

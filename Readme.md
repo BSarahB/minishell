@@ -864,11 +864,6 @@ AddressSanitizer:DEADLYSIGNAL
 //NORMEME
 void ft_get_token_quoting_rule(char *str, t_list *lst_token, size_t i) //NORMEME >25 lignes
 
-
 //FIXME
-<<A wc -l
- > dl
- > del
- > A
-13
-IL FAUT AVOIR VIDE LE FICHIER A entre les readline
+LEXING -->BUG introduit lors de la factorisation d hier: 
+ls|wc le pipe colle n est pas bien determine 

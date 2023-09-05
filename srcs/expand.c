@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-
 int ft_get_token_quoting_rule2(char *str, size_t i, int *quoting_rule, int *quoting_rule_adequate)
 {	
 	char c;
@@ -106,7 +105,7 @@ void ft_tag_expand(t_list *lst_token)
 			if(ft_find_expand(lst_token->next) == 1)
 			{
 				nb_of_expand++;
-				printf(" nb of expand : %d ", nb_of_expand);
+				//printf(" nb of expand : %d ", nb_of_expand);
 				return;
 			}
 		}
