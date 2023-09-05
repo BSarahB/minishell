@@ -13,8 +13,7 @@
 #include "minishell.h"
 
 t_settings_del *ft_redir_err_middle(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del)
-{
-	//TODO REGLER L ORDRE COMME POUR LES OUT ET IN
+{//TODO REGLER L ORDRE COMME POUR LES OUT ET IN
 	t_list *lst_token_to_remove;
 	t_list *lst_token_to_remove2;
 

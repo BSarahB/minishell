@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-
 int ft_get_last_heredoc_index(int *tab, int len)
 {
 	int simpleCmd_index;

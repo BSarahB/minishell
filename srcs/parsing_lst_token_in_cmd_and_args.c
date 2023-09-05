@@ -19,7 +19,6 @@ char	**ft_get_abs_argumentsb(char **abs_c_and_a)
 	slash[0] = '/';
 	slash[1] = 0;
 	ft_update_string(&abs_c_and_a[0], ft_strjoin(slash, abs_c_and_a[0]));
-	
 	return (abs_c_and_a);
 }
 

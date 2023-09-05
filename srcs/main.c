@@ -52,12 +52,3 @@ int main(int argc, char *argv[], char *envp[])
 	}
 	return (exit_status);
 }
-//idee: creer une liste chainee ou je mets les pointeurs qui viennent d etre malloc, et a la fin je free depuis la fin tous les pointeurs en remontant jusquau debut de la liste
-//TODO:
-/*~ ls << A| wc <<B
- > A
- > B
-/wc: 'standard input': Bad file descriptor
-/wc: -: Bad file descriptor
-/wc: write error
-*/

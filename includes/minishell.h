@@ -295,6 +295,8 @@ void			ft_open_outfiles(t_settings *set, t_cmd *cmd);
 //****regular simpleCmd:
 void			ft_regular_simpleCmd(t_settings *set, t_cmd *cmd);
 void    		ft_open_infiles(t_settings *set, t_cmd *cmd);
+int     		ft_set_fdin_for_regular_simpleCmd(t_settings *set, t_cmd *cmd, int flag_random_heredoc);
+
 //*****last simpleCmd : 
 void			ft_last_simpleCmd(t_settings *set, t_cmd *cmd);
 void			ft_open_outfiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd, int k);
@@ -317,7 +319,5 @@ void			ft_fill_heredocument(int fd, char *line_heredoc);
 int 			ft_last_heredoc(t_cmd *cmd, char *line_heredoc, size_t i);
 void			ft_add_history_and_free_rl(char *line_heredoc);
 void			ft_heredoc_input_is_null(t_cmd *cmd, size_t i);
-
-
 
 #endif
