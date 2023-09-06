@@ -37,7 +37,9 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], int ret, t_data
 	int	exec_return;
 
 	if(ret == 0)
-	{			
+	{		
+		printf("here\n");
+	
 		exec_return = ft_execute_cmd(cmd, set->i, envp, set);
 		if (exec_return == -1 && (errno == 2 || errno == 13))
 		{	
@@ -91,7 +93,6 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, t_
 	ft_restore_original_in_and_out(set);	//restauration des sauvegardes des vrais in et out 
 	ft_free_struct_t_settings(&set);
 	return(exit_status);
-	return 0;
 }
 //int 	wstatus;
 //waitpid(ret, &wstatus, 0);

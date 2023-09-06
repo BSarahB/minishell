@@ -36,7 +36,6 @@ int	ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 	int exec_return;
 
 	exec_return = 0;
-	(void)cmd;
 	if(cmd->simpleCmds[i] == NULL || cmd->simpleCmds[i]->cmd_and_args == NULL)
 	{
 		close(set->savein);

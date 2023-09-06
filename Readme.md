@@ -762,9 +762,12 @@ et la librairie est dans le linkage des fichiers .o
  #-lasan == dynamique == necessite installation sur ordi VS -static-libasan == STATIC == inclus dans l executable ==pas de necessite d installation sur l ordi pour verfier $ldconfig -p  pour lister les librairies de l ordi
 
 
-
+SE DEFENDRE A LA CORRECTION : ASK
  ls >outfile | wc >outfile
  ~ cat outfile a un comportement indefini. si le correcteur insiste : inverser les cmds : wc >o | ls >o pour lui montrer le mis & match
+
+<infile ls >outfile | <<A <<B wc -l <infile <<C  >outfile  IDEM qu au dessus outfile n a pas ete ecrase par le wc -l qui prendrait normalement le <<C comme infile (inverser les commandes pour tester)
+
 
 
 //VERIFIER je ne sais pas si j ai regle ces pbs deja je pense que oui
@@ -774,10 +777,6 @@ et la librairie est dans le linkage des fichiers .o
 //  build-my_minishell-Desktop_GCC-Debug ls | wc -l>outfile22 | cat outfile22
 // pas de resultat on a le prompt directement
 
-
-//FIXME
-~ <infile >outfile <infile <<A | ls <infile
-->FD EST OUVERT (PIPE)
 
 
 POUR LES LEAKS SUR LES HEREDOC  SIMPLEMENT FAIRE LE MEME COMPORTEMENT QUE LES INFILES QUI EUX N ONT PAS DE LEAKS voir ce quil manque que j ai oublie de fermer fd pipe  
@@ -821,15 +820,6 @@ LEAKS
 ==664161==ERROR: LeakSanitizer: detected memory leaks
 
 
-LEAKS
-~ <infile >>outfile ls | wc -l <infile >outfile <nofile >outfile <<B
- > B
-minishell: nofile: No such file or directory
-==646832==
-==646832== FILE DESCRIPTORS: 4 open (3 std) at exit.
-==646832== Open file descriptor 5: /dev/pts/6
-==646832==    at 0x49DD19B: dup (syscall-template.S:120)
-==646832==    by 0x40668A: ft_last_simpleCmd (in /mnt/nfs/homes/mbenmesb/Documents/my_minishell/minishell)
 
 LEAKS
  ~ ~ <infile >>outfile ls | wc -l <infile <<B
@@ -871,11 +861,6 @@ AddressSanitizer:DEADLYSIGNAL
 void ft_get_token_quoting_rule(char *str, t_list *lst_token, size_t i) //NORMEME >25 lignes
 get_token_type.c
 shell_lexer : ft_char_is_operatr
-
-
-//FIXME
-
-<infile ls >outfile | <<A <<B wc -l <infile <<C  >outfile  REQUEST PEER : JE NE COMPRENDS PAS PKOI outfile n a pas ete ecrase par le wc -l qui prendrait normalement le <<C comme infile
 
 
 

@@ -41,7 +41,10 @@ int ft_set_fdin_for_first_s_cmd_w_infile(t_settings *set, t_cmd *cmd, int flag_r
 	if(set->j != 0 && set->fdin)//TODO proteger des pbs a l ouverture
 	{
 		if(flag_random_heredoc == 1)
-			flag_random_heredoc = 0;
+			{
+				flag_random_heredoc = 0;
+				close(set->fdin);
+			}
 		else
 			close(set->fdin);
 	}
