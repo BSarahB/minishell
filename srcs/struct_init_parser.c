@@ -26,7 +26,6 @@ char *ft_init_cstring(char **str, size_t len, char init_value)
 {
 	*str = malloc(sizeof(char) * (len + 1));
 	if (!(*str))
-
 		return (NULL);
 	if (len > 0)
 		ft_memset(*str, init_value, len);
@@ -34,11 +33,9 @@ char *ft_init_cstring(char **str, size_t len, char init_value)
 	return (*str);
 }
 
-t_simpleCmd *ft_struct_init_simpleCmd(t_simpleCmd **simpleCmd, char init_value)
+t_simpleCmd *ft_struct_init_simpleCmd(t_simpleCmd **simpleCmd)
 {
-	(void)init_value;
 	*simpleCmd = (t_simpleCmd *)malloc(sizeof(t_simpleCmd));
-
 	if (!(*simpleCmd))
 		return (NULL);
 	(*simpleCmd)->number_of_arguments = 0;
@@ -102,7 +99,7 @@ size_t	ft_count_simpleCmds_nbr(t_list *lst_token)
 		return (simpleCmd_nbr);
 }
 
-t_cmd	*ft_struct_init_cmd(t_cmd **cmd, char init_value, t_list *lst_token)
+t_cmd	*ft_struct_init_cmd(t_cmd **cmd,t_list *lst_token)
 {
 	size_t 		k;
 	size_t 		nbr_of_simpleCmds;
@@ -110,7 +107,6 @@ t_cmd	*ft_struct_init_cmd(t_cmd **cmd, char init_value, t_list *lst_token)
 	int			*heredocs_track_index;
 
 	k = 0;
-	(void)init_value;
 	heredocs_track_index = NULL;
 	//TODO METTRE A NULL ICI LES VARIABLES AVANT DE LES MALLOC
 	nbr_of_simpleCmds = ft_count_simpleCmds_nbr(lst_token);
@@ -123,7 +119,7 @@ t_cmd	*ft_struct_init_cmd(t_cmd **cmd, char init_value, t_list *lst_token)
 		return (NULL);
 	while(k < nbr_of_simpleCmds)
 	{
-		(*cmd)->simpleCmds[k] = ft_struct_init_simpleCmd(&simpleCmd, 0);
+		(*cmd)->simpleCmds[k] = ft_struct_init_simpleCmd(&simpleCmd);
 		k++;
 	}
 	(*cmd)->simpleCmds[k] = 0;
@@ -131,7 +127,6 @@ t_cmd	*ft_struct_init_cmd(t_cmd **cmd, char init_value, t_list *lst_token)
 	(*cmd)->heredocs_track_index = ft_init_ctab(&heredocs_track_index, nbr_of_simpleCmds, 0);
 	if (!((*cmd)->heredocs_track_index))
 		return (NULL);
-	
 	(*cmd)->nb_of_heredocs = 0;
 	(*cmd)->k = 0;
 	(*cmd)->line_count = 0;

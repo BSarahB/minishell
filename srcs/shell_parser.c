@@ -40,7 +40,6 @@ void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, size_t index, t_li
 	t_list			*curr;
 	t_settings_del	*del;
 
-
 	curr = *alst;
 	if(*alst == NULL)
 		return;
@@ -63,7 +62,7 @@ void	ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, size_t index, t_li
 t_list 	*ft_readjust_start_lst_token(t_list *start_lst_token, t_cmd *cmd, size_t i)
 {
 	while(start_lst_token->position < cmd->simpleCmds[i]->end_simpleCmd_pos)
-		start_lst_token = start_lst_token->next;//il faut ramener a end_token_pos
+		start_lst_token = start_lst_token->next;
 	if(start_lst_token->position == cmd->simpleCmds[i]->end_simpleCmd_pos)
 		start_lst_token = start_lst_token->next;
 	return(start_lst_token);
@@ -71,23 +70,19 @@ t_list 	*ft_readjust_start_lst_token(t_list *start_lst_token, t_cmd *cmd, size_t
 
 t_list	*ft_lst_first(t_list *lst)
 {
-
 	if(!lst)
 		return (NULL);
 	while (lst->prev)
 		lst = lst->prev;
 	return(lst);
-
 }
 
-int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_token)
+int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, t_list *lst_token)
 {
 	int		exec_return;
 	size_t	i;
 	t_list	*start_lst_token;
 
-	(void)line;
-	(void)envp;
 	exec_return = 0;
 	i = 0;
 	start_lst_token = lst_token;

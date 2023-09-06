@@ -25,7 +25,6 @@ void	ft_count_final_nb_of_tokens_in_simpleCmd(t_list *start_lst_token, t_simpleC
 	while (tmp !=NULL && tmp->position < simpleCmd->end_simpleCmd_pos)
 	{
 		token_in_simpleCmd_nbr++;
-
 		tmp = tmp->next;
 	}
 	if(tmp !=NULL && tmp->position == simpleCmd->end_simpleCmd_pos && tmp->title != operator)
@@ -37,11 +36,35 @@ void	ft_count_final_nb_of_tokens_in_simpleCmd(t_list *start_lst_token, t_simpleC
 	simpleCmd->nb_of_tokens_in_simpleCmd = token_in_simpleCmd_nbr;
 }
 
+t_list *ft_count_nb_of_redir_append_in_sCmd(t_simpleCmd *simpleCmd, t_list *tmp)
+{
+	simpleCmd->nb_of_outfile++;
+	simpleCmd->nb_of_redir_token =simpleCmd->nb_of_redir_token + 2;
+	tmp = tmp->next;
+	return(tmp);
+}
+
+
+t_list *ft_count_nb_of_redir_err_in_sCmd(t_simpleCmd *simpleCmd, t_list *tmp)
+{
+	simpleCmd->nb_of_errfile++;
+	simpleCmd->nb_of_redir_token =simpleCmd->nb_of_redir_token + 2;
+	tmp = tmp->next;
+	return(tmp);
+}
+
+t_list *ft_count_nb_of_redir_out_in_sCmd(t_simpleCmd *simpleCmd, t_list *tmp)
+{
+	simpleCmd->nb_of_outfile++;
+	simpleCmd->nb_of_redir_token = simpleCmd->nb_of_redir_token + 2;
+	tmp = tmp->next;
+	return(tmp);
+}
+
  void	ft_count_nb_of_redir_token_in_simpleCmd(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list *start_lst_token, size_t i)
  {
-	t_list *tmp;
-	(void)cmd;
-	int k;
+	t_list	*tmp;
+	int		k;
 
 	k = 0;
 	tmp = start_lst_token;
@@ -50,7 +73,7 @@ void	ft_count_final_nb_of_tokens_in_simpleCmd(t_list *start_lst_token, t_simpleC
 		if(tmp->title == redir_in || tmp->title == redir_heredoc)
 		{
 			simpleCmd->nb_of_infile++;
-			simpleCmd->nb_of_redir_token =simpleCmd->nb_of_redir_token +2;
+			simpleCmd->nb_of_redir_token =simpleCmd->nb_of_redir_token + 2;
 			if(tmp->title == redir_heredoc)
 			{
 				k++;
@@ -60,25 +83,11 @@ void	ft_count_final_nb_of_tokens_in_simpleCmd(t_list *start_lst_token, t_simpleC
 			tmp =tmp->next;
 		}
 		else if(tmp->title == redir_out)
-		{	
-			
-			simpleCmd->nb_of_outfile++;
-			simpleCmd->nb_of_redir_token =simpleCmd->nb_of_redir_token +2;
-			tmp = tmp->next;
-		}
+			tmp = ft_count_nb_of_redir_out_in_sCmd(simpleCmd, tmp);
 		else if(tmp->title == redir_append)
-		{
-			simpleCmd->nb_of_outfile++;
-			simpleCmd->nb_of_redir_token =simpleCmd->nb_of_redir_token +2;
-			tmp = tmp->next;
-		}
+			tmp = ft_count_nb_of_redir_append_in_sCmd(simpleCmd, tmp);
 		else if(tmp->title == redir_err)
-		{
-			simpleCmd->nb_of_errfile++;
-			simpleCmd->nb_of_redir_token =simpleCmd->nb_of_redir_token +2;
-			tmp = tmp->next;
-		}
-		
+			tmp = ft_count_nb_of_redir_err_in_sCmd(simpleCmd, tmp);
 		tmp = tmp->next;
 	}
  }

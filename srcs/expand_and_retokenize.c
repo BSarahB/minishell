@@ -80,3 +80,20 @@ void	ft_get_token_function(char c,t_list *lst_token)
 
 }
 */
+	// je verifie pour chaque char  :  la rule, le type, la function, le content,
+	//TODO
+	// apres avoir determine et delimite notre token dans son content on va pouvoir effectuer l expansion si necessaire
+	// ft_get_token_expansion(c, lst_token);
+
+	// une fois qu on a termine de delimiter notre token et qu on a effectue son expand, on va s occuper de le RETOKENIZER au besoin :  2 conditions pour retokenizer le token :
+	//  1/SI ET SEULEMENT SI on est en WS_Separator rule : on derva RETOKENIZER le token et 2/SI ET SEULEMENT SI on a pas un caractere qui vient annuler le trim and clear et retokenisation
+	// par ex :  $VAR$ le $ a la fin vient annuler le retokenize donc si export VAR="       5       esp    " $VAR$ sera command not found en bloc$(donc pas de retokenization) puisque $VAR$est un token donc on subistitue lexpand mais le $ de fin reste evidemment.
+	// echo $VAR$ : on aura un bloc non trime et non clear
+	// donc on refait un tour de trim and clear
+
+	//	if (lst_token->retokenize_token_allowed == 1 && lst_token->quoting_rule == 0 == whitespace_separator rule)//verifier le caractere qui suit la substitution et les 2 conditions ci dessus
+	//		ft_trim_and_clear_and_retokenize_token(lst_token);
+	// else : quote removal
+	//	ft_quote_removal : yes si quoting rule == 1 ou 2 soit sq ou dq*/
+		//ft_retrim_and_clear()
+	//ft_retokenize()

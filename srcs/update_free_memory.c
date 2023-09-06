@@ -29,49 +29,6 @@ void	ft_free_struct_t_list_lst_token(t_list **lst_token)
 	}
 }
 
-void	ft_free_tab2(char ***tab)
-{
-	int	i;
-
-	i = 0;
-
-	if ((*tab)[i])
-	{
-		ft_free_struct_str(&(*tab)[i]);
-	}
-	if (*tab != NULL)
-	{
-		free(*tab);
-		*tab = NULL;
-	}
-}
-
-void	ft_free_tab(char ***tab)//&tab    (**)
-{
-	int	i;
-
-	i = 0;
-
-	while ((*tab)[i]) //
-	{
-		ft_free_struct_str(&(*tab)[i]);
-		i++;
-	}
-	if (*tab != NULL)
-	{
-		free(*tab);
-		*tab = NULL;
-	}
-}
-
-void	ft_free_struct_int_tab(int **p)
-{
-	if (*p != NULL)
-	{
-		free(*p);
-		*p = NULL;
-	}
-}
 
 void	ft_free_struct_t_simpleCmd(t_simpleCmd **simpleCmd)
 {
@@ -144,11 +101,16 @@ void	ft_free_struct_t_cmd(t_cmd **cmd)
 	
 }
 
-void	ft_free_struct_t_cmd_only(t_cmd **cmd)
+void	ft_free(t_cmd *cmd, t_list *lst_token, t_data *data, char *line)
 {
-	if (*cmd != NULL)
+	ft_free_struct_str(&line);
+	if (cmd != NULL)
+		ft_free_struct_t_cmd(&cmd);
+	else
 	{
-		free(*cmd);
-		*cmd = NULL;
+		if(lst_token)
+			ft_free_struct_t_list_lst_token(&lst_token);
 	}
+	ft_free_struct_t_data(&data);
 }
+

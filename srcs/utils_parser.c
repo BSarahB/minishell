@@ -12,6 +12,26 @@
 
 #include "minishell.h"
 
+void *ft_memset2(void *b, int n, size_t len)
+{
+	size_t i;
+
+	i = 0;
+	while (i < len)
+		((int *)b)[i++] = n;
+	return (b);
+}
+
+int *ft_init_ctab(int **int_tab, size_t len, int init_value)
+{
+	*int_tab = malloc(sizeof(int) * (len + 1));
+	if (!(*int_tab))
+		return (NULL);
+	if (len > 0)
+		ft_memset2(*int_tab, init_value, len);
+	(*int_tab)[len] = '\0';
+	return (*int_tab);
+}
 
 void	ft_get_end_simpleCmd_pos(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list **start_lst_token)
 {
@@ -35,7 +55,6 @@ void	ft_get_end_simpleCmd_pos(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list **start
 		tmp = tmp->next;
 	}
 }
-
 //fcts utiles au deboggage
 void	ft_aff_abs_cmd_and_args(t_cmd	*cmd)
 {

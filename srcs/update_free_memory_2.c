@@ -19,9 +19,7 @@ void    ft_free_struct_t_settings_del(t_settings_del **del)
 		free(*del);
 		*del = NULL;
 	}
-
 }
-
 
 void    ft_free_struct_t_settings(t_settings **set)
 {
@@ -30,7 +28,6 @@ void    ft_free_struct_t_settings(t_settings **set)
         free(*set);
         *set = NULL;
     }
-
 }
 
 void    ft_free_struct_t_list_token(t_list **token)

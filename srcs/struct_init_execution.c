@@ -17,7 +17,6 @@ t_settings	*ft_struct_init_settings(t_settings **set)
 	*set = (t_settings *)malloc(sizeof(t_settings));
 	if(!(*set))
 		return(0);//cqfd NULL
-	
 	(*set)->fdin = 0;
 	(*set)->fdout = 0;
 	(*set)->i = 0;
@@ -33,13 +32,9 @@ t_settings_del	*ft_struct_init_settings_del(t_settings_del **del)
 	*del = (t_settings_del *)malloc(sizeof(t_settings_del));
 	if(!(*del))
 		return(0);//cqfd NULL
-
-//	(*del)->fdin = 0;
 	(*del)->i = 0;
 	(*del)->j = 0;
 	(*del)->k = 0;
 	(*del)->index = 0;
-
-
 	return(*del);
 }

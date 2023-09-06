@@ -12,28 +12,6 @@
 
 #include "minishell.h"
 
-
-void *ft_memset2(void *b, int n, size_t len)
-{
-	size_t i;
-
-	i = 0;
-	while (i < len)
-		((int *)b)[i++] = n;
-	return (b);
-}
-
-int *ft_init_ctab(int **int_tab, size_t len, int init_value)
-{
-	*int_tab = malloc(sizeof(int) * (len + 1));
-	if (!(*int_tab))
-		return (NULL);
-	if (len > 0)
-		ft_memset2(*int_tab, init_value, len);
-	(*int_tab)[len] = '\0';
-	return (*int_tab);
-}
-
 char **ft_malloc_errfile_tab(t_simpleCmd *simpleCmd)
 {
 	char **errfile;
@@ -76,7 +54,6 @@ char **ft_malloc_outfile_tab(t_simpleCmd *simpleCmd)
 	return(outfile);
 }
 
-
 char **ft_malloc_heredoc_tab(t_simpleCmd *simpleCmd)
 {
 	char **heredoc;
@@ -101,6 +78,5 @@ void	ft_malloc_redir_file_tabs_of_simpleCmd(t_simpleCmd *simpleCmd)
 			simpleCmd->errfile = ft_malloc_errfile_tab(simpleCmd);
 		if(simpleCmd->nb_of_heredoc != 0)
 			simpleCmd->heredoc = ft_malloc_heredoc_tab(simpleCmd);
-			
 	}
 }

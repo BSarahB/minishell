@@ -40,9 +40,9 @@ int main(int argc, char *argv[], char *envp[])
 		if(ft_check_bash_syntax_error_caracteres_volee(lst_token) == 0)
 		{	
 			ft_modify_lst_token(lst_token);
-			cmd = ft_struct_init_cmd(&cmd, 0, lst_token);
+			cmd = ft_struct_init_cmd(&cmd, lst_token);
 			cmd->path_tab = ft_get_path(envp);	
-			ft_parse_tokens_in_s_cmd(cmd, line, envp, lst_token);
+			ft_parse_tokens_in_s_cmd(cmd, lst_token);
 			if(cmd->nb_of_heredocs != 0)
 				ft_heredoc_interaction(cmd, 0, 1);
 			exit_status = ft_setting_redirections_and_pipes(cmd, envp, data, lst_token, line);

@@ -12,20 +12,55 @@
 
 #include "minishell.h"
 
-void	ft_free(t_cmd *cmd, t_list *lst_token, t_data *data, char *line)
+void	ft_free_tab2(char ***tab)
 {
-	ft_free_struct_str(&line);
+	int	i;
 
-	if (cmd != NULL)
-		{
-			ft_free_struct_t_cmd(&cmd);
-			
-		}
-	else
-		{
-			if(lst_token)
-				ft_free_struct_t_list_lst_token(&lst_token);
-		}
+	i = 0;
 
-	ft_free_struct_t_data(&data);
+	if ((*tab)[i])
+	{
+		ft_free_struct_str(&(*tab)[i]);
+	}
+	if (*tab != NULL)
+	{
+		free(*tab);
+		*tab = NULL;
+	}
+}
+
+void	ft_free_tab(char ***tab)//&tab    (**)
+{
+	int	i;
+
+	i = 0;
+
+	while ((*tab)[i]) //
+	{
+		ft_free_struct_str(&(*tab)[i]);
+		i++;
+	}
+	if (*tab != NULL)
+	{
+		free(*tab);
+		*tab = NULL;
+	}
+}
+
+void	ft_free_struct_int_tab(int **p)
+{
+	if (*p != NULL)
+	{
+		free(*p);
+		*p = NULL;
+	}
+}
+
+void	ft_free_struct_t_cmd_only(t_cmd **cmd)
+{
+	if (*cmd != NULL)
+	{
+		free(*cmd);
+		*cmd = NULL;
+	}
 }

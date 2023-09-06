@@ -24,17 +24,10 @@ void	ft_redirect_input(t_settings *set)
 	close(set->fdin);
 }
 
-void	ft_save_in_and_out(t_settings *set)
-{
-	set->savein = dup(0);//dup(STDIN_FILENO);
-	set->saveout = dup(1);//dup(STDOUT_FILENO);
-}
-
 void	ft_set_fdin_for_first_simpleCmd(t_settings *set, t_cmd *cmd)
 {
 	if (cmd->simpleCmds[set->i]->infile != NULL)
 		ft_first_simpleCmd_w_infile(set, cmd);
-	//s il n existe pas on prend stdin par defaut
 	else
 		set->fdin = dup(set->savein);
 }
@@ -43,37 +36,18 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], int ret, t_data
 {
 	int	exec_return;
 
-	if(ret == 0) //dans l enfant on execute la commande correspondant a la simplecmd
+	if(ret == 0)
 	{			
-	//si on est dans l enfant on va pouvoir lancer l execution de sa simpleCommande
-	
-		exec_return = ft_execute_cmd(cmd, set->i, envp, set);//appel a execve
+		exec_return = ft_execute_cmd(cmd, set->i, envp, set);
 		if (exec_return == -1 && (errno == 2 || errno == 13))
 		{	
 		//	ft_check_close_error((*ptr).fd2);
 			close(set->savein);
 			close(set->saveout);
 		}
-	
 		ft_free_struct_t_settings(&set);
 		ft_free(cmd, lst_token, data, line);
 		ft_free_struct_t_cmd_only(&cmd);
-
-
-	/*
-		if (cmd != NULL)
-		{
-			ft_free_struct_t_cmd(&cmd);
-			ft_free_struct_t_cmd_only(&cmd);
-		}
-
-
-
-		ft_free_struct_t_data(&data);
-		ft_free_struct_t_settings(&set);
-		
-*/
-
 		//il faudra imperativement SORTIR de la pour ne pas que le code du fork s execute derriere dans l enfant avec la boucle while
 		exit(1);//ou (0?) voir comment bien sortir
 	}
@@ -81,52 +55,16 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], int ret, t_data
 	{
 	//ft_free_t_struct(&ptr);
 		perror (" pb fork ");
-		exit(EXIT_FAILURE);//j avais mis 1 dans pipex cd la macro
+		exit(EXIT_FAILURE);
 	}
 }
 
- int	ft_exit_status(pid_t last_pid, t_settings *set)
- {
-	pid_t	wpid;
-	int		wstatus;
-	int		exit_status;
-
-	exit_status = 0;
-	while(1)
-	{
-		wpid = waitpid(-1, &wstatus, 0);
-		//wpid = wait(&wstatus);
-		if(wpid < 0)
-			break;
-		if(wpid == last_pid)
-		{
-			if(WIFEXITED(wstatus))
-				exit_status = WEXITSTATUS(wstatus);
-			else
-				exit_status = 128 + WTERMSIG(wstatus);
-		}
-	}
-	set->exit_status = exit_status;
-	return(exit_status);
- }
-
-
-void	ft_restore_original_in_and_out(t_settings *set)
-{
-	dup2(set->savein, 0);
-	dup2(set->saveout, 1);
-	close(set->savein);
-	close(set->saveout);
-}
-
-//TODO : appeler ft_checkopenerror au bon endroit, sinon la scinder en 2 fonctions
 int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, t_list *lst_token, char *line)
 {
 	int 	ret;
 	int 	exit_status;
 	t_settings	*set;
 
-	//ft_aff_abs_cmd_and_args(cmd);
 	set = ft_struct_init_settings(&set); //todo proteger si set ==NULL
 	if(cmd->simpleCmds[set->i] == NULL)
 		return 0;//TODO rectifier le bon exit status
@@ -135,9 +73,7 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, t_
 	while(set->i < cmd->nb_of_simpleCmds) //on parcourt ici chaque processus == chaque simple cmd pour les fr heriter des redirections
 	{
 		ft_redirect_input(set);		//on redirige l input	//Redirection des vrais in et out dans le processus parent tjrs en bouclant sur les simpleCmds
-		//on parametre fdout		//	ft_set_fdout
-//###SI lastSIMPlCOMMANDE###
-		if (set->i == (cmd->nb_of_simpleCmds) - 1)
+		if (set->i == (cmd->nb_of_simpleCmds) - 1)  		//on parametre fdout -> facto avec ft_set_fdout //###SI lastSIMPlCOMMANDE###
 			ft_last_simpleCmd(set, cmd);
 		else 		//###SI SIMPLE COMMANDE REGULAR)### cat|ls
 			ft_regular_simpleCmd(set, cmd);
