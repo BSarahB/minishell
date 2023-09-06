@@ -96,4 +96,6 @@ void	ft_last_simpleCmd(t_settings *set, t_cmd *cmd)
 			}
 			set->j = 0;
 		}
+	if(cmd->simpleCmds[set->i]->nofile == 1)
+		ft_redirect_output(set);
 }

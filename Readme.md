@@ -879,14 +879,6 @@ shell_lexer : ft_char_is_operatr
 
 
 
-/*FIXME
- <nofile ls | <infile  wc -l >outfile >outfile2 <nofile | wc -l
-minishell: nofile: No such file or directory
-minishell: nofile: No such file or directory
-1 --> normalement 0
-*/
-
-
 //FACTORIZE
 get_token_type.c ->il y a un parametre en trop
 shell_lexer.c -> factoriser ft_char_is operator

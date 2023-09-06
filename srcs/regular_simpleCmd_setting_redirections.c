@@ -62,7 +62,8 @@ void    ft_open_infiles(t_settings *set, t_cmd *cmd)
         }
         (set->j)++;
     }
-    ft_redirect_input(set);
+    if(cmd->simpleCmds[set->i]->nofile != 1)
+        ft_redirect_input(set);
 }
 
 void ft_regular_simpleCmd(t_settings *set, t_cmd *cmd)
@@ -93,7 +94,10 @@ void ft_regular_simpleCmd(t_settings *set, t_cmd *cmd)
         close(pip[1]);
     }
     if (cmd->simpleCmds[set->i]->nofile == 1)
-       close(pip[1]);
+    {
+        close(pip[1]);
+        ft_redirect_output(set);
+    }
     set->j = 0;
 }
  /*

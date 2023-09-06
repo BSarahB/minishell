@@ -79,7 +79,8 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, t_
 			ft_regular_simpleCmd(set, cmd);
 		if(cmd->simpleCmds[set->i]->nofile != 1)//if(set->nofile != 1)
 		{
-			ft_redirect_output(set);	//Redirection des vrais in et out dans le processus parent tjrs en bouclant sur les simpleCmds
+			ft_redirect_output(set);
+				//Redirection des vrais in et out dans le processus parent tjrs en bouclant sur les simpleCmds
 			ret = fork();//Creation des processus : il faudra creer autant de processus que de commandes donc faire dans le while.
 			ft_child_process(set, cmd, envp, ret, data, lst_token, line);
 		}
