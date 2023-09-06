@@ -76,76 +76,76 @@ typedef struct s_settings_del
 
 typedef struct s_list
 {
-	char *content;
-	size_t position;
-	int type;
-	int title;
-	int quoting_rule;		// whitwspace_separator 0 ,single quote 1, d_quote 2
-	int retokenize_allowed;// pour trim and clear et retokenizer un expand par ex/
-	int expand_exists;
-	struct s_list *next;
-	struct s_list *prev;
-	size_t start_token_pos;
-	size_t start_token_pos_exists;
-	size_t end_token_pos;
-	size_t quoting_rule_adequate;
-	int	tag_ambigeous;
+	char			*content;
+	size_t			position;
+	int				type;
+	int				title;
+	int				quoting_rule;		// whitwspace_separator 0 ,single quote 1, d_quote 2
+	int				retokenize_allowed;// pour trim and clear et retokenizer un expand par ex/
+	int				expand_exists;
+	struct s_list	*next;
+	struct s_list	*prev;
+	size_t			start_token_pos;
+	size_t			start_token_pos_exists;
+	size_t			end_token_pos;
+	size_t			quoting_rule_adequate;
+	int				tag_ambigeous;
 
 } t_list;
 
 typedef struct s_data
 {
-	t_list *token;	   // lst_token
-	t_list *lst_token; // lst
+	t_list	*token;	   // lst_token
+	t_list	*lst_token; // lst
 } t_data;
 // description dune simple commande et ses arguments
 typedef struct s_simpleCmd
 {
-	size_t nb_of_tokens_in_simpleCmd;
-	size_t nb_of_redir_token;
-	size_t nb_of_heredoc;
-	size_t k;
-	size_t nb_of_infile;
-	size_t nb_of_outfile;
-	size_t nb_of_errfile;
-	size_t first_redir;
-	size_t nb_of_outfile_before_nofile;
-	size_t nb_of_errfile_before_nofile;
-	size_t nofile;
-	int number_of_arguments;
-	int errnum;
-	char **cmd_and_args;
-	char **abs_cmd_and_args;
-	char **infile;
-	char **heredoc;
-	char **outfile;
-	char **errfile;
-	int	 *append_track_index;
+	size_t	nb_of_tokens_in_simpleCmd;
+	size_t	nb_of_redir_token;
+	size_t	nb_of_heredoc;
+	size_t	k;
+	size_t	nb_of_infile;
+	size_t	nb_of_outfile;
+	size_t	nb_of_errfile;
+	size_t	first_redir;
+	size_t	nb_of_outfile_before_nofile;
+	size_t	nb_of_errfile_before_nofile;
+	size_t	nofile;
+	int		number_of_arguments;
+	int		errnum;
+	char	**cmd_and_args;
+	char	**abs_cmd_and_args;
+	char	**infile;
+	char	**heredoc;
+	char	**outfile;
+	char	**errfile;
+	int		*append_track_index;
 	int		*heredoc_track_index;
-	size_t end_simpleCmd_pos;
+	size_t	end_simpleCmd_pos;
 } t_simpleCmd;
 // description d une commande complete avec les multiples pipes eventuels et les IO redirections eventuels
 typedef struct s_cmd
 {
-	size_t nb_of_simpleCmds;
-	t_simpleCmd **simpleCmds;
-	char 	**path_tab;
-	char 	*outputfile;
-	char	*inputfile;
-	char	*errfile;
-	int		*heredocs_track_index;
-	char 	**heredocs;
-	size_t k;
-	size_t  nb_of_heredocs;
-	int 	background;
-	t_list 	*lst_token;
-	int 	flag_head_list;
-	size_t nb_of_infile;
-	size_t nb_of_outfile;
-	size_t nb_of_errfile;
-	int		line_count;
+	size_t		nb_of_simpleCmds;
+	t_simpleCmd	**simpleCmds;
+	char		**path_tab;
+	char		*outputfile;
+	char		*inputfile;
+	char		*errfile;
+	int			*heredocs_track_index;
+	char		**heredocs;
+	size_t		k;
+	size_t		nb_of_heredocs;
+	int			background;
+	t_list	 	*lst_token;
+	int			flag_head_list;
+	size_t		nb_of_infile;
+	size_t		nb_of_outfile;
+	size_t		nb_of_errfile;
+	int			line_count;
 } t_cmd;
-
+//utils
 char 			**ft_get_abs_arguments(int i, char **blocks);
 size_t 			ft_words_nbr(const char *s, char c);
 char 			**ft_create_tab(char const *s, char c, size_t words_nbr);
@@ -157,9 +157,19 @@ char 			*ft_strjoin(char *s1, char const *s2);
 char 			*ft_strndup(char *src, int n);
 char 			*ft_update_string(char **str, char *new);
 char			*ft_strdup(const char *s);
+char			*ft_strcpy(char *dst, char const *src);
+char			*ft_strdup(const char *s);
+size_t			ft_strlen(const char *s);
+void			ft_putstr_fd(char *s, int fd);
+char			*ft_swap_ptr(char **token_content, char *blank_node);
+void			*ft_memcpy(void *dst, const void *src, size_t n);
+//update_free_memory
 void			ft_free(t_cmd *cmd, t_list *lst_token, t_data *data, char *line);
 void 			ft_free_struct_str(char **p);
 void 			ft_free_tab(char ***tab);
+void			ft_free_tab2(char ***tab);
+void			ft_free_struct_int_tab(int **p);
+
 void 			ft_free_struct_t_cmd_only(t_cmd **cmd);
 void			ft_free_struct_t_cmd(t_cmd **cmd);
 void 			ft_free_struct_t_simpleCmd(t_simpleCmd **simpleCmd);
@@ -168,23 +178,25 @@ void  			ft_free_struct_t_list_token(t_list **token);
 void   			ft_free_struct_t_settings(t_settings **set);
 void   			ft_free_struct_t_settings_del(t_settings_del **del);
 void			ft_free_struct_t_list_lst_token(t_list **lst_token);
-void 			ft_putstr_fd(char *s, int fd);
 t_cmd 			*ft_struct_init(t_cmd **cmd, char init_value, char **blocks); // original
 // replacements of original functions for parsing lst token to data strcture
-t_cmd 			*ft_struct_init_cmd(t_cmd **cmd, char init_value, t_list *lst_token);
+t_cmd 			*ft_struct_init_cmd(t_cmd **cmd, t_list *lst_token);
 t_data 			*ft_tokenize_line(char *line);
 size_t			ft_tokenize(char *str, char *line, size_t i, t_data *data);
 int 			ft_split_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_token);
-t_simpleCmd 	*ft_struct_init_simpleCmd(t_simpleCmd **ptr, char init_value);
+t_simpleCmd 	*ft_struct_init_simpleCmd(t_simpleCmd **ptr);
 t_simpleCmd		**ft_struct_array_init(t_simpleCmd **ptr, char init_value, size_t simpleCmds_nbr);
 char 			**ft_get_path(char **envp);
 int				ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set);
 int 			ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, t_list *lst_token, char *line);
 char 			*ft_init_cstring(char **str, size_t len, char init_value);
 void 			*ft_memset(void *b, char c, size_t len);
+void			*ft_memset2(void *b, int n, size_t len);
+int				*ft_init_ctab(int **int_tab, size_t len, int init_value);
+void			ft_aff_abs_cmd_and_args(t_cmd	*cmd);
 // lexer
-void			 ft_check_prerequesite_of_line_input(char *line);
-void			 ft_check_input_cases_for_return_empty_prompt(char *line);
+void			ft_check_prerequesite_of_line_input(char *line);
+void			ft_check_input_cases_for_return_empty_prompt(char *line);
 int 			ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token);
 void 			ft_get_token_quoting_rule(char *str, t_list *lst_token, size_t i);
 void 			ft_get_token_content(t_data *data, size_t start_token_pos, size_t end_token_pos, char *line);
@@ -214,34 +226,37 @@ void			*ft_memcpy(void *dst, const void *src, size_t n);
 void			*ft_memset(void *b, char c, size_t len);
 int 			ft_strcmp(char *s1, char *s2);
 size_t			ft_strlen(const char *s);
-void			ft_aff_list_ptr_sur_char_content(t_list *alst); // pour void		*content; de type char *
-void 			ft_simplify_list(t_list *lst);
 size_t			ft_count_simpleCmds_nbr(t_list *lst_token);
-int 			ft_parse_tokens_in_s_cmd(t_cmd *cmd, char *line, char **envp, t_list *lst_token);
 t_data 			*ft_struct_init_data(t_data **data);
 t_data 			*ft_struct_init_data2(t_data **data, t_list *lst_token, t_list *token);
 t_settings		*ft_struct_init_settings(t_settings **set);
 t_settings_del	*ft_struct_init_settings_del(t_settings_del **del);
 // PARSING LST_TOKEN in SimpleCmd
+int				ft_parse_tokens_in_s_cmd(t_cmd *cmd, t_list *lst_token);
+t_list			*ft_lst_first(t_list *lst);
+t_list 			*ft_readjust_start_lst_token(t_list *start_lst_token, t_cmd *cmd, size_t i);
+void			ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, size_t index, t_list **lst_token, t_cmd *cmd);
+void 			ft_reconnect_lst_token(t_list *lst_token, size_t position);
+
 void 			ft_count_nb_of_infile_in_simpleCmd(t_simpleCmd *simpleCmd);
 void 			ft_count_nb_of_outfile_in_simpleCmd(t_simpleCmd *simpleCmd);
 void 			ft_count_nb_of_errfile_in_simpleCmd(t_simpleCmd *simpleCmd);
 void 			ft_count_nb_of_tokens_in_simpleCmd(t_list *start_lst_token, t_simpleCmd *simpleCmd);
-t_list		 	*ft_readjust_start_lst_token(t_list *start_lst_token, t_cmd *cmd, size_t i);
-void			ft_get_end_simpleCmd_pos(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list **dynamic_lst_token);
 void			ft_aff_abs_cmd_and_args(t_cmd	*cmd);
 void			ft_get_end_simpleCmd_pos(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list **start_lst_token);
 void			ft_malloc_redir_file_tabs_of_simpleCmd(t_simpleCmd *simpleCmd);
 char 			**ft_malloc_outfile_tab(t_simpleCmd *simpleCmd);
 char 			**ft_malloc_infile_tab(t_simpleCmd *simpleCmd);
 char 			**ft_malloc_errfile_tab(t_simpleCmd *simpleCmd);
+char			**ft_malloc_heredoc_tab(t_simpleCmd *simpleCmd);
 void			ft_count_nb_of_redir_token_in_simpleCmd(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list *start_lst_token, size_t i);
 void			ft_count_final_nb_of_tokens_in_simpleCmd(t_list *start_lst_token, t_simpleCmd *simpleCmd);
-
+t_list			*ft_count_nb_of_redir_err_in_sCmd(t_simpleCmd *simpleCmd, t_list *tmp);
+t_list			*ft_count_nb_of_redir_out_in_sCmd(t_simpleCmd *simpleCmd, t_list *tmp);
+t_list			 *ft_count_nb_of_redir_append_in_sCmd(t_simpleCmd *simpleCmd, t_list *tmp);
 void			parse(t_list *lst, t_simpleCmd *simpleCmd, size_t i, t_cmd *cmd);
 void			ft_lstdelone2(t_list **lst, t_simpleCmd *simpleCmd, size_t i, t_cmd *cmd);
 void			ft_lstdelone(t_list **lst);
-
 int				ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(t_list *lst_token, t_simpleCmd *simpleCmd);
 char			**ft_get_abs_argumentsb(char **abs_c_and_a);
 void			ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, size_t index, t_list **lst_token, t_cmd *cmd);
@@ -286,6 +301,7 @@ int				find_length(int n);
 char			*ft_itoa(int n);
 void			ft_restore_original_in_and_out(t_settings *set);
 void			ft_redirect_input(t_settings *set);
+
 //***1st simpleCmd:
 void			ft_first_simpleCmd_w_infile(t_settings *set, t_cmd *cmd);
 int				ft_set_fdin_for_first_s_cmd_w_infile(t_settings *set, t_cmd *cmd, int flag_random_heredoc);
@@ -319,5 +335,18 @@ void			ft_fill_heredocument(int fd, char *line_heredoc);
 int 			ft_last_heredoc(t_cmd *cmd, char *line_heredoc, size_t i);
 void			ft_add_history_and_free_rl(char *line_heredoc);
 void			ft_heredoc_input_is_null(t_cmd *cmd, size_t i);
+int				ft_exit_status(pid_t last_pid, t_settings *set);
+//setting_redicrections exec
+int				ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, t_list *lst_token, char *line);
+void			ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], int ret, t_data *data, t_list *lst_token, char *line);
+void			ft_set_fdin_for_first_simpleCmd(t_settings *set, t_cmd *cmd);
+void			ft_redirect_input(t_settings *set);
+void			ft_redirect_output(t_settings *set);
+void			ft_save_in_and_out(t_settings *set);
+void			ft_restore_original_in_and_out(t_settings *set);
+void			ft_open_outfiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd, int k);
+void			ft_open_outfiles(t_settings *set, t_cmd *cmd);
+
+
 
 #endif

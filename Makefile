@@ -40,7 +40,12 @@ SRCS	=	$(SRC_DIR)/main.c \
 			$(SRC_DIR)/expand_and_retokenize.c \
 			$(SRC_DIR)/del_and_parse_2.c \
 			$(SRC_DIR)/display_error_2.c \
-			$(SRC_DIR)/get_token_type.c
+			$(SRC_DIR)/get_token_type.c \
+			$(SRC_DIR)/heredoc_interaction_2.c \
+			$(SRC_DIR)/exit_status.c \
+			$(SRC_DIR)/setting_redirections_2.c \
+			$(SRC_DIR)/utils_2.c \
+			$(SRC_DIR)/utils_3.c
 
 
 OBJS = $(SRCS:.c=.o)

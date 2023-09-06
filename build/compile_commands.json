@@ -193,5 +193,25 @@
   "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
   "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/heredoc_interaction_2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/heredoc_interaction_2.c",
   "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/heredoc_interaction_2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/exit_status.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/exit_status.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/exit_status.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/setting_redirections_2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_redirections_2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_redirections_2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/utils_2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils_2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils_2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/utils_3.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils_3.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils_3.c"
 }
 ]
