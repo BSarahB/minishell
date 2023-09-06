@@ -44,7 +44,7 @@ void    ft_open_infiles(t_settings *set, t_cmd *cmd)
         flag_random_heredoc = ft_set_fdin_for_regular_simpleCmd(set, cmd, flag_random_heredoc);
         if (set->fdin == -1 || set->fdin == -2)                                       // ft_check open error quand on refactorisera plus tard
         {
-            set->nofile = 1;
+            cmd->simpleCmds[set->i]->nofile = 1;
             if(set->fdin == -1)
                 ft_error_msg(cmd->simpleCmds[set->i]->infile[set->j]);
             if(set->fdin == -2)
@@ -92,8 +92,8 @@ void ft_regular_simpleCmd(t_settings *set, t_cmd *cmd)
         }
         close(pip[1]);
     }
-    if(set->nofile == 1)
-        close(pip[1]);
+    if (cmd->simpleCmds[set->i]->nofile == 1)
+       close(pip[1]);
     set->j = 0;
 }
  /*

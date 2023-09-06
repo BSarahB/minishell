@@ -61,8 +61,8 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], int ret, t_data
 
 int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, t_list *lst_token, char *line)
 {
-	int 	ret;
-	int 	exit_status;
+	int 		ret;
+	int 		exit_status;
 	t_settings	*set;
 	
 	set = ft_struct_init_settings(&set); //todo proteger si set ==NULL
@@ -77,10 +77,14 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, t_
 			ft_last_simpleCmd(set, cmd);
 		else 		//###SI SIMPLE COMMANDE REGULAR)### cat|ls
 			ft_regular_simpleCmd(set, cmd);
-		ft_redirect_output(set);	//Redirection des vrais in et out dans le processus parent tjrs en bouclant sur les simpleCmds
-		ret = fork();//Creation des processus : il faudra creer autant de processus que de commandes donc faire dans le while.
-		ft_child_process(set, cmd, envp, ret, data, lst_token, line);
+		if(cmd->simpleCmds[set->i]->nofile != 1)//if(set->nofile != 1)
+		{
+			ft_redirect_output(set);	//Redirection des vrais in et out dans le processus parent tjrs en bouclant sur les simpleCmds
+			ret = fork();//Creation des processus : il faudra creer autant de processus que de commandes donc faire dans le while.
+			ft_child_process(set, cmd, envp, ret, data, lst_token, line);
+		}
 		(set->i)++;
+		//set->nofile = 0;
 	}
 	exit_status = ft_exit_status(ret, set);
 	ft_restore_original_in_and_out(set);	//restauration des sauvegardes des vrais in et out 

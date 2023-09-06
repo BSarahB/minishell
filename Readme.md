@@ -873,12 +873,7 @@ get_token_type.c
 shell_lexer : ft_char_is_operatr
 
 
-
 //FIXME
-/* ~ ls | <nofile  ls | wc -l
-minishell: nofile: No such file or directory
-12  ->normalement 0 : comme ls <nofile |wc -l qui donne bien 0
-*/
 
 <infile ls >outfile | <<A <<B wc -l <infile <<C  >outfile  REQUEST PEER : JE NE COMPRENDS PAS PKOI outfile n a pas ete ecrase par le wc -l qui prendrait normalement le <<C comme infile
 
@@ -890,10 +885,6 @@ minishell: nofile: No such file or directory
 minishell: nofile: No such file or directory
 1 --> normalement 0
 */
-
-ls | ls <nofile | wc
-minishell: nofile: No such file or directory
-     19      19     203   ->devrait avoir 0 0 0 pr last scmd  car nofile precedent
 
 
 //FACTORIZE

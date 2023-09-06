@@ -52,6 +52,7 @@ void	ft_open_infiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd
 		flag_random_heredoc = ft_set_fdin_in_last_but_not_first_simpleCmd(set, cmd, flag_random_heredoc);
 		if(set->fdin == -1 || set->fdin == -2)
 		{
+			cmd->simpleCmds[set->i]->nofile = 1;
 			ft_set_fdin_error_msg(set, cmd);
 			if(cmd->simpleCmds[set->i]->outfile != NULL && cmd->simpleCmds[set->i]->nb_of_outfile_before_nofile != 0)
 			{
@@ -62,7 +63,7 @@ void	ft_open_infiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd
 						k++;
 					}	
 			}
-			(set->i)++; //TODO voir si completer idem avec first_simple_cmd
+			//(set->i)++; //TODO voir si completer idem avec first_simple_cmd
 			set->j = 0;
 			break;
 			}
