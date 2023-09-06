@@ -763,6 +763,10 @@ et la librairie est dans le linkage des fichiers .o
 
 
 
+ ls >outfile | wc >outfile
+ ~ cat outfile a un comportement indefini. si le correcteur insiste : inverser les cmds : wc >o | ls >o pour lui montrer le mis & match
+
+
 //VERIFIER je ne sais pas si j ai regle ces pbs deja je pense que oui
 // TODO : comparer quand cat est en deniere simple command cat outfile22 ne marche pas .
 // build-my_minishell-Desktop_GCC-Debug ls | wc -l | cat outfile22
@@ -771,29 +775,20 @@ et la librairie est dans le linkage des fichiers .o
 // pas de resultat on a le prompt directement
 
 
-
-//FIXME
- ~ <infile  >outfile 33wc -l <infile <nofile >outfile
-minishell: infile: No such file or directory
-minishell: infile: No such file or directory
-minishell: nofile: No such file or directory
-
-
-
 //FIXME
 ~ <infile >outfile <infile <<A | ls <infile
 ->FD EST OUVERT (PIPE)
 
 
 POUR LES LEAKS SUR LES HEREDOC  SIMPLEMENT FAIRE LE MEME COMPORTEMENT QUE LES INFILES QUI EUX N ONT PAS DE LEAKS voir ce quil manque que j ai oublie de fermer fd pipe  
-//TODO
+//TODO as a test
 heredoc
 <<A bash
 >echo bonjour
 >exit 12
 >A
 va display bonjour
-et echo $? donner
+et echo $? donner 
 12
 
 
@@ -877,9 +872,6 @@ void ft_get_token_quoting_rule(char *str, t_list *lst_token, size_t i) //NORMEME
 get_token_type.c
 shell_lexer : ft_char_is_operatr
 
-//FIXME
-LEXING -->BUG introduit lors de la factorisation d hier:
-ls|wc le pipe colle n est pas bien determine
 
 
 //FIXME
@@ -906,12 +898,6 @@ minishell: nofile: No such file or directory
 
 //FACTORIZE
 get_token_type.c ->il y a un parametre en trop
-sjell_lexer.c -> factoriser ft_char_is operator
+shell_lexer.c -> factoriser ft_char_is operator
 
- //BUGG  introduit par la factorisation: il met les outfile en mode append
- ls -la >outfile | wc -l >outfile
- ~ cat outfile
-0
-tal 336
-drwxr-xr-x  8 mbenmesb 2020_paris   4096 Sep  6 11:13 .
-drwxr-xr-x
+ 

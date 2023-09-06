@@ -62,6 +62,7 @@ typedef struct s_settings
 	int		exit_status;
 	int		savein;
 	int 	saveout;
+	int		nofile;
 	
 } t_settings;
 
