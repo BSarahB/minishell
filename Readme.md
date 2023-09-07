@@ -791,35 +791,6 @@ et echo $? donner
 12
 
 
-~ <<A <<B   sans commande. car avec commande pas de leaks
- > A
- > B
-
-=================================================================
-==97023==ERROR: LeakSanitizer: detected memory leaks
-
-Direct leak of 2 byte(s) in 1 object(s) allocated from:
-
-LEAKS
-<<A | <<B   
- > A
- > B
-==632313==
-==632313== FILE DESCRIPTORS: 4 open (3 std) at exit.
-==632313== Open file descriptor 5:
-==632313==    at 0x49DD22D: pipe (pipe.c:29)
-==632313==    by 0x406A3B: ft_regular_simpleCmd
-
-
-~ ls <<A |  <<B
- >
- > A
- > B
-
-=================================================================
-==664161==ERROR: LeakSanitizer: detected memory leaks
-
-
 
 LEAKS
  ~ ~ <infile >>outfile ls | wc -l <infile <<B

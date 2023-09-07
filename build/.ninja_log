@@ -74,3 +74,7 @@
 40	2186	1694076898133188996	my_minishell	c9dc612a04ad1d50
 0	34	1694077073428156973	CMakeFiles/my_minishell.dir/srcs/heredoc_interaction.c.o	57a2f061be865dd1
 35	236	1694077073618156939	my_minishell	c9dc612a04ad1d50
+0	37	1694081559118295880	CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.o	90fb619465caef73
+38	244	1694081559313295841	my_minishell	c9dc612a04ad1d50
+1	38	1694081607976286108	CMakeFiles/my_minishell.dir/srcs/executor.c.o	7950c9d6c6175b94
+39	216	1694081608149286074	my_minishell	c9dc612a04ad1d50

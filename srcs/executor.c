@@ -50,7 +50,7 @@ int	ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 			ft_putstr_fd(cmd->simpleCmds[i]->cmd_and_args[0], 2);
 			ft_putstr_fd(": command not found: ", 2);
 			ft_putstr_fd("\n", 2);
-			ft_free_struct_t_cmd(&cmd);
+			//ft_free_struct_t_cmd(&cmd);
 			return(exec_return);
 		}
 	ft_free_tab(&(cmd->simpleCmds[i]->cmd_and_args));

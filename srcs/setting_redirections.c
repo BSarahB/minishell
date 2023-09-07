@@ -38,11 +38,12 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], int ret, t_data
 
 	if(ret == 0)
 	{		
-		printf("here\n");
+		printf("here0\n");
 	
 		exec_return = ft_execute_cmd(cmd, set->i, envp, set);
 		if (exec_return == -1 && (errno == 2 || errno == 13))
 		{	
+			printf("here1\n");
 		//	ft_check_close_error((*ptr).fd2);
 			close(set->savein);
 			close(set->saveout);
