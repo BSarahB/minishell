@@ -43,6 +43,7 @@ void ft_get_EOF(t_cmd *cmd, size_t i, char *line_heredoc, int fd)
 				else
 					{
 						ft_recursiv(cmd, i, fd);
+						ft_add_history_and_free_rl(line_heredoc);
 						break;
 					}
 			}
@@ -54,7 +55,7 @@ void ft_get_EOF(t_cmd *cmd, size_t i, char *line_heredoc, int fd)
 			break;
 		}
 	ft_add_history_and_free_rl(line_heredoc);
-	}	
+	}
 }
 
 int ft_open_heredoc_hidden_file(int mode, int fd)
