@@ -44,7 +44,7 @@ int main(int argc, char *argv[], char *envp[])
 			ft_parse_tokens_in_s_cmd(cmd, lst_token);
 			if(cmd->nb_of_heredocs != 0)
 				ft_heredoc_interaction(cmd, 0, 1);
-			exit_status = ft_setting_redirections_and_pipes(cmd, envp, data, lst_token, line);
+			exit_status = ft_setting_redirections_and_pipes(cmd, envp, data, line);
 		}
 		ft_free(cmd, lst_token, data, line);
 		ft_free_struct_t_cmd_only(&cmd);

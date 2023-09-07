@@ -123,7 +123,6 @@ t_cmd	*ft_struct_init_cmd(t_cmd **cmd,t_list *lst_token)
 		k++;
 	}
 	(*cmd)->simpleCmds[k] = 0;
-
 	(*cmd)->heredocs_track_index = ft_init_ctab(&heredocs_track_index, nbr_of_simpleCmds, 0);
 	if (!((*cmd)->heredocs_track_index))
 		return (NULL);

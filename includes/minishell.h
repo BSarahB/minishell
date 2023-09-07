@@ -63,7 +63,7 @@ typedef struct s_settings
 	int		savein;
 	int 	saveout;
 	int		nofile;
-	
+	int		ret;	
 } t_settings;
 
 typedef struct s_settings_del
@@ -72,7 +72,6 @@ typedef struct s_settings_del
 	size_t 	j;
 	size_t	k;
 	size_t index;
-
 } t_settings_del;
 
 typedef struct s_list
@@ -91,7 +90,6 @@ typedef struct s_list
 	size_t			end_token_pos;
 	size_t			quoting_rule_adequate;
 	int				tag_ambigeous;
-
 } t_list;
 
 typedef struct s_data
@@ -189,7 +187,7 @@ t_simpleCmd 	*ft_struct_init_simpleCmd(t_simpleCmd **ptr);
 t_simpleCmd		**ft_struct_array_init(t_simpleCmd **ptr, char init_value, size_t simpleCmds_nbr);
 char 			**ft_get_path(char **envp);
 int				ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set);
-int 			ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, t_list *lst_token, char *line);
+int 			ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, char *line);
 char 			*ft_init_cstring(char **str, size_t len, char init_value);
 void 			*ft_memset(void *b, char c, size_t len);
 void			*ft_memset2(void *b, int n, size_t len);
@@ -217,6 +215,8 @@ int				ft_get_token_type_great_or_greatgreat(char *str, t_list *token, t_data *d
 int				ft_get_token_type_less_or_lessless(char *str, t_list *token, t_data *data, size_t i, char *line);
 int				ft_get_token_type_pipe(t_list *token, t_data *data, size_t i, char *line);
 size_t 			ft_char_is_operator(char *line, size_t i, t_data *data);
+size_t 			ft_operator_glued_on_other_token(char *line, size_t i, t_data *data);
+size_t 			ft_operator_not_glued_on_other_token(char *line, size_t i, t_data *data);
 void 			ft_char_after_ws_token_exist_no_qr(char *line, size_t i, t_data *data);
 size_t 			ft_char_after_ws_is_operator_no_token_exists_no_qr(size_t i, char *line, t_data *data);
 void 			ft_char_or_token_is_unique(char *line, size_t i, t_data *data); // char or token is unique // faudrait  il recuperer ici la end pos puisqu on sort du code des token et qu on a atteint un \0 ?
@@ -338,8 +338,8 @@ void			ft_add_history_and_free_rl(char *line_heredoc);
 void			ft_heredoc_input_is_null(t_cmd *cmd, size_t i);
 int				ft_exit_status(pid_t last_pid, t_settings *set);
 //setting_redicrections exec
-int				ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, t_list *lst_token, char *line);
-void			ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], int ret, t_data *data, t_list *lst_token, char *line);
+int				ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, char *line);
+void			ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], t_data *data, char *line);
 void			ft_set_fdin_for_first_simpleCmd(t_settings *set, t_cmd *cmd);
 void			ft_redirect_input(t_settings *set);
 void			ft_redirect_output(t_settings *set);
@@ -348,6 +348,7 @@ void			ft_restore_original_in_and_out(t_settings *set);
 void			ft_open_outfiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd, int k);
 void			ft_open_outfiles(t_settings *set, t_cmd *cmd);
 
+void     ft_free_in_child(t_cmd *cmd, t_data *data,char *line);
 
 
 #endif

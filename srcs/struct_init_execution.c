@@ -25,6 +25,7 @@ t_settings	*ft_struct_init_settings(t_settings **set)
 	(*set)->savein = 0;
 	(*set)->saveout = 0;
 	(*set)->nofile = 0;
+	(*set)->ret = -2;
 	return(*set);
 }
 

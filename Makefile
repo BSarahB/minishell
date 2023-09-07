@@ -45,8 +45,8 @@ SRCS	=	$(SRC_DIR)/main.c \
 			$(SRC_DIR)/exit_status.c \
 			$(SRC_DIR)/setting_redirections_2.c \
 			$(SRC_DIR)/utils_2.c \
-			$(SRC_DIR)/utils_3.c
-
+			$(SRC_DIR)/utils_3.c \
+			$(SRC_DIR)/utils_lexer.c
 
 OBJS = $(SRCS:.c=.o)
 

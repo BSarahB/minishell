@@ -32,44 +32,36 @@ void	ft_set_fdin_for_first_simpleCmd(t_settings *set, t_cmd *cmd)
 		set->fdin = dup(set->savein);
 }
 
-void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], int ret, t_data *data, t_list *lst_token, char *line)
+void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], t_data *data, char *line)
 {
 	int	exec_return;
 
-	if(ret == 0)
-	{		
-		printf("here0\n");
-	
+	if(set->ret == 0)
+	{			
 		exec_return = ft_execute_cmd(cmd, set->i, envp, set);
 		if (exec_return == -1 && (errno == 2 || errno == 13))
 		{	
-			printf("here1\n");
 		//	ft_check_close_error((*ptr).fd2);
 			close(set->savein);
 			close(set->saveout);
 		}
-		printf("here2\n");
 		ft_free_struct_t_settings(&set);
-		ft_free(cmd, lst_token, data, line);
-		printf("here2-2\n");
+		//ft_free(cmd, lst_token, data, line);
+		ft_free_in_child(cmd, data, line);
 
 		ft_free_struct_t_cmd_only(&cmd);
-		printf("here2-3\n");
-
-		//il faudra imperativement SORTIR de la pour ne pas que le code du fork s execute derriere dans l enfant avec la boucle while
 		exit(1);//ou (0?) voir comment bien sortir
 	}
-	if (ret == -1)
+	if (set->ret == -1)
 	{
-	//ft_free_t_struct(&ptr);
+	//TODO FREE 
 		perror (" pb fork ");
 		exit(EXIT_FAILURE);
 	}
 }
 
-int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, t_list *lst_token, char *line)
+int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, char *line)
 {
-	int 		ret;
 	int 		exit_status;
 	t_settings	*set;
 	
@@ -87,15 +79,19 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, t_
 			ft_regular_simpleCmd(set, cmd);
 		if(cmd->simpleCmds[set->i]->nofile != 1)//if(set->nofile != 1)
 		{
-			ft_redirect_output(set);
+			if(cmd->simpleCmds[set->i] != NULL && cmd->simpleCmds[set->i]->cmd_and_args != NULL)
+			{
+				
+					ft_redirect_output(set);
 				//Redirection des vrais in et out dans le processus parent tjrs en bouclant sur les simpleCmds
-			ret = fork();//Creation des processus : il faudra creer autant de processus que de commandes donc faire dans le while.
-			ft_child_process(set, cmd, envp, ret, data, lst_token, line);
+					set->ret = fork();//Creation des processus : il faudra creer autant de processus que de commandes donc faire dans le while.
+					ft_child_process(set, cmd, envp, data, line);
+				
+			}
 		}
 		(set->i)++;
-		//set->nofile = 0;
 	}
-	exit_status = ft_exit_status(ret, set);
+	exit_status = ft_exit_status(set->ret, set);
 	ft_restore_original_in_and_out(set);	//restauration des sauvegardes des vrais in et out 
 	ft_free_struct_t_settings(&set);
 	return(exit_status);

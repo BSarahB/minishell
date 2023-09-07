@@ -770,16 +770,14 @@ SE DEFENDRE A LA CORRECTION : ASK
 
 
 
-//VERIFIER je ne sais pas si j ai regle ces pbs deja je pense que oui
-// TODO : comparer quand cat est en deniere simple command cat outfile22 ne marche pas .
+//VERIFIER 
+// TODO : comparer quand cat est en deniere simple command cat outfile22 ne marche pas CF PEER DEMANDER CE QUILS EN PENSENT EUX
 // build-my_minishell-Desktop_GCC-Debug ls | wc -l | cat outfile22
 // 19
 //  build-my_minishell-Desktop_GCC-Debug ls | wc -l>outfile22 | cat outfile22
 // pas de resultat on a le prompt directement
 
 
-
-POUR LES LEAKS SUR LES HEREDOC  SIMPLEMENT FAIRE LE MEME COMPORTEMENT QUE LES INFILES QUI EUX N ONT PAS DE LEAKS voir ce quil manque que j ai oublie de fermer fd pipe  
 //TODO as a test
 heredoc
 <<A bash
@@ -790,53 +788,18 @@ va display bonjour
 et echo $? donner 
 12
 
-
-
-LEAKS
- ~ ~ <infile >>outfile ls | wc -l <infile <<B
- > B
-~: command not found:
-==647188== Invalid read of size 8
-==647188==    at 0x40408E: ft_free_tab (in /mnt/nfs/homes/mbenmesb/Documents/my_minishell/minishell)
-==647188==    by 0x4043A5: ft_free_struct_t_cmd (in /mnt/nfs/homes/mbenmesb/Documents/my_minishell/minishell)
-==647188==    by 0x4070A4: ft_free (in /mnt/nfs/homes/mbenmesb/Documents/my_minishell/minishell)
-==647188==    by 0x403D06: ft_child_process
-
-LEAKS
+BUILT IN
 ~ ~ | ls
 ~: command not found: on devrait avoir:  bash: /mnt/nfs/homes/mbenmesb: Is a directory (probablement a implementer avec cd)
 
-build  CMakeCache.txt  CMakeFiles  cmake_install.cmake	CMakeLists.txt	CMakeLists.txt.user  ignore_rl_leaks  includes	infile	Makefile  Makefile_CMAke  minishell  outfile  Readme.md  srcs
-==647675==
-==647675== FILE DESCRIPTORS: 5 open (3 std) at exit.
-==647675== Open file descriptor 6:
-==647675==    at 0x49DD22D: pipe (pipe.c:29)
-==647675==    by 0x406A7B: ft_regular_simpleCmd (in /mnt/nfs/homes/mbenmesb/Documents/my_minishell/minishell)
-==647675==    by 0x403EFE: ft_setting_redirections_and_pipes (in /mnt/nfs/homes/mbenmesb/Documents/my_minishell/minishell)
-==647675==    by 0x401367: main (in /mnt/nfs/homes/mbenmesb/Documents/my_minishell/minishell)
-==647675==
-==647675== Open file descriptor 5: /dev/pts/6
-==647675==    at 0x49DD19B: dup (syscall-template.S:120)
-==647675==    by 0x40668A: ft_last_simpleCmd
-
-
- ~ <<A WC -L             //on dirait qu apres un heredoc si une commande not found   nest 								pas trouve cela fait un leaks
- > A
-WC: command not found:
-AddressSanitizer:DEADLYSIGNAL
-=================================================================
-==33526==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x0000004d8c89 bp 0x7fffffffd800 sp 0x7fffffffd7c0 T0)
-==33526==The signal is caused by a READ memory access.
 
 //NORMEME
 void ft_get_token_quoting_rule(char *str, t_list *lst_token, size_t i) //NORMEME >25 lignes
 get_token_type.c
-shell_lexer : ft_char_is_operatr
 
 
 
 //FACTORIZE
 get_token_type.c ->il y a un parametre en trop
-shell_lexer.c -> factoriser ft_char_is operator
 
  

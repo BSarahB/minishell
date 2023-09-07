@@ -101,6 +101,16 @@ void	ft_free_struct_t_cmd(t_cmd **cmd)
 	
 }
 
+
+void	ft_free_in_child(t_cmd *cmd, t_data *data, char *line)
+{
+	ft_free_struct_str(&line);
+	if (cmd != NULL)
+		ft_free_struct_t_cmd(&cmd);
+	ft_free_struct_t_data(&data);
+}
+
+
 void	ft_free(t_cmd *cmd, t_list *lst_token, t_data *data, char *line)
 {
 	ft_free_struct_str(&line);
