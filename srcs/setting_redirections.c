@@ -18,10 +18,11 @@ void	ft_redirect_output(t_settings *set)
 	close(set->fdout);
 }
 
-void	ft_redirect_input(t_settings *set)
+void	ft_redirect_input(t_settings *set, t_cmd *cmd)
 {
-	dup2(set->fdin, STDIN_FILENO);//durant la while, a partir de la 2 eme simplecmd  on va heriter du fdin du pipe COMMUN a la simplecmd precedente on avait parametre : fdin = pip[0]; cest cela qui est le coeur des multipipes
-	close(set->fdin);
+	(void)cmd;
+		dup2(set->fdin, STDIN_FILENO);//durant la while, a partir de la 2 eme simplecmd  on va heriter du fdin du pipe COMMUN a la simplecmd precedente on avait parametre : fdin = pip[0]; cest cela qui est le coeur des multipipes
+		close(set->fdin);
 }
 
 void	ft_set_fdin_for_first_simpleCmd(t_settings *set, t_cmd *cmd)
@@ -44,6 +45,8 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], t_data *data, c
 		//	ft_check_close_error((*ptr).fd2);
 			close(set->savein);
 			close(set->saveout);
+			if((set->i < cmd->nb_of_simpleCmds) && (set->i != (cmd ->nb_of_simpleCmds) - 1))
+				close(set->pip[0]);
 		}
 		ft_free_struct_t_settings(&set);
 		//ft_free(cmd, lst_token, data, line);
@@ -64,7 +67,7 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, ch
 {
 	int 		exit_status;
 	t_settings	*set;
-	
+
 	set = ft_struct_init_settings(&set); //todo proteger si set ==NULL
 	if(cmd->simpleCmds[set->i] == NULL)
 		return 0;//TODO rectifier le bon exit status
@@ -72,7 +75,7 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, ch
 	ft_set_fdin_for_first_simpleCmd(set, cmd);//on parametre infile + on parametre fdin
 	while(set->i < cmd->nb_of_simpleCmds) //on parcourt ici chaque processus == chaque simple cmd pour les fr heriter des redirections
 	{
-		ft_redirect_input(set);		//on redirige l input	//Redirection des vrais in et out dans le processus parent tjrs en bouclant sur les simpleCmds
+		ft_redirect_input(set, cmd);		//on redirige l input	//Redirection des vrais in et out dans le processus parent tjrs en bouclant sur les simpleCmds
 		if (set->i == (cmd->nb_of_simpleCmds) - 1)  		//on parametre fdout -> facto avec ft_set_fdout //###SI lastSIMPlCOMMANDE###
 			ft_last_simpleCmd(set, cmd);
 		else 		//###SI SIMPLE COMMANDE REGULAR)### cat|ls

@@ -63,7 +63,8 @@ typedef struct s_settings
 	int		savein;
 	int 	saveout;
 	int		nofile;
-	int		ret;	
+	int		ret;
+	int 	pip[2];	
 } t_settings;
 
 typedef struct s_settings_del
@@ -301,7 +302,6 @@ void			ft_error_heredoc(char *const str, int line_count);
 int				find_length(int n);
 char			*ft_itoa(int n);
 void			ft_restore_original_in_and_out(t_settings *set);
-void			ft_redirect_input(t_settings *set);
 
 //***1st simpleCmd:
 void			ft_first_simpleCmd_w_infile(t_settings *set, t_cmd *cmd);
@@ -341,7 +341,7 @@ int				ft_exit_status(pid_t last_pid, t_settings *set);
 int				ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, char *line);
 void			ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], t_data *data, char *line);
 void			ft_set_fdin_for_first_simpleCmd(t_settings *set, t_cmd *cmd);
-void			ft_redirect_input(t_settings *set);
+void			ft_redirect_input(t_settings *set, t_cmd *cmd);
 void			ft_redirect_output(t_settings *set);
 void			ft_save_in_and_out(t_settings *set);
 void			ft_restore_original_in_and_out(t_settings *set);
