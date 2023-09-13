@@ -762,27 +762,49 @@ et la librairie est dans le linkage des fichiers .o
  #-lasan == dynamique == necessite installation sur ordi VS -static-libasan == STATIC == inclus dans l executable ==pas de necessite d installation sur l ordi pour verfier $ldconfig -p  pour lister les librairies de l ordi
 
 
-//pseudo code EXPANSION EXPAND
+***pseudo code EXPANSION EXPAND***	
 pour none et echo : les memes etapes
 
 0/Delimiter le debut et a fin de l expand (cf fiche pour les regles QR 0 et QR 2)
-0a/le debut de l expand : SI $ EST En QUOTING RULE == 0 : $ doit etre obligatoirement suivi:
--d un caractere alpha
--d un caractere num compris entre 0 et 9
--d un " apostrophe double rempli ou non
--d un ' apostrophe simple rempli ou non
--d un signe ? ou ! 
--d un signe parmi : 
+0/A le debut de l expand : SI $ EST En QUOTING RULE == 0 : $ doit etre obligatoirement suivi:
+-1) d un caractere alpha
+-2) d un caractere num compris entre 0 et 9
+-3) d un " apostrophe double rempli ou non
+-4) d un ' apostrophe simple rempli ou non
+-5) d un signe ? ou ! 
+-6) d un signe parmi : ($ suivi immediatement de)
 OUI expand: suivi d un des signes: {$(1 ou plusieurs),!, # -> seront substitues par a valeur ou par RIEN (on aura le return \n a l echo )
 NON expand: suivi d un des signes: {+, ,(virgule) }, ], = , ~ }  -> ne donnent pas de valeurs a l expand. $ suivi d un de ces signes n aura pas de valeur expand. il aura son sens litteral de dollar
 delimitateurs
+
+[idem pour QR == 2 , (pas d expand en QR == 1)]
+
+0/B la fin de l expand :  SI $ EST DANS LA QUOTING RULE == 0 
+-2) ds le cas d un caractere numerique : l expansion s arrete a ce moment la
+-3) & 4) l expansion s arretera au "" ou ' (on n inclut dans la substitution que le $, et n le fera disparatra car ce sera un $ solo, il ne substituera a RIEN)
+-5) l expansion s arrete au $ ! #
+
+fin de l expand dans le cas de $ dans la QUTING RULE == 2
+- des qu on rencontre un espace
+-2) ds le cas d un caractere numerique : l expansion s arrete a ce moment la ex :  echo "$1232" L expansion s arretera des le 2
+-5) l expansionn s arrete au ? ou !
+-6) des que je rencontre un " ou ' 
+-des qu on rencontre un autre $ ou les signes +#-?@= etc...
+OUI expand: suivi d un des signes: {$(1 ou plusieurs),!, # -, }  -> seront substitues par a valeur ou par RIEN (on aura le return \n a l echo )
+les signes suivant annulent la valeur de l expand
+NON expand: suivi d un des signes: {+, ,(virgule) }, ], = , ~ }  -> ne donnent pas de valeurs a l expand. $ suivi d un de ces signes n aura pas de valeur expand. il aura son sens litteral de dollar
+delimitateurs
+
+
+***EXPAND ***
 
 1/substitute
 2/if found : copy in buffer if (not found || $ trouve seul): no copy
 3/epur multiple spaces sauf dans les "bloc" ou 'bloc' -> on aura qu un seul espace la ou il y en avait  plusieurs et dans les "blocs" les espaces seront preserves. 
 4/Trim les spaces aux extremites X   X de la string du buffer
 5/RETOKENIZE / si echo : PAS de retokenize
-6/DEQUOTE(quote removal suf dans les "bloc" ou 'bloc') (epurer la string des signes "" ou ' sauf quand ils sont dans  des "bloc" ou 'bloc')
+6/DEQUOTE(quote removal sauf dans les "bloc" ou 'bloc') (epurer la string des signes "" ou ' sauf quand ils sont dans  des "bloc" ou 'bloc')
+
 
 
 
