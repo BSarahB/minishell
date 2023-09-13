@@ -218,5 +218,20 @@
   "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
   "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/utils_lexer.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils_lexer.c",
   "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils_lexer.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/builtins.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/builtins.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/builtins.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/builtins_2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/builtins_2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/builtins_2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/builtins_3.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/builtins_3.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/builtins_3.c"
 }
 ]

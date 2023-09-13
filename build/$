@@ -1,9 +1,5 @@
-$"VAR"
-"'$VAR'"
-"$VAR"
-'"$VAR"'
-'$VAR'
-$VAR
+$
+A
 build.ninja
 CMakeCache.txt
 CMakeFiles

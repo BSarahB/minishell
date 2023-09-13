@@ -42,27 +42,42 @@ int ft_get_token_quoting_rule2(char *str, size_t i, int *quoting_rule, int *quot
 return(*quoting_rule_adequate);
 }
 
+
+void	ft_dequote(t_list *lst_token)
+{
+	(void)lst_token;
+}
 int	ft_expand_exists(t_list *lst_token)
 {
 	(void)lst_token;
 	return (0);
 }
 
-int ft_check_expand(t_list *lst_token)
+void ft_get_scope_expand(t_list *lst_token)
+{
+
+(void)lst_token;
+
+}
+
+
+int ft_tag_ambiguous_redir(t_list *lst_token)
 {
 	//compter le nb d expand ici
 	printf("expand here\n");
 	if(ft_expand_exists(lst_token) == 1)
-	lst_token->expand_exists = 1;
+		lst_token->expand_exists = 1;
 	if(lst_token->expand_exists == 0)
 	{
+
 		lst_token->tag_ambigeous = 1;
 		lst_token->prev->title = redir_in;
+		return (0);
 	}
 	return(1);
 }
 
-int ft_find_expand(t_list *lst_token)
+int ft_is_expand_to_substitute_redir(t_list *lst_token)
 {
 	char *str;
 	int i;
@@ -76,20 +91,34 @@ int ft_find_expand(t_list *lst_token)
 	if(str == NULL)
 		return (0);
 	if(ft_strcmp(lst_token->content,"$") == 0)
-		return(0);
-	while(str[i])
+		return(0);//garder $ comme un token pour creer le file
+	while(str[i]) //ft_expand_authorized
 	{
 		quoting_rule_adequate = ft_get_token_quoting_rule2(str, i, &quoting_rule, &quoting_rule_adequate);
+			
 		if(str[i] == '$' && quoting_rule != 1) //&& que $ n est pas suivi de '\0' ->suivi de \0 signifie que ce n est pas un expand , mais simplement un caractere $
-			if(ft_check_expand(lst_token) == 1)
-                return(1);
+			{
+				if(str[i + 1] == '\0') //|| str[i + 1] ==  '\"')//cas du ls >VAR$
+					return(0);
+				
+			//	ft_get_scope_expand(lst_token);
+			//	if(ft_expand_exists(lst_token) == 1)
+			//	{
+					
+			//	}
+			//	else
+			//		return(0);
+			}
 		i++;
+		if(quoting_rule_adequate == 1)
+			quoting_rule_adequate = 0;
+
 	}
 	return(0);
 }
 
 
-void ft_tag_expand(t_list *lst_token)
+void ft_tag_ambigeous_for_redir(t_list *lst_token)
 {
 	t_list *tmp;
 	int nb_of_expand;
@@ -102,12 +131,19 @@ void ft_tag_expand(t_list *lst_token)
 	{
 		if(lst_token->title == redir_out || lst_token->title == redir_append || lst_token->title == redir_in)
 		{
-			if(ft_find_expand(lst_token->next) == 1)
+			if(ft_is_expand_to_substitute_redir(lst_token->next) == 1)
 			{
 				nb_of_expand++;
-				//printf(" nb of expand : %d ", nb_of_expand);
-				return;
+				//printf(" nb of expand : %d ", nb_of_expand)
+
+				ft_tag_ambiguous_redir(lst_token);
 			}
+			
+			
+		}
+		else //0 " pas de substitute on garde le token tel quel"
+		{
+			ft_dequote(lst_token);
 		}
 		lst_token = lst_token->next;
 	}
@@ -117,5 +153,5 @@ return;
 
 void	ft_modify_lst_token(t_list *lst_token)
 {
-	ft_tag_expand(lst_token);
+	ft_tag_ambigeous_for_redir(lst_token);
 }

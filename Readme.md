@@ -762,6 +762,32 @@ et la librairie est dans le linkage des fichiers .o
  #-lasan == dynamique == necessite installation sur ordi VS -static-libasan == STATIC == inclus dans l executable ==pas de necessite d installation sur l ordi pour verfier $ldconfig -p  pour lister les librairies de l ordi
 
 
+//pseudo code EXPANSION EXPAND
+pour none et echo : les memes etapes
+
+0/Delimiter le debut et a fin de l expand (cf fiche pour les regles QR 0 et QR 2)
+0a/le debut de l expand : SI $ EST En QUOTING RULE == 0 : $ doit etre obligatoirement suivi:
+-d un caractere alpha
+-d un caractere num compris entre 0 et 9
+-d un " apostrophe double rempli ou non
+-d un ' apostrophe simple rempli ou non
+-d un signe ? ou ! 
+-d un signe parmi : 
+OUI expand: suivi d un des signes: {$(1 ou plusieurs),!, # -> seront substitues par a valeur ou par RIEN (on aura le return \n a l echo )
+NON expand: suivi d un des signes: {+, ,(virgule) }, ], = , ~ }  -> ne donnent pas de valeurs a l expand. $ suivi d un de ces signes n aura pas de valeur expand. il aura son sens litteral de dollar
+delimitateurs
+
+1/substitute
+2/if found : copy in buffer if (not found || $ trouve seul): no copy
+3/epur multiple spaces sauf dans les "bloc" ou 'bloc' -> on aura qu un seul espace la ou il y en avait  plusieurs et dans les "blocs" les espaces seront preserves. 
+4/Trim les spaces aux extremites X   X de la string du buffer
+5/RETOKENIZE / si echo : PAS de retokenize
+6/DEQUOTE(quote removal suf dans les "bloc" ou 'bloc') (epurer la string des signes "" ou ' sauf quand ils sont dans  des "bloc" ou 'bloc')
+
+
+
+
+
 SE DEFENDRE A LA CORRECTION : ASK
  ls >outfile | wc >outfile
  ~ cat outfile a un comportement indefini. si le correcteur insiste : inverser les cmds : wc >o | ls >o pour lui montrer le mis & match
