@@ -347,13 +347,16 @@ void			ft_free_in_child(t_cmd *cmd, t_data *data,char *line);
 int 			ft_get_token_quoting_rule2(char *str, size_t i, int *quoting_rule, int *quoting_rule_adequate);
 
 void			ft_tag_ambigeous_for_redir(t_list *lst_token);
-int				ft_is_expand_here(t_list *lst_token);
+int				ft_is_expand_here(char *str);
 void 			ft_get_scope_expand(t_list *lst_token);
 int 			ft_is_expand_to_substitute_redir(t_list *lst_token);
 int 			ft_tag_ambiguous_redir(t_list *lst_token);
 int				ft_expand_exists(t_list *lst_token);
 void			ft_dequote(t_list *lst_token);
 void			ft_modify_lst_token(t_list *lst_token);
+void			ft_expand_and_retokenize(t_list *lst_token);
+int				ft_is_expand_unvalidated(char **invalidators, char c);
+int				ft_strcmp_char(char c1, char c2);
 
 
 #endif
