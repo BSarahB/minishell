@@ -83,6 +83,28 @@ void	ft_get_token_expansion(void)
 //{
 
 //}
+
+
+char 	*ft_get_expand_lengh_for_malloc(size_t start_expand_pos, size_t end_expand_pos)
+{
+	size_t size_content;
+	char *expand;
+
+	size_content = end_expand_pos - start_expand_pos;
+	expand = ft_init_cstring(&expand, size_content + 1, '\0');
+	return(expand);
+}
+
+char 	*ft_get_expand_content(size_t start_expand_pos, size_t end_expand_pos, char *content)
+{
+	char *expand;
+	
+	expand = ft_get_expand_lengh_for_malloc(start_expand_pos, end_expand_pos);
+	expand = ft_memcpy(expand, &content[start_expand_pos], end_expand_pos - start_expand_pos + 1);
+	return(expand);
+}
+
+
 int ft_strcmp_char(char c1, char c2)
 {
 	return (c1 - c2);
@@ -125,20 +147,33 @@ int ft_is_alphanum(char c)
 	return (0);
 }
 
+
+char *ft_get_scope_expand(size_t end_expand_pos, size_t start_expand_pos, char *str, int *flag_expand_here)
+{
+	char *expand;
+	expand = NULL;
+
+	expand = ft_get_expand_content(start_expand_pos, end_expand_pos, str);
+	*flag_expand_here = 0;
+	return(expand);
+}
+
 int ft_is_expand_here(char *str)
 {
 	int quoting_rule_adequate;
 	int quoting_rule;
-	int i;
+	size_t i;
 	// int i_save;
 	char *invalidators[] = {"+", ",", "}", "]", "~", "=", NULL};
 	// char *delimitators[] = {"#", "]", "{", "}",  "-", "+", "?", "@", "", NULL}; //vont determiner la FIN de l expand
 
 	int flag_expand_here;
-	int start_expand_pos;
-	int end_expand_pos;
+	size_t start_expand_pos;
+	size_t end_expand_pos;
+	char *expand;
 
 	i = 0;
+	expand = NULL;
 	flag_expand_here = 0;
 	quoting_rule_adequate = 0;
 	quoting_rule = 0;
@@ -150,126 +185,43 @@ int ft_is_expand_here(char *str)
 		// i_save = i;
 		if (flag_expand_here == 1)
 		{
-			if (quoting_rule == 0)
-			{
-				
-				if (str[i -1] == '$' && ft_isdigit(str[i]) == 1)
-				{
-					//$2000
-					end_expand_pos = i;
-					flag_expand_here = 0;
-
-				}
-				else if (str[i] == '\"' || str[i] == '\'')
-				{
-					//$"VAR"
-					end_expand_pos = i - 1;
-					flag_expand_here = 0;
-
-				}
-				else if (str[i] == '$' && str[i - 1] != '$')
-				{
-					//$VAR$
-					end_expand_pos = i - 1;
-					flag_expand_here = 0;
-
-				}
-				else if(str[i] == '$' && str[i -1] == '$' && str[i + 1] == '\0')
-				{
-					//$VAR$$\0
-					end_expand_pos = i;
-					flag_expand_here = 0;
-
-				}	
-				else if (ft_is_alphanum(str[i]) == 0)
-				{
-					//$VAR+
-					//si stri == $ && str[i -1] != $
-					if(!(str[i] == '$' && str[i -1] == '$')) // cs de $VAR$$$
-						{
-							end_expand_pos = i - 1;
-							flag_expand_here = 0;
-						}
-
-				}
-				else if (str[i + 1] == '\0') //TODO
-				{
-					end_expand_pos = i ;
-					flag_expand_here = 0;
-
-				}		
-			}
 			if(quoting_rule == 2)
 			{
-				//- des qu on rencontre un espace "$VAR l"
-
-				if(str[i - 1] != '$' && (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)))
-				{
-					end_expand_pos = i - 1;
-					flag_expand_here = 0;
-
-
-				}
-				//-2) ds le cas d un caractere numerique : l expansion s arrete a ce moment la ex :  echo "$1232" L expansion s arretera des le 2
-				else if (str[i -1] == '$' && ft_isdigit(str[i]) == 1)
-				{
-					//"$2000"
-					end_expand_pos = i;
-					flag_expand_here = 0;
-
-				}
-				else if (str[i] == '\"' || str[i] == '\'')
-				{
-					//$"VAR"
-					end_expand_pos = i - 1;
-					flag_expand_here = 0;
-
-				}
-
-				else if (str[i] == '$' && str[i - 1] != '$')
-				{
-					//"$VAR$"
-					end_expand_pos = i - 1;
-					flag_expand_here = 0;
-
-				}
-				else if(str[i] == '$' && str[i -1] == '$' && str[i + 1] == '\0')
-				{
-					//$VAR$$\0
-					end_expand_pos = i;
-					flag_expand_here = 0;
-
-				}	
-
-				//-5) l expansionn s arrete au ? ou !
-				else if (ft_is_alphanum(str[i]) == 0)
-				{
-					//$VAR+
-					if(!(str[i] == '$' && str[i -1] == '$')) // cs de $VAR$$$
-						{
-							end_expand_pos = i - 1;
-							flag_expand_here = 0;
-						}
-				}
+				if(str[i - 1] != '$' && (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)))//- des qu on rencontre un espace "$VAR l"
+					expand = ft_get_scope_expand(i - 1, start_expand_pos, str, &flag_expand_here);
 			}
+			if (quoting_rule == 0 || quoting_rule == 2)
+			{	
+				if (str[i -1] == '$' && ft_isdigit(str[i]) == 1) //"$2000"
+					expand = ft_get_scope_expand(i, start_expand_pos, str, &flag_expand_here);
+				else if (str[i] == '\"' || str[i] == '\'') //$"VAR"
+					expand = ft_get_scope_expand(i - 1, start_expand_pos, str, &flag_expand_here);
+				else if (str[i] == '$' && str[i - 1] != '$') //$VAR$
+					expand = ft_get_scope_expand(i - 1, start_expand_pos, str, &flag_expand_here);
+				else if(str[i] == '$' && str[i -1] == '$' && str[i + 1] == '\0') //$VAR$$\0
+					expand = ft_get_scope_expand(i, start_expand_pos, str, &flag_expand_here);	
+				else if (ft_is_alphanum(str[i]) == 0) //$VAR+
+				{
+					if(!(str[i] == '$' && str[i -1] == '$')) // cs de $VAR$$$
+						expand = ft_get_scope_expand(i - 1, start_expand_pos, str, &flag_expand_here);
+				}
+				else if (str[i + 1] == '\0') //TODO
+					expand = ft_get_scope_expand(i, start_expand_pos, str, &flag_expand_here);
+			}		
+			if (expand != NULL)
+				printf("expand = %s \n", expand);	
 		}
-		
 		if (str[i] == '$' && quoting_rule != 1 && flag_expand_here != 1) //&& que $ n est pas suivi de '\0' ->suivi de \0 signifie que ce n est pas un expand , mais simplement un caractere $
 		{
 			flag_expand_here = 1;
 			if (str[i + 1] == '\0' || ft_is_expand_unvalidated(invalidators, str[i + 1]) == 1) //|| str[i + 1] ==  '\"')//cas du ls >VAR$
 				flag_expand_here = 0;
 			if (flag_expand_here == 1)
-			{
-				// ft_get_scope_expand();
 				start_expand_pos = i;
-			}
 		}
 		i++;
-		if (quoting_rule_adequate == 1)
-			quoting_rule_adequate = 0;
 	}
-	printf("start_expand_pos = %d, end_expand_pos = %d \n", start_expand_pos, end_expand_pos);
+	printf("start_expand_pos = %zu, end_expand_pos = %zu \n", start_expand_pos, end_expand_pos);
 	if (flag_expand_here == 0)
 		return (0);
 	else

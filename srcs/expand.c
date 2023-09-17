@@ -28,7 +28,7 @@ int ft_get_token_quoting_rule2(char *str, size_t i, int *quoting_rule, int *quot
 		*quoting_rule = 1;
 	else if (c == '\'' && *quoting_rule == 1)
 	{
-		*quoting_rule = 1;
+		*quoting_rule = 0;
 		*quoting_rule_adequate = 1;
 	
 	}
@@ -42,7 +42,7 @@ int ft_get_token_quoting_rule2(char *str, size_t i, int *quoting_rule, int *quot
 return(*quoting_rule_adequate);
 }
 
-
+/*
 void	ft_dequote(t_list *lst_token)
 {
 	(void)lst_token;
@@ -155,3 +155,4 @@ void	ft_modify_lst_token(t_list *lst_token)
 {
 	ft_tag_ambigeous_for_redir(lst_token);
 }
+*/
