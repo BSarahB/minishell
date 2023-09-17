@@ -153,34 +153,108 @@ int ft_is_expand_here(char *str)
 			if (quoting_rule == 0)
 			{
 				
-				if (ft_isdigit(str[i]) == 1)
+				if (str[i -1] == '$' && ft_isdigit(str[i]) == 1)
 				{
 					//$2000
 					end_expand_pos = i;
+					flag_expand_here = 0;
+
 				}
 				else if (str[i] == '\"' || str[i] == '\'')
 				{
 					//$"VAR"
 					end_expand_pos = i - 1;
+					flag_expand_here = 0;
+
 				}
 				else if (str[i] == '$' && str[i - 1] != '$')
 				{
 					//$VAR$
 					end_expand_pos = i - 1;
+					flag_expand_here = 0;
+
 				}
+				else if(str[i] == '$' && str[i -1] == '$' && str[i + 1] == '\0')
+				{
+					//$VAR$$\0
+					end_expand_pos = i;
+					flag_expand_here = 0;
+
+				}	
 				else if (ft_is_alphanum(str[i]) == 0)
 				{
 					//$VAR+
-					end_expand_pos = i - 1;
+					//si stri == $ && str[i -1] != $
+					if(!(str[i] == '$' && str[i -1] == '$')) // cs de $VAR$$$
+						{
+							end_expand_pos = i - 1;
+							flag_expand_here = 0;
+						}
+
 				}
 				else if (str[i + 1] == '\0') //TODO
 				{
 					end_expand_pos = i ;
+					flag_expand_here = 0;
+
+				}		
+			}
+			if(quoting_rule == 2)
+			{
+				//- des qu on rencontre un espace "$VAR l"
+
+				if(str[i - 1] != '$' && (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)))
+				{
+					end_expand_pos = i - 1;
+					flag_expand_here = 0;
+
+
 				}
-			
+				//-2) ds le cas d un caractere numerique : l expansion s arrete a ce moment la ex :  echo "$1232" L expansion s arretera des le 2
+				else if (str[i -1] == '$' && ft_isdigit(str[i]) == 1)
+				{
+					//"$2000"
+					end_expand_pos = i;
+					flag_expand_here = 0;
+
+				}
+				else if (str[i] == '\"' || str[i] == '\'')
+				{
+					//$"VAR"
+					end_expand_pos = i - 1;
+					flag_expand_here = 0;
+
+				}
+
+				else if (str[i] == '$' && str[i - 1] != '$')
+				{
+					//"$VAR$"
+					end_expand_pos = i - 1;
+					flag_expand_here = 0;
+
+				}
+				else if(str[i] == '$' && str[i -1] == '$' && str[i + 1] == '\0')
+				{
+					//$VAR$$\0
+					end_expand_pos = i;
+					flag_expand_here = 0;
+
+				}	
+
+				//-5) l expansionn s arrete au ? ou !
+				else if (ft_is_alphanum(str[i]) == 0)
+				{
+					//$VAR+
+					if(!(str[i] == '$' && str[i -1] == '$')) // cs de $VAR$$$
+						{
+							end_expand_pos = i - 1;
+							flag_expand_here = 0;
+						}
+				}
 			}
 		}
-		if (str[i] == '$' && quoting_rule != 1) //&& que $ n est pas suivi de '\0' ->suivi de \0 signifie que ce n est pas un expand , mais simplement un caractere $
+		
+		if (str[i] == '$' && quoting_rule != 1 && flag_expand_here != 1) //&& que $ n est pas suivi de '\0' ->suivi de \0 signifie que ce n est pas un expand , mais simplement un caractere $
 		{
 			flag_expand_here = 1;
 			if (str[i + 1] == '\0' || ft_is_expand_unvalidated(invalidators, str[i + 1]) == 1) //|| str[i + 1] ==  '\"')//cas du ls >VAR$
@@ -219,8 +293,10 @@ int ft_is_expand_to_substitute(t_list *lst_token)
 	if (str == NULL)
 		return (0);
 	if (ft_strcmp(lst_token->content, "$") == 0)
-		return (0);
-
+		{
+			free(buffer);
+			return (0);
+		}
 	if (ft_is_expand_here(str) == 1)
 	{
 		printf("expand is here\n");
