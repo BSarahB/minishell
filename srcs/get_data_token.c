@@ -60,24 +60,52 @@ void ft_get_token_quoting_rule(char *str, t_list *lst_token, size_t i) //NORMEME
 	char c;
 
 	c = str[i];
+	if((lst_token->quoting_rule == 1 || lst_token->quoting_rule == 2) && lst_token->quoting_rule_adequate == 1)
+	{
+		lst_token->quoting_rule = 0;
+		lst_token->quoting_rule_adequate = 0;
+	}
+
 	if (lst_token->quoting_rule == 0 && c == '\"' && str[i + 1] != '\0')
-		lst_token->quoting_rule = 2;
-	else if (c == '\"' && lst_token->quoting_rule == 2)
+		{
+			lst_token->quoting_rule = 2;
+		}
+
+	else if (c == '\"' && lst_token->quoting_rule == 2 && lst_token->quoting_rule_adequate == 0)
 	{
 		lst_token->quoting_rule = 2;
 		lst_token->quoting_rule_adequate = 1;
 		if (str[i + 1] == '\0' || (str[i + 1] == ' ' || (str[i + 1] >= 9 && str[i + 1] <= 13)) || (ft_is_char_operand(&str[i + 1], lst_token) >= 3))
 			lst_token->end_token_pos = i;
 	}
+
+	else if (lst_token->quoting_rule == 2 && c == '\"' && str[i + 1] != '\0')
+		{
+			lst_token->quoting_rule = 2;
+			if(lst_token->quoting_rule_adequate == 1)
+				lst_token->quoting_rule_adequate = 0;
+		}
+			
 	else if (lst_token->quoting_rule == 0 && c == '\'' && str[i + 1] != '\0')
-		lst_token->quoting_rule = 1;
-	else if (c == '\'' && lst_token->quoting_rule == 1)
+		{
+			lst_token->quoting_rule = 1;
+		}
+	
+			
+	else if (c == '\'' && lst_token->quoting_rule == 1 && lst_token->quoting_rule_adequate == 0)
 	{
 		lst_token->quoting_rule = 1;
 		lst_token->quoting_rule_adequate = 1;
 		if (str[i + 1] == '\0' || (str[i + 1] == ' ' || (str[i + 1] >= 9 && str[i + 1] <= 13)) || (ft_is_char_operand(&str[i + 1], lst_token) >= 3))
 			lst_token->end_token_pos = i;
 	}
+	else if (lst_token->quoting_rule == 1 && c == '\'' && str[i + 1] != '\0')
+	{
+		lst_token->quoting_rule = 2;
+		if(lst_token->quoting_rule_adequate == 1)
+			lst_token->quoting_rule_adequate = 0;
+	}
+
 	else if (lst_token->quoting_rule == 0 && str[i + 1] == '\0') // c est le cas de $> l[s]    ->[s] est checke dans la ft_get_token_quoting rule on verifie si la quoting rule  == 0 et que lindex suivant est un \0 alors cela signifie qu on a la fin d un token
 	{
 		lst_token->end_token_pos = i;

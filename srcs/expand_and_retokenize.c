@@ -184,14 +184,23 @@ int ft_is_expand_here(char *str)
 		// i_save = i;
 		if (flag_expand_here == 1)
 		{
-			if(quoting_rule == 2)
+			if(quoting_rule == 1)//ici c est pour le cas :  $VAR'$USER' ->il faut delimiter la fin de l expand $VAR
 			{
-				if(str[i - 1] != '$' && (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)))//- des qu on rencontre un espace "$VAR l"
+				if (str[i] == '\"' || str[i] == '\'') 
 					expand = ft_get_scope_expand(i - 1, start_expand_pos, str, &flag_expand_here);
+				else if(str[i - 1] != '$' && (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)))//- des qu on rencontre un espace "$VAR l"
+					expand = ft_get_scope_expand(i - 1, start_expand_pos, str, &flag_expand_here);
+
 			}
+			
 			if (quoting_rule == 0 || quoting_rule == 2)
 			{	
-				if (str[i -1] == '$' && ft_isdigit(str[i]) == 1) //"$2000"
+				if(quoting_rule == 2)
+				{
+					if(str[i - 1] != '$' && (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)))//- des qu on rencontre un espace "$VAR l"
+						expand = ft_get_scope_expand(i - 1, start_expand_pos, str, &flag_expand_here);
+				}
+				else if (str[i -1] == '$' && ft_isdigit(str[i]) == 1) //"$2000"
 					expand = ft_get_scope_expand(i, start_expand_pos, str, &flag_expand_here);
 				else if (str[i] == '\"' || str[i] == '\'') //$"VAR"
 					expand = ft_get_scope_expand(i - 1, start_expand_pos, str, &flag_expand_here);

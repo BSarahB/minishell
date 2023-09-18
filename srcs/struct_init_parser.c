@@ -74,7 +74,7 @@ size_t	ft_count_simpleCmds_nbr(t_list *lst_token)
 		simpleCmd_nbr = 0;
 		ft_simplify_list(lst_token);
 		tmp = lst_token;
-		ft_aff_list_ptr_sur_char_content(lst_token);
+	//	ft_aff_list_ptr_sur_char_content(lst_token);
 		while (tmp)
 		{
 			while (tmp && tmp->title == operator)
