@@ -152,9 +152,8 @@ char *ft_get_scope_expand(size_t end_expand_pos, size_t start_expand_pos, char *
 {
 	char *expand;
 	expand = NULL;
-
-	expand = ft_get_expand_content(start_expand_pos, end_expand_pos, str);
 	*flag_expand_here = 0;
+	expand = ft_get_expand_content(start_expand_pos, end_expand_pos, str);
 	return(expand);
 }
 
@@ -206,10 +205,18 @@ int ft_is_expand_here(char *str)
 						expand = ft_get_scope_expand(i - 1, start_expand_pos, str, &flag_expand_here);
 				}
 				else if (str[i + 1] == '\0') //TODO
-					expand = ft_get_scope_expand(i, start_expand_pos, str, &flag_expand_here);
+					{
+						expand = ft_get_scope_expand(i, start_expand_pos, str, &flag_expand_here);
+						flag_expand_here = 1;
+					}
 			}		
 			if (expand != NULL)
-				printf("expand = %s \n", expand);	
+				{
+					printf("expand = %s \n", expand);
+					free(expand);
+					expand = NULL;
+				}
+	
 		}
 		if (str[i] == '$' && quoting_rule != 1 && flag_expand_here != 1) //&& que $ n est pas suivi de '\0' ->suivi de \0 signifie que ce n est pas un expand , mais simplement un caractere $
 		{
@@ -221,7 +228,7 @@ int ft_is_expand_here(char *str)
 		}
 		i++;
 	}
-	printf("start_expand_pos = %zu, end_expand_pos = %zu \n", start_expand_pos, end_expand_pos);
+	//printf("start_expand_pos = %zu, end_expand_pos = %zu \n", start_expand_pos, end_expand_pos);
 	if (flag_expand_here == 0)
 		return (0);
 	else
