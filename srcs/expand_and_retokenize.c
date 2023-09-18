@@ -217,7 +217,11 @@ int ft_is_expand_here(char *str)
 				else if (str[i -1] == '$' && ft_isunderscore(str, i)> 0) //"$2000"
 					{
 						i = ft_isunderscore(str, i);
-						expand = ft_get_scope_expand(i, start_expand_pos, str, &flag_expand_here);
+						if(str[i + 1] == '\0')
+								{
+									expand = ft_get_scope_expand(i, start_expand_pos, str, &flag_expand_here);
+									flag_expand_here = 1;
+								}
 					}
 				else if (str[i] == '\"' || str[i] == '\'') //$"VAR"
 					expand = ft_get_scope_expand(i - 1, start_expand_pos, str, &flag_expand_here);
@@ -227,7 +231,17 @@ int ft_is_expand_here(char *str)
 					expand = ft_get_scope_expand(i, start_expand_pos, str, &flag_expand_here);	
 				else if (ft_is_alphanum(str[i]) == 0) //$VAR+
 				{
-					if(!(str[i] == '$' && str[i -1] == '$')) // cs de $VAR$$$
+					//$VAR_
+					if(ft_isunderscore(str, i) > 0)
+						{
+							i = ft_isunderscore(str, i);
+							if(str[i + 1] == '\0')
+								{
+									expand = ft_get_scope_expand(i, start_expand_pos, str, &flag_expand_here);
+									flag_expand_here = 1;
+								}
+						}
+					else if(!(str[i] == '$' && str[i -1] == '$')) // cs de $VAR$$$
 						expand = ft_get_scope_expand(i - 1, start_expand_pos, str, &flag_expand_here);
 				}
 				else if (str[i + 1] == '\0') //TODO
