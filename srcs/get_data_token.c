@@ -26,7 +26,7 @@ void ft_get_token_content(t_data *data, size_t start_token_pos, size_t end_token
 
 	if (data->token->quoting_rule_adequate == 0 && data->token->quoting_rule != 0)
 	{
-		printf("CAUTION bash error : quoting r  ule inadequate \" or \' incomplete, quoting must be CLOSED\n");
+		printf("CAUTION bash error : quoting rule inadequate \" or \' incomplete, quoting must be CLOSED\n");
 	}
 	ft_get_token_content_lengh_for_malloc(data->token, start_token_pos, end_token_pos);
 	data->token->content = ft_memcpy(data->token->content, &line[start_token_pos], end_token_pos - start_token_pos + 1);

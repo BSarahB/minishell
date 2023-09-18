@@ -157,6 +157,21 @@ char *ft_get_scope_expand(size_t end_expand_pos, size_t start_expand_pos, char *
 	return(expand);
 }
 
+
+size_t		ft_isunderscore(char *str, size_t i)
+{
+	size_t	i_tmp;
+
+	i_tmp = i;
+	while(str[i] && str[i] == '_')
+		i++;
+	if(i_tmp == i)
+		return(0);
+	else
+		return(i -1);
+}
+
+
 int ft_is_expand_here(char *str)
 {
 	int quoting_rule_adequate;
@@ -195,13 +210,15 @@ int ft_is_expand_here(char *str)
 			
 			if (quoting_rule == 0 || quoting_rule == 2)
 			{	
-				if(quoting_rule == 2)
-				{
-					if(str[i - 1] != '$' && (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)))//- des qu on rencontre un espace "$VAR l"
-						expand = ft_get_scope_expand(i - 1, start_expand_pos, str, &flag_expand_here);
-				}
+				if(quoting_rule == 2 && str[i - 1] != '$' && (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)))//- des qu on rencontre un espace "$VAR l"
+					expand = ft_get_scope_expand(i - 1, start_expand_pos, str, &flag_expand_here);
 				else if (str[i -1] == '$' && ft_isdigit(str[i]) == 1) //"$2000"
 					expand = ft_get_scope_expand(i, start_expand_pos, str, &flag_expand_here);
+				else if (str[i -1] == '$' && ft_isunderscore(str, i)> 0) //"$2000"
+					{
+						i = ft_isunderscore(str, i);
+						expand = ft_get_scope_expand(i, start_expand_pos, str, &flag_expand_here);
+					}
 				else if (str[i] == '\"' || str[i] == '\'') //$"VAR"
 					expand = ft_get_scope_expand(i - 1, start_expand_pos, str, &flag_expand_here);
 				else if (str[i] == '$' && str[i - 1] != '$') //$VAR$
