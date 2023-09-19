@@ -43,3 +43,40 @@ char	**ft_get_path(char **envp)
 	i = 0;
 	return (path_addr);
 }
+
+char	*ft_get_var(char **envp, char *expand)
+{
+	char	**var_content;
+	char 	*var;
+	int		i;
+	size_t 	n;
+
+	i = 0;
+	var = NULL;
+	var_content = NULL;
+	n = ft_strlen(expand);
+	char	slash[2];
+
+	slash[0] = '=';
+	slash[1] = 0;
+	expand = ft_update_string(&expand, ft_strjoin(expand, slash));
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], (&expand[1]), n ) == 0)
+		{
+			var_content = ft_split(&envp[i][n], '=');
+			break ;
+		}
+		i++;
+	}
+	if(var_content == NULL)
+		{
+			ft_free_struct_str(&expand);
+			return(NULL);
+
+		}
+	var = ft_strdup(var_content[0]);
+	ft_update_string(&expand, var);
+	ft_free_tab(&var_content);
+	return (var);
+}

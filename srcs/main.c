@@ -40,7 +40,7 @@ int main(int argc, char *argv[], char *envp[])
 		if(ft_check_bash_syntax_error_caracteres_volee(lst_token) == 0)
 		{	
 			//ft_modify_lst_token(lst_token);
-			ft_expand_and_retokenize(lst_token);
+			ft_expand_and_retokenize(lst_token, envp);
 			cmd = ft_struct_init_cmd(&cmd, lst_token);
 			cmd->path_tab = ft_get_path(envp);	
 			ft_parse_tokens_in_s_cmd(cmd, lst_token);

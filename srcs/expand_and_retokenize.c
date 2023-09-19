@@ -225,29 +225,38 @@ size_t ft_get_end_expand(char *str, t_expand *exp, char **expand, size_t i)
 	return(i);	
 }
 
-void ft_get_start_expand(char *str, t_expand *exp, size_t i, char **invalidators)
-{
+void ft_get_start_expand(char *str, t_expand *exp, size_t i, char *buffer)
+{	
+	char 	*invalidators[] = {"+", ",", "}", "]", "~", "=", NULL};
+
 	exp->flag_expand_here = 1;
 	if (str[i + 1] == '\0' || ft_is_expand_unvalidated(invalidators, str[i + 1]) == 1) //|| str[i + 1] ==  '\"')//cas du ls >VAR$
-		exp->flag_expand_here = 0;
+		{
+			exp->flag_expand_here = 0;
+			buffer[exp->j] = str[i];
+			exp->j = exp->j + 1;
+		}
 	if (exp->flag_expand_here == 1)
 		exp->start_expand_pos = i;
 }
 
-int ft_is_expand_here(char *str, char *buffer)
+
+char *ft_substitute(char *expand, char *envp[])
 {
-	char 		*invalidators[] = {"+", ",", "}", "]", "~", "=", NULL};
+	expand = ft_get_var(envp, expand);
+
+	return(expand);
+}
+
+int ft_is_expand_here(char *str, char *buffer, char *envp[])
+{
 	t_expand 	*exp;
 	char 		*expand;
 	size_t 		i;
-	size_t 		j;
 	
-	
-
 	expand = NULL;
 	exp = NULL;
 	i = 0;
-	j = 0;
 	exp = ft_struct_init_expand(&exp);
 	while (str[i])
 	{
@@ -257,19 +266,23 @@ int ft_is_expand_here(char *str, char *buffer)
 		if (expand != NULL)
 				{
 					printf("expand = %s \n", expand);
-					ft_memcpy(&buffer[j], expand, ft_strlen(expand));
-					j = j + ft_strlen(expand);
+					expand = ft_substitute(expand, envp);
+					if(expand != NULL)
+						{
+							ft_memcpy(&buffer[exp->j], expand, ft_strlen(expand));
+							exp->j = exp->j + ft_strlen(expand);
+						}
 					free(expand);
 					expand = NULL;
 				}
 		if (str[i] == '$' && exp->quoting_rule != 1 && exp->flag_expand_here != 1) //&& que $ n est pas suivi de '\0' ->suivi de \0 signifie que ce n est pas un expand , mais simplement un caractere $
-			ft_get_start_expand(str, exp, i, invalidators);
+			ft_get_start_expand(str, exp, i, buffer);
 		else
 			{
 				if(exp->flag_expand_here != 1)
 				{
-					buffer[j] = str[i];
-					j++;
+					buffer[exp->j] = str[i];
+					exp->j++;
 				}
 			}
 		i++;
@@ -293,7 +306,7 @@ char *ft_dequote(char *str)
 	return(str);
 }
 
-int ft_is_expand_to_substitute(t_list *lst_token)
+int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 {
 	char *str;
 	int i;
@@ -314,7 +327,7 @@ int ft_is_expand_to_substitute(t_list *lst_token)
 			free(buffer);
 			return (0);
 		}
-	if (ft_is_expand_here(str, buffer) == 1)
+	if (ft_is_expand_here(str, buffer, envp) == 1)
 	{
 		printf("expand is here\n");
 	}
@@ -323,7 +336,7 @@ int ft_is_expand_to_substitute(t_list *lst_token)
 	return (0);
 }
 
-void ft_expand_and_retokenize(t_list *lst_token)
+void ft_expand_and_retokenize(t_list *lst_token, char *envp[])
 {
 	t_list *tmp;
 
@@ -333,7 +346,7 @@ void ft_expand_and_retokenize(t_list *lst_token)
 	while (lst_token)
 	{
 
-		ft_is_expand_to_substitute(lst_token);
+		ft_is_expand_to_substitute(lst_token, envp);
 
 		// ft_dequote(lst_token);
 
