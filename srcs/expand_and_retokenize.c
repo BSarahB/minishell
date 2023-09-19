@@ -330,6 +330,11 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 	if (ft_is_expand_here(str, buffer, envp) == 1)
 	{
 		printf("expand is here\n");
+		printf("buffer apres substitution :<%s>\n", buffer);
+
+		if(*buffer == '\0')
+			printf("buffer vide alors que expand a ete substitute\n");//il faudra delete le token de la liste chainee
+
 	}
 	ft_dequote(str);
 	free(buffer);

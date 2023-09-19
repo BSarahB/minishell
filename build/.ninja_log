@@ -65,3 +65,13 @@
 37	250	1695142404807273808	my_minishell	a02263ed682306a0
 0	37	1695142478515264348	CMakeFiles/my_minishell.dir/srcs/get_path.c.o	842455acc4b2ef0e
 38	231	1695142478697264324	my_minishell	a02263ed682306a0
+0	45	1695144567411058074	CMakeFiles/my_minishell.dir/srcs/expand_and_retokenize.c.o	f107b0465054e32c
+46	250	1695144567602058050	my_minishell	a02263ed682306a0
+0	43	1695144619885051670	CMakeFiles/my_minishell.dir/srcs/expand_and_retokenize.c.o	f107b0465054e32c
+45	255	1695144620082051646	my_minishell	a02263ed682306a0
+1	53	1695144769419033421	CMakeFiles/my_minishell.dir/srcs/expand_and_retokenize.c.o	f107b0465054e32c
+54	253	1695144769604033398	my_minishell	a02263ed682306a0
+0	43	1695144847264023921	CMakeFiles/my_minishell.dir/srcs/expand_and_retokenize.c.o	f107b0465054e32c
+44	252	1695144847459023897	my_minishell	a02263ed682306a0
+1	46	1695144934332013295	CMakeFiles/my_minishell.dir/srcs/expand_and_retokenize.c.o	f107b0465054e32c
+47	242	1695144934516013272	my_minishell	a02263ed682306a0
