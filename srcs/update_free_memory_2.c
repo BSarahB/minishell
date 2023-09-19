@@ -12,6 +12,15 @@
 
 #include "minishell.h"
 
+void    ft_free_struct_t_expand(t_expand **exp)
+{
+    if(*exp != NULL)
+    {
+        free(*exp);
+        *exp = NULL;
+    }
+}
+
 void    ft_free_struct_t_settings_del(t_settings_del **del)
 {
 	if(*del != NULL)

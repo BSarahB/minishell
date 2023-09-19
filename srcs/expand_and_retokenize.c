@@ -172,107 +172,125 @@ size_t		ft_isunderscore(char *str, size_t i)
 }
 
 
-int ft_is_expand_here(char *str)
+size_t ft_get_end_expand(char *str, t_expand *exp, char **expand, size_t i)
+{	
+	if(exp->quoting_rule == 1)//ici c est pour le cas :  $VAR'$USER' ->il faut delimiter la fin de l expand $VAR
+	{
+		if (str[i] == '\"' || str[i] == '\'') 
+			*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
+		else if(str[i - 1] != '$' && (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)))//- des qu on rencontre un espace "$VAR l"
+			*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
+	}
+	if (exp->quoting_rule == 0 || exp->quoting_rule == 2)
+	{	
+		if(exp->quoting_rule == 2 && str[i - 1] != '$' && (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)))//- des qu on rencontre un espace "$VAR l"
+			*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
+		else if (str[i -1] == '$' && ft_isdigit(str[i]) == 1) //"$2000"
+			*expand = ft_get_scope_expand(i, exp->start_expand_pos, str, &(exp->flag_expand_here));
+		else if (str[i -1] == '$' && ft_isunderscore(str, i)> 0) //"$2000"
+		{
+			i = ft_isunderscore(str, i);
+			if(str[i + 1] == '\0')
+			{
+				*expand = ft_get_scope_expand(i, exp->start_expand_pos, str, &(exp->flag_expand_here));
+				exp->flag_expand_here = 1;
+			}
+		}
+		else if (str[i] == '\"' || str[i] == '\'') //$"VAR"
+			*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
+		else if (str[i] == '$' && str[i - 1] != '$') //$VAR$
+			*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
+		else if(str[i] == '$' && str[i -1] == '$' && str[i + 1] == '\0') //$VAR$$\0
+			*expand = ft_get_scope_expand(i, exp->start_expand_pos, str, &(exp->flag_expand_here));	
+		else if (ft_is_alphanum(str[i]) == 0) //$VAR+
+		{
+			if(ft_isunderscore(str, i) > 0) //$VAR_
+			{
+				i = ft_isunderscore(str, i);
+				if(str[i + 1] == '\0')
+				{
+					*expand = ft_get_scope_expand(i, exp->start_expand_pos, str, &(exp->flag_expand_here));
+					exp->flag_expand_here = 1;
+				}
+			}
+			else if(!(str[i] == '$' && str[i -1] == '$')) // cs de $VAR$$$
+				*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
+		}
+		else if (str[i + 1] == '\0') //TODO
+		{
+			*expand = ft_get_scope_expand(i, exp->start_expand_pos, str, &(exp->flag_expand_here));
+			exp->flag_expand_here = 1;
+		}
+	}
+	return(i);	
+}
+
+void ft_get_start_expand(char *str, t_expand *exp, size_t i, char **invalidators)
 {
-	int quoting_rule_adequate;
-	int quoting_rule;
-	size_t i;
-	// int i_save;
-	char *invalidators[] = {"+", ",", "}", "]", "~", "=", NULL};
-	// char *delimitators[] = {"#", "]", "{", "}",  "-", "+", "?", "@", "", NULL}; //vont determiner la FIN de l expand
+	exp->flag_expand_here = 1;
+	if (str[i + 1] == '\0' || ft_is_expand_unvalidated(invalidators, str[i + 1]) == 1) //|| str[i + 1] ==  '\"')//cas du ls >VAR$
+		exp->flag_expand_here = 0;
+	if (exp->flag_expand_here == 1)
+		exp->start_expand_pos = i;
+}
 
-	int flag_expand_here;
-	size_t start_expand_pos;
-	size_t end_expand_pos;
-	char *expand;
+int ft_is_expand_here(char *str, char *buffer)
+{
+	char 		*invalidators[] = {"+", ",", "}", "]", "~", "=", NULL};
+	t_expand 	*exp;
+	char 		*expand;
+	size_t 		i;
+	size_t 		j;
+	
+	
 
-	i = 0;
 	expand = NULL;
-	flag_expand_here = 0;
-	quoting_rule_adequate = 0;
-	quoting_rule = 0;
-	start_expand_pos = 0;
-	end_expand_pos = 0;
+	exp = NULL;
+	i = 0;
+	j = 0;
+	exp = ft_struct_init_expand(&exp);
 	while (str[i])
 	{
-		quoting_rule_adequate = ft_get_token_quoting_rule2(str, i, &quoting_rule, &quoting_rule_adequate);
-		// i_save = i;
-		if (flag_expand_here == 1)
-		{
-			if(quoting_rule == 1)//ici c est pour le cas :  $VAR'$USER' ->il faut delimiter la fin de l expand $VAR
-			{
-				if (str[i] == '\"' || str[i] == '\'') 
-					expand = ft_get_scope_expand(i - 1, start_expand_pos, str, &flag_expand_here);
-				else if(str[i - 1] != '$' && (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)))//- des qu on rencontre un espace "$VAR l"
-					expand = ft_get_scope_expand(i - 1, start_expand_pos, str, &flag_expand_here);
-
-			}
-			
-			if (quoting_rule == 0 || quoting_rule == 2)
-			{	
-				if(quoting_rule == 2 && str[i - 1] != '$' && (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)))//- des qu on rencontre un espace "$VAR l"
-					expand = ft_get_scope_expand(i - 1, start_expand_pos, str, &flag_expand_here);
-				else if (str[i -1] == '$' && ft_isdigit(str[i]) == 1) //"$2000"
-					expand = ft_get_scope_expand(i, start_expand_pos, str, &flag_expand_here);
-				else if (str[i -1] == '$' && ft_isunderscore(str, i)> 0) //"$2000"
-					{
-						i = ft_isunderscore(str, i);
-						if(str[i + 1] == '\0')
-								{
-									expand = ft_get_scope_expand(i, start_expand_pos, str, &flag_expand_here);
-									flag_expand_here = 1;
-								}
-					}
-				else if (str[i] == '\"' || str[i] == '\'') //$"VAR"
-					expand = ft_get_scope_expand(i - 1, start_expand_pos, str, &flag_expand_here);
-				else if (str[i] == '$' && str[i - 1] != '$') //$VAR$
-					expand = ft_get_scope_expand(i - 1, start_expand_pos, str, &flag_expand_here);
-				else if(str[i] == '$' && str[i -1] == '$' && str[i + 1] == '\0') //$VAR$$\0
-					expand = ft_get_scope_expand(i, start_expand_pos, str, &flag_expand_here);	
-				else if (ft_is_alphanum(str[i]) == 0) //$VAR+
-				{
-					//$VAR_
-					if(ft_isunderscore(str, i) > 0)
-						{
-							i = ft_isunderscore(str, i);
-							if(str[i + 1] == '\0')
-								{
-									expand = ft_get_scope_expand(i, start_expand_pos, str, &flag_expand_here);
-									flag_expand_here = 1;
-								}
-						}
-					else if(!(str[i] == '$' && str[i -1] == '$')) // cs de $VAR$$$
-						expand = ft_get_scope_expand(i - 1, start_expand_pos, str, &flag_expand_here);
-				}
-				else if (str[i + 1] == '\0') //TODO
-					{
-						expand = ft_get_scope_expand(i, start_expand_pos, str, &flag_expand_here);
-						flag_expand_here = 1;
-					}
-			}		
-			if (expand != NULL)
+		exp->quoting_rule_adequate = ft_get_token_quoting_rule2(str, exp->i, &(exp->quoting_rule), &(exp->quoting_rule_adequate));
+		if (exp->flag_expand_here == 1)
+			i = ft_get_end_expand(str, exp, &expand, i);
+		if (expand != NULL)
 				{
 					printf("expand = %s \n", expand);
+					ft_memcpy(&buffer[j], expand, ft_strlen(expand));
+					j = j + ft_strlen(expand);
 					free(expand);
 					expand = NULL;
 				}
-	
-		}
-		if (str[i] == '$' && quoting_rule != 1 && flag_expand_here != 1) //&& que $ n est pas suivi de '\0' ->suivi de \0 signifie que ce n est pas un expand , mais simplement un caractere $
-		{
-			flag_expand_here = 1;
-			if (str[i + 1] == '\0' || ft_is_expand_unvalidated(invalidators, str[i + 1]) == 1) //|| str[i + 1] ==  '\"')//cas du ls >VAR$
-				flag_expand_here = 0;
-			if (flag_expand_here == 1)
-				start_expand_pos = i;
-		}
+		if (str[i] == '$' && exp->quoting_rule != 1 && exp->flag_expand_here != 1) //&& que $ n est pas suivi de '\0' ->suivi de \0 signifie que ce n est pas un expand , mais simplement un caractere $
+			ft_get_start_expand(str, exp, i, invalidators);
+		else
+			{
+				if(exp->flag_expand_here != 1)
+				{
+					buffer[j] = str[i];
+					j++;
+				}
+			}
 		i++;
 	}
 	//printf("start_expand_pos = %zu, end_expand_pos = %zu \n", start_expand_pos, end_expand_pos);
-	if (flag_expand_here == 0)
-		return (0);
+	printf("<%s>\n", buffer);
+	if (exp->flag_expand_here == 0)
+			{
+				ft_free_struct_t_expand(&exp);
+				return (0);
+			}
 	else
-		return (1);
+		{
+			ft_free_struct_t_expand(&exp);
+			return (1);
+		}
+}
+
+char *ft_dequote(char *str)
+{
+	return(str);
 }
 
 int ft_is_expand_to_substitute(t_list *lst_token)
@@ -296,44 +314,11 @@ int ft_is_expand_to_substitute(t_list *lst_token)
 			free(buffer);
 			return (0);
 		}
-	if (ft_is_expand_here(str) == 1)
+	if (ft_is_expand_here(str, buffer) == 1)
 	{
 		printf("expand is here\n");
-
-		/*while(str[i]) //ft_expand_authorized
-		{
-
-
-			quoting_rule_adequate = ft_get_token_quoting_rule2(str, i, &quoting_rule, &quoting_rule_adequate);
-			i_save = i;
-			if(str[i] == '$' && quoting_rule != 1) //&& que $ n est pas suivi de '\0' ->suivi de \0 signifie que ce n est pas un expand , mais simplement un caractere $
-				{
-					if(str[i + 1] == '\0') //|| str[i + 1] ==  '\"')//cas du ls >VAR$
-						{
-							printf("$ is ending the token");
-							return(0);
-						}
-					ft_get_scope_expand(lst_token);
-			//	if(ft_expand_exists(lst_token) == 1)
-			//	{
-
-			//	}
-			//	else
-			//		return(0);
-				}
-			else{
-				buffer[i_save] = str[i];
-			}
-			i++;
-			if(quoting_rule_adequate == 1)
-				quoting_rule_adequate = 0;
-
-		}
-
-		printf("buffer : %s\n, buffer");
-		*/
 	}
-
+	ft_dequote(str);
 	free(buffer);
 	return (0);
 }
