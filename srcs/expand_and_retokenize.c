@@ -237,7 +237,10 @@ void ft_get_start_expand(char *str, t_expand *exp, size_t i, char *buffer)
 			exp->j = exp->j + 1;
 		}
 	if (exp->flag_expand_here == 1)
-		exp->start_expand_pos = i;
+		{
+			exp->start_expand_pos = i;
+			exp->flag_expand_in_token = 1;
+		}
 }
 
 
@@ -289,7 +292,7 @@ int ft_is_expand_here(char *str, char *buffer, char *envp[])
 	}
 	//printf("start_expand_pos = %zu, end_expand_pos = %zu \n", start_expand_pos, end_expand_pos);
 	printf("<%s>\n", buffer);
-	if (exp->flag_expand_here == 0)
+	if (exp->flag_expand_in_token == 0)
 			{
 				ft_free_struct_t_expand(&exp);
 				return (0);
@@ -305,6 +308,42 @@ char *ft_dequote(char *str)
 {
 	return(str);
 }
+
+char *ft_epur_buffer_ws(char *buffer)
+{//TODO rajouter la condition pas dans les blocs de quoting
+	int i;
+	int j;
+	int flag;
+	char *new_buffer;
+
+	new_buffer = ft_init_string(1096);
+	i = 0;
+	j = 0;
+	flag = 0;
+	if(buffer[i] == ' ' || buffer[i] == '\t')
+		i++;
+	while(buffer[i])
+	{
+		if(buffer[i] == ' ' || buffer[i] == '\t')
+			flag = 1;
+		if(!(buffer[i] == ' ' || buffer[i] == '\t'))
+		{
+			if(flag)
+				{
+					new_buffer[j] = ' ';
+					j++;
+				}
+			flag = 0;
+			new_buffer[j] = buffer[i];
+			j++;
+		}
+		if(flag == 1 && buffer[i + 1] == '\0')
+			new_buffer[j] = ' ';
+		i++;
+	}
+	ft_update_string(&buffer, new_buffer);
+	return(new_buffer);
+} 
 
 int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 {
@@ -334,7 +373,11 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 
 		if(*buffer == '\0')
 			printf("buffer vide alors que expand a ete substitute\n");//il faudra delete le token de la liste chainee
-
+		else
+			{
+				buffer = ft_epur_buffer_ws(buffer);
+				printf("buffer apres epur_buffer : <%s>\n", buffer);
+			}
 	}
 	ft_dequote(str);
 	free(buffer);

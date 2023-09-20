@@ -55,11 +55,11 @@ char	*ft_get_var(char **envp, char *expand)
 	var = NULL;
 	var_content = NULL;
 	n = ft_strlen(expand);
-	char	slash[2];
+	char	equal[2];
 
-	slash[0] = '=';
-	slash[1] = 0;
-	expand = ft_update_string(&expand, ft_strjoin(expand, slash));
+	equal[0] = '=';
+	equal[1] = 0;
+	expand = ft_update_string(&expand, ft_strjoin(expand, equal));
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], (&expand[1]), n ) == 0)

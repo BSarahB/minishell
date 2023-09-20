@@ -22,6 +22,7 @@ t_expand	*ft_struct_init_expand(t_expand **exp)
 	(*exp)->i = 0;
 	(*exp)->j = 0;
 	(*exp)->flag_expand_here = 0;
+	(*exp)->flag_expand_in_token = 0;
 	(*exp)->start_expand_pos = 0;
 	(*exp)->end_expand_pos = 0;
 	
