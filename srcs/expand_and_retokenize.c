@@ -439,6 +439,15 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 			free(buffer);
 			return (0);
 		}
+	if(lst_token->prev)
+	{
+		if (lst_token->prev->title == redir_heredoc)
+		{
+			printf("heredoc to not expand\n");
+			free(buffer);
+			return(0);
+		}
+	}
 	if (ft_is_expand_here(str, buffer, envp) == 1)
 	{
 		printf("expand is here\n");
@@ -452,6 +461,7 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 				printf("buffer apres epur_buffer :epur <%s> epur\n", buffer);
 				trimmed_buffer = ft_strtrim(buffer, " ");
 				printf("buffer apres trim_buffer :trim <%s> trim\n", trimmed_buffer);
+				//ON VA ABORDER LA SUITE de LEXPANSION DURANT LE PARSING (phase de retokenization et de DEQUOTE car nous avons besoin de savoir si la cmd principale qui gouverne notre expand est echo )
 
 			}
 	}
