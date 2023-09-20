@@ -48,6 +48,7 @@ t_list *ft_lstnew_for_lst(t_data *data)
 	if (!new)
 		return (NULL);
 	new->content = data->token->content;
+	new->back_up = data->token->back_up;
 	new->type = data->token->type;
 	new->title = data->token->title;
 	new->quoting_rule = data->token->quoting_rule;
@@ -68,6 +69,7 @@ t_list *ft_lstnew_data_token(char *content)
 	if (!list)
 		return (NULL);
 	list->content = content;
+	list->back_up = NULL;
 	list->position = 0;
 	list->end_token_pos = 0;
 	list->start_token_pos = 0;

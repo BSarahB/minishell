@@ -23,6 +23,11 @@ void	ft_free_struct_t_list_lst_token(t_list **lst_token)
 			free((*lst_token)->content);
 			(*lst_token)->content = NULL;
 		}
+		if((*lst_token)->back_up != NULL)
+		{
+			free((*lst_token)->back_up);
+			(*lst_token)->back_up = NULL;
+		}
 		ft_free_struct_t_list_lst_token(&((*lst_token)->next));
 		free(*lst_token);
 		*lst_token = NULL;

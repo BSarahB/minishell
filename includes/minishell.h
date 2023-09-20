@@ -90,6 +90,7 @@ typedef struct s_expand
 typedef struct s_list
 {
 	char			*content;
+	char			*back_up;
 	size_t			position;
 	int				type;
 	int				title;

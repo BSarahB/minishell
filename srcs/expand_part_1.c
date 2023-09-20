@@ -12,6 +12,9 @@
 
 #include "minishell.h"
 
+//Dans cette partie 1 de l expand on va : delimiter le scope, substituer, epur le buffer des ws sauf dans les 'bloc' et "bloc", trim les extremites du token en enlevant les ws  
+//on prepare ainsi le terrain pour le token on fera la 2 eme partie lors du parsing puisque nous avons besoin de determiner si echo ou none est la cmd principale qui gouverne les expands  
+
 /*
 0/Delimiter le debut et a fin de l expand (cf fiche pour les regles QR 0 et QR 2)
 0/A le debut de l expand : SI $ EST En QUOTING RULE == 0 : $ doit etre obligatoirement suivi:
@@ -53,37 +56,6 @@ delimitateurs
 5/RETOKENIZE / si echo : PAS de retokenize
 6/DEQUOTE(quote removal sauf dans les "bloc" ou 'bloc') (epurer la string des signes "" ou ' sauf quand ils sont dans  des "bloc" ou 'bloc')
 */
-
-/*
-void	ft_is_trim_and_clear_and_retokenize_token_allowed(t_list *lst_token)
-{
-
-
-}
-
-
-char *ft_substitute(t_list *lst_token)
-{
-	char *expanded_content;
-	expanded_content == NULL;
-
-	//on va effectuer la substitution /expansion de notre VAR
-	return(expanded_content);
-
-}
-
-
-void	ft_get_token_expansion(void)
-{
-}
-
-*/
-
-// void ft_get_scope_expand(void)
-//{
-
-//}
-
 
 char 	*ft_get_expand_lengh_for_malloc(size_t start_expand_pos, size_t end_expand_pos)
 {
@@ -156,7 +128,6 @@ char *ft_get_scope_expand(size_t end_expand_pos, size_t start_expand_pos, char *
 	expand = ft_get_expand_content(start_expand_pos, end_expand_pos, str);
 	return(expand);
 }
-
 
 size_t		ft_isunderscore(char *str, size_t i)
 {
@@ -243,7 +214,6 @@ void ft_get_start_expand(char *str, t_expand *exp, size_t i, char *buffer)
 		}
 }
 
-
 char *ft_substitute(char *expand, char *envp[])
 {
 	expand = ft_get_var(envp, expand);
@@ -304,10 +274,6 @@ int ft_is_expand_here(char *str, char *buffer, char *envp[])
 		}
 }
 
-char *ft_dequote(char *str)
-{
-	return(str);
-}
 
 char *ft_epur_buffer_ws(char *buffer)
 {//TODO rajouter la condition pas dans les blocs de quoting
@@ -428,10 +394,9 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 	buffer = ft_init_string(1096);
 	str = lst_token->content;
 	trimmed_buffer = NULL;
-	// backup_content = ft_strdup(lst_token->content);
-
 	i = 0;
 	i_save = i;
+	lst_token->back_up = ft_strdup(lst_token->content);	
 	if (str == NULL)
 		return (0);
 	if (ft_strcmp(lst_token->content, "$") == 0)
@@ -458,16 +423,15 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 		else
 			{
 				buffer = ft_epur_buffer_ws(buffer);
-				printf("buffer apres epur_buffer :epur <%s> epur\n", buffer);
+				printf("epur <%s> epur\n", buffer);
 				trimmed_buffer = ft_strtrim(buffer, " ");
-				printf("buffer apres trim_buffer :trim <%s> trim\n", trimmed_buffer);
+				printf("trim <%s> trim\n", trimmed_buffer);
 				//ON VA ABORDER LA SUITE de LEXPANSION DURANT LE PARSING (phase de retokenization et de DEQUOTE car nous avons besoin de savoir si la cmd principale qui gouverne notre expand est echo )
 
 			}
+		ft_update_string(&lst_token->content, trimmed_buffer);
 	}
-	ft_dequote(str);
 	free(buffer);
-	free(trimmed_buffer);
 	return (0);
 }
 
@@ -482,6 +446,8 @@ void ft_expand_and_retokenize(t_list *lst_token, char *envp[])
 	{
 
 		ft_is_expand_to_substitute(lst_token, envp);
+		printf("back_up <%s> back_up\n", lst_token->back_up);
+		printf("content <%s> content\n", lst_token->content);
 
 		// ft_dequote(lst_token);
 
