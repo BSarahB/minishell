@@ -263,7 +263,7 @@ int ft_is_expand_here(char *str, char *buffer, char *envp[])
 	exp = ft_struct_init_expand(&exp);
 	while (str[i])
 	{
-		exp->quoting_rule_adequate = ft_get_token_quoting_rule2(str, exp->i, &(exp->quoting_rule), &(exp->quoting_rule_adequate));
+		exp->quoting_rule_adequate = ft_get_token_quoting_rule2(str, i, &(exp->quoting_rule), &(exp->quoting_rule_adequate));
 		if (exp->flag_expand_here == 1)
 			i = ft_get_end_expand(str, exp, &expand, i);
 		if (expand != NULL)
@@ -315,6 +315,8 @@ char *ft_epur_buffer_ws(char *buffer)
 	int j;
 	int flag;
 	char *new_buffer;
+	int quoting_rule;
+	int quoting_rule_adequate;
 
 	new_buffer = ft_init_string(1096);
 	i = 0;
@@ -322,10 +324,21 @@ char *ft_epur_buffer_ws(char *buffer)
 	flag = 0;
 	if(buffer[i] == ' ' || buffer[i] == '\t')
 		i++;
+	quoting_rule_adequate = 0;
+	quoting_rule = 0;
 	while(buffer[i])
 	{
-		if(buffer[i] == ' ' || buffer[i] == '\t')
-			flag = 1;
+		quoting_rule_adequate = ft_get_token_quoting_rule2(buffer, i, &quoting_rule, &quoting_rule_adequate);
+		 if(buffer[i] == ' ' || buffer[i] == '\t')//if(exp->quoting_rule == 0 && (buffer[i] == ' ' || buffer[i] == '\t'))
+			{
+				flag = 1;
+				if(quoting_rule == 2 || quoting_rule == 1)
+					{
+						new_buffer[j] = ' ';
+						j++;
+						flag = 0;
+					}
+			}
 		if(!(buffer[i] == ' ' || buffer[i] == '\t'))
 		{
 			if(flag)
@@ -345,16 +358,76 @@ char *ft_epur_buffer_ws(char *buffer)
 	return(new_buffer);
 } 
 
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*tab;
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	j = 0;
+	if (!s)
+		return (NULL);
+	if (!(tab = (char*)malloc(sizeof(char) * (len + 1))))
+		return (NULL);
+	while (s[j])
+	{
+		if (start <= j && i < len)
+		{
+			tab[i] = s[j];
+			i++;
+		}
+		j++;
+	}
+	tab[i] = '\0';
+	return (tab);
+}
+
+static int	ft_isset(char *set, char c)
+{
+	while (*set)
+	{
+		if (*set == c)
+			return (1);
+		set++;
+	}
+	return (0);
+}
+
+char		*ft_strtrim(char const *s1, char const *set)
+{
+	size_t	start;
+	size_t	len;
+	char	*set2;
+	char	*s;
+
+	if (!s1 || !set)
+		return (NULL);
+	set2 = (char *)set;
+	s = (char *)s1;
+	start = 0;
+	while (s[start] && (ft_isset(set2, s[start]) == 1))
+		start++;
+	len = ft_strlen((char *)&s[start]);
+	if (len != 0)
+		while (s[start + len - 1]
+				&& (ft_isset(set2, s[start + len - 1]) == 1))
+			len--;
+	return (ft_substr(s1, start, len));
+}
+
 int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 {
 	char *str;
 	int i;
 	int i_save;
 	char *buffer;
+	char *trimmed_buffer;
 	// char *backup_content;
 
 	buffer = ft_init_string(1096);
 	str = lst_token->content;
+	trimmed_buffer = NULL;
 	// backup_content = ft_strdup(lst_token->content);
 
 	i = 0;
@@ -376,11 +449,15 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 		else
 			{
 				buffer = ft_epur_buffer_ws(buffer);
-				printf("buffer apres epur_buffer : <%s>\n", buffer);
+				printf("buffer apres epur_buffer :epur <%s> epur\n", buffer);
+				trimmed_buffer = ft_strtrim(buffer, " ");
+				printf("buffer apres trim_buffer :trim <%s> trim\n", trimmed_buffer);
+
 			}
 	}
 	ft_dequote(str);
 	free(buffer);
+	free(trimmed_buffer);
 	return (0);
 }
 
