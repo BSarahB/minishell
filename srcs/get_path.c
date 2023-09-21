@@ -69,7 +69,7 @@ char	*ft_get_var(char **envp, char *expand)
 		}
 		i++;
 	}
-	if(var_content == NULL)
+	if(var_content == NULL || var_content[0] == NULL)
 		{
 			ft_free_struct_str(&expand);
 			return(NULL);

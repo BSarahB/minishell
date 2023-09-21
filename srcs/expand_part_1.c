@@ -226,17 +226,23 @@ void	ft_check_expand_for_tag_ambigeous(char *expand, t_expand *exp, t_list *lst_
 	int i;
 
 	i= 0;
-	if(exp->quoting_rule == 0 && lst_token->prev->title == redir_in)
+	if(exp->quoting_rule == 0)
 	{
-		if(expand[i])
-		while(expand[i])
+		if(lst_token->prev != NULL)
 		{
-			if(expand[i] == ' ')
+			if(lst_token->prev->title == redir_in || lst_token->prev->title == redir_out)
+			{
+				if(expand[i])
+				while(expand[i])
 				{
-					lst_token->tag_ambigeous = 1;
-					return;
+					if(expand[i] == ' ')
+					{
+						lst_token->tag_ambigeous = 1;
+						return;
+					}
+				i++;
 				}
-			i++;
+			}
 		}
 	}
 }
@@ -445,14 +451,30 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 		
 
 		
-		if(*buffer == '\0' || lst_token->tag_ambigeous == 1)
+		if(lst_token->tag_ambigeous == 1)
 		{
 			printf("buffer vide alors que expand a ete substitute\n");//il faudra delete le token de la liste chainee
-			if(lst_token->prev->title == redir_in)
+			if(lst_token->prev != NULL)
+			{
+				if(lst_token->prev->title == redir_in || lst_token->prev->title == redir_out)
 				{
 					lst_token->tag_ambigeous = 1;
 					printf("tag_ambigeous YES\n");
 				}
+			}
+		}
+		else if(*buffer == '\0')
+		{
+			printf("buffer vide alors que expand a ete substitute\n");//il faudra delete le token de la liste chainee
+			if(lst_token->prev != NULL)
+			{
+				if(lst_token->prev->title == redir_in || lst_token->prev->title == redir_out)
+				{
+					lst_token->tag_ambigeous = 1;
+					printf("tag_ambigeous YES\n");
+				}
+			}
+		
 		}
 		else
 			{
@@ -463,11 +485,13 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 				//ON VA ABORDER LA SUITE de LEXPANSION DURANT LE PARSING (phase de retokenization et de DEQUOTE car nous avons besoin de savoir si la cmd principale qui gouverne notre expand est echo )
 
 			}
+		
 		if(lst_token->tag_ambigeous != 1) //si on est sur une ambigeous redir on laisse betom le remplacement de content par le trimmed buffer
 			ft_update_string(&lst_token->content, trimmed_buffer); 
 		
 	}
 	free(buffer);
+	buffer = NULL;
 	return (0);
 }
 

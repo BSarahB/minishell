@@ -49,6 +49,8 @@ void    ft_parse_redir_out(t_list *lst, t_simpleCmd *simpleCmd, size_t i)
 		simpleCmd->outfile[i + 1] = NULL;
 	if(lst->title == redir_append)
 		simpleCmd->append_track_index[i] = 1;
+	if(lst->tag_ambigeous == 1)
+		simpleCmd->append_track_index[i] = 2;	
 }
 
 void	ft_parse(t_list *lst, t_simpleCmd *simpleCmd, size_t i, t_cmd *cmd)

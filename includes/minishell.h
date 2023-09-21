@@ -252,7 +252,6 @@ t_list			*ft_lst_first(t_list *lst);
 t_list 			*ft_readjust_start_lst_token(t_list *start_lst_token, t_cmd *cmd, size_t i);
 void			ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, size_t index, t_list **lst_token, t_cmd *cmd);
 void 			ft_reconnect_lst_token(t_list *lst_token, size_t position);
-
 void 			ft_count_nb_of_infile_in_simpleCmd(t_simpleCmd *simpleCmd);
 void 			ft_count_nb_of_outfile_in_simpleCmd(t_simpleCmd *simpleCmd);
 void 			ft_count_nb_of_errfile_in_simpleCmd(t_simpleCmd *simpleCmd);
@@ -315,7 +314,6 @@ void			ft_error_heredoc(char *const str, int line_count);
 int				find_length(int n);
 char			*ft_itoa(int n);
 void			ft_restore_original_in_and_out(t_settings *set);
-
 //***1st simpleCmd:
 void			ft_first_simpleCmd_w_infile(t_settings *set, t_cmd *cmd);
 int				ft_set_fdin_for_first_s_cmd_w_infile(t_settings *set, t_cmd *cmd, int flag_random_heredoc);
@@ -326,14 +324,11 @@ void			ft_open_outfiles(t_settings *set, t_cmd *cmd);
 void			ft_regular_simpleCmd(t_settings *set, t_cmd *cmd);
 void    		ft_open_infiles(t_settings *set, t_cmd *cmd);
 int     		ft_set_fdin_for_regular_simpleCmd(t_settings *set, t_cmd *cmd, int flag_random_heredoc);
-
 //*****last simpleCmd : 
 void			ft_last_simpleCmd(t_settings *set, t_cmd *cmd);
 void			ft_open_outfiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd, int k);
 int 			ft_set_fdin_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd, int flag_random_heredoc);
 void 			ft_set_fdin_error_msg(t_settings *set, t_cmd *cmd);
-
-
 //heredoc.c
 void			ft_heredoc_interaction(t_cmd *cmd, size_t i, int mode);
 int 			ft_open_heredoc_hidden_file(int mode, int fd);
@@ -354,7 +349,6 @@ void			ft_save_in_and_out(t_settings *set);
 void			ft_restore_original_in_and_out(t_settings *set);
 void			ft_open_outfiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd, int k);
 void			ft_open_outfiles(t_settings *set, t_cmd *cmd);
-
 void			ft_free_in_child(t_cmd *cmd, t_data *data,char *line);
 //EXPAND
 t_expand		*ft_struct_init_expand(t_expand **exp);
@@ -369,13 +363,9 @@ char			*ft_dequote(char *str);
 void			ft_modify_lst_token(t_list *lst_token);
 void 			ft_expand_and_retokenize(t_list *lst_token, char *envp[]);
 int 			ft_is_expand_to_substitute(t_list *lst_token, char *envp[]);
-
 int				ft_is_expand_unvalidated(char **invalidators, char c);
 int				ft_strcmp_char(char c1, char c2);
 void   			ft_free_struct_t_expand(t_expand **exp);
 char 			*ft_substitute(char *expand, char *envp[]);
-
 char			*ft_get_var(char **envp, char *expand);
-
-
 #endif
