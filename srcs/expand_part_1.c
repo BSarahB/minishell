@@ -221,7 +221,28 @@ char *ft_substitute(char *expand, char *envp[])
 	return(expand);
 }
 
-int ft_is_expand_here(char *str, char *buffer, char *envp[])
+void	ft_check_expand_for_tag_ambigeous(char *expand, t_expand *exp, t_list *lst_token)
+{
+	int i;
+
+	i= 0;
+	if(exp->quoting_rule == 0 && lst_token->prev->title == redir_in)
+	{
+		if(expand[i])
+		while(expand[i])
+		{
+			if(expand[i] == ' ')
+				{
+					lst_token->tag_ambigeous = 1;
+					return;
+				}
+			i++;
+		}
+	}
+}
+
+
+int ft_is_expand_here(t_list *lst_token, char *str, char *buffer, char *envp[])
 {
 	t_expand 	*exp;
 	char 		*expand;
@@ -244,6 +265,8 @@ int ft_is_expand_here(char *str, char *buffer, char *envp[])
 						{
 							ft_memcpy(&buffer[exp->j], expand, ft_strlen(expand));
 							exp->j = exp->j + ft_strlen(expand);
+							ft_check_expand_for_tag_ambigeous(expand, exp, lst_token);
+
 						}
 					free(expand);
 					expand = NULL;
@@ -413,13 +436,24 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 			return(0);
 		}
 	}
-	if (ft_is_expand_here(str, buffer, envp) == 1)
+	if (ft_is_expand_here(lst_token, str, buffer, envp) == 1)
 	{
+		lst_token->expand_exists = 1;
+	
 		printf("expand is here\n");
 		printf("buffer apres substitution :<%s>\n", buffer);
+		
 
-		if(*buffer == '\0')
+		
+		if(*buffer == '\0' || lst_token->tag_ambigeous == 1)
+		{
 			printf("buffer vide alors que expand a ete substitute\n");//il faudra delete le token de la liste chainee
+			if(lst_token->prev->title == redir_in)
+				{
+					lst_token->tag_ambigeous = 1;
+					printf("tag_ambigeous YES\n");
+				}
+		}
 		else
 			{
 				buffer = ft_epur_buffer_ws(buffer);
@@ -429,7 +463,9 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 				//ON VA ABORDER LA SUITE de LEXPANSION DURANT LE PARSING (phase de retokenization et de DEQUOTE car nous avons besoin de savoir si la cmd principale qui gouverne notre expand est echo )
 
 			}
-		ft_update_string(&lst_token->content, trimmed_buffer);
+		if(lst_token->tag_ambigeous != 1) //si on est sur une ambigeous redir on laisse betom le remplacement de content par le trimmed buffer
+			ft_update_string(&lst_token->content, trimmed_buffer); 
+		
 	}
 	free(buffer);
 	return (0);

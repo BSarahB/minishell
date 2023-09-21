@@ -360,7 +360,7 @@ void			ft_free_in_child(t_cmd *cmd, t_data *data,char *line);
 t_expand		*ft_struct_init_expand(t_expand **exp);
 int 			ft_get_token_quoting_rule2(char *str, size_t i, int *quoting_rule, int *quoting_rule_adequate);
 void			ft_tag_ambigeous_for_redir(t_list *lst_token);
-int 			ft_is_expand_here(char *str, char *buffer, char *envp[]);
+int 			ft_is_expand_here(t_list *lst_token, char *str, char *buffer, char *envp[]);
 char 			*ft_get_scope_expand(size_t end_expand_pos, size_t start_expand_pos, char *str, int *flag_expand_here);
 int 			ft_is_expand_to_substitute_redir(t_list *lst_token);
 int 			ft_tag_ambiguous_redir(t_list *lst_token);
