@@ -55,3 +55,10 @@
 273	361	1695297238758103958	CMakeFiles/my_minishell.dir/srcs/struct_init_expand.c.o	d48d4e5536faf74b
 0	50	1695492362965361347	CMakeFiles/my_minishell.dir/srcs/update_free_memory_2.c.o	7a324444513d453c
 51	252	1695492363153361420	my_minishell	652695cede2619bf
+1	47	1695495121715554863	CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.o	90fb619465caef73
+48	253	1695495121904554862	my_minishell	652695cede2619bf
+0	37	1695495601691543185	CMakeFiles/my_minishell.dir/srcs/update_free_memory_2.c.o	7a324444513d453c
+0	46	1695495601702543185	CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.o	90fb619465caef73
+47	247	1695495601889543178	my_minishell	652695cede2619bf
+1	38	1695496098233499485	CMakeFiles/my_minishell.dir/srcs/setting_redirections.c.o	90fb619465caef73
+39	225	1695496098404499463	my_minishell	652695cede2619bf

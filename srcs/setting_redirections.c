@@ -69,8 +69,11 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, ch
 	t_settings	*set;
 
 	set = ft_struct_init_settings(&set); //todo proteger si set ==NULL
-	if(cmd->simpleCmds[set->i] == NULL)
-		return 0;//TODO rectifier le bon exit status
+	if(cmd->simpleCmds[set->i] == NULL)//mettre cela dans la while car on pourrait tres bien tomber sur la 2 eme simplecmd dans laquelle on aurait la simpleCmd == null
+		{
+			ft_free_struct_t_settings(&set);
+			return 0;
+		}//TODO rectifier le bon exit status
 	ft_save_in_and_out(set);//sauvegardes des vrais in et out
 	ft_set_fdin_for_first_simpleCmd(set, cmd);//on parametre infile + on parametre fdin
 	while(set->i < cmd->nb_of_simpleCmds) //on parcourt ici chaque processus == chaque simple cmd pour les fr heriter des redirections
