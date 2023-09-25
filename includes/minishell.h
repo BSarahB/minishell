@@ -90,7 +90,7 @@ typedef struct s_expand
 typedef struct s_list
 {
 	char			*content;
-	char			*back_up;
+//	char			*back_up;
 	size_t			position;
 	int				type;
 	int				title;
@@ -368,4 +368,7 @@ int				ft_strcmp_char(char c1, char c2);
 void   			ft_free_struct_t_expand(t_expand **exp);
 char 			*ft_substitute(char *expand, char *envp[]);
 char			*ft_get_var(char **envp, char *expand);
+int ft_get_token_quoting_rule3(char *str,size_t i, int *quoting_rule, int *quoting_rule_adequate, char *buffer_dequote, int *j);
+
+
 #endif

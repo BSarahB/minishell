@@ -851,4 +851,7 @@ get_token_type.c
 //FACTORIZE
 get_token_type.c ->il y a un parametre en trop
 
- 
+ //EXPAND
+ >$Q >BEBE | ls -> on n aura pas le fichier BEBE cree
+ >BEBE >$Q | ls -> BEBE sera cree
+ le compprtement d un outfile ambiguous est le meme qu un nofile

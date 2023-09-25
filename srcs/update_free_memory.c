@@ -17,17 +17,17 @@ void	ft_free_struct_t_list_lst_token(t_list **lst_token)
 	//dans lst_token j ai malloc str et content mais le str, je m en occupe dans le parsing du cmd_and_Args je crois 
 	if(*lst_token != NULL)
 	{
-		//free((*lst_token)->content); pas bon deja free dans simpleCmd cmd and args
 		if((*lst_token)->content != NULL)
 		{
 			free((*lst_token)->content);
 			(*lst_token)->content = NULL;
 		}
+		/*
 		if((*lst_token)->back_up != NULL)
 		{
 			free((*lst_token)->back_up);
 			(*lst_token)->back_up = NULL;
-		}
+		}*/
 		ft_free_struct_t_list_lst_token(&((*lst_token)->next));
 		free(*lst_token);
 		*lst_token = NULL;

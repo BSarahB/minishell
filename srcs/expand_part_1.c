@@ -425,7 +425,7 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 	trimmed_buffer = NULL;
 	i = 0;
 	i_save = i;
-	lst_token->back_up = ft_strdup(lst_token->content);	
+//lst_token->back_up = ft_strdup(lst_token->content);	
 	if (str == NULL)
 		return (0);
 	if (ft_strcmp(lst_token->content, "$") == 0)
@@ -487,7 +487,11 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 			}
 		
 		if(lst_token->tag_ambigeous != 1) //si on est sur une ambigeous redir on laisse betom le remplacement de content par le trimmed buffer
-			ft_update_string(&lst_token->content, trimmed_buffer); 
+			{
+				ft_update_string(&lst_token->content, trimmed_buffer); 
+				//free(lst_token->back_up);
+			//	lst_token->back_up = NULL;
+			}
 		
 	}
 	free(buffer);
@@ -506,10 +510,9 @@ void ft_expand_and_retokenize(t_list *lst_token, char *envp[])
 	{
 
 		ft_is_expand_to_substitute(lst_token, envp);
-		printf("back_up <%s> back_up\n", lst_token->back_up);
+	//	printf("back_up <%s> back_up\n", lst_token->back_up);
 		printf("content <%s> content\n", lst_token->content);
 
-		// ft_dequote(lst_token);
 
 		lst_token = lst_token->next;
 	}

@@ -31,9 +31,40 @@ void    ft_parse_redir_heredoc(t_list *lst, t_simpleCmd *simpleCmd, t_cmd *cmd)
 	cmd->k = cmd->k +1; //ICI l index sera +1 a la sortie .... si on voulait s en servir pour recuperer last .... il faut mettre le else
 }
 
+
+
+char *ft_dequote(char *str)
+{
+
+	char 	*buffer_dequote;
+	int 	i;
+	int		j;
+	int 	quoting_rule_adequate;
+	int 	quoting_rule;
+
+	buffer_dequote = ft_init_string(1096);
+	i = 0;
+	j = 0;
+	quoting_rule_adequate = 0;
+	quoting_rule = 0;
+	while(str[i])
+	{
+		ft_get_token_quoting_rule3(str, i, &quoting_rule, &quoting_rule_adequate, buffer_dequote, &j);
+		i++;
+	
+	}
+//	printf("buffer_dequote <%s> buffer_dequote\n", buffer_dequote);
+	buffer_dequote = ft_update_string(&str, buffer_dequote);
+	return(buffer_dequote);
+	//return(buffer_dequote);
+}
+
+
+
 void    ft_parse_redir_in(t_list *lst, t_simpleCmd *simpleCmd, size_t i)
 {
-    simpleCmd->infile[i] = ft_strdup(lst->content);
+    simpleCmd->infile[i] = ft_dequote(ft_strdup(lst->content));
+	printf("dequote <%s> dequote \n",simpleCmd->infile[i]);
     if(i == simpleCmd->nb_of_infile -1)
 		simpleCmd->infile[i + 1] = NULL;
 	if(lst->title == redir_heredoc)
@@ -44,6 +75,7 @@ void    ft_parse_redir_in(t_list *lst, t_simpleCmd *simpleCmd, size_t i)
 
 void    ft_parse_redir_out(t_list *lst, t_simpleCmd *simpleCmd, size_t i)
 {
+
     simpleCmd->outfile[i] = ft_strdup(lst->content);
 	if(i == simpleCmd->nb_of_outfile -1)
 		simpleCmd->outfile[i + 1] = NULL;
