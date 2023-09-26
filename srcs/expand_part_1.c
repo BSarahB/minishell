@@ -460,6 +460,10 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 				{
 					lst_token->tag_ambigeous = 1;
 					printf("tag_ambigeous YES\n");
+					if(lst_token->prev->title == redir_out)
+						{
+							lst_token->prev->title = redir_in;
+						}
 				}
 			}
 		}
@@ -472,6 +476,10 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 				{
 					lst_token->tag_ambigeous = 1;
 					printf("tag_ambigeous YES\n");
+					if(lst_token->prev->title == redir_out)
+					{
+						lst_token->prev->title = redir_in;
+					}
 				}
 			}
 		
@@ -489,6 +497,13 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 		if(lst_token->tag_ambigeous != 1) //si on est sur une ambigeous redir on laisse betom le remplacement de content par le trimmed buffer
 			{
 				ft_update_string(&lst_token->content, trimmed_buffer); 
+				if(ft_strcmp(lst_token->content, "\"\"") == 0)
+				{
+					if(lst_token->prev->title == redir_out)
+					{
+						lst_token->prev->title = redir_in;
+					}
+				}
 				//free(lst_token->back_up);
 			//	lst_token->back_up = NULL;
 			}

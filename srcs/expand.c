@@ -48,6 +48,11 @@ int ft_get_token_quoting_rule3(char *str,size_t i, int *quoting_rule, int *quoti
 			*quoting_rule = 2;
 		if (c == '\'')
 			*quoting_rule = 1;
+		else
+			{
+				buffer_dequote[*j] = c;
+				*j = *j + 1;
+			}
 	}
 	else
 	{

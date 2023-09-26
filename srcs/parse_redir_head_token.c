@@ -57,7 +57,7 @@ t_settings_del	*ft_redir_in_head(t_list *curr, t_cmd *cmd, t_list *lst_token, t_
 {
 	t_list *lst_token_to_remove;
 	t_list *lst_token_to_remove2;
-	int fdin;
+	
 
 	lst_token_to_remove = curr;
 	lst_token_to_remove2 = curr->next;
@@ -65,13 +65,7 @@ t_settings_del	*ft_redir_in_head(t_list *curr, t_cmd *cmd, t_list *lst_token, t_
 		curr->next->title = redir_in;
 	if(curr->title == redir_heredoc)
 		curr->next->title = redir_heredoc;
-	if(cmd->simpleCmds[del->index]->nofile == 0  && curr->next->title == redir_in) //J AI RETIRE UN ->next
-	{
-		if((fdin = open(lst_token_to_remove2->content, O_RDONLY)) == -1) //TODO revenir ici
-			cmd->simpleCmds[del->index]->nofile = 1;
-		else
-			close(fdin);
-	}
+	
 	if(del->index != 0)
 	{
 		ft_reconnect_lst_token(lst_token, lst_token_to_remove->position);

@@ -63,6 +63,8 @@ char *ft_dequote(char *str)
 
 void    ft_parse_redir_in(t_list *lst, t_simpleCmd *simpleCmd, size_t i)
 {
+	int fdin;
+
     simpleCmd->infile[i] = ft_dequote(ft_strdup(lst->content));
 	printf("dequote <%s> dequote \n",simpleCmd->infile[i]);
     if(i == simpleCmd->nb_of_infile -1)
@@ -70,19 +72,26 @@ void    ft_parse_redir_in(t_list *lst, t_simpleCmd *simpleCmd, size_t i)
 	if(lst->title == redir_heredoc)
 		simpleCmd->heredoc_track_index[i] = 1;
 	if(lst->tag_ambigeous == 1)
-		simpleCmd->heredoc_track_index[i] = 2;		
+		simpleCmd->heredoc_track_index[i] = 2;
+	if(simpleCmd->nofile == 0 && lst->title == redir_in) //J AI RETIRE UN ->next
+	{
+		if((fdin = open( simpleCmd->infile[i], O_RDONLY)) == -1) //TODO revenir ici
+			simpleCmd->nofile = 1;
+		else
+			close(fdin);
+	}		
 }
 
 void    ft_parse_redir_out(t_list *lst, t_simpleCmd *simpleCmd, size_t i)
 {
 
-    simpleCmd->outfile[i] = ft_strdup(lst->content);
+    simpleCmd->outfile[i] = ft_dequote(ft_strdup(lst->content));
 	if(i == simpleCmd->nb_of_outfile -1)
 		simpleCmd->outfile[i + 1] = NULL;
 	if(lst->title == redir_append)
 		simpleCmd->append_track_index[i] = 1;
 	if(lst->tag_ambigeous == 1)
-		simpleCmd->append_track_index[i] = 2;	
+		simpleCmd->append_track_index[i] = 2;
 }
 
 void	ft_parse(t_list *lst, t_simpleCmd *simpleCmd, size_t i, t_cmd *cmd)
