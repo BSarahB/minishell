@@ -94,10 +94,16 @@ int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, t_list *lst_token)
 		ft_malloc_redir_file_tabs_of_simpleCmd(cmd->simpleCmds[i]);
 		if(cmd->simpleCmds[i]->nb_of_redir_token > 0)
 			ft_del_and_parse_redir_token_in_simpleCmd(&start_lst_token, i, &lst_token, cmd);	
+		ft_retokenize_and_dequote_token(cmd, start_lst_token, cmd->simpleCmds[i]);
 		ft_count_final_nb_of_tokens_in_simpleCmd(start_lst_token, cmd->simpleCmds[i]);
 		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(start_lst_token, cmd->simpleCmds[i]);
 		if(start_lst_token != NULL)
 			start_lst_token = ft_readjust_start_lst_token(start_lst_token, cmd, i);
+		
+		//boucler sur les tokens jusqu a la end_simpleCmd_pos
+		//ft_retokenize_and_dequote(cmd);
+		printf("list_durant_le parsing avec i = %zu\n", i);
+		ft_aff_list_ptr_sur_char_content(lst_token);
 		i++;
 	}
 	ft_get_last_heredoc_position(cmd);

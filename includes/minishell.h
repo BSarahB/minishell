@@ -90,7 +90,6 @@ typedef struct s_expand
 typedef struct s_list
 {
 	char			*content;
-//	char			*back_up;
 	size_t			position;
 	int				type;
 	int				title;
@@ -104,6 +103,7 @@ typedef struct s_list
 	size_t			end_token_pos;
 	size_t			quoting_rule_adequate;
 	int				tag_ambigeous;
+	int				tag_empty_cmd;
 } t_list;
 
 typedef struct s_data
@@ -368,7 +368,8 @@ int				ft_strcmp_char(char c1, char c2);
 void   			ft_free_struct_t_expand(t_expand **exp);
 char 			*ft_substitute(char *expand, char *envp[]);
 char			*ft_get_var(char **envp, char *expand);
-int ft_get_token_quoting_rule3(char *str,size_t i, int *quoting_rule, int *quoting_rule_adequate, char *buffer_dequote, int *j);
+int 			ft_get_token_quoting_rule3(char *str,size_t i, int *quoting_rule, int *quoting_rule_adequate, char *buffer_dequote, int *j);
+void			ft_retokenize_and_dequote_token(t_cmd *cmd, t_list *start_lst_token, t_simpleCmd *simpleCmd);
 
 
 #endif

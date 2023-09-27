@@ -855,3 +855,8 @@ get_token_type.c ->il y a un parametre en trop
  >$Q >BEBE | ls -> on n aura pas le fichier BEBE cree
  >BEBE >$Q | ls -> BEBE sera cree
  le compprtement d un outfile ambiguous est le meme qu un nofile
+
+
+ //EXPAND : 
+ les " ', issues de l expansion n ont aucune valeur de quoting rule ni de separateur. Pour eviter de dequote une quote de l expansion ou de retokenizer sur un mauvais espace induit en erreur par une mauvaise quoting rule issue de l expansion, il faut absolument recuperer le scope de l expand, et garder en memoire dans la strcuture l index j du buffer attribue lors de la substitution, puis lors de l epur et puis lors de trim -> il faudra update l index au fur et a mesure........
+ 
