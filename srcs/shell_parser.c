@@ -77,27 +77,98 @@ t_list	*ft_lst_first(t_list *lst)
 	return(lst);
 }
 
-
-int ft_count_nb_lst_token(t_list *lst_token)
+void	ft_flag_empty_head_list(t_cmd *cmd, t_settings_del *del)
 {
-	int i = 0;
-	while(lst_token->tag_empty_cmd == 1)
-		{
-			lst_token = lst_token->next;
-		}
-	while(lst_token->position)
-	{
+	if(cmd->flag_empty_head_list == -1 && del->index == 0)
+		cmd->flag_empty_head_list = 1;
+}
 
-		i++;
-		lst_token = lst_token->next;
+t_settings_del *ft_del_empty_in_middle(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del)
+{
+	t_list *lst_token_to_remove;
+	//int fdin;
 
-	}
-	printf("%d\n",i);
-	return (i);
-
+	(void)lst_token;
+	lst_token_to_remove = curr;
+//	if(cmd->simpleCmds[del->index]->nofile == 0 && curr->next->title == redir_in)
+//	{
+	//	if((fdin = open(lst_token_to_remove2->content, O_RDONLY)) == -1)
+	//		cmd->simpleCmds[del->index]->nofile = 1;
+	//	else
+		//	close(fdin);
+	//}
+	curr->next =  curr->next->next;//ls
+	ft_lstdelone(&lst_token_to_remove);
+	del->i++;
+	if(curr->next == NULL)
+		cmd->simpleCmds[del->index]->end_simpleCmd_pos = curr->position;
+	return(del);
 }
 
 
+
+
+t_list	*ft_middle_empty_token(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del)
+{
+	if(curr->tag_empty_cmd_before_DQ == 1)
+		del = ft_del_empty_in_middle(curr, cmd, lst_token, del);
+	else
+		curr = curr->next;	
+	return(curr);
+}
+
+t_settings_del	*ft_del_empty_in_head(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del)
+{
+	(void)cmd;
+	t_list *lst_token_to_remove;
+
+	lst_token_to_remove = curr;	
+	if(del->index != 0)
+	{
+		ft_reconnect_lst_token(lst_token, lst_token_to_remove->position);
+	}
+	ft_lstdelone(&lst_token_to_remove);
+	del->i++;
+	return(del);
+}
+
+t_list	*ft_head_empty_token(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del)
+{
+	t_list			*next;
+
+	next = NULL;
+	ft_flag_empty_head_list(cmd, del);
+	next = curr->next;
+	if(next && del->index == 0)
+		next->prev = NULL;
+	if(curr->tag_empty_cmd_before_DQ)
+		del = ft_del_empty_in_head(curr, cmd, lst_token, del);
+	curr = next;
+	return(curr);
+}
+void	ft_del_empty_token_in_simpleCmd(t_list **alst, size_t index, t_list **lst_token, t_cmd *cmd)
+{
+	t_list			*curr;
+	t_settings_del	*del2;
+
+	curr = *alst;
+	if(*alst == NULL)
+		return;
+	del2 = ft_struct_init_settings_del(&del2);//proteger del si ==NULL
+	del2->index = index;	
+	curr = *alst;
+	while (curr != NULL && curr->next != NULL && curr->tag_empty_cmd_before_DQ == 1)
+		curr = ft_head_empty_token(curr, cmd, *lst_token, del2);
+	if(cmd->flag_empty_head_list == 1)
+		{
+			*lst_token = curr;
+			cmd->flag_empty_head_list = 0;
+		}
+	*alst = curr;
+	while(curr != NULL && (curr->position < cmd->simpleCmds[del2->index]->end_simpleCmd_pos) && (curr->next != NULL && curr->next->position < cmd->simpleCmds[del2->index]->end_simpleCmd_pos))
+		curr = ft_middle_empty_token(curr, cmd, *lst_token, del2);
+	ft_free_struct_t_settings_del(&del2);
+}
 
 int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, t_list *lst_token)
 {
@@ -109,7 +180,6 @@ int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, t_list *lst_token)
 	i = 0;
 	start_lst_token = lst_token;
 	ft_malloc_heredocs_of_cmd(cmd);
-	ft_count_nb_lst_token(lst_token);
 	while (i < cmd->nb_of_simpleCmds && start_lst_token != NULL)
 	{
 printf("start_lst_token------->  <%s>\n", start_lst_token->content);
@@ -117,7 +187,8 @@ printf("start_lst_token------->  <%s>\n", start_lst_token->content);
 		ft_count_nb_of_redir_token_in_simpleCmd(cmd, cmd->simpleCmds[i], start_lst_token, i);
 		ft_malloc_redir_file_tabs_of_simpleCmd(cmd->simpleCmds[i]);
 		if(cmd->simpleCmds[i]->nb_of_redir_token > 0)
-			ft_del_and_parse_redir_token_in_simpleCmd(&start_lst_token, i, &lst_token, cmd);	
+			ft_del_and_parse_redir_token_in_simpleCmd(&start_lst_token, i, &lst_token, cmd);
+		ft_del_empty_token_in_simpleCmd(&start_lst_token, i, &lst_token, cmd);	
 		ft_retokenize_and_dequote_token_1(cmd, start_lst_token, cmd->simpleCmds[i]);
 		//delete de la liste chainee les tokens empty avant dequote pour pouvoir faire le bon compte et le parsing des tokens
 		//[peut etre quil ne faut pas delete, sous peine de creer un pb au niveau des pipe nrmalement non. mais checker d abord pour etre sure]
@@ -125,7 +196,8 @@ printf("start_lst_token------->  <%s>\n", start_lst_token->content);
 		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(start_lst_token, cmd->simpleCmds[i]);
 		if(start_lst_token != NULL)
 			start_lst_token = ft_readjust_start_lst_token(start_lst_token, cmd, i);
-		printf("start_lst_token------->  <%s>\n", start_lst_token->content);
+		if(start_lst_token != NULL)
+			printf("start_lst_token------->  <%s>\n", start_lst_token->content);
 		printf("list_durant_le parsing avec i = %zu\n", i);
 		ft_aff_list_ptr_sur_char_content(lst_token);
 		i++;

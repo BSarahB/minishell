@@ -291,6 +291,7 @@ int ft_is_expand_here(t_list *lst_token, char *str, char *buffer, char *envp[])
 	}
 	//printf("start_expand_pos = %zu, end_expand_pos = %zu \n", start_expand_pos, end_expand_pos);
 	printf("<%s>\n", buffer);
+
 	if (exp->flag_expand_in_token == 0)
 			{
 				ft_free_struct_t_expand(&exp);
@@ -500,7 +501,9 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 				ft_update_string(&lst_token->content, trimmed_buffer); 
 				if(lst_token->content == NULL)
 				{
-					lst_token->tag_empty_cmd = 1;
+					lst_token->tag_empty_cmd_before_DQ = 1;
+					ft_update_string(&lst_token->content, ft_strdup("empty")); 
+
 				}
 				else if(ft_strcmp(lst_token->content, "\"\"") == 0)
 				{
@@ -513,7 +516,7 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 					}
 					else 
 					{
-						lst_token->tag_empty_cmd = 1;
+						lst_token->tag_empty_cmd_after_DQ = 1;
 					}
 				}
 				//free(lst_token->back_up);

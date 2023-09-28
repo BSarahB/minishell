@@ -103,7 +103,8 @@ typedef struct s_list
 	size_t			end_token_pos;
 	size_t			quoting_rule_adequate;
 	int				tag_ambigeous;
-	int				tag_empty_cmd;
+	int				tag_empty_cmd_before_DQ;
+	int				tag_empty_cmd_after_DQ;
 } t_list;
 
 typedef struct s_data
@@ -153,6 +154,7 @@ typedef struct s_cmd
 	int			background;
 	t_list	 	*lst_token;
 	int			flag_head_list;
+	int			flag_empty_head_list;
 	size_t		nb_of_infile;
 	size_t		nb_of_outfile;
 	size_t		nb_of_errfile;

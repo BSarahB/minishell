@@ -28,7 +28,7 @@ int main(int argc, char *argv[], char *envp[])
 	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);
-   		line = readline(" ~ ");
+     		line = readline(" ~ ");
 		if (!line)
 			break;
 		add_history(line);
