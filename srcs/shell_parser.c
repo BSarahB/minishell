@@ -77,6 +77,28 @@ t_list	*ft_lst_first(t_list *lst)
 	return(lst);
 }
 
+
+int ft_count_nb_lst_token(t_list *lst_token)
+{
+	int i = 0;
+	while(lst_token->tag_empty_cmd == 1)
+		{
+			lst_token = lst_token->next;
+		}
+	while(lst_token->position)
+	{
+
+		i++;
+		lst_token = lst_token->next;
+
+	}
+	printf("%d\n",i);
+	return (i);
+
+}
+
+
+
 int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, t_list *lst_token)
 {
 	int		exec_return;
@@ -87,21 +109,23 @@ int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, t_list *lst_token)
 	i = 0;
 	start_lst_token = lst_token;
 	ft_malloc_heredocs_of_cmd(cmd);
+	ft_count_nb_lst_token(lst_token);
 	while (i < cmd->nb_of_simpleCmds && start_lst_token != NULL)
 	{
+printf("start_lst_token------->  <%s>\n", start_lst_token->content);
 		ft_get_end_simpleCmd_pos(cmd, cmd->simpleCmds[i], &start_lst_token); 
 		ft_count_nb_of_redir_token_in_simpleCmd(cmd, cmd->simpleCmds[i], start_lst_token, i);
 		ft_malloc_redir_file_tabs_of_simpleCmd(cmd->simpleCmds[i]);
 		if(cmd->simpleCmds[i]->nb_of_redir_token > 0)
 			ft_del_and_parse_redir_token_in_simpleCmd(&start_lst_token, i, &lst_token, cmd);	
 		ft_retokenize_and_dequote_token_1(cmd, start_lst_token, cmd->simpleCmds[i]);
+		//delete de la liste chainee les tokens empty avant dequote pour pouvoir faire le bon compte et le parsing des tokens
+		//[peut etre quil ne faut pas delete, sous peine de creer un pb au niveau des pipe nrmalement non. mais checker d abord pour etre sure]
 		ft_count_final_nb_of_tokens_in_simpleCmd(start_lst_token, cmd->simpleCmds[i]);
 		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(start_lst_token, cmd->simpleCmds[i]);
 		if(start_lst_token != NULL)
 			start_lst_token = ft_readjust_start_lst_token(start_lst_token, cmd, i);
-		
-		//boucler sur les tokens jusqu a la end_simpleCmd_pos
-		//ft_retokenize_and_dequote(cmd);
+		printf("start_lst_token------->  <%s>\n", start_lst_token->content);
 		printf("list_durant_le parsing avec i = %zu\n", i);
 		ft_aff_list_ptr_sur_char_content(lst_token);
 		i++;

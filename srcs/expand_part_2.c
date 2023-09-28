@@ -179,17 +179,17 @@ t_data	*ft_retokenize_and_dequote_token_2(t_cmd *cmd, t_list *start_lst_token, t
 void ft_retokenize_and_dequote_token_1(t_cmd *cmd, t_list *start_lst_token, t_simpleCmd *simpleCmd)
 {
 	t_data	*data2;
-	t_list *lst_token_retokenized;
+	t_list *start_lst_token_retokenized;
 
 
   	data2 = NULL;
-	lst_token_retokenized = NULL;
+	start_lst_token_retokenized = NULL;
 	data2 = ft_struct_init_data(&data2); //TODO proteger tous les mallocs
 	data2 = ft_retokenize_and_dequote_token_2(cmd, start_lst_token, simpleCmd, data2);
-	lst_token_retokenized = data2->lst_token;
+	start_lst_token_retokenized = data2->lst_token;
 
-	if(lst_token_retokenized)
-			ft_free_struct_t_list_lst_token(&lst_token_retokenized);
+	if(start_lst_token_retokenized)
+			ft_free_struct_t_list_lst_token(&start_lst_token_retokenized);
 	ft_free_struct_t_data(&data2);
 }
 

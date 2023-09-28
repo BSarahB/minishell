@@ -500,9 +500,9 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 				ft_update_string(&lst_token->content, trimmed_buffer); 
 				if(lst_token->content == NULL)
 				{
-
+					lst_token->tag_empty_cmd = 1;
 				}
-				if(ft_strcmp(lst_token->content, "\"\"") == 0)
+				else if(ft_strcmp(lst_token->content, "\"\"") == 0)
 				{
 					if(lst_token->prev != NULL)
 					{
