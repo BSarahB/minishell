@@ -128,7 +128,7 @@ t_data *ft_retokenize(t_list *tmp, t_data *data2)
 	return(ft_trim_and_clear2(tmp->content, data2));
 }
 
-void ft_retokenize_and_dequote_token(t_cmd *cmd, t_list *start_lst_token, t_simpleCmd *simpleCmd)
+t_data	*ft_retokenize_and_dequote_token_2(t_cmd *cmd, t_list *start_lst_token, t_simpleCmd *simpleCmd, t_data *data2)
 {
 	size_t	k;
 	size_t	token_in_simpleCmd_nbr;
@@ -137,42 +137,59 @@ void ft_retokenize_and_dequote_token(t_cmd *cmd, t_list *start_lst_token, t_simp
 	(void)simpleCmd;
 	(void)k;
 	(void)cmd;
-    t_data	*data2;
-
-    data2 = NULL;
+	char *check_dequote;
+  
     flag_retokenize = -1;
 	token_in_simpleCmd_nbr = 0;
 	tmp = start_lst_token;
-	data2 = ft_struct_init_data(&data2);
-	while (tmp !=NULL && tmp->position < simpleCmd->end_simpleCmd_pos)
-	{ 
-    	if(flag_retokenize == -1)
+	if(tmp != NULL)
+	{
+		if(flag_retokenize == -1)
         {
-            if(flag_retokenize == -1 && ft_strcmp(ft_dequote(ft_strdup(tmp->content)), "echo") == 0)
+			check_dequote = ft_dequote(ft_strdup(tmp->content));
+            if(flag_retokenize == -1 && ft_strcmp(check_dequote, "echo") == 0)
                 {
                     flag_retokenize = 0;  
                 }
             else
                 flag_retokenize = 1;
+			printf("check_DQ <%s> check_DQ\n", check_dequote);
+			free(check_dequote);
         }
-        if(flag_retokenize == 1)
+       
+	}
+	while (tmp !=NULL && tmp->position < simpleCmd->end_simpleCmd_pos)
+	{ 
+    	if(flag_retokenize == 1)
         {
             data2 = ft_retokenize(tmp, data2);
         }
-
-
 		tmp = tmp->next;
 	}
-	if(tmp !=NULL && tmp->position == simpleCmd->end_simpleCmd_pos && tmp->title != operator)
+	if(tmp != NULL && tmp->position == simpleCmd->end_simpleCmd_pos && tmp->title != operator)
 	{
 		if(flag_retokenize == 1)
         {
             data2= ft_retokenize(tmp, data2);
         }
-		return;
 	}
-	
+	return (data2);
 }
 
+void ft_retokenize_and_dequote_token_1(t_cmd *cmd, t_list *start_lst_token, t_simpleCmd *simpleCmd)
+{
+	t_data	*data2;
+	t_list *lst_token_retokenized;
 
+
+  	data2 = NULL;
+	lst_token_retokenized = NULL;
+	data2 = ft_struct_init_data(&data2); //TODO proteger tous les mallocs
+	data2 = ft_retokenize_and_dequote_token_2(cmd, start_lst_token, simpleCmd, data2);
+	lst_token_retokenized = data2->lst_token;
+
+	if(lst_token_retokenized)
+			ft_free_struct_t_list_lst_token(&lst_token_retokenized);
+	ft_free_struct_t_data(&data2);
+}
 

@@ -369,7 +369,8 @@ void   			ft_free_struct_t_expand(t_expand **exp);
 char 			*ft_substitute(char *expand, char *envp[]);
 char			*ft_get_var(char **envp, char *expand);
 int 			ft_get_token_quoting_rule3(char *str,size_t i, int *quoting_rule, int *quoting_rule_adequate, char *buffer_dequote, int *j);
-void			ft_retokenize_and_dequote_token(t_cmd *cmd, t_list *start_lst_token, t_simpleCmd *simpleCmd);
+void			ft_retokenize_and_dequote_token_1(t_cmd *cmd, t_list *start_lst_token, t_simpleCmd *simpleCmd);
+t_data 			*ft_retokenize_and_dequote_token_2(t_cmd *cmd, t_list *start_lst_token, t_simpleCmd *simpleCmd, t_data *data2);
 
 
 #endif
