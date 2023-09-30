@@ -80,6 +80,7 @@ t_list	*ft_lst_first(t_list *lst)
 void	ft_flag_empty_head_list(t_cmd *cmd, t_settings_del *del)
 {
 	if(cmd->flag_empty_head_list == -1 && del->index == 0)
+
 		cmd->flag_empty_head_list = 1;
 }
 
@@ -97,11 +98,14 @@ t_settings_del *ft_del_empty_in_middle(t_list *curr, t_cmd *cmd, t_list *lst_tok
 	//	else
 		//	close(fdin);
 	//}
-	curr->next =  curr->next->next;//ls
+	curr->next =  curr->next;//ls
+	if(curr->next == NULL)
+		cmd->simpleCmds[del->index]->end_simpleCmd_pos = curr->position -1;
+	if(curr->prev != NULL)
+		curr->prev->next = curr->next;
 	ft_lstdelone(&lst_token_to_remove);
 	del->i++;
-	if(curr->next == NULL)
-		cmd->simpleCmds[del->index]->end_simpleCmd_pos = curr->position;
+	
 	return(del);
 }
 
@@ -110,11 +114,16 @@ t_settings_del *ft_del_empty_in_middle(t_list *curr, t_cmd *cmd, t_list *lst_tok
 
 t_list	*ft_middle_empty_token(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del)
 {
+	t_list *curr_save;
 	if(curr->tag_empty_cmd_before_DQ == 1)
+	{
+		curr_save = curr->next;
 		del = ft_del_empty_in_middle(curr, cmd, lst_token, del);
+			
+	}
 	else
-		curr = curr->next;	
-	return(curr);
+		curr_save = curr->next;	
+	return(curr_save);
 }
 
 t_settings_del	*ft_del_empty_in_head(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del)
@@ -165,7 +174,7 @@ void	ft_del_empty_token_in_simpleCmd(t_list **alst, size_t index, t_list **lst_t
 			cmd->flag_empty_head_list = 0;
 		}
 	*alst = curr;
-	while(curr != NULL && (curr->position < cmd->simpleCmds[del2->index]->end_simpleCmd_pos) && (curr->next != NULL && curr->next->position < cmd->simpleCmds[del2->index]->end_simpleCmd_pos))
+	while(curr != NULL && (curr->position <= cmd->simpleCmds[del2->index]->end_simpleCmd_pos))
 		curr = ft_middle_empty_token(curr, cmd, *lst_token, del2);
 	ft_free_struct_t_settings_del(&del2);
 }
@@ -182,7 +191,7 @@ int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, t_list *lst_token)
 	ft_malloc_heredocs_of_cmd(cmd);
 	while (i < cmd->nb_of_simpleCmds && start_lst_token != NULL)
 	{
-printf("start_lst_token------->  <%s>\n", start_lst_token->content);
+		printf("start_lst_token------->  <%s>\n", start_lst_token->content);
 		ft_get_end_simpleCmd_pos(cmd, cmd->simpleCmds[i], &start_lst_token); 
 		ft_count_nb_of_redir_token_in_simpleCmd(cmd, cmd->simpleCmds[i], start_lst_token, i);
 		ft_malloc_redir_file_tabs_of_simpleCmd(cmd->simpleCmds[i]);
