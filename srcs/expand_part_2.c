@@ -184,6 +184,11 @@ void ft_retokenize_and_dequote_token_1(t_cmd *cmd, t_list *start_lst_token, t_si
 
   	data2 = NULL;
 	start_lst_token_retokenized = NULL;
+	if(start_lst_token == NULL)
+	{
+		simpleCmd->flag_empty_simpleCmd = 1;
+		return;
+	}
 	data2 = ft_struct_init_data(&data2); //TODO proteger tous les mallocs
 	data2 = ft_retokenize_and_dequote_token_2(cmd, start_lst_token, simpleCmd, data2);
 	start_lst_token_retokenized = data2->lst_token;

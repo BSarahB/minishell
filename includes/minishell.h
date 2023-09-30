@@ -116,6 +116,7 @@ typedef struct s_data
 typedef struct s_simpleCmd
 {
 	size_t	nb_of_tokens_in_simpleCmd;
+	size_t 	flag_empty_simpleCmd;
 	size_t	nb_of_redir_token;
 	size_t	nb_of_heredoc;
 	size_t	k;
@@ -373,6 +374,7 @@ char			*ft_get_var(char **envp, char *expand);
 int 			ft_get_token_quoting_rule3(char *str,size_t i, int *quoting_rule, int *quoting_rule_adequate, char *buffer_dequote, int *j);
 void			ft_retokenize_and_dequote_token_1(t_cmd *cmd, t_list *start_lst_token, t_simpleCmd *simpleCmd);
 t_data 			*ft_retokenize_and_dequote_token_2(t_cmd *cmd, t_list *start_lst_token, t_simpleCmd *simpleCmd, t_data *data2);
+void	ft_lstdelone_beta(t_list *lst);
 
 
 #endif

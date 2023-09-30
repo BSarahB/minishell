@@ -90,7 +90,7 @@ t_settings_del *ft_del_empty_in_middle(t_list *curr, t_cmd *cmd, t_list *lst_tok
 	//int fdin;
 
 	(void)lst_token;
-	lst_token_to_remove = curr;
+	lst_token_to_remove = curr->next;
 //	if(cmd->simpleCmds[del->index]->nofile == 0 && curr->next->title == redir_in)
 //	{
 	//	if((fdin = open(lst_token_to_remove2->content, O_RDONLY)) == -1)
@@ -98,12 +98,11 @@ t_settings_del *ft_del_empty_in_middle(t_list *curr, t_cmd *cmd, t_list *lst_tok
 	//	else
 		//	close(fdin);
 	//}
-	curr->next =  curr->next;//ls
+	curr->next =  curr->next->next;//ls
 	if(curr->next == NULL)
-		cmd->simpleCmds[del->index]->end_simpleCmd_pos = curr->position -1;
-	if(curr->prev != NULL)
-		curr->prev->next = curr->next;
-	ft_lstdelone(&lst_token_to_remove);
+		cmd->simpleCmds[del->index]->end_simpleCmd_pos = curr->position;
+
+	ft_lstdelone_beta(lst_token_to_remove);
 	del->i++;
 	
 	return(del);
@@ -114,16 +113,15 @@ t_settings_del *ft_del_empty_in_middle(t_list *curr, t_cmd *cmd, t_list *lst_tok
 
 t_list	*ft_middle_empty_token(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del)
 {
-	t_list *curr_save;
-	if(curr->tag_empty_cmd_before_DQ == 1)
+	if(curr->next == NULL)
+		curr = curr->next;
+	else if(curr->next->tag_empty_cmd_before_DQ == 1)
 	{
-		curr_save = curr->next;
-		del = ft_del_empty_in_middle(curr, cmd, lst_token, del);
-			
+		del = ft_del_empty_in_middle(curr, cmd, lst_token, del);	
 	}
 	else
-		curr_save = curr->next;	
-	return(curr_save);
+		curr = curr->next;	
+	return(curr);
 }
 
 t_settings_del	*ft_del_empty_in_head(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del)
@@ -166,6 +164,11 @@ void	ft_del_empty_token_in_simpleCmd(t_list **alst, size_t index, t_list **lst_t
 	del2 = ft_struct_init_settings_del(&del2);//proteger del si ==NULL
 	del2->index = index;	
 	curr = *alst;
+	//pour $Q solo
+	while( curr!= NULL && ft_strcmp(curr->content, "empty")== 0 && curr->tag_empty_cmd_before_DQ == 1)
+		{
+			curr = ft_head_empty_token(curr, cmd, *lst_token, del2);	
+		}
 	while (curr != NULL && curr->next != NULL && curr->tag_empty_cmd_before_DQ == 1)
 		curr = ft_head_empty_token(curr, cmd, *lst_token, del2);
 	if(cmd->flag_empty_head_list == 1)

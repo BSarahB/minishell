@@ -50,6 +50,7 @@ t_simpleCmd *ft_struct_init_simpleCmd(t_simpleCmd **simpleCmd)
 	(*simpleCmd)->heredoc_track_index = NULL;
 	(*simpleCmd)->end_simpleCmd_pos = 0;
 	(*simpleCmd)->nb_of_tokens_in_simpleCmd = 0;
+	(*simpleCmd)->flag_empty_simpleCmd = 0;
 	(*simpleCmd)->nb_of_redir_token = 0;
 	(*simpleCmd)->nb_of_heredoc = 0;
 	(*simpleCmd)->k = 0;
