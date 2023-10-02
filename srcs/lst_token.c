@@ -60,6 +60,21 @@ t_list *ft_lstnew_for_lst_retokenized2(t_list *token)
 
 
 
+t_list *ft_lstnew_for_lst_token_copy(t_list *tmp)
+{
+	t_list *new;
+
+	new = malloc(sizeof(t_list));
+	if (!new)
+		return (NULL);
+	new->content = ft_dequote(ft_strdup(tmp->content));
+	new->title = tmp->title;
+	new->position = tmp->position;
+	new->next = NULL;
+	new->prev = NULL;
+	return (new);
+}
+
 t_list *ft_lstnew_for_lst_retokenized(t_list *start_lst_token_retokenized)
 {
 	t_list *new;
@@ -75,7 +90,29 @@ t_list *ft_lstnew_for_lst_retokenized(t_list *start_lst_token_retokenized)
 	return (new);
 }
 
+t_list *ft_lstnew_for_lst2(t_data *data)
+{
+	t_list *new;
 
+	new = malloc(sizeof(t_list));
+	if (!new)
+		return (NULL);
+	new->content = ft_dequote(data->token->content);
+	//new->back_up = data->token->back_up;
+	new->type = data->token->type;
+	new->title = data->token->title;
+	new->quoting_rule = data->token->quoting_rule;
+//	new->quoting_rule_adequate = 0;
+//	new->retokenize_allowed = 0;
+	new->tag_ambigeous = data->token->tag_ambigeous;
+	new->tag_empty_cmd_before_DQ = data->token->tag_empty_cmd_before_DQ;
+	new->tag_empty_cmd_after_DQ = data->token->tag_empty_cmd_after_DQ;
+
+	new->expand_exists = data->token->expand_exists;
+	new->next = NULL;
+	new->prev = NULL;
+	return (new);
+}
 t_list *ft_lstnew_for_lst(t_data *data)
 {
 	t_list *new;

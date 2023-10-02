@@ -198,7 +198,7 @@ int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, t_list *lst_token)
 	{
 		printf("start_lst_token------->  <%s>\n", start_lst_token->content);
 		ft_get_end_simpleCmd_pos(cmd, cmd->simpleCmds[i], &start_lst_token);
-	//	printf(" END SCMD lst_token------->  <%s>\n",((ft_lstfind(cmd->lst_token, cmd->simpleCmds[i]->end_simpleCmd_pos))->content));
+	//	printf(" END SCMD lst_token------->  <%s>\n",((ft_lstfind(cmd->lst_token, cmd->simpleCmds[i]->end_simpleCmd_pos))->content));//ne marche pas quand on a un empty token qu on delete de la liste chainee
 
 		ft_count_nb_of_redir_token_in_simpleCmd(cmd, cmd->simpleCmds[i], start_lst_token, i);
 		ft_malloc_redir_file_tabs_of_simpleCmd(cmd->simpleCmds[i]);

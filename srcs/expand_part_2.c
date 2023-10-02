@@ -21,7 +21,7 @@ int ft_get_token_content2(t_data *data, int start_token_pos, int end_token_pos, 
 
 	ft_get_token_content_lengh_for_malloc(data->token, start_token_pos, end_token_pos);
 	data->token->content = ft_memcpy(data->token->content, &line[start_token_pos], (size_t)(end_token_pos - start_token_pos + 1));
-	new = ft_lstnew_for_lst(data);
+	new = ft_lstnew_for_lst2(data);
 	ft_lstadd_back(&(data->lst_token), new);
 	data->token->quoting_rule = 0;
 	data->token->quoting_rule_adequate = 0;
@@ -128,6 +128,16 @@ t_data *ft_retokenize(t_list *tmp, t_data *data2)
 	return(ft_trim_and_clear2(tmp->content, data2));
 }
 
+t_data *ft_copy_token(t_list *tmp, t_data *data2)
+{
+		t_list *new;
+
+		new = ft_lstnew_for_lst_token_copy(tmp);
+		ft_lstadd_back(&(data2->lst_token), new);
+		return(data2);
+}
+
+
 t_data	*ft_retokenize_and_dequote_token_2(t_cmd *cmd, t_list *start_lst_token, t_simpleCmd *simpleCmd, t_data *data2)
 {
 	size_t	k;
@@ -149,7 +159,7 @@ t_data	*ft_retokenize_and_dequote_token_2(t_cmd *cmd, t_list *start_lst_token, t
 			check_dequote = ft_dequote(ft_strdup(tmp->content));
             if(flag_retokenize == -1 && ft_strcmp(check_dequote, "echo") == 0)
                 {
-                    flag_retokenize = 0;  
+                    flag_retokenize = 0;
                 }
             else
                 flag_retokenize = 1;
@@ -164,6 +174,10 @@ t_data	*ft_retokenize_and_dequote_token_2(t_cmd *cmd, t_list *start_lst_token, t
         {
             data2 = ft_retokenize(tmp, data2);
         }
+		if(flag_retokenize == 0)
+		{
+			data2 = ft_copy_token(tmp, data2);
+		}
 		tmp = tmp->next;
 	}
 	if(tmp != NULL && tmp->position == simpleCmd->end_simpleCmd_pos && tmp->title != operator)
@@ -172,6 +186,11 @@ t_data	*ft_retokenize_and_dequote_token_2(t_cmd *cmd, t_list *start_lst_token, t
         {
             data2= ft_retokenize(tmp, data2);
         }
+		if(flag_retokenize == 0)
+		{
+			data2 = ft_copy_token(tmp, data2);
+
+		}
 	}
 	return (data2);
 }

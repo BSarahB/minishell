@@ -383,6 +383,8 @@ t_list 			*ft_lstfind(t_list *alst, int position);
 int				ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd_from_retokenized_lst(t_list *lst_token_retokenized, t_simpleCmd *simpleCmd);
 void			ft_count_final_nb_of_tokens_in_simpleCmd_retokenized(t_list *start_lst_token, t_simpleCmd *simpleCmd);
 void			ft_aff_list_ptr_sur_char_content3(t_list *alst);
+t_list 			*ft_lstnew_for_lst2(t_data *data);
+t_list 			*ft_lstnew_for_lst_token_copy(t_list *tmp);
 
 
 #endif
