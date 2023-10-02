@@ -35,8 +35,6 @@ void    ft_free_struct_t_settings(t_settings **set)
     if(*set != NULL)
     {
         free(*set);
-        printf("ft_freeeeeee set\n");
-
         *set = NULL;
     }
 }

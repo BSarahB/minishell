@@ -154,6 +154,7 @@ typedef struct s_cmd
 	size_t		nb_of_heredocs;
 	int			background;
 	t_list	 	*lst_token;
+	t_list	 	*lst_token_retokenized;
 	int			flag_head_list;
 	int			flag_empty_head_list;
 	size_t		nb_of_infile;
@@ -372,9 +373,16 @@ void   			ft_free_struct_t_expand(t_expand **exp);
 char 			*ft_substitute(char *expand, char *envp[]);
 char			*ft_get_var(char **envp, char *expand);
 int 			ft_get_token_quoting_rule3(char *str,size_t i, int *quoting_rule, int *quoting_rule_adequate, char *buffer_dequote, int *j);
-void			ft_retokenize_and_dequote_token_1(t_cmd *cmd, t_list *start_lst_token, t_simpleCmd *simpleCmd);
+t_list			*ft_retokenize_and_dequote_token_1(t_cmd *cmd, t_list *start_lst_token, t_simpleCmd *simpleCmd);
 t_data 			*ft_retokenize_and_dequote_token_2(t_cmd *cmd, t_list *start_lst_token, t_simpleCmd *simpleCmd, t_data *data2);
-void	ft_lstdelone_beta(t_list *lst);
+void			ft_lstdelone_beta(t_list *lst);
+void			ft_aff_list_ptr_sur_char_content2(t_list *alst); // pour void		*content; de type char *
+t_list 			*ft_lstnew_for_lst_retokenized2(t_list *token);
+t_list 			*ft_lstnew_for_lst_retokenized(t_list *start_lst_token_retokenized);
+t_list 			*ft_lstfind(t_list *alst, int position);
+int				ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd_from_retokenized_lst(t_list *lst_token_retokenized, t_simpleCmd *simpleCmd);
+void			ft_count_final_nb_of_tokens_in_simpleCmd_retokenized(t_list *start_lst_token, t_simpleCmd *simpleCmd);
+void			ft_aff_list_ptr_sur_char_content3(t_list *alst);
 
 
 #endif

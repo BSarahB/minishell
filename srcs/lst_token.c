@@ -40,6 +40,42 @@ void ft_lstadd_back(t_list **alst, t_list *new)
 		}
 }
 
+
+
+t_list *ft_lstnew_for_lst_retokenized2(t_list *token)
+{
+	t_list *new;
+
+	new = malloc(sizeof(t_list));
+	if (!new)
+		return (NULL);
+	new->content = ft_strdup(token->content);
+	new->title = token->title;
+	new->position = token->position;
+
+	new->next = NULL;
+	new->prev = NULL;
+	return (new);
+}
+
+
+
+t_list *ft_lstnew_for_lst_retokenized(t_list *start_lst_token_retokenized)
+{
+	t_list *new;
+
+	new = malloc(sizeof(t_list));
+	if (!new)
+		return (NULL);
+	new->content = ft_strdup(start_lst_token_retokenized->content);
+	new->title = -1;
+	new->position = 0;
+	new->next = NULL;
+	new->prev = NULL;
+	return (new);
+}
+
+
 t_list *ft_lstnew_for_lst(t_data *data)
 {
 	t_list *new;

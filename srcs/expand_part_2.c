@@ -176,25 +176,70 @@ t_data	*ft_retokenize_and_dequote_token_2(t_cmd *cmd, t_list *start_lst_token, t
 	return (data2);
 }
 
-void ft_retokenize_and_dequote_token_1(t_cmd *cmd, t_list *start_lst_token, t_simpleCmd *simpleCmd)
+t_list *ft_lstfind(t_list *alst, int position)
+{
+	t_list *tmp;
+	tmp = alst;
+	while(tmp != NULL)
+	{
+		if(tmp->position == (size_t)position)
+			return(tmp);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+t_list *ft_retokenize_and_dequote_token_1(t_cmd *cmd, t_list *start_lst_token, t_simpleCmd *simpleCmd)
 {
 	t_data	*data2;
 	t_list *start_lst_token_retokenized;
+	t_list *head;
+	t_list *new;
+	size_t i;
+	int flag_head_lst_retokenized;
 
+	flag_head_lst_retokenized = 0;
 
   	data2 = NULL;
 	start_lst_token_retokenized = NULL;
-	if(start_lst_token == NULL)
-	{
-		simpleCmd->flag_empty_simpleCmd = 1;
-		return;
-	}
+	head = NULL;
+	new = NULL;
+	i = 0;
+	
 	data2 = ft_struct_init_data(&data2); //TODO proteger tous les mallocs
 	data2 = ft_retokenize_and_dequote_token_2(cmd, start_lst_token, simpleCmd, data2);
 	start_lst_token_retokenized = data2->lst_token;
+	head  = start_lst_token_retokenized;
+	//remplissage de lst_retokenized
+	if(start_lst_token_retokenized == NULL)
+	{
+		simpleCmd->flag_empty_simpleCmd = 1;
+		simpleCmd->nb_of_tokens_in_simpleCmd = i;
+		ft_free_struct_t_data(&data2);
+		return (NULL);
+	}
+	while(start_lst_token_retokenized)
+	{
+		new = ft_lstnew_for_lst_retokenized(start_lst_token_retokenized);
 
-	if(start_lst_token_retokenized)
-			ft_free_struct_t_list_lst_token(&start_lst_token_retokenized);
+		ft_lstadd_back(&(cmd->lst_token_retokenized), new);
+		start_lst_token_retokenized = start_lst_token_retokenized->next;
+		i++;
+	}
+
+	if(!(ft_lstfind(cmd->lst_token, simpleCmd->end_simpleCmd_pos)->next == NULL))
+		{
+			new = ft_lstnew_for_lst_retokenized2(ft_lstfind(cmd->lst_token, simpleCmd->end_simpleCmd_pos));
+			ft_lstadd_back(&(cmd->lst_token_retokenized), new);
+		}
+
+	ft_aff_list_ptr_sur_char_content2(cmd->lst_token_retokenized);
+	simpleCmd->nb_of_tokens_in_simpleCmd = i;
+
+	
 	ft_free_struct_t_data(&data2);
+	
+	return(head);
+
 }
 

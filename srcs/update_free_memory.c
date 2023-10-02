@@ -22,12 +22,7 @@ void	ft_free_struct_t_list_lst_token(t_list **lst_token)
 			free((*lst_token)->content);
 			(*lst_token)->content = NULL;
 		}
-		/*
-		if((*lst_token)->back_up != NULL)
-		{
-			free((*lst_token)->back_up);
-			(*lst_token)->back_up = NULL;
-		}*/
+	
 		ft_free_struct_t_list_lst_token(&((*lst_token)->next));
 		free(*lst_token);
 		*lst_token = NULL;
@@ -95,6 +90,8 @@ void	ft_free_struct_t_cmd(t_cmd **cmd)
 	
 	if((*cmd)->lst_token != NULL)
 		ft_free_struct_t_list_lst_token(&(*cmd)->lst_token);
+	if((*cmd)->lst_token_retokenized != NULL)
+		ft_free_struct_t_list_lst_token(&(*cmd)->lst_token_retokenized);
 	
 	if((*cmd)->heredocs_track_index != NULL)
 		ft_free_struct_int_tab(&(*cmd)->heredocs_track_index);

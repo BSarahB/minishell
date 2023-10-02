@@ -12,6 +12,34 @@
 
 #include "minishell.h"
 
+
+void	ft_count_final_nb_of_tokens_in_simpleCmd_retokenized(t_list *start_lst_token, t_simpleCmd *simpleCmd)
+{
+	size_t	k;
+	size_t	token_in_simpleCmd_nbr;
+	t_list	*tmp;
+	(void)simpleCmd;
+	(void)k;
+
+	token_in_simpleCmd_nbr = 0;
+	tmp = start_lst_token;
+	while (tmp !=NULL && tmp->position < simpleCmd->end_simpleCmd_pos)
+	{
+		token_in_simpleCmd_nbr++;
+		tmp = tmp->next;
+	}
+	if(tmp !=NULL && tmp->position == simpleCmd->end_simpleCmd_pos && tmp->title != operator)
+	{
+		token_in_simpleCmd_nbr++;
+		simpleCmd->nb_of_tokens_in_simpleCmd = token_in_simpleCmd_nbr;
+		return;
+	}
+	simpleCmd->nb_of_tokens_in_simpleCmd = token_in_simpleCmd_nbr;
+}
+
+
+
+
 void	ft_count_final_nb_of_tokens_in_simpleCmd(t_list *start_lst_token, t_simpleCmd *simpleCmd)
 {
 	size_t	k;
