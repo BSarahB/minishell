@@ -182,6 +182,14 @@ void	ft_del_empty_token_in_simpleCmd(t_list **alst, size_t index, t_list **lst_t
 	ft_free_struct_t_settings_del(&del2);
 }
 
+void ft_check_export(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd)
+{
+	(void)cmd;
+	(void)start_lst_token_retokenized;
+	(void)simpleCmd;
+}
+
+
 int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, t_list *lst_token)
 {
 	int		exec_return;
@@ -196,7 +204,7 @@ int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, t_list *lst_token)
 	ft_malloc_heredocs_of_cmd(cmd);
 	while (i < cmd->nb_of_simpleCmds && start_lst_token != NULL)
 	{
-		printf("start_lst_token------->  <%s>\n", start_lst_token->content);
+	//	printf("start_lst_token------->  <%s>\n", start_lst_token->content);
 		ft_get_end_simpleCmd_pos(cmd, cmd->simpleCmds[i], &start_lst_token);
 	//	printf(" END SCMD lst_token------->  <%s>\n",((ft_lstfind(cmd->lst_token, cmd->simpleCmds[i]->end_simpleCmd_pos))->content));//ne marche pas quand on a un empty token qu on delete de la liste chainee
 
@@ -210,24 +218,24 @@ int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, t_list *lst_token)
 		//[peut etre quil ne faut pas delete, sous peine de creer un pb au niveau des pipe nrmalement non. mais checker d abord pour etre sure]
 		//ft_count_final_nb_of_tokens_in_simpleCmd(start_lst_token, cmd->simpleCmds[i]);
 	//	ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(start_lst_token, cmd->simpleCmds[i]);
-		
 		//ft_count_final_nb_of_tokens_in_simpleCmd_retokenized(start_lst_token_retokenized, cmd->simpleCmds[i]);
+		ft_check_export(cmd, start_lst_token_retokenized, cmd->simpleCmds[i]);
 		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd_from_retokenized_lst(start_lst_token_retokenized, cmd->simpleCmds[i]);
 
 		if(start_lst_token != NULL)
 			start_lst_token = ft_readjust_start_lst_token(start_lst_token, cmd, i);
 
-		if(start_lst_token != NULL)
-			printf("start_lst_token------->  <%s>\n", start_lst_token->content);
+	//	if(start_lst_token != NULL)
+		//	printf("start_lst_token------->  <%s>\n", start_lst_token->content);
 	
-		printf("list_durant_le parsing avec i = %zu\n", i);
-		ft_aff_list_ptr_sur_char_content(lst_token);
+		//printf("list_durant_le parsing avec i = %zu\n", i);
+		//ft_aff_list_ptr_sur_char_content(lst_token);
 		i++;
 	}
 	ft_get_last_heredoc_position(cmd);
 	lst_token = ft_lst_first(lst_token);
 	cmd->lst_token_retokenized = ft_lst_first(cmd->lst_token_retokenized);
-	ft_aff_list_ptr_sur_char_content3(cmd->lst_token_retokenized);
+//	ft_aff_list_ptr_sur_char_content3(cmd->lst_token_retokenized);
 
 	cmd->lst_token = lst_token;
 	

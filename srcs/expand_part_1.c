@@ -265,7 +265,7 @@ int ft_is_expand_here(t_list *lst_token, char *str, char *buffer, char *envp[])
 			i = ft_get_end_expand(str, exp, &expand, i);
 		if (expand != NULL)
 				{
-					printf("expand = %s \n", expand);
+					// printf("expand = %s \n", expand);
 					expand = ft_substitute(expand, envp);
 					if(expand != NULL)
 						{
@@ -290,7 +290,7 @@ int ft_is_expand_here(t_list *lst_token, char *str, char *buffer, char *envp[])
 		i++;
 	}
 	//printf("start_expand_pos = %zu, end_expand_pos = %zu \n", start_expand_pos, end_expand_pos);
-	printf("<%s>\n", buffer);
+	//printf("<%s>\n", buffer);
 
 	if (exp->flag_expand_in_token == 0)
 			{
@@ -440,7 +440,7 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 	{
 		if (lst_token->prev->title == redir_heredoc)
 		{
-			printf("heredoc to not expand\n");
+	//		printf("heredoc to not expand\n");
 			free(buffer);
 			return(0);
 		}
@@ -449,8 +449,8 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 	{
 		lst_token->expand_exists = 1;
 	
-		printf("expand is here\n");
-		printf("buffer apres substitution :<%s>\n", buffer);
+	//	printf("expand is here\n");
+	//	printf("buffer apres substitution :<%s>\n", buffer);
 		
 
 		
@@ -461,7 +461,7 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 				if(lst_token->prev->title == redir_in || lst_token->prev->title == redir_out || lst_token->prev->title == redir_append)
 				{
 					lst_token->tag_ambigeous = 1;
-					printf("tag_ambigeous YES\n");
+			//		printf("tag_ambigeous YES\n");
 					if(lst_token->prev->title == redir_out || lst_token->prev->title == redir_append)
 						{
 							lst_token->prev->title = redir_in;
@@ -471,13 +471,13 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 		}
 		else if(*buffer == '\0')
 		{
-			printf("buffer vide alors que expand a ete substitute\n");//il faudra delete le token de la liste chainee
+		//	printf("buffer vide alors que expand a ete substitute\n");//il faudra delete le token de la liste chainee
 			if(lst_token->prev != NULL)
 			{
 				if(lst_token->prev->title == redir_in || lst_token->prev->title == redir_out || lst_token->prev->title == redir_append)
 				{
 					lst_token->tag_ambigeous = 1;
-					printf("tag_ambigeous YES\n");
+				//	printf("tag_ambigeous YES\n");
 					if(lst_token->prev->title == redir_out || lst_token->prev->title == redir_append)
 					{
 						lst_token->prev->title = redir_in;
@@ -489,9 +489,9 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 		else
 			{
 				buffer = ft_epur_buffer_ws(buffer);
-				printf("epur <%s> epur\n", buffer);
+			//	printf("epur <%s> epur\n", buffer);
 				trimmed_buffer = ft_strtrim(buffer, " ");
-				printf("trim <%s> trim\n", trimmed_buffer);
+			//	printf("trim <%s> trim\n", trimmed_buffer);
 				//ON VA ABORDER LA SUITE de LEXPANSION DURANT LE PARSING (phase de retokenization et de DEQUOTE car nous avons besoin de savoir si la cmd principale qui gouverne notre expand est echo )
 
 			}
@@ -541,7 +541,7 @@ void ft_expand_and_retokenize(t_list *lst_token, char *envp[])
 
 		ft_is_expand_to_substitute(lst_token, envp);
 	//	printf("back_up <%s> back_up\n", lst_token->back_up);
-		printf("content <%s> content\n", lst_token->content);
+	//	printf("content <%s> content\n", lst_token->content);
 
 
 		lst_token = lst_token->next;

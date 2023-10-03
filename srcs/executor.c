@@ -56,7 +56,7 @@ int ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 			ft_putstr_fd("\n", 2);
 			return(exec_return);
 		}
-	ft_free_tab(&(cmd->simpleCmds[i]->cmd_and_args));
-	ft_free_tab(&(cmd->simpleCmds[i]->abs_cmd_and_args));
+	//ft_free_tab(&(cmd->simpleCmds[i]->cmd_and_args));
+	//ft_free_tab(&(cmd->simpleCmds[i]->abs_cmd_and_args));
 	return (exec_return);
 }

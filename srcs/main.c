@@ -36,7 +36,7 @@ int main(int argc, char *argv[], char *envp[])
 		ft_check_input_cases_for_return_empty_prompt(line);
 		data = ft_tokenize_line(line);
 		lst_token = data->lst_token;
-		ft_aff_list_ptr_sur_char_content(lst_token);
+		//ft_aff_list_ptr_sur_char_content(lst_token);
 		if(ft_check_bash_syntax_error_caracteres_volee(lst_token) == 0)
 		{	
 			//ft_modify_lst_token(lst_token);

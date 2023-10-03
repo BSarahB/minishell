@@ -161,6 +161,7 @@ note personnelle : je ne respecte pas le pseudo code a la lettre, puisque j ai d
 
 
 -> valgrind --suppressions=ignore_rl_leaks --leak-check=full --show-reachable=yes --track-fds=yes ./my_minishell
+-> valgrind --trace-children=yes --suppressions=ignore_rl_leaks --leak-check=full --show-reachable=yes --track-fds=yes ./my_minishell
 note personnelle : avoir fait l execution d abord m aide un peu a voir ce que execve prend en charge. mais je pense que le parsing en premier lieu aurait ete bien plus judicieux. ... surtout que je vois quil y a des manieres de faire avec arbre et tri recursif plus securise que la maniere dont je fais avec la boucle sur les simple commandes....
 j ai peur d avoir fait tout mon systeme d execution pour rien....
 je ne suis pas certaine de sa solidite
@@ -860,3 +861,19 @@ get_token_type.c ->il y a un parametre en trop
  //EXPAND : 
  les " ', issues de l expansion n ont aucune valeur de quoting rule ni de separateur. Pour eviter de dequote une quote de l expansion ou de retokenizer sur un mauvais espace induit en erreur par une mauvaise quoting rule issue de l expansion, il faut absolument recuperer le scope de l expand, et garder en memoire dans la strcuture l index j du buffer attribue lors de la substitution, puis lors de l epur et puis lors de trim -> il faudra update l index au fur et a mesure........
  
+
+
+ //												BUILTIN EXPORT            PSEUDO CODE
+ l export doit se CHECKER et METTRE EN PLACE apres la substitution , apres l expansion, apres la retokenisation. car si dans un expand retokenise j obtiens $VAR -> "export KEY2=VALUE" quand je fais $VAR je vais obtenir la mise en place de l export dans l environnement . env |grep KEY2 va donner VALUE. 
+ si expand est la main command, les autres tokens de la commande doivent etre delete. de la liste chainee. et ne pas etre parses dans cmd and args
+ si l expand est la main command dune SEULE SIMPLECMD donc un builtinSOLO sans pipelines autres , alors il influencera la parent en MODIFIANT envp. 
+ si dans un child, 
+ 1/convertir envp en liste chainee.
+ 2/verfier si main cmd est le builtin export apres la retokenize et le nettoyage des infile outfile heredoc redir etc... determiner si la simpleCmd a un buitlin SOLO . faire la difference entre le buitlin SOLO qui affecte le parent en venant modifier l environnement du parent (export, unset, exit, cd) et un builtin solo qui peut etre execute dans un CHILD car il n affectera pas le parent(pwd, echo, env)
+ si export est dans une simpleCmd solo, alors il faudra modifier envp de maniere permanente et ce dans le parent. afin que toute commnde line entree par l utilisateur plus tard ait comme reference cette liste chainee envp(il ne faudra donc pas la free sauf a la fin du programme) de ce fait on peut envisager de mettre lst_envp et envp_tab dans notre cmd
+ si l export fait partie dune simpleCmd avec pipeline, on passe par le code normal mais on aura un INTERRUPTEUR EN AMONT POUR NE PAS MODIFIER lst_envp (interrupteur bultin solo == 1) 
+ que ce soient des buitlin SOLO ou pas on executera tous les processus dans l enfant qui les represente. on viendra en amont modifier ou non l envp_cpy qu on transmettra ou non avec l interrupteur de la simpleCmd en AMONT avant meme les fork de tte facon
+il faudra egalement penser a mettre un champ dans simpleCmd[i] pour flag no_valid_identifiar(pour l export donc ce sera sous entendu) -> afin d envoyer un return echo $? de 1 et non de 0 (0 est our quand tt se passe bien)
+3/export ne sra pas execute avec execve. il faudra donc creer un petit cas ou si simpleCmd a le tag de builtin export il ne faudra pas passer par l execve , par contre il faudra recuperer le return de l echo $? manuellement : int ft_export. nb si un des export a eu un not valid identifier le return sera de la valeur 1.  ---> ~export a=ls(OK) @a=la(NO) @b=lb(NO) c=lc(OK) l export va fonctionner pour les variables a et c, 
+ 2/on rajoutera les maillons de l export dans le parsing pour les envoyer a lst_envp . les maillons de la lst_envp seront des struct sous la forme KEY=VALUE
+ 3/convertir la liste chainee en double tab pour envp_tab a envoyer avant l execution.

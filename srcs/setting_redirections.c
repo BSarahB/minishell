@@ -36,6 +36,8 @@ void	ft_set_fdin_for_first_simpleCmd(t_settings *set, t_cmd *cmd)
 void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], t_data *data, char *line)
 {
 	int	exec_return;
+	(void)data;
+	(void)line;
 
 	if(set->ret == 0)
 	{			

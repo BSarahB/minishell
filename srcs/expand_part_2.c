@@ -163,7 +163,7 @@ t_data	*ft_retokenize_and_dequote_token_2(t_cmd *cmd, t_list *start_lst_token, t
                 }
             else
                 flag_retokenize = 1;
-			printf("check_DQ <%s> check_DQ\n", check_dequote);
+			//printf("check_DQ <%s> check_DQ\n", check_dequote);
 			free(check_dequote);
         }
        
@@ -234,6 +234,7 @@ t_list *ft_retokenize_and_dequote_token_1(t_cmd *cmd, t_list *start_lst_token, t
 	{
 		simpleCmd->flag_empty_simpleCmd = 1;
 		simpleCmd->nb_of_tokens_in_simpleCmd = i;
+		
 		ft_free_struct_t_data(&data2);
 		return (NULL);
 	}
@@ -246,13 +247,13 @@ t_list *ft_retokenize_and_dequote_token_1(t_cmd *cmd, t_list *start_lst_token, t
 		i++;
 	}
 
-	if(!(ft_lstfind(cmd->lst_token, simpleCmd->end_simpleCmd_pos)->next == NULL))
+	if(!(ft_lstfind(start_lst_token, simpleCmd->end_simpleCmd_pos)->next == NULL))
 		{
-			new = ft_lstnew_for_lst_retokenized2(ft_lstfind(cmd->lst_token, simpleCmd->end_simpleCmd_pos));
+			new = ft_lstnew_for_lst_retokenized2(ft_lstfind(start_lst_token, simpleCmd->end_simpleCmd_pos));
 			ft_lstadd_back(&(cmd->lst_token_retokenized), new);
 		}
 
-	ft_aff_list_ptr_sur_char_content2(cmd->lst_token_retokenized);
+	//ft_aff_list_ptr_sur_char_content2(cmd->lst_token_retokenized);
 	simpleCmd->nb_of_tokens_in_simpleCmd = i;
 
 	

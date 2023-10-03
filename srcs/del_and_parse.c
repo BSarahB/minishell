@@ -66,7 +66,7 @@ void    ft_parse_redir_in(t_list *lst, t_simpleCmd *simpleCmd, size_t i)
 	int fdin;
 
     simpleCmd->infile[i] = ft_dequote(ft_strdup(lst->content));
-	printf("dequote <%s> dequote \n",simpleCmd->infile[i]);
+	//printf("dequote <%s> dequote \n",simpleCmd->infile[i]);
     if(i == simpleCmd->nb_of_infile -1)
 		simpleCmd->infile[i + 1] = NULL;
 	if(lst->title == redir_heredoc)
