@@ -61,6 +61,9 @@ t_simpleCmd *ft_struct_init_simpleCmd(t_simpleCmd **simpleCmd)
 	(*simpleCmd)->nb_of_outfile_before_nofile = 0;
 	(*simpleCmd)->nb_of_errfile_before_nofile = 0;
 	(*simpleCmd)->nofile = 0;
+	(*simpleCmd)->export_x = 0;
+	(*simpleCmd)->export_solo = 0;
+
 	return (*simpleCmd);
 }
 

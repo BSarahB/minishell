@@ -187,6 +187,51 @@ void ft_check_export(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCm
 	(void)cmd;
 	(void)start_lst_token_retokenized;
 	(void)simpleCmd;
+	t_list *tmp;
+	int flag_export;
+
+	flag_export = -1;
+	tmp = start_lst_token_retokenized;
+	if(tmp != NULL)
+	{
+		if(flag_export == -1)
+		{
+			if(flag_export == -1 && (ft_strcmp("export", tmp->content) == 0))
+			{
+				flag_export = 1;
+			}
+			else
+				flag_export = 0;
+		}
+	}
+	while (tmp !=NULL && tmp->position < simpleCmd->end_simpleCmd_pos)
+	{ 
+    	if(flag_export == 1)
+        {
+			if(tmp->next == NULL)
+		   		simpleCmd->export_x = 1;//ft_export_x_declare();
+			if(cmd->nb_of_simpleCmds == 1)
+				simpleCmd->export_solo = 1;
+        }
+		if(flag_export == 0)
+		{
+			
+		}
+		tmp = tmp->next;
+	}
+	if(tmp != NULL && tmp->position == simpleCmd->end_simpleCmd_pos && tmp->title != operator)
+	{
+		if(flag_export == 1)
+        {
+           
+        }
+		if(flag_export == 0)
+		{
+			
+
+		}
+	}
+
 }
 
 

@@ -148,6 +148,8 @@ typedef struct s_simpleCmd
 	int		*append_track_index;
 	int		*heredoc_track_index;
 	size_t	end_simpleCmd_pos;
+	int		export_x;
+	int		export_solo;
 } t_simpleCmd;
 // description d une commande complete avec les multiples pipes eventuels et les IO redirections eventuels
 typedef struct s_cmd
