@@ -48,7 +48,13 @@ SRCS	=	$(SRC_DIR)/main.c \
 			$(SRC_DIR)/utils_3.c \
 			$(SRC_DIR)/utils_lexer.c \
 			$(SRC_DIR)/struct_init_expand.c \
-			$(SRC_DIR)/expand_part_2.c
+			$(SRC_DIR)/expand_part_2.c \
+			$(SRC_DIR)/export.c \
+			$(SRC_DIR)/get_lst_envp.c \
+			$(SRC_DIR)/lst_envp.c
+
+
+
 
 
 

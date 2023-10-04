@@ -41,6 +41,11 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], t_data *data, c
 
 	if(set->ret == 0)
 	{			
+	//	if(lst_envp != NULL)
+	//		{
+			//	ft_free_struct_t_list_lst_envp(&lst_envp);
+			//	printf("delete2\n");
+		//	}
 		exec_return = ft_execute_cmd(cmd, set->i, envp, set);
 		if (exec_return == -1 && (errno == 2 || errno == 13))
 		{	
@@ -55,6 +60,12 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], t_data *data, c
 		ft_free_in_child(cmd, data, line);
 
 		ft_free_struct_t_cmd_only(&cmd);
+		printf("delete\n");
+	//	if(lst_envp != NULL)
+	//		{
+		//		ft_free_struct_t_list_lst_envp(&lst_envp);
+		//		printf("delete2\n");
+	//		}
 		exit(1);//ou (0?) voir comment bien sortir
 	}
 	if (set->ret == -1)
@@ -70,6 +81,7 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, ch
 	int 		exit_status;
 	t_settings	*set;
 
+	ft_aff_tab_envp(envp);
 	set = ft_struct_init_settings(&set); //todo proteger si set ==NULL
 	if(cmd->simpleCmds[set->i] == NULL)//mettre cela dans la while car on pourrait tres bien tomber sur la 2 eme simplecmd dans laquelle on aurait la simpleCmd == null
 		{

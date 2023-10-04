@@ -75,6 +75,16 @@ typedef struct s_settings_del
 	size_t index;
 } t_settings_del;
 
+typedef struct s_listenvp
+{
+	char				*key_value;
+	size_t				position;
+	struct s_listenvp	*next;
+	struct s_listenvp	*prev;
+
+} t_listenvp;
+
+
 typedef struct s_expand
 {
 	int 	quoting_rule_adequate;
@@ -155,6 +165,7 @@ typedef struct s_cmd
 	int			background;
 	t_list	 	*lst_token;
 	t_list	 	*lst_token_retokenized;
+//t_listenvp	*lst_envp;
 	int			flag_head_list;
 	int			flag_empty_head_list;
 	size_t		nb_of_infile;
@@ -205,7 +216,6 @@ t_simpleCmd 	*ft_struct_init_simpleCmd(t_simpleCmd **ptr);
 t_simpleCmd		**ft_struct_array_init(t_simpleCmd **ptr, char init_value, size_t simpleCmds_nbr);
 char 			**ft_get_path(char **envp);
 int				ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set);
-int 			ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, char *line);
 char 			*ft_init_cstring(char **str, size_t len, char init_value);
 void 			*ft_memset(void *b, char c, size_t len);
 void			*ft_memset2(void *b, int n, size_t len);
@@ -344,8 +354,11 @@ void			ft_add_history_and_free_rl(char *line_heredoc);
 void			ft_heredoc_input_is_null(t_cmd *cmd, size_t i);
 int				ft_exit_status(pid_t last_pid, t_settings *set);
 //setting_redicrections exec
-int				ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, char *line);
-void			ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], t_data *data, char *line);
+
+
+int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, char *line); //, t_listenvp *lst_envp);
+void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], t_data *data, char *line);//, t_listenvp *lst_envp);
+
 void			ft_set_fdin_for_first_simpleCmd(t_settings *set, t_cmd *cmd);
 void			ft_redirect_input(t_settings *set, t_cmd *cmd);
 void			ft_redirect_output(t_settings *set);
@@ -386,5 +399,15 @@ void			ft_aff_list_ptr_sur_char_content3(t_list *alst);
 t_list 			*ft_lstnew_for_lst2(t_data *data);
 t_list 			*ft_lstnew_for_lst_token_copy(t_list *tmp);
 
+//export
+void			ft_aff_listenv_ptr_sur_char_content(t_listenvp *alst); // pour void		*content; de type char *
+void			ft_lstadd_back_envp(t_listenvp **alst, t_listenvp *new);
+t_listenvp 		*ft_lstlast_envp(t_listenvp *lst);
+t_listenvp		*ft_lstnew_for_lst_envp(char *str);
+void			ft_free_struct_t_list_lst_envp(t_listenvp **lst_envp);
+t_listenvp		*ft_get_lst_envp2(char **envp);
+void			ft_aff_tab_envp(char **tab);
+char 			**ft_lst_to_tab(t_listenvp *lst_envp);
+size_t 			ft_count_keys_in_lst_envp(t_listenvp *lst_envp);
 
 #endif

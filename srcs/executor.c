@@ -36,7 +36,6 @@ int ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 {
 	int exec_return;
 	//char *builtin[] = {"echo", NULL};
-
 	exec_return = 0;
 	if(cmd->simpleCmds[i] == NULL || cmd->simpleCmds[i]->cmd_and_args == NULL)
 	{
@@ -56,7 +55,9 @@ int ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 			ft_putstr_fd("\n", 2);
 			return(exec_return);
 		}
-	//ft_free_tab(&(cmd->simpleCmds[i]->cmd_and_args));
-	//ft_free_tab(&(cmd->simpleCmds[i]->abs_cmd_and_args));
+	ft_free_tab(&(cmd->simpleCmds[i]->cmd_and_args));
+	ft_free_tab(&(cmd->simpleCmds[i]->abs_cmd_and_args));
+	printf("nlabla\n");
+
 	return (exec_return);
 }

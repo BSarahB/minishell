@@ -12,6 +12,19 @@
 
 #include "minishell.h"
 
+
+void	ft_aff_listenv_ptr_sur_char_content(t_listenvp *alst) // pour void		*content; de type char *
+{
+			printf("list diplayed: \n");
+	while(alst)
+	{
+		printf("<%s>\n",(char *)(alst)->key_value); //ou printf("%d - ", (*(int *)(*alst)->content));
+		//printf("%s , %zu\n",(char *)(alst)->content, alst->position); //ou printf("%d - ", (*(int *)(*alst)->content));
+		alst = (alst)->next;
+	}
+	printf("end_list dipslay\n");
+}
+
 void	ft_aff_list_ptr_sur_char_content3(t_list *alst) // pour void		*content; de type char *
 {
 			printf("RETOKENIZED ENTIRE list diplayed: \n");

@@ -12,6 +12,27 @@
 
 #include "minishell.h"
 
+
+void	ft_free_struct_t_list_lst_envp(t_listenvp **lst_envp)
+{
+	//dans lst_token j ai malloc str et content mais le str, je m en occupe dans le parsing du cmd_and_Args je crois 
+	if(*lst_envp != NULL)
+	{
+		if((*lst_envp)->key_value != NULL)
+		{
+			free((*lst_envp)->key_value);
+			(*lst_envp)->key_value = NULL;
+		}
+	
+		ft_free_struct_t_list_lst_envp(&((*lst_envp)->next));
+		free(*lst_envp);
+		*lst_envp = NULL;
+	}
+}
+
+
+
+
 void	ft_free_struct_t_list_lst_token(t_list **lst_token)
 {
 	//dans lst_token j ai malloc str et content mais le str, je m en occupe dans le parsing du cmd_and_Args je crois 
@@ -92,6 +113,8 @@ void	ft_free_struct_t_cmd(t_cmd **cmd)
 		ft_free_struct_t_list_lst_token(&(*cmd)->lst_token);
 	if((*cmd)->lst_token_retokenized != NULL)
 		ft_free_struct_t_list_lst_token(&(*cmd)->lst_token_retokenized);
+//	if((*cmd)->lst_envp != NULL)
+//		ft_free_struct_t_list_lst_envp(&(*cmd)->lst_envp);
 	
 	if((*cmd)->heredocs_track_index != NULL)
 		ft_free_struct_int_tab(&(*cmd)->heredocs_track_index);
@@ -100,7 +123,6 @@ void	ft_free_struct_t_cmd(t_cmd **cmd)
 			ft_free_tab(&(*cmd)->heredocs);
 			unlink(".heredoc");
 		}
-	
 }
 
 

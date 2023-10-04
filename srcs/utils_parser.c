@@ -89,3 +89,19 @@ void	ft_aff_abs_cmd_and_args(t_cmd	*cmd)
 	}
 }
 
+void	ft_aff_tab_envp(char **tab)
+{
+	
+	size_t k;
+
+	k = 0;
+
+	
+	
+		while(tab[k])
+		{
+			printf("tab[%zu]= <%s>\n", k, tab[k]);
+			k++;
+		}
+}
+

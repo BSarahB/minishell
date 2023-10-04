@@ -12,6 +12,27 @@
 
 #include "minishell.h"
 
+static t_listenvp *ft_get_lst_envp(char **envp)
+{
+    t_listenvp *lst_envp;
+    t_listenvp *new;
+    int         i;
+
+    lst_envp = NULL;
+    i = 0;
+    new = NULL;
+    if(envp)
+    {
+        while(envp[i])
+        {
+            new = ft_lstnew_for_lst_envp(envp[i]);
+            ft_lstadd_back_envp(&lst_envp, new);
+            i++;
+        }
+    }
+    return(lst_envp);
+}
+
 int main(int argc, char *argv[], char *envp[])
 {
 	(void)argc;
@@ -21,35 +42,55 @@ int main(int argc, char *argv[], char *envp[])
 	t_list *lst_token;
 	t_data *data;
 	int	exit_status;
+	static t_listenvp *lst_envp;
+	char **envp_t;
 
 	exit_status = 0;
 	line = NULL;
 	cmd = NULL;
+	lst_envp = NULL;
+	envp_t = NULL;
+	int flag_save_envp;
+
+	flag_save_envp = 1;
 	while (1)
 	{
+
+		//ft_aff_listenv_ptr_sur_char_content(lst_envp);
+
 		signal(SIGQUIT, SIG_IGN);
      		line = readline(" ~ ");
 		if (!line)
-			break;
+			{
+				break;
+			}
 		add_history(line);
 		ft_check_prerequesite_of_line_input(line);
 		ft_check_input_cases_for_return_empty_prompt(line);
 		data = ft_tokenize_line(line);
 		lst_token = data->lst_token;
-		//ft_aff_list_ptr_sur_char_content(lst_token);
 		if(ft_check_bash_syntax_error_caracteres_volee(lst_token) == 0)
 		{	
-			//ft_modify_lst_token(lst_token);
 			ft_expand_and_retokenize(lst_token, envp);
 			cmd = ft_struct_init_cmd(&cmd, lst_token);
-			cmd->path_tab = ft_get_path(envp);	
+			if(flag_save_envp == 1)
+					{
+						lst_envp = ft_get_lst_envp(envp);
+						flag_save_envp = 0;
+					}
+			cmd->path_tab = ft_get_path(envp);	//il faudra modifier cette fonction et recuperer path tab si jamais env -i ou unset PATH
 			ft_parse_tokens_in_s_cmd(cmd, lst_token);
 			if(cmd->nb_of_heredocs != 0)
 				ft_heredoc_interaction(cmd, 0, 1);
-			exit_status = ft_setting_redirections_and_pipes(cmd, envp, data, line);
+			envp_t = ft_lst_to_tab(lst_envp);
+			exit_status = ft_setting_redirections_and_pipes(cmd, envp_t, data, line);
 		}
 		ft_free(cmd, lst_token, data, line);
 		ft_free_struct_t_cmd_only(&cmd);
+		if(envp_t != NULL)
+			ft_free_tab(&envp_t);
 	}
+	if(lst_envp != NULL)
+		ft_free_struct_t_list_lst_envp(&lst_envp);
 	return (exit_status);
 }

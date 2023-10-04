@@ -877,3 +877,7 @@ il faudra egalement penser a mettre un champ dans simpleCmd[i] pour flag no_vali
 3/export ne sra pas execute avec execve. il faudra donc creer un petit cas ou si simpleCmd a le tag de builtin export il ne faudra pas passer par l execve , par contre il faudra recuperer le return de l echo $? manuellement : int ft_export. nb si un des export a eu un not valid identifier le return sera de la valeur 1.  ---> ~export a=ls(OK) @a=la(NO) @b=lb(NO) c=lc(OK) l export va fonctionner pour les variables a et c, 
  2/on rajoutera les maillons de l export dans le parsing pour les envoyer a lst_envp . les maillons de la lst_envp seront des struct sous la forme KEY=VALUE
  3/convertir la liste chainee en double tab pour envp_tab a envoyer avant l execution.
+
+ sauvegarde de envp du parent : utilisation du flag_save_envp . on recu[ere dabord dans cmd->envp l envp a l etat naturel et on en fait une copie ] on viendra update cette copie de l envp 
+
+ TODO PROTEGER TOUS LES FREE TAB
