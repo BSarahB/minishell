@@ -63,6 +63,7 @@ t_simpleCmd *ft_struct_init_simpleCmd(t_simpleCmd **simpleCmd)
 	(*simpleCmd)->nofile = 0;
 	(*simpleCmd)->export_x = 0;
 	(*simpleCmd)->export_solo = 0;
+	(*simpleCmd)->is_builtin = 0;
 
 	return (*simpleCmd);
 }

@@ -102,6 +102,7 @@ t_list *ft_lstnew_for_lst2(t_data *data)
 	new->type = data->token->type;
 	new->title = data->token->title;
 	new->quoting_rule = data->token->quoting_rule;
+	new->position = data->token->position;
 //	new->quoting_rule_adequate = 0;
 //	new->retokenize_allowed = 0;
 	new->tag_ambigeous = data->token->tag_ambigeous;

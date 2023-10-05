@@ -12,6 +12,15 @@
 
 #include "minishell.h"
 
+
+void ft_echo(void)
+{
+
+	printf("bonjour\n");
+	printf("bonjour\n");
+
+}
+
 void	ft_redirect_output(t_settings *set)
 {
 	dup2(set->fdout, STDOUT_FILENO);
@@ -33,40 +42,58 @@ void	ft_set_fdin_for_first_simpleCmd(t_settings *set, t_cmd *cmd)
 		set->fdin = dup(set->savein);
 }
 
-void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], t_data *data, char *line)
+void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], t_data *data, char *line, t_data_env *data_env)
 {
 	int	exec_return;
 	(void)data;
 	(void)line;
+	exec_return = 0;
+	int i;
+	i = 0;
 
 	if(set->ret == 0)
-	{			
-	//	if(lst_envp != NULL)
-	//		{
-			//	ft_free_struct_t_list_lst_envp(&lst_envp);
-			//	printf("delete2\n");
-		//	}
-		exec_return = ft_execute_cmd(cmd, set->i, envp, set);
+	{	
+		if(cmd->simpleCmds[set->i]->is_builtin == 0)
+			exec_return = ft_execute_cmd(cmd, set->i, envp, set);
 		if (exec_return == -1 && (errno == 2 || errno == 13))
 		{	
-		//	ft_check_close_error((*ptr).fd2);
 			close(set->savein);
 			close(set->saveout);
 			if((set->i < cmd->nb_of_simpleCmds) && (set->i != (cmd ->nb_of_simpleCmds) - 1))
 				close(set->pip[0]);
 		}
+		if(cmd->simpleCmds[set->i]->is_builtin == 1 && cmd->simpleCmds[set->i]->builtin == 0) 
+		{
+			ft_echo();
+			close(set->savein);
+		close(set->saveout);
 		ft_free_struct_t_settings(&set);
-		//ft_free(cmd, lst_token, data, line);
 		ft_free_in_child(cmd, data, line);
-
 		ft_free_struct_t_cmd_only(&cmd);
-		printf("delete\n");
-	//	if(lst_envp != NULL)
-	//		{
-		//		ft_free_struct_t_list_lst_envp(&lst_envp);
-		//		printf("delete2\n");
-	//		}
-		exit(1);//ou (0?) voir comment bien sortir
+		if(envp != NULL)
+			ft_free_tab(&envp);
+		if(data_env != NULL)
+			ft_free_struct_t_data_env(&data_env);	
+		exit(1);//ou (0?) voir comment bien sortir mettre ca apres le pb du fork
+		}
+		while(envp[i])
+		{
+			//printf("declare -x %s\n", envp[i]);
+			ft_putstr_fd("declare -x ", STDOUT_FILENO);
+			ft_putstr_fd(envp[i], STDOUT_FILENO);
+			ft_putstr_fd("\n", STDOUT_FILENO);
+			i++;
+		}
+		close(set->savein);
+		close(set->saveout);
+		ft_free_struct_t_settings(&set);
+		ft_free_in_child(cmd, data, line);
+		ft_free_struct_t_cmd_only(&cmd);
+		if(envp != NULL)
+			ft_free_tab(&envp);
+		if(data_env != NULL)
+			ft_free_struct_t_data_env(&data_env);	
+		exit(1);//ou (0?) voir comment bien sortir mettre ca apres le pb du fork
 	}
 	if (set->ret == -1)
 	{
@@ -76,12 +103,12 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], t_data *data, c
 	}
 }
 
-int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, char *line)
+int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, char *line, t_data_env *data_env)
 {
 	int 		exit_status;
 	t_settings	*set;
 
-	ft_aff_tab_envp(envp);
+	//ft_aff_tab_envp(envp);
 	set = ft_struct_init_settings(&set); //todo proteger si set ==NULL
 	if(cmd->simpleCmds[set->i] == NULL)//mettre cela dans la while car on pourrait tres bien tomber sur la 2 eme simplecmd dans laquelle on aurait la simpleCmd == null
 		{
@@ -105,7 +132,7 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, ch
 					ft_redirect_output(set);
 				//Redirection des vrais in et out dans le processus parent tjrs en bouclant sur les simpleCmds
 					set->ret = fork();//Creation des processus : il faudra creer autant de processus que de commandes donc faire dans le while.
-					ft_child_process(set, cmd, envp, data, line);
+					ft_child_process(set, cmd, envp, data, line, data_env);
 				
 			}
 		}

@@ -43,15 +43,18 @@ int main(int argc, char *argv[], char *envp[])
 	t_data *data;
 	int	exit_status;
 	static t_listenvp *lst_envp;
+	static t_listenvp *lst_envp_d;
+	int flag_save_envp;
 	char **envp_t;
+	t_data_env *data_env;
 
 	exit_status = 0;
 	line = NULL;
 	cmd = NULL;
 	lst_envp = NULL;
+	lst_envp_d = NULL;
+	data_env = NULL;
 	envp_t = NULL;
-	int flag_save_envp;
-
 	flag_save_envp = 1;
 	while (1)
 	{
@@ -75,22 +78,26 @@ int main(int argc, char *argv[], char *envp[])
 			cmd = ft_struct_init_cmd(&cmd, lst_token);
 			if(flag_save_envp == 1)
 					{
-						lst_envp = ft_get_lst_envp(envp);
+						ft_struct_init_data_env(&data_env);//_env(&data_env);
+						data_env->lst_envp = ft_get_lst_envp(envp);
+						data_env->lst_envp_d = ft_get_lst_envp(envp);
 						flag_save_envp = 0;
 					}
 			cmd->path_tab = ft_get_path(envp);	//il faudra modifier cette fonction et recuperer path tab si jamais env -i ou unset PATH
 			ft_parse_tokens_in_s_cmd(cmd, lst_token);
 			if(cmd->nb_of_heredocs != 0)
 				ft_heredoc_interaction(cmd, 0, 1);
-			envp_t = ft_lst_to_tab(lst_envp);
-			exit_status = ft_setting_redirections_and_pipes(cmd, envp_t, data, line);
+			envp_t = ft_lst_to_tab(data_env->lst_envp);
+			exit_status = ft_setting_redirections_and_pipes(cmd, envp_t, data, line, data_env);
 		}
 		ft_free(cmd, lst_token, data, line);
 		ft_free_struct_t_cmd_only(&cmd);
 		if(envp_t != NULL)
 			ft_free_tab(&envp_t);
 	}
-	if(lst_envp != NULL)
-		ft_free_struct_t_list_lst_envp(&lst_envp);
+	if(data_env != NULL)
+	{
+		ft_free_struct_t_data_env(&data_env);
+	}
 	return (exit_status);
 }

@@ -31,6 +31,20 @@
 #define IGNORE 13
 // LESSGREAT 14 ?
 
+
+enum e_builtin // a renommer en function
+{
+	echo,
+	cd,
+	pwd,
+	export,
+	unset,
+	env,
+	exxit,
+};
+
+
+
 // les enum pour la fonction du token, est ce un operator, une command ou une redirection?
 enum e_title // a renommer en function
 {
@@ -84,6 +98,14 @@ typedef struct s_listenvp
 
 } t_listenvp;
 
+
+
+typedef struct s_data_env
+{
+	struct s_listenvp *lst_envp;
+	struct s_listenvp *lst_envp_d;
+
+} t_data_env;
 
 typedef struct s_expand
 {
@@ -150,6 +172,8 @@ typedef struct s_simpleCmd
 	size_t	end_simpleCmd_pos;
 	int		export_x;
 	int		export_solo;
+	int		is_builtin;
+	int		builtin;
 } t_simpleCmd;
 // description d une commande complete avec les multiples pipes eventuels et les IO redirections eventuels
 typedef struct s_cmd
@@ -358,8 +382,8 @@ int				ft_exit_status(pid_t last_pid, t_settings *set);
 //setting_redicrections exec
 
 
-int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, char *line); //, t_listenvp *lst_envp);
-void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], t_data *data, char *line);//, t_listenvp *lst_envp);
+int				ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, char *line, t_data_env *data_env); //, t_listenvp *lst_envp);
+void			ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], t_data *data, char *line, t_data_env *data_env);//, t_listenvp *lst_envp);
 
 void			ft_set_fdin_for_first_simpleCmd(t_settings *set, t_cmd *cmd);
 void			ft_redirect_input(t_settings *set, t_cmd *cmd);
@@ -387,7 +411,7 @@ int				ft_strcmp_char(char c1, char c2);
 void   			ft_free_struct_t_expand(t_expand **exp);
 char 			*ft_substitute(char *expand, char *envp[]);
 char			*ft_get_var(char **envp, char *expand);
-int 			ft_get_token_quoting_rule3(char *str,size_t i, int *quoting_rule, int *quoting_rule_adequate, char *buffer_dequote, int *j);
+int 			ft_get_token_quoting_rule3(char *str, size_t i, int *quoting_rule, int *quoting_rule_adequate, char *buffer_dequote, int *j);
 t_list			*ft_retokenize_and_dequote_token_1(t_cmd *cmd, t_list *start_lst_token, t_simpleCmd *simpleCmd);
 t_data 			*ft_retokenize_and_dequote_token_2(t_cmd *cmd, t_list *start_lst_token, t_simpleCmd *simpleCmd, t_data *data2);
 void			ft_lstdelone_beta(t_list *lst);
@@ -411,5 +435,8 @@ t_listenvp		*ft_get_lst_envp2(char **envp);
 void			ft_aff_tab_envp(char **tab);
 char 			**ft_lst_to_tab(t_listenvp *lst_envp);
 size_t 			ft_count_keys_in_lst_envp(t_listenvp *lst_envp);
+t_data_env		*ft_struct_init_data_env(t_data_env **data_env);
+void    		ft_free_struct_t_data_env(t_data_env **data_env);
+int 			ft_export_x(char **envp);
 
 #endif

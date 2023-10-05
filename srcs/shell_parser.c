@@ -108,9 +108,6 @@ t_settings_del *ft_del_empty_in_middle(t_list *curr, t_cmd *cmd, t_list *lst_tok
 	return(del);
 }
 
-
-
-
 t_list	*ft_middle_empty_token(t_list *curr, t_cmd *cmd, t_list *lst_token, t_settings_del *del)
 {
 	if(curr->next == NULL)
@@ -199,39 +196,36 @@ void ft_check_export(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCm
 			if(flag_export == -1 && (ft_strcmp("export", tmp->content) == 0))
 			{
 				flag_export = 1;
+				simpleCmd->is_builtin = 1;
+				simpleCmd->builtin = export; // == 3
+				if(tmp->next == NULL)
+		   			simpleCmd->export_x = 1;//ft_export_x_declare();
+				if(cmd->nb_of_simpleCmds == 1)
+					simpleCmd->export_solo = 1;
 			}
 			else
 				flag_export = 0;
 		}
 	}
-	while (tmp !=NULL && tmp->position < simpleCmd->end_simpleCmd_pos)
+
+	while (tmp !=NULL && tmp->position < simpleCmd->end_simpleCmd_pos && simpleCmd->export_x == 0 && flag_export == 1)
 	{ 
-    	if(flag_export == 1)
+    	if(simpleCmd->export_solo == 1)
         {
-			if(tmp->next == NULL)
-		   		simpleCmd->export_x = 1;//ft_export_x_declare();
-			if(cmd->nb_of_simpleCmds == 1)
-				simpleCmd->export_solo = 1;
-        }
-		if(flag_export == 0)
-		{
 			
-		}
+        }
 		tmp = tmp->next;
 	}
-	if(tmp != NULL && tmp->position == simpleCmd->end_simpleCmd_pos && tmp->title != operator)
+	/*
+	if(tmp != NULL && tmp->position == simpleCmd->end_simpleCmd_pos && tmp->title != operator && simpleCmd->export_x == 0 && flag_export == 1)
 	{
-		if(flag_export == 1)
-        {
-           
-        }
-		if(flag_export == 0)
-		{
-			
-
-		}
+		//if
+        //{
+          // if()
+        //}
+		
 	}
-
+*/
 }
 
 

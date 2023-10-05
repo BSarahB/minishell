@@ -12,6 +12,34 @@
 
 #include "minishell.h"
 
+
+int ft_export_x(char **envp)
+{
+	int i;
+
+	i = 0;
+	if(envp == NULL)
+		return (0); //TODO CLARIFIER LE ENV VIDE
+
+	while(envp[i])
+	{
+
+		printf("declare -x %s\n", envp[i]);
+
+		/*
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		ft_putstr_fd(envp[i], STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		*/
+		i++;
+	}
+
+	return(0); //tt s est bien passe, declar x a ete affiche
+}
+
+
+
+
 int	ft_execve_join(t_cmd *cmd, char **envp, char **abs_cmd_and_args)
 {
 	char	*path_cmd_joined;
@@ -43,10 +71,11 @@ int ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 		close(set->saveout);
 		return(exec_return);
 	}
-	//if (ft_check_builtin(cmd, i, builtin) == 1)
+
 	//	ft_execute_builtin(cmd, i, builtin);
-	if (execve(cmd->simpleCmds[i]->cmd_and_args[0], cmd->simpleCmds[i]->cmd_and_args, envp) == -1)
+	else if (execve(cmd->simpleCmds[i]->cmd_and_args[0], cmd->simpleCmds[i]->cmd_and_args, envp) == -1)
 		exec_return = ft_execve_join(cmd, envp, cmd->simpleCmds[i]->abs_cmd_and_args);
+
 	if (exec_return == -1 && (errno == 2 || errno == 13))
 		{
 			cmd->simpleCmds[i]->errnum = 127;
@@ -57,7 +86,6 @@ int ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 		}
 	ft_free_tab(&(cmd->simpleCmds[i]->cmd_and_args));
 	ft_free_tab(&(cmd->simpleCmds[i]->abs_cmd_and_args));
-	printf("nlabla\n");
 
 	return (exec_return);
 }

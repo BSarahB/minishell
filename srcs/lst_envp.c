@@ -13,6 +13,32 @@
 #include "minishell.h"
 
 
+void    ft_free_struct_t_data_env(t_data_env **data_env)
+{
+    if((*data_env)->lst_envp != NULL)
+			ft_free_struct_t_list_lst_envp(&((*data_env)->lst_envp));
+	if((*data_env)->lst_envp_d != NULL)
+			ft_free_struct_t_list_lst_envp(&((*data_env)->lst_envp_d));
+    if (*data_env != NULL)
+    {
+        free(*data_env);
+        *data_env = NULL;
+    }
+}
+
+t_data_env	*ft_struct_init_data_env(t_data_env **data_env)
+{
+	
+	*data_env = (t_data_env *)malloc(sizeof(t_data_env));
+	if (!(*data_env))
+		return (NULL);
+	(*data_env)->lst_envp = NULL;
+	(*data_env)->lst_envp_d = NULL;
+	return(*data_env);
+}
+
+
+
 size_t ft_count_keys_in_lst_envp(t_listenvp *lst_envp)
 {
 	size_t i;

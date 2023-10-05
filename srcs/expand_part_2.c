@@ -160,6 +160,8 @@ t_data	*ft_retokenize_and_dequote_token_2(t_cmd *cmd, t_list *start_lst_token, t
             if(flag_retokenize == -1 && ft_strcmp(check_dequote, "echo") == 0)
                 {
                     flag_retokenize = 0;
+					simpleCmd->builtin = echo;
+					simpleCmd->is_builtin = 1;
                 }
             else
                 flag_retokenize = 1;
