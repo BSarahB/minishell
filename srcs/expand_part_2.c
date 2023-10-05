@@ -161,7 +161,7 @@ t_data	*ft_retokenize_and_dequote_token_2(t_cmd *cmd, t_list *start_lst_token, t
                 {
                     flag_retokenize = 0;
 					simpleCmd->builtin = echo;
-					simpleCmd->is_builtin = 1;
+					simpleCmd->is_builtin = 0;//TODO modifier quand echo builtin sera a faire
                 }
             else
                 flag_retokenize = 1;
