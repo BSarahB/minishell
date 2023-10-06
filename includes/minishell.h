@@ -440,5 +440,8 @@ t_data_env		*ft_struct_init_data_env(t_data_env **data_env);
 void    		ft_free_struct_t_data_env(t_data_env **data_env);
 int 			ft_export_x(char **envp);
 int 			ft_isalpha(int c);
+int				ft_isalnum(int c);
+int 			ft_isdigit(char c);
+
 
 #endif

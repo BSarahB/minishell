@@ -182,10 +182,16 @@ void	ft_del_empty_token_in_simpleCmd(t_list **alst, size_t index, t_list **lst_t
 int ft_check_format_key_value(t_list *tmp)
 {
 	(void)tmp;
-	return 0;
+
+
+	//return(1); //->dans le cas d un key 
+	return (0); // ->return 0 dans le cas d un key=value
 }
 
-
+int ft_isalnum(int c)
+{
+	return(ft_isdigit(c) || ft_isalpha(c));
+}
 
 int	ft_key_value_is_valid(t_list *tmp)
 {
@@ -194,22 +200,35 @@ int	ft_key_value_is_valid(t_list *tmp)
 	char *str;
 	int i;
 
-	i = 0;
+	i = 1;
 	str = tmp->content;
-	if(str[i] == '\0')
+	if(str[0] == '\0')
 	{
 		ft_putstr_fd("bash: export: `': not a valid identifier\n", 2); //le echo $? est 1 car il y a une erreur
 		return(0);//not valide
 	}
-	if(str[i])
+	if(str[0])
 	{
-		if (ft_isalpha(str[i]) == 0 || str[i] != '_')
+		if (ft_isalpha(str[0]) == 0 && str[0] != '_')
 			{
 				ft_putstr_fd("bash: export: `", 2);
 				ft_putstr_fd(tmp->content, 2);
 				ft_putstr_fd("': not a valid identifier\n", 2); //le echo $? est 1 car il y a une erreur
 				return(0);
 			} 
+		
+	}
+
+	while (str[i])
+	{
+		if(ft_isalnum(str[i]) == 0 && str[i] != '_')
+		{
+			ft_putstr_fd("bash: export: `", 2);
+			ft_putstr_fd(tmp->content, 2);
+			ft_putstr_fd("': not a valid identifier\n", 2); //le echo $? est 1 ca
+			return (0);
+		}
+		i++;
 	}
 	return(1); //-> valide
 }
