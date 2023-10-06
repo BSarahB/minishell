@@ -179,6 +179,44 @@ void	ft_del_empty_token_in_simpleCmd(t_list **alst, size_t index, t_list **lst_t
 	ft_free_struct_t_settings_del(&del2);
 }
 
+int ft_check_format_key_value(t_list *tmp)
+{
+	(void)tmp;
+	return 0;
+}
+
+
+
+int	ft_key_value_is_valid(t_list *tmp)
+{
+
+	(void)tmp;
+	char *str;
+	int i;
+
+	i = 0;
+	str = tmp->content;
+	if(str[i] == '\0')
+	{
+		ft_putstr_fd("bash: export: `': not a valid identifier\n", 2); //le echo $? est 1 car il y a une erreur
+		return(0);//not valide
+	}
+	if(str[i])
+	{
+		if (ft_isalpha(str[i]) == 0 || str[i] != '_')
+			{
+				ft_putstr_fd("bash: export: `", 2);
+				ft_putstr_fd(tmp->content, 2);
+				ft_putstr_fd("': not a valid identifier\n", 2); //le echo $? est 1 car il y a une erreur
+				return(0);
+			} 
+	}
+	return(1); //-> valide
+}
+
+
+
+
 void ft_check_export(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd)
 {
 	(void)cmd;
@@ -199,20 +237,34 @@ void ft_check_export(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCm
 				simpleCmd->is_builtin = 1;
 				simpleCmd->builtin = export; // == 3
 				if(tmp->next == NULL)
-		   			simpleCmd->export_x = 1;//ft_export_x_declare();
+		   			simpleCmd->export_no_option = 1;
+				else
+					tmp = tmp->next;
 				if(cmd->nb_of_simpleCmds == 1)
-					simpleCmd->export_solo = 1;
+					{
+						simpleCmd->export_solo = 1;
+						simpleCmd->builtin_solo = 1;
+					}
 			}
 			else
 				flag_export = 0;
 		}
 	}
 
-	while (tmp !=NULL && tmp->position < simpleCmd->end_simpleCmd_pos && simpleCmd->export_x == 0 && flag_export == 1)
+	while (tmp != NULL && tmp->position < simpleCmd->end_simpleCmd_pos && simpleCmd->export_no_option == 0 && flag_export == 1)
 	{ 
+		if(simpleCmd->nofile == 1)
+			break;
     	if(simpleCmd->export_solo == 1)
         {
-			
+			if (ft_key_value_is_valid(tmp) == 1)
+			{
+				ft_check_format_key_value(tmp);
+			}
+
+			//1) KEY seule pas de =VALUE et valid identifier:
+			//remplir lst_envp_d en ajoutant le maillon (pas dans lst_envp)
+			//si key=VALUE ->on met key=value dans lst_envp && lst_envp_d
         }
 		tmp = tmp->next;
 	}

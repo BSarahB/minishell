@@ -84,6 +84,20 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], t_data *data, c
 			ft_free_struct_t_data_env(&data_env);	
 		exit(1);//ou (0?) voir comment bien sortir mettre ca apres le pb du fork
 		}
+		if(cmd->simpleCmds[set->i]->is_builtin == 1 && cmd->simpleCmds[set->i]->export_no_option == 0) //modifier pour ==0 pour faire le builtin echo
+		{
+			
+		close(set->savein);
+		close(set->saveout);
+		ft_free_struct_t_settings(&set);
+		ft_free_in_child(cmd, data, line);
+		ft_free_struct_t_cmd_only(&cmd);
+		if(envp != NULL)
+			ft_free_tab(&envp);
+		if(data_env != NULL)
+			ft_free_struct_t_data_env(&data_env);	
+		exit(1);//ou (0?) voir comment bien sortir mettre ca apres le pb du fork
+		}
 		while(envp[i])
 		{
 			//printf("declare -x %s\n", envp[i]);

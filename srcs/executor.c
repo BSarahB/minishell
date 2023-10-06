@@ -38,8 +38,6 @@ int ft_export_x(char **envp)
 }
 
 
-
-
 int	ft_execve_join(t_cmd *cmd, char **envp, char **abs_cmd_and_args)
 {
 	char	*path_cmd_joined;
@@ -53,9 +51,14 @@ int	ft_execve_join(t_cmd *cmd, char **envp, char **abs_cmd_and_args)
 		path_cmd_joined = ft_strjoin((*cmd).path_tab[i], abs_cmd_and_args[0]);
 		exec_return = execve(path_cmd_joined, abs_cmd_and_args, envp);
 		free(path_cmd_joined);
+		path_cmd_joined = NULL;
 		if (exec_return != -1)
-			break ;
+			{
+			//	free(path_cmd_joined);
+				break ;
+			}
 	}
+	
 	return (exec_return);
 }
 
@@ -74,8 +77,8 @@ int ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 
 	//	ft_execute_builtin(cmd, i, builtin);
 	else if (execve(cmd->simpleCmds[i]->cmd_and_args[0], cmd->simpleCmds[i]->cmd_and_args, envp) == -1)
-		exec_return = ft_execve_join(cmd, envp, cmd->simpleCmds[i]->abs_cmd_and_args);
-
+			exec_return = ft_execve_join(cmd, envp, cmd->simpleCmds[i]->abs_cmd_and_args);
+				
 	if (exec_return == -1 && (errno == 2 || errno == 13))
 		{
 			cmd->simpleCmds[i]->errnum = 127;

@@ -170,9 +170,10 @@ typedef struct s_simpleCmd
 	int		*append_track_index;
 	int		*heredoc_track_index;
 	size_t	end_simpleCmd_pos;
-	int		export_x;
+	int		export_no_option;
 	int		export_solo;
 	int		is_builtin;
+	int		builtin_solo;
 	int		builtin;
 } t_simpleCmd;
 // description d une commande complete avec les multiples pipes eventuels et les IO redirections eventuels
@@ -438,5 +439,6 @@ size_t 			ft_count_keys_in_lst_envp(t_listenvp *lst_envp);
 t_data_env		*ft_struct_init_data_env(t_data_env **data_env);
 void    		ft_free_struct_t_data_env(t_data_env **data_env);
 int 			ft_export_x(char **envp);
+int 			ft_isalpha(int c);
 
 #endif
