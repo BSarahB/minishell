@@ -84,7 +84,7 @@ int main(int argc, char *argv[], char *envp[])
 						flag_save_envp = 0;
 					}
 			cmd->path_tab = ft_get_path(envp);	//il faudra modifier cette fonction et recuperer path tab si jamais env -i ou unset PATH
-			ft_parse_tokens_in_s_cmd(cmd, lst_token);
+			ft_parse_tokens_in_s_cmd(cmd, lst_token, data_env);
 			if(cmd->nb_of_heredocs != 0)
 				ft_heredoc_interaction(cmd, 0, 1);
 			envp_t = ft_lst_to_tab(data_env->lst_envp);

@@ -288,7 +288,7 @@ t_data 			*ft_struct_init_data2(t_data **data, t_list *lst_token, t_list *token)
 t_settings		*ft_struct_init_settings(t_settings **set);
 t_settings_del	*ft_struct_init_settings_del(t_settings_del **del);
 // PARSING LST_TOKEN in SimpleCmd
-int				ft_parse_tokens_in_s_cmd(t_cmd *cmd, t_list *lst_token);
+int				ft_parse_tokens_in_s_cmd(t_cmd *cmd, t_list *lst_token, t_data_env *data_env);
 t_list			*ft_lst_first(t_list *lst);
 t_list 			*ft_readjust_start_lst_token(t_list *start_lst_token, t_cmd *cmd, size_t i);
 void			ft_del_and_parse_redir_token_in_simpleCmd(t_list **alst, size_t index, t_list **lst_token, t_cmd *cmd);
@@ -442,6 +442,8 @@ int 			ft_export_x(char **envp);
 int 			ft_isalpha(int c);
 int				ft_isalnum(int c);
 int 			ft_isdigit(char c);
+void			ft_check_export(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env);
+
 
 
 #endif

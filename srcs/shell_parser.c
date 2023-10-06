@@ -236,11 +236,12 @@ int	ft_key_value_is_valid(t_list *tmp)
 
 
 
-void ft_check_export(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd)
+void ft_check_export(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env)
 {
 	(void)cmd;
 	(void)start_lst_token_retokenized;
 	(void)simpleCmd;
+	(void)data_env;
 	t_list *tmp;
 	int flag_export;
 
@@ -300,7 +301,7 @@ void ft_check_export(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCm
 }
 
 
-int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, t_list *lst_token)
+int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, t_list *lst_token, t_data_env *data_env)
 {
 	int		exec_return;
 	size_t	i;
@@ -329,7 +330,7 @@ int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, t_list *lst_token)
 		//ft_count_final_nb_of_tokens_in_simpleCmd(start_lst_token, cmd->simpleCmds[i]);
 	//	ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(start_lst_token, cmd->simpleCmds[i]);
 		//ft_count_final_nb_of_tokens_in_simpleCmd_retokenized(start_lst_token_retokenized, cmd->simpleCmds[i]);
-		ft_check_export(cmd, start_lst_token_retokenized, cmd->simpleCmds[i]);
+		ft_check_export(cmd, start_lst_token_retokenized, cmd->simpleCmds[i], data_env);
 		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd_from_retokenized_lst(start_lst_token_retokenized, cmd->simpleCmds[i]);
 
 		if(start_lst_token != NULL)
