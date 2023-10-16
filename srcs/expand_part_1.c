@@ -417,8 +417,8 @@ char		*ft_strtrim(char const *s1, char const *set)
 int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 {
 	char *str;
-	int i;
-	int i_save;
+	//int i;
+	//int i_save;
 	char *buffer;
 	char *trimmed_buffer;
 	// char *backup_content;
@@ -426,8 +426,8 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 	buffer = ft_init_string(1096);
 	str = lst_token->content;
 	trimmed_buffer = NULL;
-	i = 0;
-	i_save = i;
+	//	i = 0;
+	//i_save = i;
 //lst_token->back_up = ft_strdup(lst_token->content);	
 	if (str == NULL)
 		return (0);

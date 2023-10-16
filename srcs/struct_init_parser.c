@@ -62,9 +62,19 @@ t_simpleCmd *ft_struct_init_simpleCmd(t_simpleCmd **simpleCmd)
 	(*simpleCmd)->nb_of_errfile_before_nofile = 0;
 	(*simpleCmd)->nofile = 0;
 	(*simpleCmd)->export_no_option = 0;
+	(*simpleCmd)->unset_no_option = 0;
+	(*simpleCmd)->env_no_option = 0;
+	(*simpleCmd)->echo_no_option = 0;
+	(*simpleCmd)->cd_no_option = 0;
+	(*simpleCmd)->unset_solo = 0;
 	(*simpleCmd)->export_solo = 0;
+	(*simpleCmd)->cd_solo = 0;
+	(*simpleCmd)->oldpwd = NULL;
+
 	(*simpleCmd)->builtin_solo = 0;
 	(*simpleCmd)->is_builtin = 0;
+	(*simpleCmd)->builtin = -1;
+
 
 	return (*simpleCmd);
 }

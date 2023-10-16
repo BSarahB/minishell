@@ -51,8 +51,11 @@ SRCS	=	$(SRC_DIR)/main.c \
 			$(SRC_DIR)/expand_part_2.c \
 			$(SRC_DIR)/export.c \
 			$(SRC_DIR)/get_lst_envp.c \
-			$(SRC_DIR)/lst_envp.c
-
+			$(SRC_DIR)/lst_envp.c \
+            $(SRC_DIR)/unset.c \
+            $(SRC_DIR)/env.c \
+            $(SRC_DIR)/echo.c \
+            $(SRC_DIR)/cd.c
 
 
 

@@ -141,7 +141,6 @@ t_data *ft_copy_token(t_list *tmp, t_data *data2)
 t_data	*ft_retokenize_and_dequote_token_2(t_cmd *cmd, t_list *start_lst_token, t_simpleCmd *simpleCmd, t_data *data2)
 {
 	size_t	k;
-	size_t	token_in_simpleCmd_nbr;
 	t_list	*tmp;
     int flag_retokenize;
 	(void)simpleCmd;
@@ -150,7 +149,6 @@ t_data	*ft_retokenize_and_dequote_token_2(t_cmd *cmd, t_list *start_lst_token, t
 	char *check_dequote;
   
     flag_retokenize = -1;
-	token_in_simpleCmd_nbr = 0;
 	tmp = start_lst_token;
 	if(tmp != NULL)
 	{
@@ -161,7 +159,7 @@ t_data	*ft_retokenize_and_dequote_token_2(t_cmd *cmd, t_list *start_lst_token, t
                 {
                     flag_retokenize = 0;
 					simpleCmd->builtin = echo;
-					simpleCmd->is_builtin = 0;//TODO modifier quand echo builtin sera a faire
+					simpleCmd->is_builtin = 1;//TODO modifier quand echo builtin sera a faire
                 }
             else
                 flag_retokenize = 1;
@@ -217,9 +215,7 @@ t_list *ft_retokenize_and_dequote_token_1(t_cmd *cmd, t_list *start_lst_token, t
 	t_list *head;
 	t_list *new;
 	size_t i;
-	int flag_head_lst_retokenized;
 
-	flag_head_lst_retokenized = 0;
 
   	data2 = NULL;
 	start_lst_token_retokenized = NULL;

@@ -14,7 +14,7 @@ cmd[arg]* [| cmd[arg]*]*		[[> filename] [< filename] [>& filename] [>> filename]
   == [pipe_list]					==						[io_modifier_list]								 == background_opitonal
 
 les elements decrits ci dessus sont dits "lablels"
-src = write your own Ms hands on approch
+src = write your own Ms hands on approch 
 
  ***********************************************************SCHEMA GLOBAL DE LA STRATEGIE*******************************************************
 
@@ -161,7 +161,6 @@ note personnelle : je ne respecte pas le pseudo code a la lettre, puisque j ai d
 
 
 -> valgrind --suppressions=ignore_rl_leaks --leak-check=full --show-reachable=yes --track-fds=yes ./my_minishell
--> valgrind --trace-children=yes --suppressions=ignore_rl_leaks --leak-check=full --show-reachable=yes --track-fds=yes ./my_minishell
 note personnelle : avoir fait l execution d abord m aide un peu a voir ce que execve prend en charge. mais je pense que le parsing en premier lieu aurait ete bien plus judicieux. ... surtout que je vois quil y a des manieres de faire avec arbre et tri recursif plus securise que la maniere dont je fais avec la boucle sur les simple commandes....
 j ai peur d avoir fait tout mon systeme d execution pour rien....
 je ne suis pas certaine de sa solidite
@@ -319,15 +318,15 @@ Je reflechis au cas particulier de $VAR apres  export VAR="ls -la" ->  fonctionn
 											RULE:en appel simple $VAR->    1 SUBSTITUT d EXPAND quelque soit sa quoting rule va subir le trim and clear  +retokenize (d ou le cmd not found du 1 er element du subtitut) (si plusieurs espaces sont devant le dq on laissera 1 seul espace) MAIS PAS DE DEQUOTE(verifier si c est le cas pour tout)
 											AVEC une CMD en tete le SUBSTITUT D EXPAND sera un arg ou option
 											SI ECHO est la main cmd PAR CONTRE ON AURA LE SUBSTITUT EN BLOC , LE SUBSTITUT DE L EXPAND na pas de retokenization.
-											RULE : ds 1 SUBSTITUT D EXPAND un pipe n a pas valeur de pipe, il est considere comme une [cmd] ou un [arg]
+											RULE : ds 1 SUBSTITUT D EXPAND un pipe n a pas valeur de pipe, il est considere comme une [cmd] ou un [arg] 
 											exemples: export VAR="   5   esp   " et export VAR="\"   5   esp   \""
-													: export VAR="   ls    -la" va bien fonctionner cela verifie le trim and clear
-													puis on verifie que la cmd and args a bien lieu en introduisant une erreur :
+													: export VAR="   ls    -la" va bien fonctionner cela verifie le trim and clear 
+													puis on verifie que la cmd and args a bien lieu en introduisant une erreur : 
 													: export VAR="   ls    -jel" ->ls invalid option --j verifie la retokenisation
 													:export VAR="jj -la" jj:command not found
 													:export VAR="ld     -la" -la no such file or directory
 
-
+ 
 
 											je continue de voir des exemples. je dois bien savoir quel est l ordre avant de commencer a ecrire le lexing
 											export VAR="wc"
@@ -364,13 +363,13 @@ fiche du cas de l expand faite : cas de l expand *ALONE: I $VAR  trim + clear/ 1
 
 
 ATTENTION $VAR$ -> le $ colle a la variable ANNULE le trim and clear et le retokenize egalement LA SUBSITUTION A QUAND MEME LIEU
-ATTENTION AUX CAS PARTICULIERS A GERER: echo $VAR$ -> on ne trime &clear pas VAR. je ne sais pas pkoi. VAR etant suivi d un Caractere $ n est pas trime et clear.
+ATTENTION AUX CAS PARTICULIERS A GERER: echo $VAR$ -> on ne trime &clear pas VAR. je ne sais pas pkoi. VAR etant suivi d un Caractere $ n est pas trime et clear. 
 										par ex VAR="   5   esp   "
-
-
-
+										
+										
+										
 										echo $VAR$ :   5   esp   $ --> le $ TRIM&CLEAR CANCELLED le RETOKENIZE CANCELLED AUSSI la substitution a bien lieu
-plusieurs comportements					echo $VAR+
+plusieurs comportements					echo $VAR+ 
 												 -
 												 !
 												 ?
@@ -384,10 +383,11 @@ plusieurs comportements					echo $VAR+
 												 ^
 												 .
 												 ,
+												 <
 												 %
 												 @
 												 # -->OK tous sont OK AUTHORIZE THE EXPAND ils respectent le TRIM&CLEAR , mettent 1 espace pour separer le prochain token +-!?[]{}
-
+												
 												**********
 												caracteres_char ou nombres --> newline vide, l'expand de VARcaracteres_char n existe pas donc jute un \n saut de ligne vide
 												_                --> newline vide, idem que pour caracteres_char
@@ -400,31 +400,31 @@ plusieurs comportements					echo $VAR+
 												**********
 												(
 												)
-												>
+												> 
 												<  -> pour ces 4 derniers caracteres:  bash: syntax error near unexpected token `newline'(pour le >, < ou >> )  ou `('
 
 												*****
 												& --> JE NE SAIS PAS
-
-												NOTA BENE: tous les caracteres ci dessus dont ceux qui mettent un nouveau prompt ou annulent le trim ou provoquent des bash syntax error
+												
+												NOTA BENE: tous les caracteres ci dessus dont ceux qui mettent un nouveau prompt ou annulent le trim ou provoquent des bash syntax error 
 												entre double quotes ou single quotes perdent tte valeur speciale, et ont qu un caractere litteral
 															ex: echo "$'"  ->$'
 
 dans le cas ou un expand n existe pas LETOKEN <EXPAND> EST SUPPRIME si il est une option
 
-PROCEDURE:
+PROCEDURE: 
 <0> -> separation with whitepaces on fait les <token> : DELIMIT TOKEN
 1   -> QUOTING RULES : 	DOUBLE_QUOTE? get position start quote end quote
 						SINGLE_QUOTE? idem
 						WHITESPACES_SEPARTOR_ENABLED or WHITESPACES_LITTERAL
 
-	->EXPAND HERE?: yes/no
-	->EXPAND AUTHORIZED : yes/no
+	->EXPAND HERE?: yes/no 
+	->EXPAND AUTHORIZED : yes/no 
 			-> EXPAND EXISTS : yes/no (no == supprimer la partie EXPAND car token invalide : suppression du token de la liste chainee ou removal de sa partie)
 				->EXPAND
 
 Quoting rules applied: litteral value protected or clear? SQ rules DQ rules WSPaces_SEPARATOR rule->
-2	-> WHITESPACES_SEPARATOR_ENABLED: TRIM&CLEAR
+2	-> WHITESPACES_SEPARATOR_ENABLED: TRIM&CLEAR 
 	->or WITESPACES_LITTERAL and CHAR_LITTERAL(' | etc ...) : inside DQ and SG bloc
 3   -> QUOTE REMOVAL :yes/no
 
@@ -432,7 +432,7 @@ Quoting rules applied: litteral value protected or clear? SQ rules DQ rules WSPa
 
 											echo + token-QUOTE vide , apres removal quote on a 0 mais le token est VALIDE:
 
-											echo "" et echo ''  -> on prend le token <''> ou <"">  normalement
+											echo "" et echo ''  -> on prend le token <''> ou <"">  normalement 
 											on lui applique le mode quoting rules et a l etape de quote removal on lui retire les quotes.
 											le token est valide : cela signifie que si ce token '' est suivi d un autre token comme echo "" bonjour result :  > bonjour -> un espace est la pour signifier que le token '' etait valide. et que nous aviosn bien une separation entre le token <''> et <bonjour>
 											echo ''bonjour ->bonjour
@@ -443,7 +443,7 @@ Quoting rules applied: litteral value protected or clear? SQ rules DQ rules WSPa
 
 											echo '' ou "" est similaire a echo "$VARE"-> <"$VARE"> -> <""> car lexpand n existe pas donc on le supprime. Quote removal-> <\0> et echo \0 fait comme echo "" ou echo '' -> le result est une newline vide
 
-											EN REVANCHE :
+											EN REVANCHE : 
 											echo + token-EXPAND qui n existe pas, le token n est PAS VALIDE et sera supprime de la liste chainee. avant d etre envoye faire son parsing et remplir la data strcuture
 											echo $VARA $VARA $VAR | cat -e
 										  ->5 esp$   la $VAR est trim$clear les 2 token sont supprimes de la liste chainee lorsque VAR n existe pas
@@ -458,13 +458,13 @@ savoir si on met le token a 0.
 
 gerer le cas des quotes entremellees : 		echo "'$VAR'"        echo '"$VAR"'
 c est la regle du first quoting rule found is equal to rule applied. le quote removal s appliquera seulement sur les quotes du quoting rule
-											>'   5   esp   '	>"$VAR"		(pr le 2 eme exemple l expand n est pas authorized)
+											>'   5   esp   '	>"$VAR"		(pr le 2 eme exemple l expand n est pas authorized)	
 
 
 
 
 POUR DETERMINER LES FONCTIONS:
-IL FAUDRA SAVOIR QUELS SONT LES CRITERES pour determiner le moment ou on decide de remplir le tableau d arguments.
+IL FAUDRA SAVOIR QUELS SONT LES CRITERES pour determiner le moment ou on decide de remplir le tableau d arguments. 
 il faut savoir comment identifier la commande et determiner ss quelles conditions on commence a remplir ses options ou arguments
 IL faudra determiner les limites d un expand. aaa"$V"AR l expand s arrete au " . $VAR$ l expand s arrete au $ ou a un \0 .
 $VARA n est pas valide. car l expand s arrete au \0 et englobe le A
@@ -472,13 +472,13 @@ $VARA n est pas valide. car l expand s arrete au \0 et englobe le A
 *********************************GESTION DES COMPORTEMENTS*****************************************
 
 
-VOICI TOUS LES TYPES DE TOKEN : on eut creer des define:
+VOICI TOUS LES TYPES DE TOKEN : on eut creer des define: 
 								WORD 1
 								VARIABLE $VAR 2
 								PIPE  3
 								GREAT 4
 								GREATGREAT 5
-								LESS 6
+								LESS 6 
 								LESSLESS 7
 								TERMINATE 8
 								PARENTHESIS_LEFT 9
@@ -492,8 +492,8 @@ on pourrait peut etre aussi creer des define pour les returns
 								RAS :											0
 								Export /unset not a valid identifier :			1 export event not found , cd too many argumetns
 
-								bash syntax error near unexpected token:		2  filename argument required , export/pwd/cd invalid option,
-								Is a directory :								126
+								bash syntax error near unexpected token:		2  filename argument required , export/pwd/cd invalid option, 
+								Is a directory :								126 
 								command not found :								127
 								no such file or directory						parfois 1 , 127 possible(Unset path + ls)
 
@@ -518,7 +518,7 @@ on va d abord cheker la validite de la line input du user : line NULL? -> n exis
 
 
 
-LEXER:
+LEXER: 
 
 ft_check_validity_of_quoting_rules_for_line_  : prendre en charge les guillemets et aostrophes incomplets ouverts (nombre impair)
 			fr fonction qui des qu elle met la regle de quoting a 2 la remet a  0  et met a 1a regle de whitespace_separator
@@ -529,7 +529,7 @@ ft_check_validity_of_quoting_rules_for_line_  : prendre en charge les guillemets
 TOKENISER la line en fonction des WHITESPACES SPEARATEURS ou des OPERANDS : | < > qui servent de delimitateurs aux tokens
 ft_create_token devra retourner la liste chainee de tokens crees
 ft_check_syntax_error(token)\
-ft_check_operand_syntax_error -> ft_case_pipe par ex le | en debut de cmd line fait une syntax error,
+ft_check_operand_syntax_error -> ft_case_pipe par ex le | en debut de cmd line fait une syntax error, 
 ft_define_token_type
 
 
@@ -546,42 +546,42 @@ ft_define_token_type
 
 
 POSSIBILITE : envisager une fonction qui gere tous les cas particuliers de commandes avant l execve et compare la cmd avec ft strcmp -> strategie trop lourde
-ces cas seraient: ft_compare_cmd_and_avoid_execve
+ces cas seraient: ft_compare_cmd_and_avoid_execve 
 
 ****************************************************************GESTION DES COMPORTEMENTS DES CARACTERES A A VOLEE***************************************************************************
 
 >!   : ATTENTION il faudra retourner 1 et mettre 1 nouveau prompt (prevoir une if cmd == ! avec ft strcmp par ex pour gerer les execptions d envoi a execve si je decide d envoyer le token a l execution                                                            ), si  !! envoyer a execve et faire la commande not found
 
-on peut regrouper plutot : les erreurs de syntaxe pres dun token token ou `nouvelle ligne' inattendu ... pkoi newline que cela signifie il ? qu on attendait un fichier? ou un vrai parametre car le token est original ?
+on peut regrouper plutot : les erreurs de syntaxe pres dun token token ou `nouvelle ligne' inattendu ... pkoi newline que cela signifie il ? qu on attendait un fichier? ou un vrai parametre car le token est original ? 
 
-****STRATEGIE POUR LE bash: syntax error near unexpected token `newline' --> avec:  >		<		<<		>>		<>     newline quand on a affaire au motif original
+****STRATEGIE POUR LE bash: syntax error near unexpected token `newline' --> avec:  >		<		<<		>>		<>     newline quand on a affaire au motif original 
 			definir:																												 (ne pas oublier le return de  echo $?)
 
-STRATEGIE POUR le bash: syntax error near unexpected token `TOKEN*1 ou *2 ou *3'    -> avec : token  *1 quand  le token est repete  n 1 unique exemplaire plusieurs fois avec des espaces dan la cmd line, ou 																							token *2 quand le motif est repete a partir de 4 fois et + pour GREATGREATGREATGREAT et + et
+STRATEGIE POUR le bash: syntax error near unexpected token `TOKEN*1 ou *2 ou *3'    -> avec : token  *1 quand  le token est repete  n 1 unique exemplaire plusieurs fois avec des espaces dan la cmd line, ou 																							token *2 quand le motif est repete a partir de 4 fois et + pour GREATGREATGREATGREAT et + et 
 			laissons tomber pour le moment, les *3. faisons simple. soit on display newline, soit le motif original(! ou < ou <<) oou |
-
+			
 			definir:
 
-on avait vu plus haut que avec echo:			<<
+on avait vu plus haut que avec echo:			<< 
 												>>
 												(
 												)
-												>
+												> 
 												<  -> pour ces 6 derniers caracteres:  bash: syntax error near unexpected token `newline'(pour le >, < ou >> )  ou `('
 MEME SI ECHO est mal ecrit, ou que la comande est mal ecrite  quelque soit ce qu on a on a : on a un bash syntax error pareil pour les autres tokens : echo <<<<< ou echo < < < <
 -> le bash syntax error token << ou token < s applique ici quelque soit la commande ecrite... ecccho < met a meme bash syntax error
 cela signifie que le bash regarde avant d executer echo ou n importe quelle autre commande le token en question
 ft_check_syntax_error(token)\
-ft_check_operand_syntax_error -> ft_case_pipe par ex le | en debut de cmd line fait une syntax error,
+ft_check_operand_syntax_error -> ft_case_pipe par ex le | en debut de cmd line fait une syntax error, 
 
 
-si ces tokens sont suivis d un token de type <WORD> alors ils jouent leur role de redirection. infile, outfile heredoc append etc.
+si ces tokens sont suivis d un token de type <WORD> alors ils jouent leur role de redirection. infile, outfile heredoc append etc. 
 donc il faut que le token qui suive notre token syntax error soit un token <TERMINATE>    -> <WORD> <numeros 4,5,6,7,9,10,13> <TERMINATE> --> `newline'
 
 REMARQUE : tous ces tokens, SI ils sont entre DQ ou SQuoting ne constituent plus une erreur de syntax. mais une command not found "<" ou '|'
 
 ********************************************MON CODE*************************************************
-TODO: cmd not found, mettre en place la suite du debogg de l execve (cf pipex)
+TODO: cmd not found, mettre en place la suite du debogg de l execve (cf pipex) 
 
 
 SE DEFENDRE lors de la correction si on me met des {} , () , *, \,  
@@ -643,7 +643,7 @@ DRAFTS to help between functions
 		//ANSI le lexing doit se faire de MANIERE SEQUENTIELLE  meme un "    " ca ne fonctionnera pas
 //utils
 		// gardons cette fonction pour ne pas faire crasher le code en attendant de fr la vraie tokenize line operationnelle qui redistribue les tokens dans la liste chainee directement et pas dans un double tab
-	// la liste chainee est vraiment justifiee car on a dans la cadre des expand, besoin de REtokenizer encore une fois avec le TRIM and ClEAR. on doit pouvoir manier les token de maniere flexible. un tableau serait tres galere a modifier et remodifier
+	// la liste chainee est vraiment justifiee car on a dans la cadre des expand, besoin de REtokenizer encore une fois avec le TRIM and ClEAR. on doit pouvoir manier les token de maniere flexible. un tableau serait tres galere a modifier et remodifier 
 // parcourir la line de maniere sequentielle puisque les quoting rules vont determiner les qualites des caracte speciaux et des operands, aussi nous avons besoin de passer les espaces pour trouver un token dans le cas de nos gestion de comportement de caracteres a la volee char on the fly ou motifs
 	// ex de <$VAR> et <ls> <|> <$VAR>
 	// 1
@@ -747,7 +747,7 @@ Si simpleCmd == 1
 alors pas de condition pour operator_pos
 on y va directement sur les fonctions de parsing
 */
-//LIBRAIRIE
+//LIBRAIRIE 
 ==27127==ASan runtime does not come first in initial library list; you should either link runtime to your application or manually preload it with LD_PRELOAD.
 est une erreur qui dit quil faut mettre le flag -lasan avant -lreadline
 CFLAGS = -Wall -Wextra -Werror -I $(INCLUDE_DIR) -fsanitize=address -fsanitize=leak
@@ -763,121 +763,27 @@ et la librairie est dans le linkage des fichiers .o
  #-lasan == dynamique == necessite installation sur ordi VS -static-libasan == STATIC == inclus dans l executable ==pas de necessite d installation sur l ordi pour verfier $ldconfig -p  pour lister les librairies de l ordi
 
 
-***pseudo code EXPANSION EXPAND***	
-pour none et echo : les memes etapes
 
-0/Delimiter le debut et a fin de l expand (cf fiche pour les regles QR 0 et QR 2)
-0/A le debut de l expand : SI $ EST En QUOTING RULE == 0 : $ doit etre obligatoirement suivi:
--1) d un caractere alpha
--2) d un caractere num compris entre 0 et 9
--3) d un " apostrophe double rempli ou non
--4) d un ' apostrophe simple rempli ou non
--5) d un signe ? ou ! 
--6) d un signe parmi : ($ suivi immediatement de)
-OUI expand: suivi d un des signes: {$(1 ou plusieurs),!, # -> seront substitues par a valeur ou par RIEN (on aura le return \n a l echo )
-NON expand: suivi d un des signes: {+, ,(virgule) }, ], = , ~ }  -> ne donnent pas de valeurs a l expand. $ suivi d un de ces signes n aura pas de valeur expand. il aura son sens litteral de dollar
-delimitateurs
-
-[idem pour QR == 2 , (pas d expand en QR == 1)]
-
-0/B la fin de l expand :  SI $ EST DANS LA QUOTING RULE == 0 
--2) ds le cas d un caractere numerique : l expansion s arrete a ce moment la
--3) & 4) l expansion s arretera au "" ou ' (on n inclut dans la substitution que le $, et n le fera disparatra car ce sera un $ solo, il ne substituera a RIEN)
--5) l expansion s arrete au $ ! #
-
-fin de l expand dans le cas de $ dans la QUTING RULE == 2
-- des qu on rencontre un espace
--2) ds le cas d un caractere numerique : l expansion s arrete a ce moment la ex :  echo "$1232" L expansion s arretera des le 2
--5) l expansionn s arrete au ? ou !
--6) des que je rencontre un " ou ' 
--des qu on rencontre un autre $ ou les signes +#-?@= etc...
-OUI expand: suivi d un des signes: {$(1 ou plusieurs),!, # -, }  -> seront substitues par a valeur ou par RIEN (on aura le return \n a l echo )
-les signes suivant annulent la valeur de l expand
-NON expand: suivi d un des signes: {+, ,(virgule) }, ], = , ~ }  -> ne donnent pas de valeurs a l expand. $ suivi d un de ces signes n aura pas de valeur expand. il aura son sens litteral de dollar
-delimitateurs
-
-
-***EXPAND ***
-
-1/substitute
-2/if found : copy in buffer if (not found || $ trouve seul): no copy
-3/epur multiple spaces sauf dans les "bloc" ou 'bloc' -> on aura qu un seul espace la ou il y en avait  plusieurs et dans les "blocs" les espaces seront preserves. 
-4/Trim les spaces aux extremites X   X de la string du buffer
-5/RETOKENIZE / si echo : PAS de retokenize
-6/DEQUOTE(quote removal sauf dans les "bloc" ou 'bloc') (epurer la string des signes "" ou ' sauf quand ils sont dans  des "bloc" ou 'bloc')
-
-****Note pour 5/ et 6/
-NOTE TRES IMPORTANTE :  TOUTE QUOTE ISSUE DE LEXPAND N A AUCUNE VALEUR DE QUOTING RULE ET NE SERA PAS DEQUOTE. SES QUOTES NE PROTEGENT EN RIEN LES ESPACES DE LA RETOKENIZE: SI UN ESPACE SE TROUVE ENTRE DES QUOTES DE L EXPAND ON RETOKENIZE SANS PITIE EN CASSANT LE BLOC. 
-CE SONT LES QUOTES DE LA QUOTING RULE (QUI ONT VALEUR DE QR ET QUI PROTEGENT LE CARACTERE LITTERAL)
+//FIXME
+ ~ <infile  >outfile 33wc -l <infile <nofile >outfile
+minishell: infile: No such file or directory
+minishell: infile: No such file or directory
+minishell: nofile: No such file or directory
 
 
 
-SE DEFENDRE A LA CORRECTION : ASK
- ls >outfile | wc >outfile
- ~ cat outfile a un comportement indefini. si le correcteur insiste : inverser les cmds : wc >o | ls >o pour lui montrer le mis & match
+//FIXME
+~ <infile >outfile <infile <<A | ls <infile
+->FD EST OUVERT (PIPE)
 
-<infile ls >outfile | <<A <<B wc -l <infile <<C  >outfile  IDEM qu au dessus outfile n a pas ete ecrase par le wc -l qui prendrait normalement le <<C comme infile (inverser les commandes pour tester)
-
-
-
-//VERIFIER 
-// TODO : comparer quand cat est en deniere simple command cat outfile22 ne marche pas CF PEER DEMANDER CE QUILS EN PENSENT EUX
-// build-my_minishell-Desktop_GCC-Debug ls | wc -l | cat outfile22
-// 19
-//  build-my_minishell-Desktop_GCC-Debug ls | wc -l>outfile22 | cat outfile22
-// pas de resultat on a le prompt directement
-
-
-//TODO as a test
+//TODO
 heredoc
 <<A bash
 >echo bonjour
 >exit 12
 >A
-va display bonjour
+va display bonjour 
 et echo $? donner 
 12
 
-BUILT IN
-~ ~ | ls
-~: command not found: on devrait avoir:  bash: /mnt/nfs/homes/mbenmesb: Is a directory (probablement a implementer avec cd)
 
-
-//NORMEME
-void ft_get_token_quoting_rule(char *str, t_list *lst_token, size_t i) //NORMEME >25 lignes
-get_token_type.c
-
-
-
-//FACTORIZE
-get_token_type.c ->il y a un parametre en trop
-
- //EXPAND
- >$Q >BEBE | ls -> on n aura pas le fichier BEBE cree
- >BEBE >$Q | ls -> BEBE sera cree
- le compprtement d un outfile ambiguous est le meme qu un nofile
-
-
- //EXPAND : 
- les " ', issues de l expansion n ont aucune valeur de quoting rule ni de separateur. Pour eviter de dequote une quote de l expansion ou de retokenizer sur un mauvais espace induit en erreur par une mauvaise quoting rule issue de l expansion, il faut absolument recuperer le scope de l expand, et garder en memoire dans la strcuture l index j du buffer attribue lors de la substitution, puis lors de l epur et puis lors de trim -> il faudra update l index au fur et a mesure........
- 
-
-
- //												BUILTIN EXPORT            PSEUDO CODE
- l export doit se CHECKER et METTRE EN PLACE apres la substitution , apres l expansion, apres la retokenisation. car si dans un expand retokenise j obtiens $VAR -> "export KEY2=VALUE" quand je fais $VAR je vais obtenir la mise en place de l export dans l environnement . env |grep KEY2 va donner VALUE. 
- si expand est la main command, les autres tokens de la commande doivent etre delete. de la liste chainee. et ne pas etre parses dans cmd and args
- si l expand est la main command dune SEULE SIMPLECMD donc un builtinSOLO sans pipelines autres , alors il influencera la parent en MODIFIANT envp. 
- si dans un child, 
- 1/convertir envp en liste chainee.
- 2/verfier si main cmd est le builtin export apres la retokenize et le nettoyage des infile outfile heredoc redir etc... determiner si la simpleCmd a un buitlin SOLO . faire la difference entre le buitlin SOLO qui affecte le parent en venant modifier l environnement du parent (export, unset, exit, cd) et un builtin solo qui peut etre execute dans un CHILD car il n affectera pas le parent(pwd, echo, env)
- si export est dans une simpleCmd solo, alors il faudra modifier envp de maniere permanente et ce dans le parent. afin que toute commnde line entree par l utilisateur plus tard ait comme reference cette liste chainee envp(il ne faudra donc pas la free sauf a la fin du programme) de ce fait on peut envisager de mettre lst_envp et envp_tab dans notre cmd
- si l export fait partie dune simpleCmd avec pipeline, on passe par le code normal mais on aura un INTERRUPTEUR EN AMONT POUR NE PAS MODIFIER lst_envp (interrupteur bultin solo == 1) 
- que ce soient des buitlin SOLO ou pas on executera tous les processus dans l enfant qui les represente. on viendra en amont modifier ou non l envp_cpy qu on transmettra ou non avec l interrupteur de la simpleCmd en AMONT avant meme les fork de tte facon
-il faudra egalement penser a mettre un champ dans simpleCmd[i] pour flag no_valid_identifiar(pour l export donc ce sera sous entendu) -> afin d envoyer un return echo $? de 1 et non de 0 (0 est our quand tt se passe bien)
-3/export ne sra pas execute avec execve. il faudra donc creer un petit cas ou si simpleCmd a le tag de builtin export il ne faudra pas passer par l execve , par contre il faudra recuperer le return de l echo $? manuellement : int ft_export. nb si un des export a eu un not valid identifier le return sera de la valeur 1.  ---> ~export a=ls(OK) @a=la(NO) @b=lb(NO) c=lc(OK) l export va fonctionner pour les variables a et c, 
- 2/on rajoutera les maillons de l export dans le parsing pour les envoyer a lst_envp . les maillons de la lst_envp seront des struct sous la forme KEY=VALUE
- 3/convertir la liste chainee en double tab pour envp_tab a envoyer avant l execution.
-
- sauvegarde de envp du parent : utilisation du flag_save_envp . on recu[ere dabord dans cmd->envp l envp a l etat naturel et on en fait une copie ] on viendra update cette copie de l envp 
-
- TODO PROTEGER TOUS LES FREE TAB

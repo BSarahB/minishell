@@ -150,6 +150,7 @@ t_list	*ft_head_empty_token(t_list *curr, t_cmd *cmd, t_list *lst_token, t_setti
 	curr = next;
 	return(curr);
 }
+
 void	ft_del_empty_token_in_simpleCmd(t_list **alst, size_t index, t_list **lst_token, t_cmd *cmd)
 {
 	t_list			*curr;
@@ -179,126 +180,6 @@ void	ft_del_empty_token_in_simpleCmd(t_list **alst, size_t index, t_list **lst_t
 	ft_free_struct_t_settings_del(&del2);
 }
 
-int ft_check_format_key_value(t_list *tmp)
-{
-	(void)tmp;
-
-
-	//return(1); //->dans le cas d un key 
-	return (0); // ->return 0 dans le cas d un key=value
-}
-
-int ft_isalnum(int c)
-{
-	return(ft_isdigit(c) || ft_isalpha(c));
-}
-
-int	ft_key_value_is_valid(t_list *tmp)
-{
-
-	(void)tmp;
-	char *str;
-	int i;
-
-	i = 1;
-	str = tmp->content;
-	if(str[0] == '\0')
-	{
-		ft_putstr_fd("bash: export: `': not a valid identifier\n", 2); //le echo $? est 1 car il y a une erreur
-		return(0);//not valide
-	}
-	if(str[0])
-	{
-		if (ft_isalpha(str[0]) == 0 && str[0] != '_')
-			{
-				ft_putstr_fd("bash: export: `", 2);
-				ft_putstr_fd(tmp->content, 2);
-				ft_putstr_fd("': not a valid identifier\n", 2); //le echo $? est 1 car il y a une erreur
-				return(0);
-			} 
-		
-	}
-
-	while (str[i])
-	{
-		if(ft_isalnum(str[i]) == 0 && str[i] != '_')
-		{
-			ft_putstr_fd("bash: export: `", 2);
-			ft_putstr_fd(tmp->content, 2);
-			ft_putstr_fd("': not a valid identifier\n", 2); //le echo $? est 1 ca
-			return (0);
-		}
-		i++;
-	}
-	return(1); //-> valide
-}
-
-
-
-
-void ft_check_export(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env)
-{
-	(void)cmd;
-	(void)start_lst_token_retokenized;
-	(void)simpleCmd;
-	(void)data_env;
-	t_list *tmp;
-	int flag_export;
-
-	flag_export = -1;
-	tmp = start_lst_token_retokenized;
-	if(tmp != NULL)
-	{
-		if(flag_export == -1)
-		{
-			if(flag_export == -1 && (ft_strcmp("export", tmp->content) == 0))
-			{
-				flag_export = 1;
-				simpleCmd->is_builtin = 1;
-				simpleCmd->builtin = export; // == 3
-				if(tmp->next == NULL)
-		   			simpleCmd->export_no_option = 1;
-				else
-					tmp = tmp->next;
-				if(cmd->nb_of_simpleCmds == 1)
-					{
-						simpleCmd->export_solo = 1;
-						simpleCmd->builtin_solo = 1;
-					}
-			}
-			else
-				flag_export = 0;
-		}
-	}
-
-	while (tmp != NULL && tmp->position < simpleCmd->end_simpleCmd_pos && simpleCmd->export_no_option == 0 && flag_export == 1)
-	{ 
-		if(simpleCmd->nofile == 1)
-			break;
-    	if(simpleCmd->export_solo == 1)
-        {
-			if (ft_key_value_is_valid(tmp) == 1)
-			{
-				ft_check_format_key_value(tmp);
-			}
-
-			//1) KEY seule pas de =VALUE et valid identifier:
-			//remplir lst_envp_d en ajoutant le maillon (pas dans lst_envp)
-			//si key=VALUE ->on met key=value dans lst_envp && lst_envp_d
-        }
-		tmp = tmp->next;
-	}
-	/*
-	if(tmp != NULL && tmp->position == simpleCmd->end_simpleCmd_pos && tmp->title != operator && simpleCmd->export_x == 0 && flag_export == 1)
-	{
-		//if
-        //{
-          // if()
-        //}
-		
-	}
-*/
-}
 
 
 int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, t_list *lst_token, t_data_env *data_env)
@@ -331,6 +212,11 @@ int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, t_list *lst_token, t_data_env *data_en
 	//	ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(start_lst_token, cmd->simpleCmds[i]);
 		//ft_count_final_nb_of_tokens_in_simpleCmd_retokenized(start_lst_token_retokenized, cmd->simpleCmds[i]);
 		ft_check_export(cmd, start_lst_token_retokenized, cmd->simpleCmds[i], data_env);
+		ft_check_unset(cmd, start_lst_token_retokenized, cmd->simpleCmds[i], data_env);
+		ft_check_env(cmd, start_lst_token_retokenized, cmd->simpleCmds[i], data_env);
+		ft_check_echo(cmd, start_lst_token_retokenized, cmd->simpleCmds[i], data_env);
+		ft_check_cd(cmd, start_lst_token_retokenized, cmd->simpleCmds[i], data_env);
+
 		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd_from_retokenized_lst(start_lst_token_retokenized, cmd->simpleCmds[i]);
 
 		if(start_lst_token != NULL)

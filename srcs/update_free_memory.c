@@ -77,6 +77,10 @@ void	ft_free_struct_t_simpleCmd(t_simpleCmd **simpleCmd)
 
 	if((*simpleCmd)->errfile != NULL)
 		ft_free_tab(&(*simpleCmd)->errfile);
+	if((*simpleCmd)->oldpwd != NULL)
+		{
+			ft_free_struct_str(&(*simpleCmd)->oldpwd);
+		}
 	if (*simpleCmd != NULL)
 	{
 		free(*simpleCmd);

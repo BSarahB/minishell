@@ -12,13 +12,68 @@
 
 #include "minishell.h"
 
-
-void ft_echo(void)
+int	ft_is_flag_n(char *str)
 {
+	int	i;
+	int flag;
 
-	printf("bonjour\n");
-	printf("bonjour\n");
+	i = 0;
+	flag = 0;
+	if(str[i] == '\0')
+	{
+		printf("flag n : %d\n", flag);
+		return(flag);
+	}
+	if(str[i] != '-')
+		return(flag);//0
+	if(str[i] == '-')
+		i++;//0
+	while (str[i])
+	{
+		if (str[i] != 'n')
+		{
+			//printf("flag n : %d\n", flag);
 
+			return (flag);
+		}
+		i++;
+	}
+	flag = 1;
+	//printf("flag n : %d\n", flag);
+	return (1);
+}
+
+void ft_echo(t_simpleCmd *simpleCmd)
+{
+	int j;
+	int flag_n;
+
+	flag_n = 0;
+	j = 1;
+	//on va passer cmd_and_args et si on a le flag n dans un cmd_and_arg[i] on passe notre chemin jusqua tomber sur un argument sans n , comme les suivants meme avec n ne seront plus des flag n alors il faudra les imprimer a l ecran
+	if(simpleCmd->echo_no_option == 1)
+	{
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		return;
+	}
+	while(simpleCmd->cmd_and_args[j] && ft_is_flag_n(simpleCmd->cmd_and_args[j]) == 1)
+	{
+		flag_n = 1;
+		j++;
+	}
+	while(simpleCmd->cmd_and_args[j])
+	{
+		ft_putstr_fd(simpleCmd->cmd_and_args[j], STDOUT_FILENO);
+		if(flag_n == 0 && simpleCmd->cmd_and_args[j + 1] == NULL)
+		{
+			ft_putstr_fd("\n", STDOUT_FILENO);
+		}
+		else if (simpleCmd->cmd_and_args[j + 1])
+		{
+			ft_putstr_fd(" ", STDOUT_FILENO);
+		}
+		j++;
+	}
 }
 
 void	ft_redirect_output(t_settings *set)
@@ -42,19 +97,26 @@ void	ft_set_fdin_for_first_simpleCmd(t_settings *set, t_cmd *cmd)
 		set->fdin = dup(set->savein);
 }
 
-void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], t_data *data, char *line, t_data_env *data_env)
+void	ft_child_process(t_settings *set, t_cmd *cmd, char **envp_t, t_data *data, char *line, t_data_env *data_env)
 {
 	int	exec_return;
 	(void)data;
 	(void)line;
-	exec_return = 0;
-	int i;
-	i = 0;
+	t_listenvp *tmp;
+	t_listenvp *tmp2;
+	t_listenvp *tmp3;
 
+	exec_return = 0;
+//	int i;
+//	i = 0;
+	tmp = NULL;
+	tmp2 = NULL;
+	tmp3 = NULL;
+	(void)tmp3;
 	if(set->ret == 0)
 	{	
 		if(cmd->simpleCmds[set->i]->is_builtin == 0)
-			exec_return = ft_execute_cmd(cmd, set->i, envp, set);
+			exec_return = ft_execute_cmd(cmd, (int)set->i, envp_t, set);
 		if (exec_return == -1 && (errno == 2 || errno == 13))
 		{	
 			close(set->savein);
@@ -64,26 +126,79 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], t_data *data, c
 			ft_free_struct_t_settings(&set);
 			ft_free_in_child(cmd, data, line);
 			ft_free_struct_t_cmd_only(&cmd);
-			if(envp != NULL)
-				ft_free_tab(&envp);
+			if(envp_t != NULL)
+				ft_free_tab(&envp_t);
 			if(data_env != NULL)
 				ft_free_struct_t_data_env(&data_env);	
 			exit(1);//ou (0?) voir comment bien sortir mettre ca apres le pb du fork	
 		}
-		if(cmd->simpleCmds[set->i]->is_builtin == 1 && cmd->simpleCmds[set->i]->builtin == 2) //modifier pour ==0 pour faire le builtin echo
+//BUITLIN ECHO
+		if(cmd->simpleCmds[set->i]->is_builtin == 1 && cmd->simpleCmds[set->i]->builtin == 0) //modifier pour ==0 pour faire le builtin echo
 		{
-			ft_echo();
-			close(set->savein);
+
+		ft_echo(cmd->simpleCmds[set->i]);
+
+		close(set->savein);
 		close(set->saveout);
 		ft_free_struct_t_settings(&set);
 		ft_free_in_child(cmd, data, line);
 		ft_free_struct_t_cmd_only(&cmd);
-		if(envp != NULL)
-			ft_free_tab(&envp);
+		if(envp_t != NULL)
+			ft_free_tab(&envp_t);
 		if(data_env != NULL)
 			ft_free_struct_t_data_env(&data_env);	
 		exit(1);//ou (0?) voir comment bien sortir mettre ca apres le pb du fork
 		}
+// BUILTIN ENv
+		if(cmd->simpleCmds[set->i]->is_builtin == 1 && cmd->simpleCmds[set->i]->builtin == 5)
+		{
+			tmp2 = data_env->lst_envp;
+			while(tmp2)
+			{
+				ft_putstr_fd(tmp2->key_value, STDOUT_FILENO);
+				ft_putstr_fd("\n", STDOUT_FILENO);
+				tmp2 = tmp2->next;
+			}
+
+
+			close(set->savein);
+			close(set->saveout);
+			ft_free_struct_t_settings(&set);
+			ft_free_in_child(cmd, data, line);
+			ft_free_struct_t_cmd_only(&cmd);
+			if(envp_t != NULL)
+				ft_free_tab(&envp_t);
+			if(data_env != NULL)
+				ft_free_struct_t_data_env(&data_env);
+			exit(1);//ou (0?) voir comment bien sortir mettre ca apres le pb du fork
+		}
+//BUILTIN CD
+		if(cmd->simpleCmds[set->i]->is_builtin == 1 && cmd->simpleCmds[set->i]->builtin == 1) //modifier pour ==0 pour faire le builtin echo
+		{
+		if(cmd->simpleCmds[set->i]->oldpwd != NULL)
+		{
+			ft_putstr_fd(cmd->simpleCmds[set->i]->oldpwd, STDOUT_FILENO);
+			ft_putstr_fd("\n", STDOUT_FILENO);
+		}
+		//chercher dans lst_envp OLDPWD et l imprimer
+
+		close(set->savein);
+		close(set->saveout);
+		ft_free_struct_t_settings(&set);
+		ft_free_in_child(cmd, data, line);
+		ft_free_struct_t_cmd_only(&cmd);
+		if(envp_t != NULL)
+			ft_free_tab(&envp_t);
+		if(data_env != NULL)
+			ft_free_struct_t_data_env(&data_env);
+		exit(1);//ou (0?) voir comment bien sortir mettre ca apres le pb du fork
+		}
+
+		//ceci est en double le degager
+		data_env->lst_envp_d = ft_add_double_quote_to_envp_d(data_env->lst_envp_d);
+		tmp = data_env->lst_envp_d;
+
+
 		if(cmd->simpleCmds[set->i]->is_builtin == 1 && cmd->simpleCmds[set->i]->export_no_option == 0) //modifier pour ==0 pour faire le builtin echo
 		{
 			
@@ -92,29 +207,38 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], t_data *data, c
 		ft_free_struct_t_settings(&set);
 		ft_free_in_child(cmd, data, line);
 		ft_free_struct_t_cmd_only(&cmd);
-		if(envp != NULL)
-			ft_free_tab(&envp);
+		if(envp_t != NULL)
+			ft_free_tab(&envp_t);
 		if(data_env != NULL)
 			ft_free_struct_t_data_env(&data_env);	
 		exit(1);//ou (0?) voir comment bien sortir mettre ca apres le pb du fork
 		}
-		while(envp[i])
+//BUITIN EXPORT SANS OPTION ET SOLO
+		data_env->lst_envp_d = ft_add_double_quote_to_envp_d(data_env->lst_envp_d);
+		tmp = data_env->lst_envp_d;
+
+
+
+		while(tmp && cmd->simpleCmds[set->i]->builtin != 5  )
 		{
-			//printf("declare -x %s\n", envp[i]);
+
 			ft_putstr_fd("declare -x ", STDOUT_FILENO);
-			ft_putstr_fd(envp[i], STDOUT_FILENO);
+			ft_putstr_fd(tmp->key_value, STDOUT_FILENO);
 			ft_putstr_fd("\n", STDOUT_FILENO);
-			i++;
+			tmp = tmp->next;
 		}
 		close(set->savein);
 		close(set->saveout);
 		ft_free_struct_t_settings(&set);
 		ft_free_in_child(cmd, data, line);
 		ft_free_struct_t_cmd_only(&cmd);
-		if(envp != NULL)
-			ft_free_tab(&envp);
+		if(envp_t != NULL)
+			ft_free_tab(&envp_t);
 		if(data_env != NULL)
-			ft_free_struct_t_data_env(&data_env);	
+		{
+		printf("free data_env dans le child\n");
+			ft_free_struct_t_data_env(&data_env);
+		}
 		exit(1);//ou (0?) voir comment bien sortir mettre ca apres le pb du fork
 	}
 	if (set->ret == -1)
@@ -125,7 +249,7 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], t_data *data, c
 	}
 }
 
-int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, char *line, t_data_env *data_env)
+int	ft_setting_redirections_and_pipes(t_cmd *cmd, char **envp_t, t_data *data, char *line, t_data_env *data_env)
 {
 	int 		exit_status;
 	t_settings	*set;
@@ -154,7 +278,7 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, ch
 					ft_redirect_output(set);
 				//Redirection des vrais in et out dans le processus parent tjrs en bouclant sur les simpleCmds
 					set->ret = fork();//Creation des processus : il faudra creer autant de processus que de commandes donc faire dans le while.
-					ft_child_process(set, cmd, envp, data, line, data_env);
+					ft_child_process(set, cmd, envp_t, data, line, data_env);
 				
 			}
 		}

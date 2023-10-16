@@ -16,10 +16,17 @@
 void    ft_free_struct_t_data_env(t_data_env **data_env)
 {
     if((*data_env)->lst_envp != NULL)
-			ft_free_struct_t_list_lst_envp(&((*data_env)->lst_envp));
+			{
+				ft_free_struct_t_list_lst_envp(&((*data_env)->lst_envp));
+
+						}
 	if((*data_env)->lst_envp_d != NULL)
-			ft_free_struct_t_list_lst_envp(&((*data_env)->lst_envp_d));
-    if (*data_env != NULL)
+			{
+
+		ft_free_struct_t_list_lst_envp(&((*data_env)->lst_envp_d));
+
+	}
+	if (*data_env != NULL)
     {
         free(*data_env);
         *data_env = NULL;
@@ -110,25 +117,39 @@ void ft_lstadd_back_envp(t_listenvp **alst, t_listenvp *new)
 		}
 }
 
-/*
-
-t_listenvp *ft_lstnew_for_lst_retokenized2_envp(t_list *token)
+char *ft_add_double_quote_to_var(char *str)
 {
-	t_listenvp *new;
+	char *buffer_quoted;
+	int flag_equal;
+	int i;
+	int j;
 
-	new = malloc(sizeof(t_listenvp));
-	if (!new)
-		return (NULL);
-	new->key_value = ft_strdup(token->content);
-//	new->title = token->title;
-//	new->position = token->position;
+	i = 0;
+	j = 0;
+	flag_equal = 0;
+	buffer_quoted = ft_init_string((size_t)ft_strlen(str) + 2);//rajoute 2 pour les "" rajoutees
 
-	new->next = NULL;
-	new->prev = NULL;
-	return (new);
+	while(str[i])
+	{
+		buffer_quoted[j] = str[i];
+		if(str[i] == '=' && flag_equal == 0)
+		{
+			j = j +1;
+			buffer_quoted[j] = '"';
+			flag_equal = 1;
+		}
+		j++;
+		i++;
+	}
+	if (flag_equal == 1)
+	{
+		buffer_quoted[j] = '"';
+		j = j+1;
+	}
+	buffer_quoted[j] = '\0';
+	return(buffer_quoted);
 }
 
-*/
 
 t_listenvp *ft_lstnew_for_lst_envp(char *str)
 {
@@ -138,9 +159,26 @@ t_listenvp *ft_lstnew_for_lst_envp(char *str)
 	if (!new)
 		return (NULL);
 	new->key_value = ft_strdup(str);
+
 	//new->title = tmp->title;
 	new->position = 0;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
+}
+
+t_listenvp *ft_add_double_quote_to_envp_d(t_listenvp *lst_envp_d)
+{
+	char *key_value_quoted;
+	t_listenvp *tmp;
+
+	tmp = lst_envp_d;
+	while(tmp)
+	{
+		key_value_quoted = ft_add_double_quote_to_var(tmp->key_value);
+		tmp->key_value = ft_update_string(&tmp->key_value, key_value_quoted);
+		tmp =tmp->next;
+	}
+
+	return (lst_envp_d);
 }

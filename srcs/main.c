@@ -12,9 +12,10 @@
 
 #include "minishell.h"
 
-static t_listenvp *ft_get_lst_envp(char **envp)
+
+t_listenvp *ft_get_lst_envp(char **envp)
 {
-    t_listenvp *lst_envp;
+	static t_listenvp *lst_envp;
     t_listenvp *new;
     int         i;
 
@@ -42,27 +43,22 @@ int main(int argc, char *argv[], char *envp[])
 	t_list *lst_token;
 	t_data *data;
 	int	exit_status;
-	static t_listenvp *lst_envp;
-	static t_listenvp *lst_envp_d;
 	int flag_save_envp;
 	char **envp_t;
+	char **envp_tab;
 	t_data_env *data_env;
 
 	exit_status = 0;
 	line = NULL;
 	cmd = NULL;
-	lst_envp = NULL;
-	lst_envp_d = NULL;
 	data_env = NULL;
 	envp_t = NULL;
+	envp_tab = NULL;
 	flag_save_envp = 1;
 	while (1)
 	{
-
-		//ft_aff_listenv_ptr_sur_char_content(lst_envp);
-
 		signal(SIGQUIT, SIG_IGN);
-     		line = readline(" ~ ");
+			line = readline(" ~ ");
 		if (!line)
 			{
 				break;
@@ -73,21 +69,29 @@ int main(int argc, char *argv[], char *envp[])
 		data = ft_tokenize_line(line);
 		lst_token = data->lst_token;
 		if(ft_check_bash_syntax_error_caracteres_volee(lst_token) == 0)
-		{	
-			ft_expand_and_retokenize(lst_token, envp);
+		{	if(flag_save_envp == 1)
+				ft_expand_and_retokenize(lst_token, envp);
+			if(flag_save_envp == 0)
+			{
+				envp_tab = ft_lst_to_tab(data_env->lst_envp);
+				ft_expand_and_retokenize(lst_token, envp_tab);
+				if(envp_tab != NULL)
+					ft_free_tab(&envp_tab);
+			}
 			cmd = ft_struct_init_cmd(&cmd, lst_token);
 			if(flag_save_envp == 1)
-					{
-						ft_struct_init_data_env(&data_env);//_env(&data_env);
-						data_env->lst_envp = ft_get_lst_envp(envp);
-						data_env->lst_envp_d = ft_get_lst_envp(envp);
-						flag_save_envp = 0;
-					}
+				{
+					ft_struct_init_data_env(&data_env);//_env(&data_env);
+					data_env->lst_envp = ft_get_lst_envp(envp);
+					data_env->lst_envp_d = ft_get_lst_envp(envp);
+					flag_save_envp = 0;
+				}
 			cmd->path_tab = ft_get_path(envp);	//il faudra modifier cette fonction et recuperer path tab si jamais env -i ou unset PATH
 			ft_parse_tokens_in_s_cmd(cmd, lst_token, data_env);
 			if(cmd->nb_of_heredocs != 0)
 				ft_heredoc_interaction(cmd, 0, 1);
 			envp_t = ft_lst_to_tab(data_env->lst_envp);
+
 			exit_status = ft_setting_redirections_and_pipes(cmd, envp_t, data, line, data_env);
 		}
 		ft_free(cmd, lst_token, data, line);
@@ -97,6 +101,7 @@ int main(int argc, char *argv[], char *envp[])
 	}
 	if(data_env != NULL)
 	{
+		printf("entree dans FREE env PARENT\n");
 		ft_free_struct_t_data_env(&data_env);
 	}
 	return (exit_status);

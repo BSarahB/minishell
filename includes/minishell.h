@@ -172,6 +172,13 @@ typedef struct s_simpleCmd
 	size_t	end_simpleCmd_pos;
 	int		export_no_option;
 	int		export_solo;
+	int		unset_no_option;
+	int		env_no_option;
+	int		echo_no_option;
+	int		cd_no_option;
+	int		unset_solo;
+	int		cd_solo;
+	char	*oldpwd;
 	int		is_builtin;
 	int		builtin_solo;
 	int		builtin;
@@ -431,6 +438,7 @@ void			ft_aff_listenv_ptr_sur_char_content(t_listenvp *alst); // pour void		*con
 void			ft_lstadd_back_envp(t_listenvp **alst, t_listenvp *new);
 t_listenvp 		*ft_lstlast_envp(t_listenvp *lst);
 t_listenvp		*ft_lstnew_for_lst_envp(char *str);
+
 void			ft_free_struct_t_list_lst_envp(t_listenvp **lst_envp);
 t_listenvp		*ft_get_lst_envp2(char **envp);
 void			ft_aff_tab_envp(char **tab);
@@ -443,6 +451,31 @@ int 			ft_isalpha(int c);
 int				ft_isalnum(int c);
 int 			ft_isdigit(char c);
 void			ft_check_export(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env);
+void			ft_aff_list_envp_sur_char_content(t_listenvp *alst);// pour void		*content; de type char *
+void			ft_aff_list_envp_d_sur_char_content(t_listenvp *alst);// pour void		*content; de type char *
+t_listenvp		*ft_add_double_quote_to_envp_d(t_listenvp *lst_envp_d);
+int				ft_strncmp(const char *s1, const char *s2, size_t n);
+int				ft_is_var_already_in_lst_envpd2(t_listenvp *lst_envp, char *str);
+void			ft_check_unset(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env);
+int				ft_unset_value_is_valid(t_list *tmp);
+void			ft_remove_var_from_lst_envp(t_list *tmp, t_data_env *data_env);
+void			ft_remove_var_from_lst_envp_d(t_list *tmp, t_data_env *data_env);
+int				ft_is_var_to_unset_already_in_lst_envp(t_data_env *data_env, char *str);
+int				ft_is_var_to_unset_already_in_lst_envp_d(t_data_env *data_env, char *str);
+t_listenvp		*ft_delete_node(t_listenvp *alst, char *str);
+int				ft_count_n_for_key(char *str);
+void			ft_check_env(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env);
+void			ft_check_echo(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env);
+void			ft_error_msg4(char *str);
+void			ft_error_msg5(char *infile);
+void			ft_check_cd(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env);
+void			ft_cd_no_option(t_data_env *data_env, char *str, t_simpleCmd *simpleCmd);
+char			*get_var_in_lst_envp_for_cd(t_data_env *data_env, char *str);
+char			*ft_strchr(const char *s, int c);
+int				ft_check_is_space(char *str);
+int				ft_is_space(int c);
+void			ft_update_oldpwd_and_pwd_in_lst_envp(t_data_env *data_env, char *cwd);
+int				ft_is_var_already_in_lst_envp_for_cd(t_listenvp *lst_envp, char *str);
 
 
 
