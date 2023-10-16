@@ -74,7 +74,101 @@ int ft_is_var_already_in_lst_envp_for_cd(t_listenvp *lst_envp, char *str)
 
 //je peux utiliser la meme fonction du dessous plutot que d en avoir 2. mais pour l instant je laisse comme ca
 
-void ft_update_oldpwd_and_pwd_in_lst_envp_for_cd_dash(t_data_env *data_env, char *cwd)
+void ft_add_var_oldpwd_to_lst_envp_d_for_cd_dash(char *str, t_listenvp *lst_envp_d)
+{
+	t_listenvp *new;
+
+	new = NULL;
+	if(ft_is_var_already_in_lst_envp_d(lst_envp_d, str) == 0)
+	{
+		new = ft_lstnew_for_lst_envp(str);
+		ft_lstadd_back_envp(&lst_envp_d, new);
+	}
+//		ft_aff_list_envp_d_sur_char_content(lst_envp_d); // pour void		*content; de type char *
+}
+
+
+
+
+t_listenvp *ft_lstfind_content(t_listenvp *alst, char *keyequal)
+{
+	t_listenvp *tmp;
+	tmp = alst;
+	while(tmp != NULL)
+	{
+		if(ft_strncmp(keyequal, tmp->key_value, ft_strlen(keyequal)) == 0)
+			return(tmp);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+void ft_update_oldpwd_and_pwd_in_lst_envp_for_cd_dash_dash(t_data_env *data_env, char *cwd, t_simpleCmd *simpleCmd)
+{
+	(void)data_env;
+	(void)cwd;
+	(void)simpleCmd;
+	char *tmp_pwd_value;
+	char *oldpwd;
+	char *newpwd;
+	t_listenvp *new;
+	t_listenvp *tmp;
+
+	new = NULL;
+	oldpwd =NULL;
+	newpwd = NULL;
+	tmp = NULL;
+	tmp_pwd_value = get_var_in_lst_envp_for_cd(data_env, "PWD");
+
+	//PWD VA DEVENIR OLDPWD et CWD VA DEVENIR PWD     dans le cas de cd - ->
+	if(tmp_pwd_value == NULL) //cas ou on  unset PWD par  ex t que qu on vt faire cd - le OLDPWD va devoir disparaitre
+		{
+			if(data_env->flag_oldpwd_istoremove == 1)
+			{
+				oldpwd = get_var_in_lst_envp_for_cd(data_env, "OLDPWD");
+				ft_is_var_to_unset_already_in_lst_envp(data_env, "OLDPWD");
+				ft_is_var_to_unset_already_in_lst_envp_d(data_env, "OLDPWD");
+				ft_add_var_oldpwd_to_lst_envp_d_for_cd_dash("OLDPWD", data_env->lst_envp_d); // on affiche que OLDPWD sans rien dans le lst_envpdon envoie tmp content
+				data_env->flag_oldpwd_istoremove = 0;
+				return;
+			}
+
+			if (data_env->flag_oldpwd_istoremove == 0) //EN FAIT ON VA REMOVE OLDPWDcela signifie que on n a pas remove oldpwd puisquil n y etait pas. (o la remove au coup d avant car PWD etait unset)
+			{
+				//donc si OLDPWD n existe pas on met HOME pour indiquer notre position precedente il faut aussi le reintroduire dans lst_envp_d
+				//reintroduire OLDPWD avec cwd
+				if(ft_lstfind_content(data_env->lst_envp, "OLDPWD=") == NULL)
+				{
+					oldpwd =ft_strjoin("OLDPWD=", cwd);
+					new = ft_lstnew_for_lst_envp(oldpwd);
+					ft_lstadd_back_envp(&data_env->lst_envp, new);
+					free(oldpwd);
+					oldpwd = NULL;
+					return;
+				}
+			}
+			return;
+		}
+	oldpwd =ft_strjoin("OLDPWD=", tmp_pwd_value);
+	newpwd = ft_strjoin("PWD=", cwd);
+
+
+	if(ft_is_var_already_in_lst_envp_for_cd(data_env->lst_envp, oldpwd) == 0)
+	{
+		new = ft_lstnew_for_lst_envp(oldpwd);
+		ft_lstadd_back_envp(&data_env->lst_envp, new);
+	}
+	if(ft_is_var_already_in_lst_envp_for_cd(data_env->lst_envp, newpwd) == 0)
+	{
+		new = ft_lstnew_for_lst_envp(newpwd);
+		ft_lstadd_back_envp(&data_env->lst_envp, new);
+	}
+
+}
+
+
+
+void ft_update_oldpwd_and_pwd_in_lst_envp_for_cd_dash(t_data_env *data_env, char *cwd, t_simpleCmd *simpleCmd)
 {
 	(void)data_env;
 	(void)cwd;
@@ -82,18 +176,32 @@ void ft_update_oldpwd_and_pwd_in_lst_envp_for_cd_dash(t_data_env *data_env, char
 	char *oldpwd;
 	char *newpwd;
 	t_listenvp *new;
+	t_listenvp *tmp;
 
 	new = NULL;
 	oldpwd =NULL;
 	newpwd = NULL;
+	tmp = NULL;
 	tmp_pwd_value = get_var_in_lst_envp_for_cd(data_env, "PWD");
 
 	//PWD VA DEVENIR OLDPWD et CWD VA DEVENIR PWD     dans le cas de cd - ->
+	if(tmp_pwd_value == NULL) //cas ou on  unset PWD par  ex t que qu on vt faire cd - le OLDPWD va devoir disparaitre
+		{
+			oldpwd = get_var_in_lst_envp_for_cd(data_env, "OLDPWD");
+			simpleCmd->oldpwd = ft_strdup(oldpwd);
+		//	tmp = ft_lstfind_content(data_env->lst_envp, "OLDPWD=");
+			ft_is_var_to_unset_already_in_lst_envp(data_env, "OLDPWD");
+		//	tmp = ft_lstfind_content(data_env->lst_envp_d, "OLDPWD=");
+			ft_is_var_to_unset_already_in_lst_envp_d(data_env, "OLDPWD");
+			ft_add_var_oldpwd_to_lst_envp_d_for_cd_dash("OLDPWD", data_env->lst_envp_d); // on affiche que OLDPWD sans rien dans le lst_envpdon envoie tmp content
+			return;
+		}
 	oldpwd =ft_strjoin("OLDPWD=", tmp_pwd_value);
 	newpwd = ft_strjoin("PWD=", cwd);
+	simpleCmd->oldpwd = ft_strdup(tmp_pwd_value);
 
 
-	if(ft_is_var_already_in_lst_envp_for_cd(data_env->lst_envp, oldpwd) == 0)
+	if(ft_is_var_already_in_lst_envp_for_cd(data_env->lst_envp, oldpwd) == 0) //FIXME bien ecrir pour ecraser les valeurs : au lieu de oldpwd ilf aut envoyer "OLDPWD"
 	{
 		new = ft_lstnew_for_lst_envp(oldpwd);
 		ft_lstadd_back_envp(&data_env->lst_envp, new);
@@ -119,7 +227,8 @@ void ft_update_oldpwd_and_pwd_in_lst_envp(t_data_env *data_env, char *cwd)
 	oldpwd =NULL;
 	newpwd = NULL;
 	pwd_value = get_var_in_lst_envp_for_cd(data_env, "PWD");
-
+	if(pwd_value == NULL)
+		return;
 	//PWD VA DEVENIR OLDPWD et CWD VA DEVENIR PWD     dans le cas de cd - ->
 	oldpwd =ft_strjoin("OLDPWD=", pwd_value);
 	newpwd = ft_strjoin("PWD=", cwd);
@@ -138,6 +247,38 @@ void ft_update_oldpwd_and_pwd_in_lst_envp(t_data_env *data_env, char *cwd)
 
 
 
+}
+
+
+int ft_change_directory_for_cd_dash_dash(t_data_env *data_env, char *new_path, t_simpleCmd *simpleCmd)
+{
+	char	buf[1096];
+	char	*cwd;
+	(void)data_env;
+	(void)simpleCmd;
+	cwd = NULL;
+	if (chdir(new_path) != 0)
+	{
+		ft_putstr_fd("minishell: cd: ", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
+		strerror(errno);
+		ft_putstr_fd("\n", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
+		return (errno);
+	}
+	cwd = getcwd(buf, 1096); //si error du return : errno is set
+	if (!cwd)
+	{
+		ft_putstr_fd("cd: error retrieving current directory, getcwd: cannot access parent directories", 2);
+		strerror(errno);
+		return(errno);
+	}
+
+	//sur cd - on affiche le OLDPWD en sortie standard
+//	simpleCmd->oldpwd = ft_strdup(cwd);
+	ft_update_oldpwd_and_pwd_in_lst_envp_for_cd_dash_dash(data_env, cwd, simpleCmd);//faire une copie de PWD avant de la modifier en cwd
+	//free(cwd);
+	//cwd =NULL;
+
+	return (0);
 }
 
 
@@ -165,7 +306,7 @@ int ft_change_directory_for_cd_dash(t_data_env *data_env, char *new_path, t_simp
 
 	//sur cd - on affiche le OLDPWD en sortie standard
 //	simpleCmd->oldpwd = ft_strdup(cwd);
-	ft_update_oldpwd_and_pwd_in_lst_envp_for_cd_dash(data_env, cwd);//faire une copie de PWD avant de la modifier en cwd
+	ft_update_oldpwd_and_pwd_in_lst_envp_for_cd_dash(data_env, cwd, simpleCmd);//faire une copie de PWD avant de la modifier en cwd
 	//free(cwd);
 	//cwd =NULL;
 
@@ -284,7 +425,7 @@ void	ft_cd_option_dash_dash(t_data_env *data_env, char *str, t_simpleCmd *simple
 	else //si tout est OK et que HOME a une bonne value
 	{
 		if(simpleCmd->cd_solo == 1)
-			ft_change_directory_for_cd_dash(data_env, new_path, simpleCmd); //PWD devient OLD PWD et OLD PWD DEVIENT
+			ft_change_directory_for_cd_dash_dash(data_env, new_path, simpleCmd); //PWD devient OLD PWD et OLD PWD DEVIENT
 	}
 
 

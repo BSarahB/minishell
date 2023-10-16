@@ -41,6 +41,8 @@ t_data_env	*ft_struct_init_data_env(t_data_env **data_env)
 		return (NULL);
 	(*data_env)->lst_envp = NULL;
 	(*data_env)->lst_envp_d = NULL;
+	(*data_env)->flag_oldpwd_istoremove = 0;
+
 	return(*data_env);
 }
 

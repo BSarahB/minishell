@@ -222,6 +222,8 @@ void ft_check_unset(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd
 			break;
 		if(simpleCmd->unset_solo == 1)
 		{
+			if(ft_strcmp(tmp->content, "PWD") == 0)
+				data_env->flag_oldpwd_istoremove = 1;
 			if (ft_unset_value_is_valid(tmp) == 1)
 			{
 

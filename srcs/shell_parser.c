@@ -206,11 +206,6 @@ int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, t_list *lst_token, t_data_env *data_en
 			ft_del_and_parse_redir_token_in_simpleCmd(&start_lst_token, i, &lst_token, cmd);
 		ft_del_empty_token_in_simpleCmd(&start_lst_token, i, &lst_token, cmd);	
 		start_lst_token_retokenized = ft_retokenize_and_dequote_token_1(cmd, start_lst_token, cmd->simpleCmds[i]);
-		//delete de la liste chainee les tokens empty avant dequote pour pouvoir faire le bon compte et le parsing des tokens
-		//[peut etre quil ne faut pas delete, sous peine de creer un pb au niveau des pipe nrmalement non. mais checker d abord pour etre sure]
-		//ft_count_final_nb_of_tokens_in_simpleCmd(start_lst_token, cmd->simpleCmds[i]);
-	//	ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(start_lst_token, cmd->simpleCmds[i]);
-		//ft_count_final_nb_of_tokens_in_simpleCmd_retokenized(start_lst_token_retokenized, cmd->simpleCmds[i]);
 		ft_check_export(cmd, start_lst_token_retokenized, cmd->simpleCmds[i], data_env);
 		ft_check_unset(cmd, start_lst_token_retokenized, cmd->simpleCmds[i], data_env);
 		ft_check_env(cmd, start_lst_token_retokenized, cmd->simpleCmds[i], data_env);
@@ -221,12 +216,6 @@ int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, t_list *lst_token, t_data_env *data_en
 
 		if(start_lst_token != NULL)
 			start_lst_token = ft_readjust_start_lst_token(start_lst_token, cmd, i);
-
-	//	if(start_lst_token != NULL)
-		//	printf("start_lst_token------->  <%s>\n", start_lst_token->content);
-	
-		//printf("list_durant_le parsing avec i = %zu\n", i);
-		//ft_aff_list_ptr_sur_char_content(lst_token);
 		i++;
 	}
 	ft_get_last_heredoc_position(cmd);
@@ -239,7 +228,7 @@ int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, t_list *lst_token, t_data_env *data_en
 	
 	return (exec_return);
 }
-	//	printf("outfile de %zu: [%s] +  [%s]  + [%s]\n",i, cmd->simpleCmds[i]->outfile[0],cmd->simpleCmds[i]->outfile[1],cmd->simpleCmds[i]->outfile[2]);
+	//	printf("outfile de %zu: [%s] +  [%s]  + [%s]\n",i, cmd->simpleCmds[i]->outfile[0],cmd->simpleCmds[i]->outfile[1],cmd->simpleCmds[i]->outfile[2]);uu
 	//	printf("infile de %zu: [%s] +  [%s]  +[%s]\n",i, cmd->simpleCmds[i]->infile[0],cmd->simpleCmds[i]->infile[1], cmd->simpleCmds[i]->infile[2]);
 	//ft_aff_abs_cmd_and_args(cmd);
 	//ft_aff_list_ptr_sur_char_content(lst_token);

@@ -102,8 +102,9 @@ typedef struct s_listenvp
 
 typedef struct s_data_env
 {
-	struct s_listenvp *lst_envp;
-	struct s_listenvp *lst_envp_d;
+	struct s_listenvp	*lst_envp;
+	struct s_listenvp	*lst_envp_d;
+	int					flag_oldpwd_istoremove;
 
 } t_data_env;
 
@@ -475,7 +476,14 @@ char			*ft_strchr(const char *s, int c);
 int				ft_check_is_space(char *str);
 int				ft_is_space(int c);
 void			ft_update_oldpwd_and_pwd_in_lst_envp(t_data_env *data_env, char *cwd);
-int				ft_is_var_already_in_lst_envp_for_cd(t_listenvp *lst_envp, char *str);
+void			ft_add_var_oldpwd_to_lst_envp_d_for_cd_dash(char *str, t_listenvp *lst_envp_d);
+t_listenvp 		*ft_lstfind_content(t_listenvp *alst, char *keyval);
+int 			ft_is_var_to_unset_already_in_lst_envp(t_data_env *data_env, char *str);
+int 			ft_is_var_to_unset_already_in_lst_envp_d(t_data_env *data_env, char *str);
+int 			ft_is_var_already_in_lst_envp_d(t_listenvp *lst_envp_d, char *str);
+void			ft_update_oldpwd_and_pwd_in_lst_envp_for_cd_dash_dash(t_data_env *data_env, char *cwd, t_simpleCmd *simpleCmd);
+int				ft_change_directory_for_cd_dash_dash(t_data_env *data_env, char *new_path, t_simpleCmd *simpleCmd);
+t_listenvp 		*ft_lstfind_content(t_listenvp *alst, char *keyequal);
 
 
 
