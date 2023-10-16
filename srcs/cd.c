@@ -112,9 +112,12 @@ void ft_update_oldpwd_and_pwd_in_lst_envp_for_cd_dash_dash(t_data_env *data_env,
 	char *oldpwd;
 	char *newpwd;
 	t_listenvp *new;
+	//t_listenvp *new2;
+
 	t_listenvp *tmp;
 
 	new = NULL;
+	//new2 = NULL;
 	oldpwd =NULL;
 	newpwd = NULL;
 	tmp = NULL;
@@ -142,6 +145,11 @@ void ft_update_oldpwd_and_pwd_in_lst_envp_for_cd_dash_dash(t_data_env *data_env,
 					oldpwd =ft_strjoin("OLDPWD=", cwd);
 					new = ft_lstnew_for_lst_envp(oldpwd);
 					ft_lstadd_back_envp(&data_env->lst_envp, new);
+					if (ft_is_var_to_unset_already_in_lst_envp_d(data_env, "OLDPWD") == 1) //on delete OLDPWD dans lst envp d et on va rajouter la version key value complete
+						{
+							new = ft_lstnew_for_lst_envp(oldpwd);
+							ft_lstadd_back_envp(&data_env->lst_envp_d, new);
+						}
 					free(oldpwd);
 					oldpwd = NULL;
 					return;
