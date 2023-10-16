@@ -185,13 +185,7 @@ void ft_add_var_to_lst_envp(t_list *tmp, t_listenvp *lst_envp)
 		new = ft_lstnew_for_lst_envp(tmp->content);
 		ft_lstadd_back_envp(&lst_envp, new);
 	}
-	//else
-	//{
-//		new = ft_lstnew_for_lst_envp(tmp->content);
-	//	ft_lstadd_back_envp(&lst_envp, new);
-	//}
-//	ft_aff_list_envp_sur_char_content(lst_envp); // pour void		*content; de type char *
-
+	
 }
 
 void ft_check_export(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env)

@@ -194,9 +194,7 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char **envp_t, t_data *data, 
 		exit(1);//ou (0?) voir comment bien sortir mettre ca apres le pb du fork
 		}
 
-		//ceci est en double le degager
-		data_env->lst_envp_d = ft_add_double_quote_to_envp_d(data_env->lst_envp_d);
-		tmp = data_env->lst_envp_d;
+	
 
 
 		if(cmd->simpleCmds[set->i]->is_builtin == 1 && cmd->simpleCmds[set->i]->export_no_option == 0) //modifier pour ==0 pour faire le builtin echo

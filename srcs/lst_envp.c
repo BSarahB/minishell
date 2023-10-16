@@ -137,7 +137,7 @@ char *ft_add_double_quote_to_var(char *str)
 		if(str[i] == '=' && flag_equal == 0)
 		{
 			j = j +1;
-			buffer_quoted[j] = '"';
+			buffer_quoted[j] = '\"';
 			flag_equal = 1;
 		}
 		j++;
@@ -145,10 +145,11 @@ char *ft_add_double_quote_to_var(char *str)
 	}
 	if (flag_equal == 1)
 	{
-		buffer_quoted[j] = '"';
+		buffer_quoted[j] = '\"';
 		j = j+1;
 	}
 	buffer_quoted[j] = '\0';
+	printf("blyat\n");
 	return(buffer_quoted);
 }
 

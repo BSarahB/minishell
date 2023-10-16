@@ -103,6 +103,8 @@ t_listenvp *ft_lstfind_content(t_listenvp *alst, char *keyequal)
 	return (NULL);
 }
 
+
+
 void ft_update_oldpwd_and_pwd_in_lst_envp_for_cd_dash_dash(t_data_env *data_env, char *cwd, t_simpleCmd *simpleCmd)
 {
 	(void)data_env;
@@ -257,8 +259,27 @@ void ft_update_oldpwd_and_pwd_in_lst_envp(t_data_env *data_env, char *cwd)
 
 }
 
+int ft_change_directory_for_cd_dot(t_data_env *data_env, char *cwd, t_simpleCmd *simpleCmd)
+{
+	(void)data_env;
+	(void)simpleCmd;
+	if (chdir(cwd) != 0)
+	{
+		ft_putstr_fd("minishell: cd: ", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
+		strerror(errno);
+		ft_putstr_fd("\n", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
+		return (errno);
+	}
 
-int ft_change_directory_for_cd_dash_dash(t_data_env *data_env, char *new_path, t_simpleCmd *simpleCmd)
+	//sur cd - on affiche le OLDPWD en sortie standard
+//	simpleCmd->oldpwd = ft_strdup(cwd);
+	ft_update_oldpwd_and_pwd_in_lst_envp_for_cd_dash_dash(data_env, cwd, simpleCmd);//faire une copie de PWD avant de la modifier en cwd
+	//free(cwd);
+	//cwd =NULL;
+
+	return (0);
+}
+int ft_change_directory_for_cd_slash(t_data_env *data_env, char *new_path, t_simpleCmd *simpleCmd)
 {
 	char	buf[1096];
 	char	*cwd;
@@ -409,6 +430,68 @@ char	*get_var_in_lst_envp_for_cd(t_data_env *data_env, char *str)
 	return (NULL);
 }
 
+
+
+
+void	ft_cd_option_dot(t_data_env *data_env, t_simpleCmd *simpleCmd)
+{
+	char	*cwd;
+	char	buf[1096];
+
+	
+	cwd = NULL;
+	cwd = getcwd(buf, 1096); //si error du return : errno is set
+	if (!cwd)
+	{
+		ft_putstr_fd("cd: error retrieving current directory, getcwd: cannot access parent directories", 2);
+		strerror(errno);
+		return; //return(errno);  TODO a plugger avec le echo $?
+	}
+		if(simpleCmd->cd_solo == 1)
+			ft_change_directory_for_cd_dot(data_env, cwd, simpleCmd); //PWD devient OLD PWD et OLD PWD DEVIENT
+}
+
+void	ft_cd_option_slash(t_data_env *data_env, char *str, t_simpleCmd *simpleCmd)
+{
+
+	
+		if(simpleCmd->cd_solo == 1)
+			ft_change_directory_for_cd_dash_dash(data_env, str , simpleCmd); //PWD devient OLD PWD et OLD PWD DEVIENT
+
+}
+
+
+
+int ft_change_directory_for_cd_dash_dash(t_data_env *data_env, char *new_path, t_simpleCmd *simpleCmd)
+{
+	char	buf[1096];
+	char	*cwd;
+	(void)data_env;
+	(void)simpleCmd;
+	cwd = NULL;
+	if (chdir(new_path) != 0)
+	{
+		ft_putstr_fd("minishell: cd: ", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
+		strerror(errno);
+		ft_putstr_fd("\n", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
+		return (errno);
+	}
+	cwd = getcwd(buf, 1096); //si error du return : errno is set
+	if (!cwd)
+	{
+		ft_putstr_fd("cd: error retrieving current directory, getcwd: cannot access parent directories", 2);
+		strerror(errno);
+		return(errno);
+	}
+
+	//sur cd - on affiche le OLDPWD en sortie standard
+//	simpleCmd->oldpwd = ft_strdup(cwd);
+	ft_update_oldpwd_and_pwd_in_lst_envp_for_cd_dash_dash(data_env, cwd, simpleCmd);//faire une copie de PWD avant de la modifier en cwd
+	//free(cwd);
+	//cwd =NULL;
+
+	return (0);
+}
 
 
 
@@ -564,11 +647,15 @@ void ft_check_cd(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *s
 
 		else if(ft_strcmp(tmp->content, ".") == 0)
 		{
-			break;
+			ft_cd_option_dot(data_env, simpleCmd);
 		}
 		else if(ft_strcmp(tmp->content, "..") == 0)
 		{
 
+		}
+		else if(ft_strcmp(tmp->content, "/") == 0)
+		{
+			ft_cd_option_slash(data_env, "/", simpleCmd);
 		}
 		else
 		{

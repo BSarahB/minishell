@@ -484,7 +484,9 @@ int 			ft_is_var_already_in_lst_envp_d(t_listenvp *lst_envp_d, char *str);
 void			ft_update_oldpwd_and_pwd_in_lst_envp_for_cd_dash_dash(t_data_env *data_env, char *cwd, t_simpleCmd *simpleCmd);
 int				ft_change_directory_for_cd_dash_dash(t_data_env *data_env, char *new_path, t_simpleCmd *simpleCmd);
 t_listenvp 		*ft_lstfind_content(t_listenvp *alst, char *keyequal);
-
+void			ft_cd_option_dot(t_data_env *data_env, t_simpleCmd *simpleCmd);
+int				ft_change_directory_for_cd_dot(t_data_env *data_env, char *cwd, t_simpleCmd *simpleCmd);
+void			ft_cd_option_slash(t_data_env *data_env, char *str, t_simpleCmd *simpleCmd);
 
 
 #endif
