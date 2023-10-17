@@ -208,7 +208,7 @@ void ft_update_oldpwd_and_pwd_in_lst_envp_for_cd_dash(t_data_env *data_env, char
 		}
 	oldpwd =ft_strjoin("OLDPWD=", tmp_pwd_value);
 	newpwd = ft_strjoin("PWD=", cwd);
-	simpleCmd->oldpwd = ft_strdup(tmp_pwd_value);
+	simpleCmd->oldpwd = ft_strdup(cwd);
 
 
 	if(ft_is_var_already_in_lst_envp_for_cd(data_env->lst_envp, oldpwd) == 0) //FIXME bien ecrir pour ecraser les valeurs : au lieu de oldpwd ilf aut envoyer "OLDPWD"
@@ -259,6 +259,7 @@ void ft_update_oldpwd_and_pwd_in_lst_envp(t_data_env *data_env, char *cwd)
 
 }
 
+/*
 int ft_change_directory_for_cd_dot(t_data_env *data_env, char *cwd, t_simpleCmd *simpleCmd)
 {
 	(void)data_env;
@@ -266,9 +267,22 @@ int ft_change_directory_for_cd_dot(t_data_env *data_env, char *cwd, t_simpleCmd 
 	if (chdir(cwd) != 0)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
-		strerror(errno);
+		if(errno == 14)
+			errno = ENOENT; // The directory specified in path does not exist.
+		ft_putstr_fd(cwd, 2);
+		ft_putstr_fd(": ", 2);
+
+		ft_putstr_fd(strerror(errno), 2);
+		//printf("errno = %d\n", errno);
 		ft_putstr_fd("\n", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
 		return (errno);
+	}
+	if (!cwd)
+	{
+		ft_putstr_fd("cd: error retrieving current directory, getcwd: cannot access parent directory", 2);
+		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd("\n", 2);
+		return(errno);
 	}
 
 	//sur cd - on affiche le OLDPWD en sortie standard
@@ -279,6 +293,9 @@ int ft_change_directory_for_cd_dot(t_data_env *data_env, char *cwd, t_simpleCmd 
 
 	return (0);
 }
+
+*/
+
 int ft_change_directory_for_cd_slash(t_data_env *data_env, char *new_path, t_simpleCmd *simpleCmd)
 {
 	char	buf[1096];
@@ -289,16 +306,23 @@ int ft_change_directory_for_cd_slash(t_data_env *data_env, char *new_path, t_sim
 	if (chdir(new_path) != 0)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
-		strerror(errno);
+		if(errno == 14 || errno == 116)
+			errno = ENOENT; // The directory specified in path does not exist.
+		ft_putstr_fd(new_path, 2);
+		ft_putstr_fd(": ", 2);
+
+		ft_putstr_fd(strerror(errno), 2);
+		//printf("errno = %d\n", errno);
 		ft_putstr_fd("\n", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
 		return (errno);
 	}
 	cwd = getcwd(buf, 1096); //si error du return : errno is set
 	if (!cwd)
 	{
-		ft_putstr_fd("cd: error retrieving current directory, getcwd: cannot access parent directories", 2);
-		strerror(errno);
-		return(errno);
+		ft_putstr_fd("cd: error retrieving current directory, getcwd: cannot access parent directory", 2);
+		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd("\n", 2);
+
 	}
 
 	//sur cd - on affiche le OLDPWD en sortie standard
@@ -321,16 +345,23 @@ int ft_change_directory_for_cd_dash(t_data_env *data_env, char *new_path, t_simp
 	if (chdir(new_path) != 0)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
-		strerror(errno);
+		if(errno == 14 || errno == 116)
+			errno = ENOENT; // The directory specified in path does not exist.
+		ft_putstr_fd(new_path, 2);
+		ft_putstr_fd(": ", 2);
+
+		ft_putstr_fd(strerror(errno), 2);
+		//printf("errno = %d\n", errno);
 		ft_putstr_fd("\n", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
 		return (errno);
 	}
 	cwd = getcwd(buf, 1096); //si error du return : errno is set
 	if (!cwd)
 	{
-		ft_putstr_fd("cd: error retrieving current directory, getcwd: cannot access parent directories", 2);
-		strerror(errno);
-		return(errno);
+		ft_putstr_fd("cd: error retrieving current directory, getcwd: cannot access parent directory", 2);
+		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd("\n", 2);
+
 	}
 
 	//sur cd - on affiche le OLDPWD en sortie standard
@@ -352,16 +383,23 @@ int ft_change_directory(t_data_env *data_env, char *new_path)
 	if (chdir(new_path) != 0)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
-		strerror(errno);
+		if(errno == 14 || errno == 116)
+			errno = ENOENT; // The directory specified in path does not exist.
+		ft_putstr_fd(new_path, 2);
+		ft_putstr_fd(": ", 2);
+
+		ft_putstr_fd(strerror(errno), 2);
+		//printf("errno = %d\n", errno);
 		ft_putstr_fd("\n", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
 		return (errno);
 	}
 	cwd = getcwd(buf, 1096); //si error du return : errno is set
 	if (!cwd)
 	{
-		ft_putstr_fd("cd: error retrieving current directory, getcwd: cannot access parent directories", 2);
-		strerror(errno);
-		return(errno);
+		ft_putstr_fd("cd: error retrieving current directory, getcwd: cannot access parent directory", 2);
+		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd("\n", 2);
+
 	}
 //	else
 	//	cwd = ft_strdup(buf);
@@ -431,7 +469,7 @@ char	*get_var_in_lst_envp_for_cd(t_data_env *data_env, char *str)
 }
 
 
-
+/*
 
 void	ft_cd_option_dot(t_data_env *data_env, t_simpleCmd *simpleCmd)
 {
@@ -441,26 +479,13 @@ void	ft_cd_option_dot(t_data_env *data_env, t_simpleCmd *simpleCmd)
 	
 	cwd = NULL;
 	cwd = getcwd(buf, 1096); //si error du return : errno is set
-	if (!cwd)
-	{
-		ft_putstr_fd("cd: error retrieving current directory, getcwd: cannot access parent directories", 2);
-		strerror(errno);
-		return; //return(errno);  TODO a plugger avec le echo $?
-	}
+
 		if(simpleCmd->cd_solo == 1)
 			ft_change_directory_for_cd_dot(data_env, cwd, simpleCmd); //PWD devient OLD PWD et OLD PWD DEVIENT
 }
 
-void	ft_cd_option_slash(t_data_env *data_env, char *str, t_simpleCmd *simpleCmd)
-{
 
-	
-		if(simpleCmd->cd_solo == 1)
-			ft_change_directory_for_cd_dash_dash(data_env, str , simpleCmd); //PWD devient OLD PWD et OLD PWD DEVIENT
-
-}
-
-
+*/
 
 int ft_change_directory_for_cd_dash_dash(t_data_env *data_env, char *new_path, t_simpleCmd *simpleCmd)
 {
@@ -472,16 +497,23 @@ int ft_change_directory_for_cd_dash_dash(t_data_env *data_env, char *new_path, t
 	if (chdir(new_path) != 0)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
-		strerror(errno);
+		if(errno == 14 || errno == 116)
+			errno = ENOENT; // The directory specified in path does not exist.
+		ft_putstr_fd(new_path, 2);
+		ft_putstr_fd(": ", 2);
+
+		ft_putstr_fd(strerror(errno), 2);
+		//printf("errno = %d\n", errno);
 		ft_putstr_fd("\n", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
 		return (errno);
 	}
 	cwd = getcwd(buf, 1096); //si error du return : errno is set
 	if (!cwd)
 	{
-		ft_putstr_fd("cd: error retrieving current directory, getcwd: cannot access parent directories", 2);
-		strerror(errno);
-		return(errno);
+		ft_putstr_fd("cd: error retrieving current directory, getcwd: cannot access parent directory", 2);
+		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd("\n", 2);
+
 	}
 
 	//sur cd - on affiche le OLDPWD en sortie standard
@@ -494,6 +526,14 @@ int ft_change_directory_for_cd_dash_dash(t_data_env *data_env, char *new_path, t
 }
 
 
+void	ft_cd_option_slash(t_data_env *data_env, char *str, t_simpleCmd *simpleCmd)
+{
+
+	
+		if(simpleCmd->cd_solo == 1)
+			ft_change_directory_for_cd_dash_dash(data_env, str , simpleCmd); //PWD devient OLD PWD et OLD PWD DEVIENT
+
+}
 
 void	ft_cd_option_dash_dash(t_data_env *data_env, char *str, t_simpleCmd *simpleCmd)
 {
@@ -578,6 +618,46 @@ void	ft_cd_no_option(t_data_env *data_env, char *str, t_simpleCmd *simpleCmd)
 }
 
 
+int ft_check_path(t_data_env *data_env, char *new_path, t_simpleCmd *simpleCmd)
+{
+	char	buf[1096];
+	char	*cwd;
+	(void)data_env;
+	(void)simpleCmd;
+	cwd = NULL;
+	if (chdir(new_path) != 0)
+	{
+		ft_putstr_fd("minishell: cd: ", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
+		if(errno == 14 || errno == 116)
+			errno = ENOENT; // The directory specified in path does not exist.
+		ft_putstr_fd(new_path, 2);
+		ft_putstr_fd(": ", 2);
+
+		ft_putstr_fd(strerror(errno), 2);
+		//printf("errno = %d\n", errno);
+		ft_putstr_fd("\n", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
+		return (errno);
+	}
+	cwd = getcwd(buf, 1096); //si error du return : errno is set
+	if (!cwd)
+	{
+		ft_putstr_fd("cd: error retrieving current directory, getcwd: cannot access parent directory", 2);
+		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd("\n", 2);
+
+		return(errno);
+	}
+
+	//sur cd - on affiche le OLDPWD en sortie standard
+//	simpleCmd->oldpwd = ft_strdup(cwd);
+	ft_update_oldpwd_and_pwd_in_lst_envp_for_cd_dash_dash(data_env, cwd, simpleCmd);//faire une copie de PWD avant de la modifier en cwd
+	//free(cwd);
+	//cwd =NULL;
+
+	return (0);
+}
+
+
 void ft_check_cd(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env)
 {
 	(void)cmd;
@@ -639,27 +719,24 @@ void ft_check_cd(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *s
 		}
 
 		// if cd [--] // ca fait retourner a HOME
-		else if(ft_strcmp(tmp->content, "--") == 0)
+		else if(ft_strcmp(tmp->content, "--") == 0 || ft_strcmp(tmp->content, "~"))  //TODO GERER || ft_strcmp(tmp->content, "~") la tilde ->cqfd car si on retire HOME la tilde n est pas impactee
 		{
 
 			ft_cd_option_dash_dash(data_env, "HOME", simpleCmd);
 		}
 
-		else if(ft_strcmp(tmp->content, ".") == 0)
-		{
-			ft_cd_option_dot(data_env, simpleCmd);
-		}
-		else if(ft_strcmp(tmp->content, "..") == 0)
-		{
-
-		}
+	//	else if(ft_strcmp(tmp->content, ".") == 0)
+	//	{
+		//	ft_cd_option_dot(data_env, simpleCmd);
+	//	}
+		
 		else if(ft_strcmp(tmp->content, "/") == 0)
 		{
 			ft_cd_option_slash(data_env, "/", simpleCmd);
 		}
 		else
 		{
-			//ft_check_path(tmp->content);
+			ft_check_path(data_env, tmp->content, simpleCmd);
 		}
 		tmp = tmp->next;
 	}

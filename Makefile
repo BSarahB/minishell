@@ -73,7 +73,7 @@ all:		$(NAME)
 		$(CC) $(CFLAGS) -c $< -o $(<:.c=.o) 
 
 $(NAME):	$(OBJS)
-	$(CC) -o $@ $^ -lreadline #-lasan -lreadline
+	$(CC) -o $@ $^ -lreadline # -lasan -lreadline
 
 clean:
 			$(RM) $(OBJS) 
