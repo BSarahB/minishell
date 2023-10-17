@@ -278,5 +278,10 @@
   "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
   "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/cd.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/cd.c",
   "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/cd.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/pwd.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/pwd.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/pwd.c"
 }
 ]

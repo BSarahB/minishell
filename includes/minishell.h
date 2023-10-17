@@ -180,6 +180,7 @@ typedef struct s_simpleCmd
 	int		unset_solo;
 	int		cd_solo;
 	char	*oldpwd;
+	char	*pwd;
 	int		is_builtin;
 	int		builtin_solo;
 	int		builtin;
@@ -484,9 +485,11 @@ int 			ft_is_var_already_in_lst_envp_d(t_listenvp *lst_envp_d, char *str);
 void			ft_update_oldpwd_and_pwd_in_lst_envp_for_cd_dash_dash(t_data_env *data_env, char *cwd, t_simpleCmd *simpleCmd);
 int				ft_change_directory_for_cd_dash_dash(t_data_env *data_env, char *new_path, t_simpleCmd *simpleCmd);
 t_listenvp 		*ft_lstfind_content(t_listenvp *alst, char *keyequal);
-void			ft_cd_option_dot(t_data_env *data_env, t_simpleCmd *simpleCmd);
-int				ft_change_directory_for_cd_dot(t_data_env *data_env, char *cwd, t_simpleCmd *simpleCmd);
+//void			ft_cd_option_dot(t_data_env *data_env, t_simpleCmd *simpleCmd);
+//int			ft_change_directory_for_cd_dot(t_data_env *data_env, char *cwd, t_simpleCmd *simpleCmd);
 void			ft_cd_option_slash(t_data_env *data_env, char *str, t_simpleCmd *simpleCmd);
+void			ft_check_pwd(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env);
+int 			ft_get_pwd(t_data_env *data_env, t_simpleCmd *simpleCmd);
 
 
 #endif

@@ -637,6 +637,7 @@ int ft_check_path(t_data_env *data_env, char *new_path, t_simpleCmd *simpleCmd)
 		//printf("errno = %d\n", errno);
 		ft_putstr_fd("\n", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
 		return (errno);
+
 	}
 	cwd = getcwd(buf, 1096); //si error du return : errno is set
 	if (!cwd)
@@ -719,7 +720,7 @@ void ft_check_cd(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *s
 		}
 
 		// if cd [--] // ca fait retourner a HOME
-		else if(ft_strcmp(tmp->content, "--") == 0 || ft_strcmp(tmp->content, "~"))  //TODO GERER || ft_strcmp(tmp->content, "~") la tilde ->cqfd car si on retire HOME la tilde n est pas impactee
+		else if(ft_strcmp(tmp->content, "--") == 0 || ft_strcmp(tmp->content, "~") == 0)  //TODO GERER || ft_strcmp(tmp->content, "~") la tilde ->cqfd car si on retire HOME la tilde n est pas impactee
 		{
 
 			ft_cd_option_dash_dash(data_env, "HOME", simpleCmd);
