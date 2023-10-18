@@ -494,8 +494,12 @@ t_listenvp 		*ft_lstfind_content(t_listenvp *alst, char *keyequal);
 void			ft_cd_option_slash(t_data_env *data_env, char *str, t_simpleCmd *simpleCmd);
 void			ft_check_pwd(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env);
 int 			ft_get_pwd(t_data_env *data_env, t_simpleCmd *simpleCmd);
-void			ft_check_exit(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env);
 //exit
+void			ft_check_exit(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env);
 
+int 			ft_exit_is_arg_valid(char *str, t_simpleCmd *simpleCmd);
+unsigned long long	ft_atoi_modulo(const char *str);
+int 			ft_numeric_arg_required_msg(t_simpleCmd *simpleCmd, char *str);
+void			ft_too_many_arg_msg(t_simpleCmd *simpleCmd);
 
 #endif
