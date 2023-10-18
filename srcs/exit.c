@@ -12,6 +12,30 @@
 
 #include "minishell.h"
 
+unsigned long	ft_atoi_modulo(const char *str)
+{
+	unsigned long	result;
+	unsigned long	sign;
+
+	result = 0;
+	sign = 1;
+	while (*str == ' ' || *str == '\t' || *str == '\n' \
+		 || *str == '\v' || *str == '\f')
+		str++;
+	if (*str == '-')
+		sign = -1;
+	if (*str == '-' || *str == '+')
+		str++;
+	while (*str <= '9' && *str >= '0')
+	{
+		result = result * 10 + *str - '0';
+		str++;
+	}
+	result = sign * result;
+	result = result % 256;
+	return (result);
+}
+
 int ft_exit_arg_check(char *str, t_simpleCmd *simpleCmd) // export VAR="   123    120"  gerer le cas de exit $Q --> exit code ==1  mbenmesb@bess-f2r6s5:~$ exit "$Q" -> exit bash: exit: : numeric argument required car apres dequote on obtient \0
 
 {
@@ -71,6 +95,23 @@ int ft_exit_arg_check(char *str, t_simpleCmd *simpleCmd) // export VAR="   123  
 			simpleCmd->exit_code = 2;
 			return(-1);
 		}
+	while(str[i])
+	{
+		if(ft_isdigit(str[i]) == 0 || ft_is_space(str[i]) == 1)
+			{
+			if(simpleCmd->exit_solo == 1)
+				ft_putstr_fd("exit\n", 2);
+			ft_putstr_fd("minishell: exit: ", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
+			ft_putstr_fd(str, 2);
+			ft_putstr_fd(": ", 2);
+			ft_putstr_fd(" numeric argument required", 2);
+			ft_putstr_fd("\n", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
+			simpleCmd->exit_code = 2;
+			return(-1);
+				
+			}
+		i++;
+	}
 	
 	return(1); //arg est valide
 }
@@ -153,7 +194,9 @@ void ft_check_exit(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd 
 					if(simpleCmd->exit_solo == 1)
 						ft_putstr_fd("exit\n", 2);
 					ft_putstr_fd("minishell: exit: too many arguments\n", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
+					simpleCmd->exit_code = 1;
 					printf("exit_code = %d \n", simpleCmd->exit_code);
+					break;
 				}
 
 		}
@@ -168,7 +211,8 @@ void ft_check_exit(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd 
 			{
 					if(simpleCmd->exit_solo == 1)
 						ft_putstr_fd("exit\n", 2);
-					simpleCmd->exit_code = ft_atoi(tmp->content);
+					simpleCmd->exit_code = ft_atoi_modulo(tmp->content);
+					printf("result = %d\n", simpleCmd->exit_code);
 					printf("exit_code = %d \n", simpleCmd->exit_code);
 				}
 
@@ -185,7 +229,19 @@ void ft_check_exit(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd 
 */
 	
 
+/*
+a partir ed 19 elements exit 9999999999999999999 donc  
+	jusqu a 18 * 9 on  a exit normal 
+LONG_MIN	Minimum value for a variable of type long.	-2147483648
+LONG_MAX	Maximum value for a variable of type long.	2147483647
+ULONG_MAX	Maximum value for a variable of type unsigned long.	4294967295 (0xffffffff)
+LLONG_MIN	Minimum value for a variable of type long long	-9223372036854775808
+LLONG_MAX	Maximum value for a variable of type long long	9223372036854775807
+ULLONG_MAX	Maximum value for a variable of type unsigned long long	18446744073709551615 (0xffffffffffffffff)
 
+> 18 -> on a plus exit  
+
+*/
 	
 		//cas ou si j ai trop darguments : imprimer exit sur fd 2 (jamais sur STDOUT puisque exit n est jamais redirige dans un outfile) + too many arguments + exit code == 1
 		//	if (ft_exit_arg_is_numeric(tmp) == 1)

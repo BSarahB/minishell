@@ -495,6 +495,7 @@ void			ft_cd_option_slash(t_data_env *data_env, char *str, t_simpleCmd *simpleCm
 void			ft_check_pwd(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env);
 int 			ft_get_pwd(t_data_env *data_env, t_simpleCmd *simpleCmd);
 void			ft_check_exit(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env);
+//exit
 
 
 #endif
