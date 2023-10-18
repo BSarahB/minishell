@@ -211,7 +211,8 @@ int		ft_parse_tokens_in_s_cmd(t_cmd *cmd, t_list *lst_token, t_data_env *data_en
 		ft_check_env(cmd, start_lst_token_retokenized, cmd->simpleCmds[i], data_env);
 		ft_check_echo(cmd, start_lst_token_retokenized, cmd->simpleCmds[i], data_env);
 		ft_check_cd(cmd, start_lst_token_retokenized, cmd->simpleCmds[i], data_env);
-	//	ft_check_pwd(cmd, start_lst_token_retokenized, cmd->simpleCmds[i], data_env);
+		ft_check_pwd(cmd, start_lst_token_retokenized, cmd->simpleCmds[i], data_env);
+		ft_check_exit(cmd, start_lst_token_retokenized, cmd->simpleCmds[i], data_env);
 
 		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd_from_retokenized_lst(start_lst_token_retokenized, cmd->simpleCmds[i]);
 

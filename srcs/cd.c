@@ -116,13 +116,11 @@ void ft_update_oldpwd_and_pwd_in_lst_envp_for_cd_dash_dash(t_data_env *data_env,
 	t_listenvp *new;
 	//t_listenvp *new2;
 
-	t_listenvp *tmp;
 
 	new = NULL;
 	//new2 = NULL;
 	oldpwd =NULL;
 	newpwd = NULL;
-	tmp = NULL;
 	tmp_pwd_value = get_var_in_lst_envp_for_cd(data_env, "PWD");
 
 	//PWD VA DEVENIR OLDPWD et CWD VA DEVENIR PWD     dans le cas de cd - ->
@@ -186,12 +184,10 @@ void ft_update_oldpwd_and_pwd_in_lst_envp_for_cd_dash(t_data_env *data_env, char
 	char *oldpwd;
 	char *newpwd;
 	t_listenvp *new;
-	t_listenvp *tmp;
 
 	new = NULL;
 	oldpwd =NULL;
 	newpwd = NULL;
-	tmp = NULL;
 	tmp_pwd_value = get_var_in_lst_envp_for_cd(data_env, "PWD");
 
 	//PWD VA DEVENIR OLDPWD et CWD VA DEVENIR PWD     dans le cas de cd - ->

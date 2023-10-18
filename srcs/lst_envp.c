@@ -149,7 +149,6 @@ char *ft_add_double_quote_to_var(char *str)
 		j = j+1;
 	}
 	buffer_quoted[j] = '\0';
-	printf("blyat\n");
 	return(buffer_quoted);
 }
 

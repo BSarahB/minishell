@@ -85,6 +85,10 @@ void	ft_free_struct_t_simpleCmd(t_simpleCmd **simpleCmd)
 		{
 			ft_free_struct_str(&(*simpleCmd)->pwd);
 		}
+	if((*simpleCmd)->exit_str != NULL)
+		{
+			ft_free_struct_str(&(*simpleCmd)->exit_str);
+		}	
 	if (*simpleCmd != NULL)
 	{
 		free(*simpleCmd);

@@ -56,8 +56,8 @@ SRCS	=	$(SRC_DIR)/main.c \
             $(SRC_DIR)/env.c \
             $(SRC_DIR)/echo.c \
             $(SRC_DIR)/cd.c \
-			$(SRC_DIR)/pwd.c
-
+			$(SRC_DIR)/pwd.c \
+			$(SRC_DIR)/exit.c
 
 
 
