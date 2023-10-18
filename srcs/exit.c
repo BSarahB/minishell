@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void ft_exit_arg_check(char *str, t_simpleCmd *simpleCmd) // export VAR="   123    120"  gerer le cas de exit $Q --> exit code ==1  mbenmesb@bess-f2r6s5:~$ exit "$Q" -> exit bash: exit: : numeric argument required car apres dequote on obtient \0
+int ft_exit_arg_check(char *str, t_simpleCmd *simpleCmd) // export VAR="   123    120"  gerer le cas de exit $Q --> exit code ==1  mbenmesb@bess-f2r6s5:~$ exit "$Q" -> exit bash: exit: : numeric argument required car apres dequote on obtient \0
 
 {
 	int i;
@@ -20,40 +20,59 @@ void ft_exit_arg_check(char *str, t_simpleCmd *simpleCmd) // export VAR="   123 
 	i = 0;
 	if(str == NULL) //cqfd
 		{
+		if(simpleCmd->exit_solo == 1)
+			ft_putstr_fd("exit\n", 2);
 		ft_putstr_fd("minishell: exit: ", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(" numeric argument required", 2);
 		ft_putstr_fd("\n", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
 		simpleCmd->exit_code = 2;
-		return;
+		return (-1);
 		}
 	if(str[i] == '\0') //cas du exit "$Q" ->soit exit  \0
 		{
-		ft_putstr_fd("exit\n", 2);
+		if(simpleCmd->exit_solo == 1)
+			ft_putstr_fd("exit\n", 2);
 		ft_putstr_fd("minishell: exit: ", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(" numeric argument required", 2);
 		ft_putstr_fd("\n", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
 		simpleCmd->exit_code = 2;
-		return;
+		return(-1);
 		}
 	while(ft_is_space(str[i])) //~exit "    " -> apres dequote les espaces sont preoteges donc il faut gerer le cas ou str[i] == \0
 		i++;
 	if(str[i] == '\0')
 		{
-			ft_putstr_fd("exit\n", 2);
+			if(simpleCmd->exit_solo == 1)
+				ft_putstr_fd("exit\n", 2);
 			ft_putstr_fd("minishell: exit: ", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
 			ft_putstr_fd(str, 2);
 			ft_putstr_fd(": ", 2);
 			ft_putstr_fd(" numeric argument required", 2);
 			ft_putstr_fd("\n", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
 		simpleCmd->exit_code = 2;
-		return;
+		return(-1);
 		}
 	//ne sera accepte qu un seul signe + ou - 
-	//if(str[i] )
+	if(str[i] == '+' || str[i] == '-')
+		i++;
+	if(ft_isdigit(str[i]) == 0) //exit "   + 12" ou exit + 1
+		{
+			if(simpleCmd->exit_solo == 1)
+				ft_putstr_fd("exit\n", 2);
+			ft_putstr_fd("minishell: exit: ", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
+			ft_putstr_fd(str, 2);
+			ft_putstr_fd(": ", 2);
+			ft_putstr_fd(" numeric argument required", 2);
+			ft_putstr_fd("\n", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
+			simpleCmd->exit_code = 2;
+			return(-1);
+		}
+	
+	return(1); //arg est valide
 }
 
 
@@ -83,7 +102,8 @@ void ft_check_exit(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd 
 					simpleCmd->exit_no_option = 1;
 					if(simpleCmd->exit_solo == 1)
 					{
-						simpleCmd->exit_str = ft_strdup("exit");
+						//simpleCmd->exit_str = ft_strdup("exit");
+						ft_putstr_fd("exit\n", 2);
 						simpleCmd->exit_code = 0;
 						printf("exit_code = %d \n", simpleCmd->exit_code);
 
@@ -91,10 +111,11 @@ void ft_check_exit(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd 
 					}
 //FIXME				//	else if(simpleCmd->exit_solo == 0 && qu on est en last simpleCmd)//TOO IF LAST_SIMPLE_CMD && EXIT_SOLO == 0 recuperer le exit_code 0 si on est en mode no option && que c est la derniere simpleCmd
 				//	{
-				//		simpleCmd->exit_code = 0;
+				//		simpleCmd->exit_code = 0; //ls | exit  on a le bon exit code de exit mais on n affiche pas de printf sauf message d erreur
 					//return; //il faudrair return l exit code 0
 						
 				//	}
+					simpleCmd->exit_code = 0; // si exit n est pas solo : exit | ls  ou ls | exit 
 					return;
 				
 				}
@@ -105,6 +126,8 @@ void ft_check_exit(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd 
 
 	}
 
+
+//quelque soit la position on va afficher les messages d erruer mais pas les printf 
 	while (tmp != NULL && tmp->position < simpleCmd->end_simpleCmd_pos && simpleCmd->exit_no_option == 0 && simpleCmd->builtin == exxit)
 	{ //GERER LE CAS DU EXIT SOLO = 0 MAIS FAISANT PARTIE DUN PIPE EN POSITION DE LAST SIMPLECMD : pas de printf exit mais on recupere le code return
 		//j aurai la condition  if (simpleCmd->exit_solo == 1  || simpleCmd->exit solo = 0 && postion de last simpleCmd ->recupere l exit
@@ -119,13 +142,36 @@ void ft_check_exit(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd 
 			}
 		if(simpleCmd->nb_of_tokens_in_simpleCmd > 2)
 		{
-			ft_exit_arg_check(tmp->content, simpleCmd);
-			printf("exit_code = %d \n", simpleCmd->exit_code);
+			if(ft_exit_arg_check(tmp->content, simpleCmd) == -1)
+				{
+					
+					printf("exit_code = %d \n", simpleCmd->exit_code);
+					break;
+				}
+			else
+			{
+					if(simpleCmd->exit_solo == 1)
+						ft_putstr_fd("exit\n", 2);
+					ft_putstr_fd("minishell: exit: too many arguments\n", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
+					printf("exit_code = %d \n", simpleCmd->exit_code);
+				}
 
 		}
 		else{
-			ft_exit_arg_check(tmp->content, simpleCmd);
-			printf("exit_code = %d \n", simpleCmd->exit_code);
+			if(ft_exit_arg_check(tmp->content, simpleCmd) == -1)
+				{
+					
+					printf("exit_code = %d \n", simpleCmd->exit_code);
+					break;
+				}
+			else
+			{
+					if(simpleCmd->exit_solo == 1)
+						ft_putstr_fd("exit\n", 2);
+					simpleCmd->exit_code = ft_atoi(tmp->content);
+					printf("exit_code = %d \n", simpleCmd->exit_code);
+				}
+
 		}
 
 

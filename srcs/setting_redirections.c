@@ -136,10 +136,15 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char **envp_t, t_data *data, 
 		//BUITLIN EXIT
 		if(cmd->simpleCmds[set->i]->is_builtin == 1 && cmd->simpleCmds[set->i]->builtin == 6) 
 		{ 
-		if(cmd->simpleCmds[set->i] != NULL)
+		if(cmd->simpleCmds[set->i] != NULL && cmd->simpleCmds[set->i]->exit_solo == 1)
 			{
-				ft_putstr_fd(cmd->simpleCmds[set->i]->exit_str, 2);
-				ft_putstr_fd("\n", 2);
+			//	ft_putstr_fd(cmd->simpleCmds[set->i]->exit_str, 2);
+			//	ft_putstr_fd("\n", 2);
+			}
+		if (set->i == (cmd->nb_of_simpleCmds) - 1)
+			{
+			//	printf("exit_code = %d \n", simpleCmd->exit_code);
+				printf("exit__code_DOMINANT \n"); //donc stocker l exit code dans variable globale
 			}
 
 
