@@ -13,7 +13,7 @@
 #include <sys/wait.h> //pour le waitpid
 #include <signal.h>
 #include <stddef.h> //pr le size_t
-
+#include <limits.h>
 
 // les define pour le type de token : devrais je choisir un enum comme pour les autres ca sera plus carre et laisser le define pour les echo $?
 #define WORD 1
@@ -498,7 +498,7 @@ int 			ft_get_pwd(t_data_env *data_env, t_simpleCmd *simpleCmd);
 void			ft_check_exit(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env);
 
 int 			ft_exit_is_arg_valid(char *str, t_simpleCmd *simpleCmd);
-unsigned long long	ft_atoi_modulo(const char *str);
+unsigned long long	ft_atoi_modulo(char *str, t_simpleCmd *simpleCmd);
 int 			ft_numeric_arg_required_msg(t_simpleCmd *simpleCmd, char *str);
 void			ft_too_many_arg_msg(t_simpleCmd *simpleCmd);
 

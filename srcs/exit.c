@@ -22,7 +22,6 @@ void ft_too_many_arg_msg(t_simpleCmd *simpleCmd)
 }
 
 
-
 int ft_numeric_arg_required_msg(t_simpleCmd *simpleCmd, char *str)
 {
 		if(simpleCmd->exit_solo == 1)
@@ -36,11 +35,14 @@ int ft_numeric_arg_required_msg(t_simpleCmd *simpleCmd, char *str)
 		return(-1);
 }
 
-unsigned long long	ft_atoi_modulo(const char *str)
+unsigned long long	ft_atoi_modulo(char *str, t_simpleCmd *simpleCmd )
 {
 	unsigned long long	result;
-	unsigned long long	sign;
+	int	sign;
+	char *tmp;
+	const unsigned long long min = 9223372036854775807;
 
+	tmp = str;
 	result = 0;
 	sign = 1;
 	while (*str == ' ' || *str == '\t' || *str == '\n' \
@@ -55,6 +57,12 @@ unsigned long long	ft_atoi_modulo(const char *str)
 		result = result * 10 + *str - '0';
 		str++;
 	}
+	// if((result > LLONG_MAX && sign == 1) || (result > min && sign == -1)) // -9223372036854775808(OK LLONGMIN) > -9223372036854775809(OUT OF RANGE) caster pour compatibilite
+	if((result > LLONG_MAX && sign == 1) || (result - min > 1 && sign == -1)) // -9223372036854775808(OK LLONGMIN) > -9223372036854775809(OUT OF RANGE) caster pour compatibilite
+			{
+				ft_numeric_arg_required_msg(simpleCmd, tmp);
+				return(2);
+			}
 	result = sign * result;
 	result = result % 256;
 	return (result);
@@ -69,6 +77,7 @@ int ft_exit_is_arg_valid(char *str, t_simpleCmd *simpleCmd) // export VAR="   12
 		return(ft_numeric_arg_required_msg(simpleCmd, str));
 	if(str[i] == '\0') //cas du exit "$Q" ->soit exit  \0
 		return(ft_numeric_arg_required_msg(simpleCmd, str));
+		
 	while(ft_is_space(str[i])) //~exit "    " -> apres dequote les espaces sont preoteges donc il faut gerer le cas ou str[i] == \0
 		i++;
 	if(str[i] == '\0')
@@ -150,7 +159,7 @@ void ft_check_exit(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd 
 				{
 					if(simpleCmd->exit_solo == 1)
 						ft_putstr_fd("exit\n", 2);
-					simpleCmd->exit_code = ft_atoi_modulo(tmp->content);
+					simpleCmd->exit_code = ft_atoi_modulo(tmp->content, simpleCmd);
 					printf("result = %d\n", simpleCmd->exit_code);
 					printf("exit_code = %d \n", simpleCmd->exit_code);
 				}
