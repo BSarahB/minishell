@@ -175,8 +175,8 @@ a partir ed 19 elements exit 9999999999999999999 donc
 LONG_MIN	Minimum value for a variable of type long.	-2147483648
 LONG_MAX	Maximum value for a variable of type long.	2147483647
 ULONG_MAX	Maximum value for a variable of type unsigned long.	4294967295 (0xffffffff)
-LLONG_MIN	Minimum value for a variable of type long long	-9223372036854775808
-LLONG_MAX	Maximum value for a variable of type long long	9223372036854775807
+LLONG_MIN	Minimum value for a variable of type long long	-9223372036854775808 ->sera OK
+LLONG_MAX	Maximum value for a variable of type long long	9223372036854775807 ->sera OK
 ULLONG_MAX	Maximum value for a variable of type unsigned long long	18446744073709551615 (0xffffffffffffffff)
 
 

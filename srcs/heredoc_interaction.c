@@ -49,7 +49,7 @@ void ft_get_EOF(t_cmd *cmd, size_t i, char *line_heredoc, int fd)
 			}
 			ft_fill_heredocument(fd, line_heredoc);
 		}
-		if (!line_heredoc)
+		if (!line_heredoc) //CTRLD
 		{
 			ft_heredoc_input_is_null(cmd, i);
 			break;

@@ -12,6 +12,23 @@
 
 #include "minishell.h"
 
+void ft_set_exit_code_in_lst_envp(void *lst_envp, int flag)
+{
+	//on recupere l adresse de lst_envp
+	//if(flag == 1)
+	//	lst_envp = 
+
+}
+
+void handler_sigint(int num)
+{
+	(void)num;
+	ft_putstr_fd("\n", 0);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	ft_set_exit_code_in_lst_envp(NULL, 0);
+}
 
 t_listenvp *ft_get_lst_envp(char **envp)
 {
@@ -55,12 +72,17 @@ int main(int argc, char *argv[], char *envp[])
 	envp_t = NULL;
 	envp_tab = NULL;
 	flag_save_envp = 1;
+	data = NULL;
+	lst_token = NULL;
+	
 	while (1)
 	{
-		signal(SIGQUIT, SIG_IGN);
-			line = readline(" ~ ");
-		if (!line)
+		signal(SIGQUIT, SIG_IGN);//on doit le mettre pour eviter les signaux envoyes via le terminal du style kill etc...
+		signal(SIGINT, handler_sigint);
+		line = readline(" ~ ");
+		if (!line) //CTRL D
 			{
+				ft_putstr_fd("exit\n",1);
 				break;
 			}
 		add_history(line);
@@ -101,7 +123,6 @@ int main(int argc, char *argv[], char *envp[])
 	}
 	if(data_env != NULL)
 	{
-		printf("entree dans FREE env PARENT\n");
 		ft_free_struct_t_data_env(&data_env);
 	}
 	return (exit_status);
