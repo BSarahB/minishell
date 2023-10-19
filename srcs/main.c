@@ -14,6 +14,8 @@
 
 void ft_set_exit_code_in_lst_envp(void *lst_envp, int flag)
 {
+	(void)flag;
+	(void)*lst_envp;
 	//on recupere l adresse de lst_envp
 	//if(flag == 1)
 	//	lst_envp = 
