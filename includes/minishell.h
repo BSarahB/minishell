@@ -118,6 +118,8 @@ typedef struct s_expand
 	int		flag_expand_in_token;
 	size_t 	start_expand_pos;
 	size_t	end_expand_pos;
+	int		flag_dollar_quest;
+
 } t_expand;
 
 typedef struct s_list

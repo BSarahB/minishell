@@ -198,6 +198,12 @@ size_t ft_get_end_expand(char *str, t_expand *exp, char **expand, size_t i)
 			*expand = ft_get_scope_expand(i, exp->start_expand_pos, str, &(exp->flag_expand_here));
 			exp->flag_expand_here = 1;
 		}
+		else if (str[i] == '?' && str[i + 1] != '\0' && str[i+ 1] != '$') //cas de $?m
+		{
+			*expand = ft_get_scope_expand(i, exp->start_expand_pos, str, &(exp->flag_expand_here));
+			exp->flag_expand_here = 1; //flag_dollar_? = 1
+			exp->flag_dollar_quest = 1;
+		}
 	}
 	return(i);	
 }
@@ -278,10 +284,16 @@ int ft_is_expand_here(t_list *lst_token, char *str, char *buffer, char *envp[])
 							ft_memcpy(&buffer[exp->j], expand, ft_strlen(expand));
 							exp->j = exp->j + ft_strlen(expand);
 							ft_check_expand_for_tag_ambigeous(expand, exp, lst_token);
-
+							if(exp->flag_dollar_quest  == 1)
+								{
+									exp->flag_expand_here = 0;
+									exp->flag_dollar_quest = 0;
+									i++;
+								}
 						}
 					free(expand);
 					expand = NULL;
+					
 				}
 		if (str[i] == '$' && exp->quoting_rule != 1 && exp->flag_expand_here != 1) //&& que $ n est pas suivi de '\0' ->suivi de \0 signifie que ce n est pas un expand , mais simplement un caractere $
 			ft_get_start_expand(str, exp, i, buffer);
