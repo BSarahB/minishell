@@ -205,8 +205,11 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char **envp_t, t_data *data, 
 			tmp2 = data_env->lst_envp;
 			while(tmp2)
 			{
-				ft_putstr_fd(tmp2->key_value, STDOUT_FILENO);
-				ft_putstr_fd("\n", STDOUT_FILENO);
+				if(ft_strncmp(tmp2->key_value, "?=", 2) != 0)
+				{
+					ft_putstr_fd(tmp2->key_value, STDOUT_FILENO);
+					ft_putstr_fd("\n", STDOUT_FILENO);
+				}
 				tmp2 = tmp2->next;
 			}
 
@@ -269,10 +272,12 @@ void	ft_child_process(t_settings *set, t_cmd *cmd, char **envp_t, t_data *data, 
 
 		while(tmp && cmd->simpleCmds[set->i]->builtin != 5  )
 		{
-
-			ft_putstr_fd("declare -x ", STDOUT_FILENO);
-			ft_putstr_fd(tmp->key_value, STDOUT_FILENO);
-			ft_putstr_fd("\n", STDOUT_FILENO);
+			if(ft_strncmp(tmp->key_value, "?=", 2) != 0)
+			{
+				ft_putstr_fd("declare -x ", STDOUT_FILENO);
+				ft_putstr_fd(tmp->key_value, STDOUT_FILENO);
+				ft_putstr_fd("\n", STDOUT_FILENO);
+			}
 			tmp = tmp->next;
 		}
 		close(set->savein);
