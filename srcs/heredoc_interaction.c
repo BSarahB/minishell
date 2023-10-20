@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+
+
+void handler_sigint_hd(int num)
+{
+	
+	
+	
+	(void)num;
+	//num = 130;
+	ft_putstr_fd("\n", 0);
+	ft_set_exit_code_in_lst_envp(NULL, 0);
+	
+}
+
 void ft_fill_heredocument(int fd, char *line_heredoc)
 {
 	write(fd, line_heredoc, ft_strlen(line_heredoc));
@@ -32,6 +46,7 @@ void ft_get_EOF(t_cmd *cmd, size_t i, char *line_heredoc, int fd)
 	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, handler_sigint_hd);
    		line_heredoc = readline(" > ");
 		cmd->line_count++;
 		if(line_heredoc != NULL)

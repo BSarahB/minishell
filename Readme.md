@@ -788,3 +788,8 @@ et echo $? donner
 
 //GESTION DES SIGNAUX
 ->CTRL D  est plutot un EOF end of file plutot qu un signal en soi. donc pas besoin d interpreter CTRLD. de tte facon il est deja gere 
+
+
+
+
+//TODO REGLER :Double free introduit par la refactorisation sur echo

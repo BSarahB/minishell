@@ -243,21 +243,8 @@ void ft_check_export(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCm
 				}
 
 			}
-
-			//1) KEY seule pas de =VALUE et valid identifier:
-			//remplir lst_envp_d en ajoutant le maillon (pas dans lst_envp)
-			//si key=VALUE ->on met key=value dans lst_envp && lst_envp_d
 		}
 		tmp = tmp->next;
 	}
-	/*
-	if(tmp != NULL && tmp->position == simpleCmd->end_simpleCmd_pos && tmp->title != operator && simpleCmd->export_x == 0 && flag_export == 1)
-	{
-		//if
-		//{
-		  // if()
-		//}
-
-	}
-*/
+	
 }

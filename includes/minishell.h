@@ -79,6 +79,7 @@ typedef struct s_settings
 	int		nofile;
 	int		ret;
 	int 	pip[2];	
+	int 	errnum;
 } t_settings;
 
 typedef struct s_settings_del
@@ -399,7 +400,7 @@ int				ft_exit_status(pid_t last_pid, t_settings *set);
 
 
 int				ft_setting_redirections_and_pipes(t_cmd *cmd, char *envp[], t_data *data, char *line, t_data_env *data_env); //, t_listenvp *lst_envp);
-void			ft_child_process(t_settings *set, t_cmd *cmd, char *envp[], t_data *data, char *line, t_data_env *data_env);//, t_listenvp *lst_envp);
+void 			ft_child_process(t_settings *set, t_cmd *cmd, char **envp_t, t_data *data, char *line, t_data_env *data_env);
 
 void			ft_set_fdin_for_first_simpleCmd(t_settings *set, t_cmd *cmd);
 void			ft_redirect_input(t_settings *set, t_cmd *cmd);
@@ -495,13 +496,21 @@ t_listenvp 		*ft_lstfind_content(t_listenvp *alst, char *keyequal);
 //int			ft_change_directory_for_cd_dot(t_data_env *data_env, char *cwd, t_simpleCmd *simpleCmd);
 void			ft_cd_option_slash(t_data_env *data_env, char *str, t_simpleCmd *simpleCmd);
 void			ft_check_pwd(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env);
-int 			ft_get_pwd(t_data_env *data_env, t_simpleCmd *simpleCmd);
+int 				ft_get_pwd(t_data_env *data_env, t_simpleCmd *simpleCmd);
 //exit
-void			ft_check_exit(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env);
+void				ft_check_exit(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env);
 
-int 			ft_exit_is_arg_valid(char *str, t_simpleCmd *simpleCmd);
+int 				ft_exit_is_arg_valid(char *str, t_simpleCmd *simpleCmd);
 unsigned long long	ft_atoi_modulo(char *str, t_simpleCmd *simpleCmd);
-int 			ft_numeric_arg_required_msg(t_simpleCmd *simpleCmd, char *str);
-void			ft_too_many_arg_msg(t_simpleCmd *simpleCmd);
+int 				ft_numeric_arg_required_msg(t_simpleCmd *simpleCmd, char *str);
+void				ft_too_many_arg_msg(t_simpleCmd *simpleCmd);
+//exit code
+t_listenvp  *ft_get_exit_status(t_listenvp **alst, char *key, int exit_status);
+void				ft_check_tab_envp_removed(char **tab);
+
+//Signaux
+void 				handler_sigint(int num);
+void				ft_set_exit_code_in_lst_envp(void *lst_envp, int flag);
+
 
 #endif

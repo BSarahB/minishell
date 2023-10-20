@@ -89,6 +89,16 @@ void	ft_aff_abs_cmd_and_args(t_cmd	*cmd)
 	}
 }
 
+void	ft_check_tab_envp_removed(char **tab)
+{
+	if(*tab == NULL)
+	{
+		ft_putstr_fd("Please set back the environnement to run minishell properly\n", 2);
+		exit(1);	
+	}
+}
+
+
 void	ft_aff_tab_envp(char **tab)
 {
 	
@@ -96,9 +106,11 @@ void	ft_aff_tab_envp(char **tab)
 
 	k = 0;
 
+
 	printf("tab envp \n");
 	
-		while(tab[k])
+
+	while(tab[k])
 		{
 			printf("tab[%zu]= <%s>\n", k, tab[k]);
 			k++;

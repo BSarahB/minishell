@@ -66,7 +66,7 @@ int	ft_execve_join(t_cmd *cmd, char **envp, char **abs_cmd_and_args)
 int ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 {
 	int exec_return;
-	//char *builtin[] = {"echo", NULL};
+
 	exec_return = 0;
 	if(cmd->simpleCmds[i] == NULL || cmd->simpleCmds[i]->cmd_and_args == NULL)
 	{
@@ -74,16 +74,14 @@ int ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 		close(set->saveout);
 		return(exec_return);
 	}
-
-	//	ft_execute_builtin(cmd, i, builtin);
-	else if (execve(cmd->simpleCmds[i]->cmd_and_args[0], cmd->simpleCmds[i]->cmd_and_args, envp) == -1)
+	if (execve(cmd->simpleCmds[i]->cmd_and_args[0], cmd->simpleCmds[i]->cmd_and_args, envp) == -1)
 			exec_return = ft_execve_join(cmd, envp, cmd->simpleCmds[i]->abs_cmd_and_args);
 				
 	if (exec_return == -1 && (errno == 2 || errno == 13))
 		{
 			cmd->simpleCmds[i]->errnum = 127;
 			ft_putstr_fd(cmd->simpleCmds[i]->cmd_and_args[0], 2);
-			ft_putstr_fd(": command not found: ", 2);
+			ft_putstr_fd(": command not found", 2);
 			ft_putstr_fd("\n", 2);
 			return(exec_return);
 		}

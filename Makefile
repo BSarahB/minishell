@@ -57,7 +57,8 @@ SRCS	=	$(SRC_DIR)/main.c \
             $(SRC_DIR)/echo.c \
             $(SRC_DIR)/cd.c \
 			$(SRC_DIR)/pwd.c \
-			$(SRC_DIR)/exit.c
+			$(SRC_DIR)/exit.c \
+			$(SRC_DIR)/exit_code.c
 
 
 
@@ -65,7 +66,7 @@ OBJS = $(SRCS:.c=.o)
 
 RM = rm -f
 
-CFLAGS = -Wall -Wextra -Werror -I $(INCLUDE_DIR) -fsanitize=address -fsanitize=leak
+CFLAGS = -Wall -Wextra -Werror -I $(INCLUDE_DIR) #-fsanitize=address -fsanitize=leak
 all:		$(NAME)
 
 
@@ -73,7 +74,7 @@ all:		$(NAME)
 		$(CC) $(CFLAGS) -c $< -o $(<:.c=.o) 
 
 $(NAME):	$(OBJS)
-	$(CC) -o $@ $^ -lasan -lreadline
+	$(CC) -o $@ $^ -lreadline #-lasan -lreadline
 
 clean:
 			$(RM) $(OBJS) 

@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+
 void ft_set_exit_code_in_lst_envp(void *lst_envp, int flag)
 {
 	(void)flag;
@@ -31,6 +32,7 @@ void handler_sigint(int num)
 	rl_redisplay();
 	ft_set_exit_code_in_lst_envp(NULL, 0);
 }
+
 
 t_listenvp *ft_get_lst_envp(char **envp)
 {
@@ -84,6 +86,7 @@ int main(int argc, char *argv[], char *envp[])
 	{
 		signal(SIGQUIT, SIG_IGN);//on doit le mettre pour eviter les signaux envoyes via le terminal du style kill etc...
 		signal(SIGINT, handler_sigint);
+		ft_check_tab_envp_removed(envp);
 		line = readline(" ~ ");
 		if (!line) //CTRL D
 			{
@@ -99,6 +102,7 @@ int main(int argc, char *argv[], char *envp[])
 		{	
 			if(flag_save_envp == 0)
 			{
+				//ft_aff_list_envp_sur_char_content(data_env->lst_envp);
 				envp_tab = ft_lst_to_tab(data_env->lst_envp);
 				ft_expand_and_retokenize(lst_token, envp_tab);
 				if(envp_tab != NULL)
@@ -116,18 +120,6 @@ int main(int argc, char *argv[], char *envp[])
 						ft_free_tab(&envp_tab);
 				}
 			cmd = ft_struct_init_cmd(&cmd, lst_token);
-			if(flag_save_envp == 1)
-				{
-					/*
-					
-					ft_struct_init_data_env(&data_env);//_env(&data_env);
-					data_env->lst_envp = ft_get_lst_envp(envp);
-					data_env->lst_envp_d = ft_get_lst_envp(envp);
-					flag_save_envp = 0;
-					
-					*/
-					
-				}
 			cmd->path_tab = ft_get_path(envp);	//il faudra modifier cette fonction et recuperer path tab si jamais env -i ou unset PATH
 			ft_parse_tokens_in_s_cmd(cmd, lst_token, data_env);
 			if(cmd->nb_of_heredocs != 0)
@@ -139,6 +131,8 @@ int main(int argc, char *argv[], char *envp[])
 		ft_free_struct_t_cmd_only(&cmd);
 		if(envp_t != NULL)
 			ft_free_tab(&envp_t);
+		//ft_aff_list_envp_sur_char_content(data_env->lst_envp);
+	
 	}
 	if(data_env != NULL)
 	{
