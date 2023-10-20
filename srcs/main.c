@@ -49,6 +49,9 @@ t_listenvp *ft_get_lst_envp(char **envp)
             ft_lstadd_back_envp(&lst_envp, new);
             i++;
         }
+		//add ?=0 key=value pour le exit code
+		new = ft_lstnew_for_lst_envp("?=0");
+        ft_lstadd_back_envp(&lst_envp, new);
     }
     return(lst_envp);
 }
@@ -93,8 +96,7 @@ int main(int argc, char *argv[], char *envp[])
 		data = ft_tokenize_line(line);
 		lst_token = data->lst_token;
 		if(ft_check_bash_syntax_error_caracteres_volee(lst_token) == 0)
-		{	if(flag_save_envp == 1)
-				ft_expand_and_retokenize(lst_token, envp);
+		{	
 			if(flag_save_envp == 0)
 			{
 				envp_tab = ft_lst_to_tab(data_env->lst_envp);
@@ -102,20 +104,35 @@ int main(int argc, char *argv[], char *envp[])
 				if(envp_tab != NULL)
 					ft_free_tab(&envp_tab);
 			}
-			cmd = ft_struct_init_cmd(&cmd, lst_token);
 			if(flag_save_envp == 1)
 				{
 					ft_struct_init_data_env(&data_env);//_env(&data_env);
 					data_env->lst_envp = ft_get_lst_envp(envp);
 					data_env->lst_envp_d = ft_get_lst_envp(envp);
 					flag_save_envp = 0;
+					envp_tab = ft_lst_to_tab(data_env->lst_envp);
+					ft_expand_and_retokenize(lst_token, envp_tab);
+					if(envp_tab != NULL)
+						ft_free_tab(&envp_tab);
+				}
+			cmd = ft_struct_init_cmd(&cmd, lst_token);
+			if(flag_save_envp == 1)
+				{
+					/*
+					
+					ft_struct_init_data_env(&data_env);//_env(&data_env);
+					data_env->lst_envp = ft_get_lst_envp(envp);
+					data_env->lst_envp_d = ft_get_lst_envp(envp);
+					flag_save_envp = 0;
+					
+					*/
+					
 				}
 			cmd->path_tab = ft_get_path(envp);	//il faudra modifier cette fonction et recuperer path tab si jamais env -i ou unset PATH
 			ft_parse_tokens_in_s_cmd(cmd, lst_token, data_env);
 			if(cmd->nb_of_heredocs != 0)
 				ft_heredoc_interaction(cmd, 0, 1);
 			envp_t = ft_lst_to_tab(data_env->lst_envp);
-
 			exit_status = ft_setting_redirections_and_pipes(cmd, envp_t, data, line, data_env);
 		}
 		ft_free(cmd, lst_token, data, line);

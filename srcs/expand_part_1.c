@@ -169,11 +169,11 @@ size_t ft_get_end_expand(char *str, t_expand *exp, char **expand, size_t i)
 		}
 		else if (str[i] == '\"' || str[i] == '\'') //$"VAR"
 			*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
-		else if (str[i] == '$' && str[i - 1] != '$') //$VAR$
+		else if (str[i] == '$' && str[i - 1] != '$') //$VAR$  ou $V$
 			*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
 		else if(str[i] == '$' && str[i -1] == '$' && str[i + 1] == '\0') //$VAR$$\0
 			*expand = ft_get_scope_expand(i, exp->start_expand_pos, str, &(exp->flag_expand_here));	
-		else if (ft_is_alphanum(str[i]) == 0) //$VAR+
+		else if (ft_is_alphanum(str[i]) == 0 && (str[i] != '?' && str[i+1] != '\0')) //$VAR+  on empeche le $? de rentrer dans cette condition. on veut que le $? aille dans la derniere condition avec stri+1 est '\0' 
 		{
 			if(ft_isunderscore(str, i) > 0) //$VAR_
 			{
@@ -184,10 +184,16 @@ size_t ft_get_end_expand(char *str, t_expand *exp, char **expand, size_t i)
 					exp->flag_expand_here = 1;
 				}
 			}
+			else if(!(str[i] == '$' && str[i -1] == '$' && str[i] == '?')) // cs de $?
+				{
+					*expand = ft_get_scope_expand(i, exp->start_expand_pos, str, &(exp->flag_expand_here));
+					exp->flag_expand_here = 1;
+
+				}
 			else if(!(str[i] == '$' && str[i -1] == '$')) // cs de $VAR$$$
 				*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
 		}
-		else if (str[i + 1] == '\0') //TODO
+		else if (str[i + 1] == '\0') //cas de $USER ou $V
 		{
 			*expand = ft_get_scope_expand(i, exp->start_expand_pos, str, &(exp->flag_expand_here));
 			exp->flag_expand_here = 1;
@@ -258,7 +264,7 @@ int ft_is_expand_here(t_list *lst_token, char *str, char *buffer, char *envp[])
 	exp = NULL;
 	i = 0;
 	exp = ft_struct_init_expand(&exp);
-	while (str[i])
+	while (str[i])//$?
 	{
 		exp->quoting_rule_adequate = ft_get_token_quoting_rule2(str, i, &(exp->quoting_rule), &(exp->quoting_rule_adequate));
 		if (exp->flag_expand_here == 1)

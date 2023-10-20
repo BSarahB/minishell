@@ -96,7 +96,7 @@ void	ft_aff_tab_envp(char **tab)
 
 	k = 0;
 
-	
+	printf("tab envp \n");
 	
 		while(tab[k])
 		{
