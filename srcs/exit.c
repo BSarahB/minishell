@@ -40,7 +40,6 @@ unsigned long long	ft_atoi_modulo(char *str, t_simpleCmd *simpleCmd )
 	unsigned long long	result;
 	int	sign;
 	char *tmp;
-	const unsigned long long min = 9223372036854775807;
 
 	tmp = str;
 	result = 0;
@@ -55,14 +54,13 @@ unsigned long long	ft_atoi_modulo(char *str, t_simpleCmd *simpleCmd )
 	while (*str <= '9' && *str >= '0')
 	{
 		result = result * 10 + *str - '0';
-		str++;
-	}
-	// if((result > LLONG_MAX && sign == 1) || (result > min && sign == -1)) // -9223372036854775808(OK LLONGMIN) > -9223372036854775809(OUT OF RANGE) caster pour compatibilite
-	if((result > LLONG_MAX && sign == 1) || (result - min > 1 && sign == -1)) // -9223372036854775808(OK LLONGMIN) > -9223372036854775809(OUT OF RANGE) caster pour compatibilite
+		if((sign == 1 && result > LLONG_MAX) || ( result > (-1 * (unsigned long)LLONG_MIN) && sign == -1 ))//(result - min > 1 && sign == -1)) // -9223372036854775808(OK LLONGMIN) > -9223372036854775809(OUT OF RANGE) caster pour compatibilite
 			{
 				ft_numeric_arg_required_msg(simpleCmd, tmp);
 				return(2);
 			}
+		str++;
+	}
 	result = sign * result;
 	result = result % 256;
 	return (result);
@@ -106,6 +104,7 @@ void ft_check_exit(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd 
 	(void)data_env;
 	t_list *tmp;
 
+	tmp = NULL;
 	tmp = start_lst_token_retokenized;
 	if(tmp != NULL)
 	{

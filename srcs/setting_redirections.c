@@ -21,7 +21,6 @@ int ft_is_flag_n(char *str)
 	flag = 0;
 	if (str[i] == '\0')
 	{
-		printf("flag n : %d\n", flag);
 		return (flag);
 	}
 	if (str[i] != '-')
@@ -115,6 +114,7 @@ void ft_free_and_exit_child(t_settings *set, t_cmd *cmd, char **envp_t, t_data *
 void ft_child_process(t_settings *set, t_cmd *cmd, char **envp_t, t_data *data, char *line, t_data_env *data_env)
 {
 	int exec_return;
+	int exit_code;
 	(void)data;
 	(void)line;
 	t_listenvp *tmp;
@@ -122,6 +122,7 @@ void ft_child_process(t_settings *set, t_cmd *cmd, char **envp_t, t_data *data, 
 	t_listenvp *tmp3;
 
 	exec_return = 0;
+	exit_code = 0;
 	//	int i;
 	//	i = 0;
 	tmp = NULL;
@@ -140,23 +141,35 @@ void ft_child_process(t_settings *set, t_cmd *cmd, char **envp_t, t_data *data, 
 		exit(127);
 	}
 
+	//BUILTIN UNSET 
+	if (cmd->simpleCmds[set->i]->is_builtin == 1 && cmd->simpleCmds[set->i]->builtin == 4)
+	{
+		ft_free_and_exit_child(set, cmd, envp_t, data, line, data_env);
+		exit(0);
+	}
+
+
+
 	// BUITLIN EXIT
 	if (cmd->simpleCmds[set->i]->is_builtin == 1 && cmd->simpleCmds[set->i]->builtin == 6)
 	{
+
 		if (set->i == (cmd->nb_of_simpleCmds) - 1)
 			{
 				printf("exit__code_DOMINANT \n"); // donc stocker l exit code dans variable globale//	printf("exit_code = %d \n", simpleCmd->exit_code)
-				exit(cmd->simpleCmds[set->i]->exit_code);
-		
 		 // ou (0?) voir comment bien sortir mettre ca apres le pb du fork
 			}
-		//ft_free_and_exit_child(set, cmd, envp_t, data, line, data_env);
+		exit_code = cmd->simpleCmds[set->i]->exit_code;
+		ft_free_and_exit_child(set, cmd, envp_t, data, line, data_env);
+		exit(exit_code);
+		
 	}
 	// BUITLIN ECHO
 	if (cmd->simpleCmds[set->i]->is_builtin == 1 && cmd->simpleCmds[set->i]->builtin == 0) // modifier pour ==0 pour faire le builtin echo
 	{
 		ft_echo(cmd->simpleCmds[set->i]);
-		//ft_free_and_exit_child(set, cmd, envp_t, data, line, data_env);
+		ft_free_and_exit_child(set, cmd, envp_t, data, line, data_env);
+		exit(0);
 	}
 	// BUILTIN PWD
 	if (cmd->simpleCmds[set->i]->is_builtin == 1 && cmd->simpleCmds[set->i]->builtin == 2) // modifier pour ==0 pour faire le builtin echo
@@ -166,7 +179,8 @@ void ft_child_process(t_settings *set, t_cmd *cmd, char **envp_t, t_data *data, 
 			ft_putstr_fd(cmd->simpleCmds[set->i]->pwd, STDOUT_FILENO);
 			ft_putstr_fd("\n", STDOUT_FILENO);
 		}
-		//ft_free_and_exit_child(set, cmd, envp_t, data, line, data_env);
+		ft_free_and_exit_child(set, cmd, envp_t, data, line, data_env);
+		exit(0);
 	}
 	// BUILTIN ENV
 	if (cmd->simpleCmds[set->i]->is_builtin == 1 && cmd->simpleCmds[set->i]->builtin == 5)
@@ -181,7 +195,8 @@ void ft_child_process(t_settings *set, t_cmd *cmd, char **envp_t, t_data *data, 
 			}
 			tmp2 = tmp2->next;
 		}
-		//ft_free_and_exit_child(set, cmd, envp_t, data, line, data_env);
+		ft_free_and_exit_child(set, cmd, envp_t, data, line, data_env);
+		exit(0);
 	}
 	// BUILTIN CD
 	if (cmd->simpleCmds[set->i]->is_builtin == 1 && cmd->simpleCmds[set->i]->builtin == 1) // modifier pour ==0 pour faire le builtin echo
@@ -191,12 +206,16 @@ void ft_child_process(t_settings *set, t_cmd *cmd, char **envp_t, t_data *data, 
 			ft_putstr_fd(cmd->simpleCmds[set->i]->oldpwd, STDOUT_FILENO);
 			ft_putstr_fd("\n", STDOUT_FILENO);
 		}
-	//	ft_free_and_exit_child(set, cmd, envp_t, data, line, data_env);	
+		exit_code = cmd->simpleCmds[set->i]->exit_code;
+		ft_free_and_exit_child(set, cmd, envp_t, data, line, data_env);	
+		exit(exit_code); //mettre 1 si le cd n est pas bon
 	}
-
-	if (cmd->simpleCmds[set->i]->is_builtin == 1 && cmd->simpleCmds[set->i]->export_no_option == 0) // modifier pour ==0 pour faire le builtin echo //TODO VIRER SI NON NECESSAIRE
+//BUILTIN EXPORT AVEC OPTION
+	if (cmd->simpleCmds[set->i]->is_builtin == 1 && cmd->simpleCmds[set->i]->export_no_option == 0  && cmd->simpleCmds[set->i]->builtin == 3) // modifier pour ==0 pour faire le builtin echo //TODO VIRER SI NON NECESSAIRE
 	{
+		exit_code = cmd->simpleCmds[set->i]->exit_code;
 		ft_free_and_exit_child(set, cmd, envp_t, data, line, data_env);
+		exit(exit_code);
 	}
 	// BUITIN EXPORT SANS OPTION ET SOLO
 	data_env->lst_envp_d = ft_add_double_quote_to_envp_d(data_env->lst_envp_d);
@@ -212,7 +231,6 @@ void ft_child_process(t_settings *set, t_cmd *cmd, char **envp_t, t_data *data, 
 		}
 		tmp = tmp->next;
 	}
-	
 	ft_free_and_exit_child(set, cmd, envp_t, data, line, data_env);
 	exit(0);
 }

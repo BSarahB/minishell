@@ -34,7 +34,7 @@ int ft_isalnum(int c)
 	return(ft_isdigit(c) || ft_isalpha(c));
 }
 
-int	ft_key_value_is_valid(t_list *tmp)
+int	ft_key_value_is_valid(t_list *tmp, t_simpleCmd *simpleCmd)
 {
 	(void)tmp;
 	char *str;
@@ -45,6 +45,7 @@ int	ft_key_value_is_valid(t_list *tmp)
 	if(str[0] == '\0')
 	{
 		ft_putstr_fd("bash: export: `': not a valid identifier\n", 2); //le echo $? est 1 car il y a une erreur
+		simpleCmd->exit_code = 1;
 		return(0);//not valide
 	}
 	if(str[0])
@@ -54,6 +55,7 @@ int	ft_key_value_is_valid(t_list *tmp)
 				ft_putstr_fd("bash: export: `", 2);
 				ft_putstr_fd(tmp->content, 2);
 				ft_putstr_fd("': not a valid identifier\n", 2); //le echo $? est 1 car il y a une erreur
+				simpleCmd->exit_code = 1;
 				return(0);
 			}
 	}
@@ -65,6 +67,7 @@ int	ft_key_value_is_valid(t_list *tmp)
 			ft_putstr_fd("bash: export: `", 2);
 			ft_putstr_fd(tmp->content, 2);
 			ft_putstr_fd("': not a valid identifier\n", 2); //le echo $? est 1 ca
+			simpleCmd->exit_code = 1;
 			return (0);
 		}
 		if(str[i] == '=')
@@ -229,7 +232,7 @@ void ft_check_export(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCm
 			break;
 		if(simpleCmd->export_solo == 1)
 		{
-			if (ft_key_value_is_valid(tmp) == 1)
+			if (ft_key_value_is_valid(tmp, simpleCmd) == 1)
 			{
 				if(ft_check_format_is_key_value(tmp) == 1)
 				{

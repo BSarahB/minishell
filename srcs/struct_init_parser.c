@@ -72,9 +72,10 @@ t_simpleCmd *ft_struct_init_simpleCmd(t_simpleCmd **simpleCmd)
 	(*simpleCmd)->oldpwd = NULL;
 	(*simpleCmd)->pwd = NULL;
 	(*simpleCmd)->exit_str = NULL;
-	(*simpleCmd)->exit_code = -1;
+	(*simpleCmd)->exit_code = 0;
 	(*simpleCmd)->exit_no_option = 0;
 	(*simpleCmd)->builtin_solo = 0;
+	(*simpleCmd)->exit_solo = 0;
 	(*simpleCmd)->is_builtin = 0;
 	(*simpleCmd)->builtin = -1;
 	return (*simpleCmd);
