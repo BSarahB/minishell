@@ -148,8 +148,6 @@ void ft_child_process(t_settings *set, t_cmd *cmd, char **envp_t, t_data *data, 
 		exit(0);
 	}
 
-
-
 	// BUITLIN EXIT
 	if (cmd->simpleCmds[set->i]->is_builtin == 1 && cmd->simpleCmds[set->i]->builtin == 6)
 	{
@@ -185,18 +183,22 @@ void ft_child_process(t_settings *set, t_cmd *cmd, char **envp_t, t_data *data, 
 	// BUILTIN ENV
 	if (cmd->simpleCmds[set->i]->is_builtin == 1 && cmd->simpleCmds[set->i]->builtin == 5)
 	{
-		tmp2 = data_env->lst_envp;
-		while (tmp2)
+		exit_code = cmd->simpleCmds[set->i]->exit_code;
+		if(exit_code != 127)
 		{
-			if (ft_strncmp(tmp2->key_value, "?=", 2) != 0)
+			tmp2 = data_env->lst_envp;
+			while (tmp2)
 			{
-				ft_putstr_fd(tmp2->key_value, STDOUT_FILENO);
-				ft_putstr_fd("\n", STDOUT_FILENO);
-			}
+				if (ft_strncmp(tmp2->key_value, "?=", 2) != 0)
+				{
+					ft_putstr_fd(tmp2->key_value, STDOUT_FILENO);
+					ft_putstr_fd("\n", STDOUT_FILENO);
+				}
 			tmp2 = tmp2->next;
+			}
 		}
-		ft_free_and_exit_child(set, cmd, envp_t, data, line, data_env);
-		exit(0);
+		ft_free_and_exit_child(set, cmd, envp_t, data, line, data_env);	
+		exit(exit_code);
 	}
 	// BUILTIN CD
 	if (cmd->simpleCmds[set->i]->is_builtin == 1 && cmd->simpleCmds[set->i]->builtin == 1) // modifier pour ==0 pour faire le builtin echo

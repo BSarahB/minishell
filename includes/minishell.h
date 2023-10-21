@@ -504,6 +504,9 @@ int 				ft_exit_is_arg_valid(char *str, t_simpleCmd *simpleCmd);
 unsigned long long	ft_atoi_modulo(char *str, t_simpleCmd *simpleCmd);
 int 				ft_numeric_arg_required_msg(t_simpleCmd *simpleCmd, char *str);
 void				ft_too_many_arg_msg(t_simpleCmd *simpleCmd);
+//env
+void				ft_error_msg6(char *infile);
+
 //exit code
 t_listenvp  *ft_get_exit_status(t_listenvp **alst, char *key, int exit_status);
 void				ft_check_tab_envp_removed(char **tab);
