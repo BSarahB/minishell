@@ -14,9 +14,15 @@
 void ft_set_fdin_error_msg(t_settings *set, t_cmd *cmd)
 {
 	if(set->fdin == -1)
-		ft_error_msg(cmd->simpleCmds[set->i]->infile[set->j]);
+		{
+			ft_error_msg(cmd->simpleCmds[set->i]->infile[set->j]);
+			cmd->simpleCmds[set->i]->exit_code = 1;
+		}
 	if(set->fdin == -2)
-		ft_error_msg3(cmd->simpleCmds[set->i]->infile[set->j]);
+		{
+			ft_error_msg3(cmd->simpleCmds[set->i]->infile[set->j]);
+			cmd->simpleCmds[set->i]->exit_code = 1;
+		}
 }
 
 int 	ft_set_fdin_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd, int flag_random_heredoc)

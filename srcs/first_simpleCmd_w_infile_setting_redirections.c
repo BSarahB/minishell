@@ -21,15 +21,22 @@ void    ft_create_pipe(t_settings *set)
         exit(EXIT_FAILURE);
     }
 	set->fdin = pip[0];
+	set->pip_exists = 1;
 	close(pip[1]);
 }
 
 void    ft_outfiles_before_nofile(t_settings *set, t_cmd *cmd)
 {
 	if(set->fdin == -1)
-		ft_error_msg(cmd->simpleCmds[set->i]->infile[set->j]);
+		{
+			ft_error_msg(cmd->simpleCmds[set->i]->infile[set->j]);
+			cmd->simpleCmds[set->i]->exit_code = 1;
+		}
 	if(set->fdin == -2)
-		ft_error_msg3(cmd->simpleCmds[set->i]->infile[set->j]);
+		{
+			ft_error_msg3(cmd->simpleCmds[set->i]->infile[set->j]);
+			cmd->simpleCmds[set->i]->exit_code = 1;
+		}
 	set->j = 0;
 	while(set->j < cmd->simpleCmds[set->i]->nb_of_outfile_before_nofile)//while(j < cmd->simpleCmds[i]->nb_of_outfile)
 	{
@@ -84,9 +91,15 @@ void	ft_first_simpleCmd_w_infile(t_settings *set, t_cmd *cmd)
                 ft_outfiles_before_nofile(set, cmd);
 			else{
 				if(set->fdin == -1)
-					ft_error_msg(cmd->simpleCmds[set->i]->infile[set->j]);
+					{
+						ft_error_msg(cmd->simpleCmds[set->i]->infile[set->j]);
+						cmd->simpleCmds[set->i]->exit_code = 1;
+					}
 				if(set->fdin == -2)
-					ft_error_msg3(cmd->simpleCmds[set->i]->infile[set->j]);
+					{
+						ft_error_msg3(cmd->simpleCmds[set->i]->infile[set->j]);
+						cmd->simpleCmds[set->i]->exit_code = 1;
+					}
 			}
 			if(cmd->nb_of_simpleCmds > 1)
                 ft_create_pipe(set);

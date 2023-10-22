@@ -12,11 +12,12 @@
 
 #include "minishell.h"
 
+int	g_signal;
 
 void ft_set_exit_code_in_lst_envp(void *lst_envp, int flag)
 {
 	(void)flag;
-	(void)*lst_envp;
+	(void)lst_envp;
 	//on recupere l adresse de lst_envp
 	//if(flag == 1)
 	//	lst_envp = 
@@ -25,12 +26,33 @@ void ft_set_exit_code_in_lst_envp(void *lst_envp, int flag)
 
 void handler_sigint(int num)
 {
+
 	(void)num;
-	ft_putstr_fd("\n", 0);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	ft_set_exit_code_in_lst_envp(NULL, 0);
+	if(g_signal == IN_PROMPT)
+	{
+		ft_putstr_fd("\n", 0);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		ft_set_exit_code_in_lst_envp(NULL, 0);
+	}
+
+	if(g_signal == IN_HD)
+	{
+		g_signal = HD_STOP;
+	}
+	if(g_signal == HD_STOP)
+	{
+		ft_putstr_fd("\n", 0);
+		//ft_set_Exit_code;
+		return;
+	}
+	if(g_signal == IN_S_CMD)
+	{
+		ft_putstr_fd("\n", 2);
+	}
+
+
 }
 
 
@@ -84,6 +106,7 @@ int main(int argc, char *argv[], char *envp[])
 	
 	while (1)
 	{
+		g_signal = IN_PROMPT;
 		signal(SIGQUIT, SIG_IGN);//on doit le mettre pour eviter les signaux envoyes via le terminal du style kill etc...
 		signal(SIGINT, handler_sigint);
 		ft_check_tab_envp_removed(envp);

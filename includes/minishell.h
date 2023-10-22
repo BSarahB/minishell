@@ -29,6 +29,12 @@
 #define AMPERSAND 11
 #define GREAT_AND_AMPERSAND 12
 #define IGNORE 13
+
+//les define des Signaux
+#define IN_PROMPT 1
+#define IN_HD 2
+#define HD_STOP 3
+#define IN_S_CMD 4
 // LESSGREAT 14 ?
 
 
@@ -79,6 +85,7 @@ typedef struct s_settings
 	int		nofile;
 	int		ret;
 	int 	pip[2];	
+	int		pip_exists;
 	int 	errnum;
 } t_settings;
 

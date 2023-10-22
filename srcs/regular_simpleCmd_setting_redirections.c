@@ -46,9 +46,15 @@ void    ft_open_infiles(t_settings *set, t_cmd *cmd)
         {
             cmd->simpleCmds[set->i]->nofile = 1;
             if(set->fdin == -1)
-                ft_error_msg(cmd->simpleCmds[set->i]->infile[set->j]);
+                {
+                    ft_error_msg(cmd->simpleCmds[set->i]->infile[set->j]);
+                    cmd->simpleCmds[set->i]->exit_code = 1;
+                }
             if(set->fdin == -2)
-                 ft_error_msg3(cmd->simpleCmds[set->i]->infile[set->j]);
+                {
+                    ft_error_msg3(cmd->simpleCmds[set->i]->infile[set->j]);
+                    cmd->simpleCmds[set->i]->exit_code = 1;
+                }
             if(cmd->simpleCmds[set->i]->outfile != NULL && cmd->simpleCmds[set->i]->nb_of_outfile_before_nofile != 0)
 			{
 				size_t k = 0;
@@ -79,6 +85,8 @@ void ft_create_pipe2(t_settings *set)
     }
     set->fdout = set->pip[1];
     set->fdin = set->pip[0];
+	set->pip_exists = 1;
+
 }
 void ft_regular_simpleCmd(t_settings *set, t_cmd *cmd)
 {

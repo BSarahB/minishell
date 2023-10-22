@@ -24,7 +24,10 @@ void	ft_open_outfiles(t_settings *set, t_cmd *cmd)
 		set->fdout = open(cmd->simpleCmds[set->i]->outfile[set->j], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	// if(fdout == -1) gerer les erreurs d ouverture ici avec perror
 	if(set->fdout == -2)
-		ft_error_msg3(cmd->simpleCmds[set->i]->outfile[set->j]);
+		{
+			ft_error_msg3(cmd->simpleCmds[set->i]->outfile[set->j]);
+			cmd->simpleCmds[set->i]->exit_code = 1;
+		}
 	if(set->fdout == -1)
 	{
 		perror("minishell");

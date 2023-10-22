@@ -28,3 +28,21 @@ void	ft_pwd_builtin(void)
 {
 	
 }
+
+void    ft_close(int *fd)
+{
+    if (fd)
+    {
+        if (*fd > 2)
+        {
+            close(*fd);
+            *fd = 0;
+        }
+    }
+}
+
+void    ft_close_pipe(int pipe[2])
+{
+    ft_close(&pipe[0]);
+    ft_close(&pipe[1]);
+}

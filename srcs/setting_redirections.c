@@ -12,6 +12,16 @@
 
 #include "minishell.h"
 
+extern int g_signal;
+
+
+void handler_sigquit(int num)
+{
+	(void)num;
+	ft_putstr_fd("Quit (core dumped)\n", 2);
+}
+
+
 int ft_is_flag_n(char *str)
 {
 	int i;
@@ -99,8 +109,17 @@ void ft_set_fdin_for_first_simpleCmd(t_settings *set, t_cmd *cmd)
 
 void ft_free_and_exit_child(t_settings *set, t_cmd *cmd, char **envp_t, t_data *data, char *line, t_data_env *data_env)
 {
+	if(set->pip_exists == 1) // a | b
+	{
+		close(set->pip[0]);
+		close(set->pip[1]); //close ne fait pas d erreur d apres les tests ca n a pas l air de deranger l execuion du prograame du coup on se permet ici de tt fermer
+	//	close(set->fdout);
+	//	close(set->fdin);
+	}
+	
 	close(set->savein);
 	close(set->saveout);
+
 	ft_free_struct_t_settings(&set);
 	ft_free_in_child(cmd, data, line);
 	ft_free_struct_t_cmd_only(&cmd);
@@ -130,15 +149,26 @@ void ft_child_process(t_settings *set, t_cmd *cmd, char **envp_t, t_data *data, 
 	tmp3 = NULL;
 
 	(void)tmp3;
-
+	g_signal = IN_S_CMD;
+	signal(SIGQUIT, handler_sigquit);
 	if (cmd->simpleCmds[set->i]->is_builtin == 0)
 		exec_return = ft_execute_cmd(cmd, (int)set->i, envp_t, set);
 	if (exec_return == -1 && (errno == 2 || errno == 13)) //cmd not found
 	{		//set->errnum = 127;
 		if ((set->i < cmd->nb_of_simpleCmds) && (set->i != (cmd->nb_of_simpleCmds) - 1))
 			close(set->pip[0]);
-		ft_free_and_exit_child(set, cmd, envp_t, data, line, data_env);
-		exit(127);
+	
+	close(set->savein);
+	close(set->saveout);
+	ft_free_struct_t_settings(&set);
+	ft_free_in_child(cmd, data, line);
+	ft_free_struct_t_cmd_only(&cmd);
+	if (envp_t != NULL)
+		ft_free_tab(&envp_t);
+	if (data_env != NULL)
+		ft_free_struct_t_data_env(&data_env);
+	//	ft_free_and_exit_child(set, cmd, envp_t, data, line, data_env);
+	exit(127);
 	}
 
 	//BUILTIN UNSET 
@@ -267,6 +297,8 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char **envp_t, t_data *data, c
 
 					ft_redirect_output(set);
 				//Redirection des vrais in et out dans le processus parent tjrs en bouclant sur les simpleCmds
+					g_signal = IN_S_CMD;
+					signal(SIGQUIT, handler_sigquit);
 					set->ret = fork();//Creation des processus : il faudra creer autant de processus que de commandes donc faire dans le while.
 					if (set->ret == -1)
 					{
@@ -275,14 +307,26 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char **envp_t, t_data *data, c
 						exit(EXIT_FAILURE);
 					}
 					if(set->ret == 0)
+					{
+						
 						ft_child_process(set, cmd, envp_t, data, line, data_env);
+
+					}
+
 				//	;
 				//	ft_aff_list_envp_sur_char_content(data_env->lst_envp);
 			}
 		}
-		(set->i)++;
+		(set->i)++; //a | b i ==1
+
+
 	}
+//condition ?
+	//close(set->fdout);
+	//close(set->fdin);
 	exit_status = ft_exit_status(set->ret, set);
+	if(set->i >= 1 && cmd->simpleCmds[set->i -1]->nofile == 1)
+		exit_status =  cmd->simpleCmds[set->i -1]->exit_code;
 	printf("exit_status : %d\n", exit_status);
 	data_env->lst_envp = ft_get_exit_status(&data_env->lst_envp, "?=", exit_status);
 	ft_restore_original_in_and_out(set);	//restauration des sauvegardes des vrais in et out
@@ -291,3 +335,5 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char **envp_t, t_data *data, c
 }
 //int 	wstatus;
 //waitpid(ret, &wstatus, 0);
+// a | b
+//   a->SET fdin =1 REDIRIGE FDIN STDIN -> fdin + set fdout = pip[1] REDIRIGE FDOUT ***********[SET FDIN = pip[0]****** pip1 | pip 0  b *********** REDIRIGER FDIN SET FDOUT REDIRIGE STODOUT
