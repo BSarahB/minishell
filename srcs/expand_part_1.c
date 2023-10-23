@@ -167,7 +167,7 @@ size_t ft_get_end_expand(char *str, t_expand *exp, char **expand, size_t i)
 				exp->flag_expand_here = 1;
 			}
 		}
-		else if (str[i] == '\"' || str[i] == '\'') //$"VAR"
+		else if (str[i] == '\"' || str[i] == '\'') //$"VAR" // "$" "$'" ou bon"$"
 			*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
 		else if (str[i] == '$' && str[i - 1] != '$') //$VAR$  ou $V$
 			*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
@@ -226,9 +226,9 @@ void ft_get_start_expand(char *str, t_expand *exp, size_t i, char *buffer)
 		}
 }
 
-char *ft_substitute(char *expand, char *envp[])
+char *ft_substitute(char *expand, char *envp[], t_expand *exp)
 {
-	expand = ft_get_var(envp, expand);
+	expand = ft_get_var(envp, expand, exp);
 
 	return(expand);
 }
@@ -278,7 +278,7 @@ int ft_is_expand_here(t_list *lst_token, char *str, char *buffer, char *envp[])
 		if (expand != NULL)
 				{
 					// printf("expand = %s \n", expand);
-					expand = ft_substitute(expand, envp);
+					expand = ft_substitute(expand, envp, exp);
 					if(expand != NULL)
 						{
 							ft_memcpy(&buffer[exp->j], expand, ft_strlen(expand));
@@ -430,7 +430,70 @@ char		*ft_strtrim(char const *s1, char const *set)
 	return (ft_substr(s1, start, len));
 }
 
+/*
+void	ft_dollar_removal(t_list *lst_token, char * str)
+{
+	t_expand 	*exp;
+	char 		*expand;
+	size_t 		i;
+	
+	expand = NULL;
+	exp = NULL;
+	i = 0;
+	exp = ft_struct_init_expand(&exp);
+	while (str[i])//$?
+	{
+		exp->quoting_rule_adequate = ft_get_token_quoting_rule2(str, i, &(exp>quoting_rule), &(exp->quoting_rule_adequate));
+		if (exp->flag_expand_here == 1)
+			i = ft_get_end_expand(str, exp, &expand, i);
+		if (expand != NULL)
+				{
+					// printf("expand = %s \n", expand);
+					expand = ft_substitute(expand, envp);
+					if(expand != NULL)
+						{
+							ft_memcpy(&buffer[exp->j], expand, ft_strlen(expand));
+							exp->j = exp->j + ft_strlen(expand);
+							ft_check_expand_for_tag_ambigeous(expand, exp, lst_token);
+							if(exp->flag_dollar_quest  == 1)
+								{
+									exp->flag_expand_here = 0;
+									exp->flag_dollar_quest = 0;
+									i++;
+								}
+						}
+					free(expand);
+					expand = NULL;
+					
+				}
+		if (str[i] == '$' && exp->quoting_rule != 1 && exp->flag_expand_here != 1) //&& que $ n est pas suivi de '\0' ->suivi de \0 signifie que ce n est pas un expand , mais simplement un caractere $
+			ft_get_start_expand(str, exp, i, buffer);
+		else
+			{
+				if(exp->flag_expand_here != 1)
+				{
+					buffer[exp->j] = str[i];
+					exp->j++;
+				}
+			}
+		i++;
+	}
+	//printf("start_expand_pos = %zu, end_expand_pos = %zu \n", start_expand_pos, end_expand_pos);
+	//printf("<%s>\n", buffer);
 
+	if (exp->flag_expand_in_token == 0)
+			{
+				ft_free_struct_t_expand(&exp);
+				return (0);
+			}
+	else
+		{
+			ft_free_struct_t_expand(&exp);
+			return (1);
+		}
+
+}
+*/
 
 int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 {
@@ -459,6 +522,7 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 		if (lst_token->prev->title == redir_heredoc)
 		{
 	//		printf("heredoc to not expand\n");
+		//	ft_dollar_removal(lst_token, str);
 			free(buffer);
 			return(0);
 		}

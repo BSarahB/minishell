@@ -44,7 +44,7 @@ char	**ft_get_path(char **envp)
 	return (path_addr);
 }
 
-char	*ft_get_var(char **envp, char *expand)
+char	*ft_get_var(char **envp, char *expand, t_expand *exp)
 {
 	char	**var_content;
 	char 	*var;
@@ -60,20 +60,27 @@ char	*ft_get_var(char **envp, char *expand)
 	equal[0] = '=';
 	equal[1] = 0;
 	expand = ft_update_string(&expand, ft_strjoin(expand, equal));
+	if(ft_strcmp(expand,"$=") == 0 && (exp->quoting_rule_adequate == 1 || (exp->quoting_rule == 2 && exp->quoting_rule_adequate == 0))) //il faut que QR == 2
+	{
+		var = ft_strdup("$");
+		ft_update_string(&expand, var);
+		return(var);
+	}
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], (&expand[1]), n ) == 0)
 		{
 			var_content = ft_split(&envp[i][n], '=');
-			break ;
+			if(var_content == NULL || var_content[0] == NULL)
+				ft_free_tab(&var_content);
+			break;
 		}
 		i++;
 	}
-	if(var_content == NULL || var_content[0] == NULL)
+	if(var_content == NULL || var_content[0] == NULL) // "$" -> expand est $= 
 		{
 
 			ft_free_struct_str(&expand);
-			ft_free_tab(&var_content);
 			return(NULL);
 
 		}
