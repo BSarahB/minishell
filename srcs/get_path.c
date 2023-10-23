@@ -71,7 +71,9 @@ char	*ft_get_var(char **envp, char *expand)
 	}
 	if(var_content == NULL || var_content[0] == NULL)
 		{
+
 			ft_free_struct_str(&expand);
+			ft_free_tab(&var_content);
 			return(NULL);
 
 		}
