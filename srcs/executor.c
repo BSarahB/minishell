@@ -75,6 +75,9 @@ int ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 		return(exec_return);
 	}
 
+	close(set->savein);
+	close(set->saveout);
+
 	if (execve(cmd->simpleCmds[i]->cmd_and_args[0], cmd->simpleCmds[i]->cmd_and_args, envp) == -1)
 			exec_return = ft_execve_join(cmd, envp, cmd->simpleCmds[i]->abs_cmd_and_args);
 

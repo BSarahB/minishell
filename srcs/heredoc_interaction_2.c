@@ -10,14 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+extern int g_signal; 
+
 #include "minishell.h"
 
 void	ft_heredoc_input_is_null(t_cmd *cmd, size_t i)
 {
-	cmd->line_count = cmd->line_count -1;						
-	ft_error_heredoc(cmd->heredocs[i], cmd->line_count);
-	if(cmd->heredocs[++i])
-		ft_heredoc_interaction(cmd, i, 2);
+	if(g_signal != HD_STOP)
+	{
+		cmd->line_count = cmd->line_count -1;						
+		ft_error_heredoc(cmd->heredocs[i], cmd->line_count);
+		if(cmd->heredocs[++i])
+			ft_heredoc_interaction(cmd, i, 2);
+	}
 }
 
 void	ft_add_history_and_free_rl(char *line_heredoc)

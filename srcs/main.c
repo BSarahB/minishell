@@ -28,6 +28,9 @@ void handler_sigint(int num)
 {
 
 	(void)num;
+	int fd_heredoc;
+
+	fd_heredoc = 0;
 	if(g_signal == IN_PROMPT)
 	{
 		ft_putstr_fd("\n", 0);
@@ -44,7 +47,9 @@ void handler_sigint(int num)
 	if(g_signal == HD_STOP)
 	{
 		ft_putstr_fd("\n", 0);
-		//ft_set_Exit_code;
+		//ft_set_Exit_code  a 130;
+		dup2(fd_heredoc , STDIN_FILENO);
+		close(fd_heredoc);
 		return;
 	}
 	if(g_signal == IN_S_CMD)
@@ -147,15 +152,20 @@ int main(int argc, char *argv[], char *envp[])
 			ft_parse_tokens_in_s_cmd(cmd, lst_token, data_env);
 			if(cmd->nb_of_heredocs != 0)
 				ft_heredoc_interaction(cmd, 0, 1);
-			envp_t = ft_lst_to_tab(data_env->lst_envp);
-			exit_status = ft_setting_redirections_and_pipes(cmd, envp_t, data, line, data_env);
+			printf("g signal = %d\n", g_signal);
+			if(g_signal != HD_STOP)
+			{
+				envp_t = ft_lst_to_tab(data_env->lst_envp);
+				exit_status = ft_setting_redirections_and_pipes(cmd, envp_t, data, line, data_env);
+			}
+			
 		}
 		ft_free(cmd, lst_token, data, line);
 		ft_free_struct_t_cmd_only(&cmd);
 		if(envp_t != NULL)
 			ft_free_tab(&envp_t);
 		//ft_aff_list_envp_sur_char_content(data_env->lst_envp);
-	
+		g_signal = IN_PROMPT;
 	}
 	if(data_env != NULL)
 	{

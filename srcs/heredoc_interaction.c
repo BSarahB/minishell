@@ -12,19 +12,7 @@
 
 #include "minishell.h"
 
-
-
-void handler_sigint_hd(int num)
-{
-	
-	
-	
-	(void)num;
-	//num = 130;
-	ft_putstr_fd("\n", 0);
-	ft_set_exit_code_in_lst_envp(NULL, 0);
-	
-}
+extern int g_signal;
 
 void ft_fill_heredocument(int fd, char *line_heredoc)
 {
@@ -43,12 +31,18 @@ void	ft_recursiv(t_cmd *cmd, size_t i, int fd)
 
 void ft_get_EOF(t_cmd *cmd, size_t i, char *line_heredoc, int fd)
 {
-	while (1)
+	int fd_heredoc;
+	g_signal = IN_HD;
+	fd_heredoc = dup(STDIN_FILENO);
+	while (g_signal == IN_HD)
 	{
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, handler_sigint_hd);
-   		line_heredoc = readline(" > ");
+		line_heredoc = readline(" > ");
 		cmd->line_count++;
+		if (!line_heredoc ) //CTRLD
+		{
+			ft_heredoc_input_is_null(cmd, i);
+			break;
+		}
 		if(line_heredoc != NULL)
 		{
 			if(ft_strcmp(line_heredoc, cmd->heredocs[i]) == 0)
@@ -64,13 +58,16 @@ void ft_get_EOF(t_cmd *cmd, size_t i, char *line_heredoc, int fd)
 			}
 			ft_fill_heredocument(fd, line_heredoc);
 		}
-		if (!line_heredoc) //CTRLD
-		{
-			ft_heredoc_input_is_null(cmd, i);
-			break;
-		}
 	ft_add_history_and_free_rl(line_heredoc);
 	}
+	if (g_signal == HD_STOP) //CTRLD
+	{
+		ft_putstr_fd("\n", 0);
+		dup2(fd_heredoc, 0);
+		close(fd_heredoc);
+		return;
+	}
+	close(fd_heredoc);
 }
 
 int ft_open_heredoc_hidden_file(int mode, int fd)
