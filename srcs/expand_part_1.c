@@ -171,10 +171,7 @@ size_t ft_get_end_expand(char *str, t_expand *exp, char **expand, size_t i)
 		}
 		else if (str[i] == '\"' || str[i] == '\'') // &&quoting rule  ==2 //$"VAR" // "$" "$'" ou bon"$"
 			{
-				if(exp->quoting_rule == 0)
-					exp->flag_dollar_to_remove = 1;
 				*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
-
 			}
 		else if (str[i] == '$' && str[i - 1] != '$') //$VAR$  ou $V$
 			*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
@@ -220,11 +217,16 @@ void ft_get_start_expand(char *str, t_expand *exp, size_t i, char *buffer)
 	char 	*invalidators[] = {"+", ",", "}", "]", "~", "=", NULL};
 
 	exp->flag_expand_here = 1;
+	
 	if (str[i + 1] == '\0' || ft_is_expand_unvalidated(invalidators, str[i + 1]) == 1) //|| str[i + 1] ==  '\"')//cas du ls >VAR$
 		{
 			exp->flag_expand_here = 0;
 			buffer[exp->j] = str[i];
 			exp->j = exp->j + 1;
+		}
+	if (str[i + 1] == '"' && exp->quoting_rule == 0) //|| str[i + 1] ==  '\"')//cas du $"" ou $"hola"
+		{
+			exp->flag_dollar_to_remove = 1;
 		}
 	if (exp->flag_expand_here == 1)
 		{

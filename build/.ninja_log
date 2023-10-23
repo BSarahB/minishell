@@ -146,3 +146,8 @@
 34	201	1698088235156550875	my_minishell	3da99bfc56e2540a
 1	51	1698088359336539877	CMakeFiles/my_minishell.dir/srcs/expand_part_1.c.o	fd72e88d0b2ad2e8
 52	222	1698088359509539858	my_minishell	3da99bfc56e2540a
+1	48	1698089282128500366	CMakeFiles/my_minishell.dir/srcs/expand_part_1.c.o	fd72e88d0b2ad2e8
+49	235	1698089282307500371	my_minishell	3da99bfc56e2540a
+0	32	1698089558104527132	CMakeFiles/my_minishell.dir/srcs/get_path.c.o	842455acc4b2ef0e
+0	57	1698089558128527135	CMakeFiles/my_minishell.dir/srcs/expand_part_1.c.o	fd72e88d0b2ad2e8
+57	242	1698089558304527157	my_minishell	3da99bfc56e2540a

@@ -66,6 +66,8 @@ char	*ft_get_var(char **envp, char *expand, t_expand *exp)
 		ft_update_string(&expand, var);
 		return(var);
 	}
+	if(exp->flag_dollar_to_remove == 1)
+		exp->flag_dollar_to_remove = 0;
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], (&expand[1]), n ) == 0)
