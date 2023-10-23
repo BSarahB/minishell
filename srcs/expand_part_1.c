@@ -156,6 +156,8 @@ size_t ft_get_end_expand(char *str, t_expand *exp, char **expand, size_t i)
 	{	
 		if(exp->quoting_rule == 2 && str[i - 1] != '$' && (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)))//- des qu on rencontre un espace "$VAR l"
 			*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
+		else if(exp->quoting_rule == 2 && str[i - 1] == '$' && (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)))//- des qu on rencontre un espace "$ "
+			*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
 		else if (str[i -1] == '$' && ft_isdigit(str[i]) == 1) //"$2000"
 			*expand = ft_get_scope_expand(i, exp->start_expand_pos, str, &(exp->flag_expand_here));
 		else if (str[i -1] == '$' && ft_isunderscore(str, i)> 0) //"$2000"

@@ -60,7 +60,7 @@ char	*ft_get_var(char **envp, char *expand, t_expand *exp)
 	equal[0] = '=';
 	equal[1] = 0;
 	expand = ft_update_string(&expand, ft_strjoin(expand, equal));
-	if(ft_strcmp(expand,"$=") == 0 && (exp->quoting_rule_adequate == 1 || (exp->quoting_rule == 2 && exp->quoting_rule_adequate == 0))) //il faut que QR == 2
+	if(((ft_strcmp(expand,"$=") == 0) && exp->quoting_rule_adequate == 1) || ( (ft_strcmp(expand,"$=") == 0) && exp->quoting_rule == 2 )) //|| ( (ft_strcmp(expand,"$ =") == 0) && exp->quoting_rule == 2 &&exp->quoting_rule_adequate == 0 ))//&& exp->quoting_rule_adequate == 0))//il faut que QR == 2
 	{
 		var = ft_strdup("$");
 		ft_update_string(&expand, var);
