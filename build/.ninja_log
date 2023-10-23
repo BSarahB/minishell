@@ -101,3 +101,5 @@
 29	213	1698044147883841077	my_minishell	3da99bfc56e2540a
 0	31	1698044433559843970	CMakeFiles/my_minishell.dir/srcs/heredoc_interaction.c.o	57a2f061be865dd1
 32	212	1698044433732843971	my_minishell	3da99bfc56e2540a
+1	28	1698044916512845867	CMakeFiles/my_minishell.dir/srcs/heredoc_interaction.c.o	57a2f061be865dd1
+29	202	1698044916678845867	my_minishell	3da99bfc56e2540a

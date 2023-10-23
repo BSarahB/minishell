@@ -94,6 +94,6 @@ void	ft_heredoc_interaction(t_cmd *cmd, size_t i, int mode)
 	fd = ft_open_heredoc_hidden_file(mode, fd);
 
 	ft_get_EOF(cmd, i, line_heredoc, fd);
-	if(fd)
+	if(fd || fd == -1)
 		close(fd);
 }
