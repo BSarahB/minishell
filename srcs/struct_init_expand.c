@@ -26,7 +26,6 @@ t_expand	*ft_struct_init_expand(t_expand **exp)
 	(*exp)->start_expand_pos = 0;
 	(*exp)->end_expand_pos = 0;
 	(*exp)->flag_dollar_quest = 0;
-
-	
+	(*exp)->flag_dollar_to_remove = 0;
 	return(*exp);
 }

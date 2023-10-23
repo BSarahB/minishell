@@ -169,8 +169,13 @@ size_t ft_get_end_expand(char *str, t_expand *exp, char **expand, size_t i)
 				exp->flag_expand_here = 1;
 			}
 		}
-		else if (str[i] == '\"' || str[i] == '\'') //$"VAR" // "$" "$'" ou bon"$"
-			*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
+		else if (str[i] == '\"' || str[i] == '\'') // &&quoting rule  ==2 //$"VAR" // "$" "$'" ou bon"$"
+			{
+				if(exp->quoting_rule == 0)
+					exp->flag_dollar_to_remove = 1;
+				*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
+
+			}
 		else if (str[i] == '$' && str[i - 1] != '$') //$VAR$  ou $V$
 			*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
 		else if(str[i] == '$' && str[i -1] == '$' && str[i + 1] == '\0') //$VAR$$\0
@@ -281,6 +286,7 @@ int ft_is_expand_here(t_list *lst_token, char *str, char *buffer, char *envp[])
 				{
 					// printf("expand = %s \n", expand);
 					expand = ft_substitute(expand, envp, exp);
+
 					if(expand != NULL)
 						{
 							ft_memcpy(&buffer[exp->j], expand, ft_strlen(expand));

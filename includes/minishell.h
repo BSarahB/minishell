@@ -127,7 +127,7 @@ typedef struct s_expand
 	size_t 	start_expand_pos;
 	size_t	end_expand_pos;
 	int		flag_dollar_quest;
-
+	int		flag_dollar_to_remove;
 } t_expand;
 
 typedef struct s_list
