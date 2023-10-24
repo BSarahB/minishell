@@ -209,6 +209,15 @@ size_t ft_get_end_expand(char *str, t_expand *exp, char **expand, size_t i)
 				*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
 
 		}
+		else if ((ft_is_alphanum(str[i]) == 0 ) && (str[i] != '?' && str[i+1] == '\0')) //$VAR+  on empeche le $? de rentrer dans cette condition. on veut que le $? aille dans la derniere condition avec stri+1 est '\0' 
+		{
+			
+			if(!(str[i] == '$' && str[i -1] == '$')) // cs de $VAR$$$
+				*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
+			else //$VAR- $VAR+ $VAR ? ! $VAR@ $VAR% tout caractere qui nest pas alphanumeriq
+				*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
+
+		}
 	
 	
 		else if (str[i + 1] == '\0') //cas de $USER ou
@@ -232,7 +241,7 @@ void ft_get_start_expand(char *str, t_expand *exp, size_t i, char *buffer)
 			buffer[exp->j] = str[i];
 			exp->j = exp->j + 1;
 		}
-	if (str[i + 1] == '"' && (exp->quoting_rule == 0 || (exp->quoting_rule == 2 && exp->quoting_rule_adequate == 1))) //|| str[i + 1] ==  '\"')//cas du $"" ou $"hola"
+	if (((str[i + 1] == '\"' || str[i+1] == '\'') && exp->quoting_rule == 0) || (exp->quoting_rule == 2 && exp->quoting_rule_adequate == 1)) //|| str[i + 1] ==  '\"')//cas du $"" ou $"hola"
 		{
 			exp->flag_dollar_to_remove = 1;
 		}
@@ -276,7 +285,21 @@ void	ft_check_expand_for_tag_ambigeous(char *expand, t_expand *exp, t_list *lst_
 	}
 }
 
-
+void ft_check_dollar_to_remove_before_sq(char *str,t_expand *exp, int i)
+{
+	int flag_expand_here;
+	
+	flag_expand_here = 1;
+	if (((str[i + 1] == '\"' || str[i+1] == '\'') && exp->quoting_rule == 0) || (exp->quoting_rule == 1 && exp->quoting_rule_adequate == 1)) 
+		{
+			exp->flag_dollar_to_remove = 1;
+		}
+	if (exp->flag_expand_here == 1)
+		{
+			exp->start_expand_pos = i;
+			exp->flag_expand_in_token = 1;
+		}
+}
 int ft_is_expand_here(t_list *lst_token, char *str, char *buffer, char *envp[])
 {
 	t_expand 	*exp;
@@ -308,11 +331,18 @@ int ft_is_expand_here(t_list *lst_token, char *str, char *buffer, char *envp[])
 									exp->flag_dollar_quest = 0;
 									i++;
 								}
+								if(exp->quoting_rule_adequate == 1 && exp->quoting_rule ==2)
+									{
+										exp->quoting_rule_adequate = 0;
+										exp->quoting_rule = 0;
+									}
 						}
 					free(expand);
 					expand = NULL;
 					
 				}
+		if (str[i] == '$' && exp->quoting_rule == 1 && exp->flag_expand_here != 1)
+			ft_check_dollar_to_remove_before_sq(str, exp, i);
 		if (str[i] == '$' && exp->quoting_rule != 1 && exp->flag_expand_here != 1) //&& que $ n est pas suivi de '\0' ->suivi de \0 signifie que ce n est pas un expand , mais simplement un caractere $
 			ft_get_start_expand(str, exp, i, buffer);
 		else
@@ -327,15 +357,11 @@ int ft_is_expand_here(t_list *lst_token, char *str, char *buffer, char *envp[])
 						exp->quoting_rule_adequate = ft_get_token_quoting_rule2(str, i, &(exp->quoting_rule), &(exp->quoting_rule_adequate));
 						exp->flag_dollar_quest = 0;
 					}
-				else if((str[i] == '\'' || str[i] == '\"') && exp->quoting_rule == 2 && exp->quoting_rule_adequate == 1)
+				else if((str[i] == '\'' || str[i] == '\"') && (exp->quoting_rule == 2 || exp->quoting_rule == 1) && exp->quoting_rule_adequate == 1)
 				{
-					exp->quoting_rule_adequate = ft_get_token_quoting_rule2(str, i, &(exp->quoting_rule), &(exp->quoting_rule_adequate));
-					/*	if((exp->quoting_rule == 1 || exp->quoting_rule == 2) && exp->quoting_rule_adequate == 1)
-							{
-								exp->quoting_rule = 0;
-								exp->quoting_rule_adequate = 0;
-							}
-							*/
+					exp->quoting_rule_adequate = ft_get_token_quoting_rule2b(str, i, &(exp->quoting_rule), &(exp->quoting_rule_adequate));
+				
+
 				}
 			}
 		i++;
