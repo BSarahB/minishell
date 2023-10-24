@@ -515,13 +515,15 @@ void				ft_too_many_arg_msg(t_simpleCmd *simpleCmd);
 void				ft_error_msg6(char *infile);
 
 //exit code
-t_listenvp  *ft_get_exit_status(t_listenvp **alst, char *key, int exit_status);
+t_listenvp  		*ft_get_exit_status(t_listenvp **alst, char *key, int exit_status);
 void				ft_check_tab_envp_removed(char **tab);
 
 //Signaux
 void 				handler_sigint(int num);
 void				ft_set_exit_code_in_lst_envp(void *lst_envp, int flag);
 int 				ft_get_token_quoting_rule2b(char *str, size_t i, int *quoting_rule, int *quoting_rule_adequate);
-
+int					ft_atoi(char *str);
+char				*ft_get_var_dollar_quest(char *key_value);
+int 				ft_get_exit_status_atoi(t_listenvp *lst_envp);
 
 #endif

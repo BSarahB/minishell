@@ -35,6 +35,5 @@ t_listenvp  *ft_get_exit_status(t_listenvp **alst, char *key, int exit_status)
         }        
         alst = &(*alst)->next;
     }
-  //  ft_aff_list_envp_sur_char_content(tmp);
     return(tmp);
 }

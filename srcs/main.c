@@ -14,13 +14,91 @@
 
 int	g_signal;
 
+
+
+char	*ft_get_var_dollar_quest(char *key_value)
+{
+	char	**var_content;
+	char 	*var;
+	int		i;
+
+	i = 0;
+	var = NULL;
+	var_content = NULL;
+	
+	var_content = ft_split(key_value, '=');
+	if(var_content == NULL || var_content[0] == NULL)
+		{
+			ft_free_tab(&var_content);
+			return(NULL);
+		}
+	var = ft_strdup(var_content[1]);
+	ft_free_tab(&var_content);
+	return (var);
+}
+
+
+
+int	ft_atoi(char *str)
+{
+	int	result;
+	int	sign;
+	char *tmp;
+
+	tmp = str;
+	result = 0;
+	sign = 1;
+	while (*str == ' ' || *str == '\t' || *str == '\n' \
+		 || *str == '\v' || *str == '\f')
+		str++;
+	if (*str == '-')
+		sign = -1;
+	if (*str == '-' || *str == '+')
+		str++;
+	while (*str <= '9' && *str >= '0')
+	{
+		result = result * 10 + *str - '0';
+		str++;
+	}
+	result = sign * result;
+	return (result);
+}
+
+
+
+int 	ft_get_exit_status_atoi(t_listenvp *lst_envp)
+{
+    int    		exit_status_int;
+    t_listenvp 	*tmp;
+	char 		*val;
+
+	val = NULL;
+	exit_status_int = 0;
+    tmp = lst_envp;
+    while (tmp)
+    {
+        if (ft_strncmp((tmp)->key_value, "?=", 2) == 0)
+        {
+			val = ft_get_var_dollar_quest(tmp->key_value);
+            exit_status_int = ft_atoi(val);
+			ft_free_struct_str(&val);
+            return(exit_status_int);
+        }        
+        tmp = tmp->next;
+    }
+    return(exit_status_int);
+}
+
 void ft_set_exit_code_in_lst_envp(void *lst_envp, int flag)
 {
-	(void)flag;
-	(void)lst_envp;
+	static t_listenvp *ptr;
+
 	//on recupere l adresse de lst_envp
-	//if(flag == 1)
-	//	lst_envp = 
+	if(flag == 1)
+		ptr = lst_envp;
+	if(g_signal == HD_STOP)
+		ptr = ft_get_exit_status(&ptr,"?=", 130);
+	
 
 }
 
@@ -47,7 +125,7 @@ void handler_sigint(int num)
 	if(g_signal == HD_STOP)
 	{
 		ft_putstr_fd("\n", 0);
-		//ft_set_Exit_code  a 130;
+		ft_set_exit_code_in_lst_envp(NULL, 130);
 		dup2(fd_heredoc , STDIN_FILENO);
 		close(fd_heredoc);
 		return;
@@ -119,6 +197,16 @@ int main(int argc, char *argv[], char *envp[])
 		if (!line) //CTRL D
 			{
 				ft_putstr_fd("exit\n",1);
+				if(data_env)
+				{
+					if(data_env->lst_envp)
+					{
+						exit_status = ft_get_exit_status_atoi(data_env->lst_envp);
+						printf("exit_status : %d", exit_status);
+					}
+				}
+			//	else
+			//		exit_status = 0;
 				break;
 			}
 		add_history(line);
@@ -141,6 +229,7 @@ int main(int argc, char *argv[], char *envp[])
 					ft_struct_init_data_env(&data_env);//_env(&data_env);
 					data_env->lst_envp = ft_get_lst_envp(envp);
 					data_env->lst_envp_d = ft_get_lst_envp(envp);
+					ft_set_exit_code_in_lst_envp(data_env->lst_envp, 1);
 					flag_save_envp = 0;
 					envp_tab = ft_lst_to_tab(data_env->lst_envp);
 					ft_expand_and_retokenize(lst_token, envp_tab);
