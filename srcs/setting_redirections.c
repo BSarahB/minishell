@@ -34,21 +34,23 @@ int ft_is_flag_n(char *str)
 		return (flag);
 	}
 	if (str[i] != '-')
-		return (flag); // 0
+		return (0); // 0
 	if (str[i] == '-')
 		i++; // 0
+	if(str[i] == '\0')
+		return (0);
 	while (str[i])
 	{
 		if (str[i] != 'n')
 		{
 			// printf("flag n : %d\n", flag);
+			
 
 			return (flag);
 		}
 		i++;
 	}
-	flag = 1;
-	// printf("flag n : %d\n", flag);
+	printf("flag n : %d\n", flag);
 	return (1);
 }
 

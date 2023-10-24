@@ -288,7 +288,7 @@ void	ft_check_expand_for_tag_ambigeous(char *expand, t_expand *exp, t_list *lst_
 void ft_check_dollar_to_remove_before_sq(char *str,t_expand *exp, int i)
 {
 	int flag_expand_here;
-	
+
 	flag_expand_here = 1;
 	if (((str[i + 1] == '\"' || str[i+1] == '\'') && exp->quoting_rule == 0) || (exp->quoting_rule == 1 && exp->quoting_rule_adequate == 1)) 
 		{
@@ -331,8 +331,8 @@ int ft_is_expand_here(t_list *lst_token, char *str, char *buffer, char *envp[])
 									exp->flag_dollar_quest = 0;
 									i++;
 								}
-								if(exp->quoting_rule_adequate == 1 && exp->quoting_rule ==2)
-									{
+								if(exp->quoting_rule_adequate == 1 && (exp->quoting_rule ==2 || exp->quoting_rule ==1)) //cas du $""<-$"" ou $''<-$'' on a attent la 2 eme quote on reset a 0
+									{ 
 										exp->quoting_rule_adequate = 0;
 										exp->quoting_rule = 0;
 									}
