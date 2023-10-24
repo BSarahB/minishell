@@ -66,12 +66,8 @@ int ft_get_token_quoting_rule2(char *str, size_t i, int *quoting_rule, int *quot
 	char c;
 
 	c = str[i];
-/*	if((*quoting_rule == 1 || *quoting_rule == 2) && *quoting_rule_adequate == 1)
-	{
-		*quoting_rule = 0;
-		*quoting_rule_adequate = 0;
-	}
-	*/
+
+	
 	if (*quoting_rule == 0 && c == '\"' && str[i + 1] != '\0')
 		*quoting_rule = 2;
 	else if (c == '\"' && *quoting_rule == 2)

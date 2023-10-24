@@ -177,7 +177,14 @@ size_t ft_get_end_expand(char *str, t_expand *exp, char **expand, size_t i)
 			*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
 		else if(str[i] == '$' && str[i -1] == '$' && str[i + 1] == '\0') //$VAR$$\0
 			*expand = ft_get_scope_expand(i, exp->start_expand_pos, str, &(exp->flag_expand_here));	
-		else if (ft_is_alphanum(str[i]) == 0 && (str[i] != '?' && str[i+1] != '\0')) //$VAR+  on empeche le $? de rentrer dans cette condition. on veut que le $? aille dans la derniere condition avec stri+1 est '\0' 
+		
+		else if (str[i] == '?' && str[i + 1] != '\0' && str[i+ 1] != '$') //cas de $?m
+		{
+			*expand = ft_get_scope_expand(i, exp->start_expand_pos, str, &(exp->flag_expand_here));
+			exp->flag_expand_here = 1; //flag_dollar_? = 1
+			exp->flag_dollar_quest = 1;
+		}
+		else if ((ft_is_alphanum(str[i]) == 0 ) && (str[i] != '?' && str[i+1] != '\0')) //$VAR+  on empeche le $? de rentrer dans cette condition. on veut que le $? aille dans la derniere condition avec stri+1 est '\0' 
 		{
 			if(ft_isunderscore(str, i) > 0) //$VAR_
 			{
@@ -188,25 +195,26 @@ size_t ft_get_end_expand(char *str, t_expand *exp, char **expand, size_t i)
 					exp->flag_expand_here = 1;
 				}
 			}
-			else if(!(str[i] == '$' && str[i -1] == '$' && str[i] == '?')) // cs de $?
+		/*
+			else if(!(str[i] == '$' && str[i -1] == '$' && str[i] == '?')) // cs de $? //on peut le supprimer car on ne rentrera jamais ds cette condition puisque str[i]!= '?'
 				{
 					*expand = ft_get_scope_expand(i, exp->start_expand_pos, str, &(exp->flag_expand_here));
 					exp->flag_expand_here = 1;
 
 				}
+				*/
 			else if(!(str[i] == '$' && str[i -1] == '$')) // cs de $VAR$$$
 				*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
+			else //$VAR- $VAR+ $VAR ? ! $VAR@ $VAR% tout caractere qui nest pas alphanumeriq
+				*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
+
 		}
-		else if (str[i + 1] == '\0') //cas de $USER ou $V
+	
+	
+		else if (str[i + 1] == '\0') //cas de $USER ou
 		{
 			*expand = ft_get_scope_expand(i, exp->start_expand_pos, str, &(exp->flag_expand_here));
 			exp->flag_expand_here = 1;
-		}
-		else if (str[i] == '?' && str[i + 1] != '\0' && str[i+ 1] != '$') //cas de $?m
-		{
-			*expand = ft_get_scope_expand(i, exp->start_expand_pos, str, &(exp->flag_expand_here));
-			exp->flag_expand_here = 1; //flag_dollar_? = 1
-			exp->flag_dollar_quest = 1;
 		}
 	}
 	return(i);	
@@ -224,7 +232,7 @@ void ft_get_start_expand(char *str, t_expand *exp, size_t i, char *buffer)
 			buffer[exp->j] = str[i];
 			exp->j = exp->j + 1;
 		}
-	if (str[i + 1] == '"' && exp->quoting_rule == 0) //|| str[i + 1] ==  '\"')//cas du $"" ou $"hola"
+	if (str[i + 1] == '"' && (exp->quoting_rule == 0 || (exp->quoting_rule == 2 && exp->quoting_rule_adequate == 1))) //|| str[i + 1] ==  '\"')//cas du $"" ou $"hola"
 		{
 			exp->flag_dollar_to_remove = 1;
 		}
@@ -313,6 +321,21 @@ int ft_is_expand_here(t_list *lst_token, char *str, char *buffer, char *envp[])
 				{
 					buffer[exp->j] = str[i];
 					exp->j++;
+				}
+				if((str[i] == '\'' || str[i] == '\"') && exp->flag_dollar_quest == 1)
+					{
+						exp->quoting_rule_adequate = ft_get_token_quoting_rule2(str, i, &(exp->quoting_rule), &(exp->quoting_rule_adequate));
+						exp->flag_dollar_quest = 0;
+					}
+				else if((str[i] == '\'' || str[i] == '\"') && exp->quoting_rule == 2 && exp->quoting_rule_adequate == 1)
+				{
+					exp->quoting_rule_adequate = ft_get_token_quoting_rule2(str, i, &(exp->quoting_rule), &(exp->quoting_rule_adequate));
+					/*	if((exp->quoting_rule == 1 || exp->quoting_rule == 2) && exp->quoting_rule_adequate == 1)
+							{
+								exp->quoting_rule = 0;
+								exp->quoting_rule_adequate = 0;
+							}
+							*/
 				}
 			}
 		i++;
