@@ -65,8 +65,10 @@ int		ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token)
 {
 	t_list *tmp;
 
-	if(lst_token == NULL || *lst_token->content == '#') //cas de l entree
-		return(1);//echo $? 0
+	if(lst_token == NULL)
+		return(-13);//ici il ne faut pas interferer car on est censes renvoyer le echo $? precedentdonc ne rien venir modifier si -13
+	if(*lst_token->content == '#') //cas de l entree
+		return(-12);//echo $? 0
 	tmp = lst_token;
 
 	while(tmp)
@@ -74,7 +76,7 @@ int		ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token)
 		if((ft_strcmp(tmp->content, ":") == 0))
 			return(ft_check_double_points_token(tmp));
 		if((ft_strcmp(tmp->content, "#") == 0))
-			return(-1);//TODO ft_modify_lst_token()
+			return(2);//TODO ft_modify_lst_token()
 		
 		//: doit etre un token 
 		if((ft_strcmp(tmp->content, "<") == 0) || (ft_strcmp(tmp->content, ">")) == 0 || (ft_strcmp(tmp->content, "<<") == 0) || (ft_strcmp(tmp->content, ">>") == 0))
@@ -82,13 +84,13 @@ int		ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token)
 				if(tmp->next == NULL)
 				{
 					ft_error_msg2("`newline'");
-					return(1);
+					return(2);
 					//break;
 				}
 				if((ft_strcmp(tmp->next->content, "<") == 0) || (ft_strcmp(tmp->next->content, ">")) == 0 || (ft_strcmp(tmp->next->content, "<<") == 0) || (ft_strcmp(tmp->next->content, ">>") == 0))
 				{
 					ft_error_msg2(tmp->next->content);
-					return(1);
+					return(2);
 					//break;
 				}
 			}

@@ -168,12 +168,16 @@ int main(int argc, char *argv[], char *envp[])
 	t_list *lst_token;
 	t_data *data;
 	int	exit_status;
+	int exit_syntax_error;
+	int exit_syntax;
 	int flag_save_envp;
 	char **envp_t;
 	char **envp_tab;
 	t_data_env *data_env;
 
 	exit_status = 0;
+	exit_syntax_error = 0;
+	exit_syntax = 0;
 	line = NULL;
 	cmd = NULL;
 	data_env = NULL;
@@ -210,7 +214,8 @@ int main(int argc, char *argv[], char *envp[])
 		ft_check_input_cases_for_return_empty_prompt(line);
 		data = ft_tokenize_line(line);
 		lst_token = data->lst_token;
-		if(ft_check_bash_syntax_error_caracteres_volee(lst_token) == 0)
+		exit_syntax_error = ft_check_bash_syntax_error_caracteres_volee(lst_token);
+		if(exit_syntax_error == 0)
 		{	
 			if(flag_save_envp == 0)
 			{
@@ -245,6 +250,15 @@ int main(int argc, char *argv[], char *envp[])
 			}
 			
 		}
+		else
+		{
+				if(exit_syntax_error > 0)
+					exit_syntax = exit_syntax_error;
+				//else
+				//	exit_status = exit_syntax_error;
+
+		}
+		
 		ft_free(cmd, lst_token, data, line);
 		ft_free_struct_t_cmd_only(&cmd);
 		if(envp_t != NULL)

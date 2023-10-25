@@ -99,8 +99,13 @@ void ft_regular_simpleCmd(t_settings *set, t_cmd *cmd)
 
     ft_create_pipe2(set);
      //+++ ainsi au prochain tour de boucle, fdin (et donc la future entree standart) sera DEJA parametree pour preparer le fdin du processus suivant qui executera la commande du pipe suivant et sera verra donc deja redirigee son entree standard sur la sortie du tube soit pip[0] pour lire a partir de pip[0] ce qui aura ete jete dans pip[1](cmd actuelle)
-    if ((cmd->simpleCmds[set->i]->nb_of_tokens_in_simpleCmd == 1) && (cmd->simpleCmds[set->i]->infile == NULL) && (ft_strcmp(cmd->simpleCmds[set->i]->cmd_and_args[0], "cat") == 0)) //&& (cmd->simpleCmds[set->i]->infile == NULL)
-        close(set->pip[0]);
+    if ((cmd->simpleCmds[set->i]->nb_of_tokens_in_simpleCmd == 1) && (cmd->simpleCmds[set->i]->infile == NULL) && (ft_strcmp(cmd->simpleCmds[set->i]->cmd_and_args[0], "cat") == 0))//&& (cmd->simpleCmds[set->i]->infile == NULL)
+        {
+            if ((ft_strcmp(cmd->simpleCmds[set->i + 1]->cmd_and_args[0], "wc") != 0))
+                close(set->pip[0]);
+            else
+                 close(set->pip[1]);
+        }
    
     if (cmd->simpleCmds[set->i]->outfile != NULL && (cmd->simpleCmds[set->i]->nofile == 0))
 	{
