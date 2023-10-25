@@ -20,9 +20,7 @@ char	*ft_get_var_dollar_quest(char *key_value)
 {
 	char	**var_content;
 	char 	*var;
-	int		i;
 
-	i = 0;
 	var = NULL;
 	var_content = NULL;
 	
@@ -43,9 +41,7 @@ int	ft_atoi(char *str)
 {
 	int	result;
 	int	sign;
-	char *tmp;
 
-	tmp = str;
 	result = 0;
 	sign = 1;
 	while (*str == ' ' || *str == '\t' || *str == '\n' \

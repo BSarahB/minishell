@@ -287,18 +287,15 @@ void	ft_check_expand_for_tag_ambigeous(char *expand, t_expand *exp, t_list *lst_
 
 void ft_check_dollar_to_remove_before_sq(char *str,t_expand *exp, int i)
 {
-	int flag_expand_here;
 
-	flag_expand_here = 1;
 	if (((str[i + 1] == '\"' || str[i+1] == '\'') && exp->quoting_rule == 0) || (exp->quoting_rule == 1 && exp->quoting_rule_adequate == 1)) 
 		{
 			exp->flag_dollar_to_remove = 1;
 		}
-	if (exp->flag_expand_here == 1)
-		{
-			exp->start_expand_pos = i;
-			exp->flag_expand_in_token = 1;
-		}
+
+	exp->start_expand_pos = i;
+	exp->flag_expand_in_token = 1;
+
 }
 int ft_is_expand_here(t_list *lst_token, char *str, char *buffer, char *envp[])
 {

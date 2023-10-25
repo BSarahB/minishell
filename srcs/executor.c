@@ -74,7 +74,7 @@ int ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 		close(set->saveout);
 		return(exec_return);
 	}
-
+	
 	close(set->savein);
 	close(set->saveout);
 
