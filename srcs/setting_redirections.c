@@ -153,6 +153,8 @@ void ft_child_process(t_settings *set, t_cmd *cmd, char **envp_t, t_data *data, 
 	signal(SIGQUIT, handler_sigquit);
 	if (cmd->simpleCmds[set->i]->is_builtin == 0)
 		exec_return = ft_execute_cmd(cmd, (int)set->i, envp_t, set);
+	//si exec_return == 0 comme pour une commande vide
+
 	if (exec_return == -1 && (errno == 2 || errno == 13)) //cmd not found
 	{		//set->errnum = 127;
 		if ((set->i < cmd->nb_of_simpleCmds) && (set->i != (cmd->nb_of_simpleCmds) - 1))
@@ -327,6 +329,8 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char **envp_t, t_data *data, c
 	exit_status = ft_exit_status(set->ret, set);
 	if(set->i >= 1 && cmd->simpleCmds[set->i -1]->nofile == 1)
 		exit_status =  cmd->simpleCmds[set->i -1]->exit_code;
+	if(exit_status == 141)
+		exit_status = 0;
 	printf("exit_status : %d\n", exit_status);
 	data_env->lst_envp = ft_get_exit_status(&data_env->lst_envp, "?=", exit_status);
 	ft_restore_original_in_and_out(set);	//restauration des sauvegardes des vrais in et out

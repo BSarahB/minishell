@@ -72,12 +72,26 @@ int ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 	{
 		close(set->savein);
 		close(set->saveout);
+		cmd->simpleCmds[set->i]->exit_code = 0;
 		return(exec_return);
 	}
 	
 	close(set->savein);
 	close(set->saveout);
 
+	close(set->pip[0]);
+
+/*
+	if(set->pip_exists == 1) // a | b
+	{
+		if(set->pip[0])
+			close(set->pip[0]);
+		if(set->pip[1])
+			close(set->pip[1]); //close ne fait pas d erreur d apres les tests ca n a pas l air de deranger l execuion du prograame du coup on se permet ici de tt fermer
+		
+	}
+	*/
+	
 	if (execve(cmd->simpleCmds[i]->cmd_and_args[0], cmd->simpleCmds[i]->cmd_and_args, envp) == -1)
 			exec_return = ft_execve_join(cmd, envp, cmd->simpleCmds[i]->abs_cmd_and_args);
 
