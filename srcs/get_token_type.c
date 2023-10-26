@@ -84,8 +84,8 @@ int	ft_get_token_type_great_or_greatgreat(char *str, t_list *token, t_data *data
 
 int ft_get_token_type(char *str, t_list *token, t_data *data, size_t i, char *line)
 {
-	if ((*str == '&') && (*(str - 1) == '>'))
-		return (GREAT_AND_AMPERSAND);
+	//if ((*str == '&') && (*(str - 1) == '>'))
+	//	return (GREAT_AND_AMPERSAND);
 	if (token->quoting_rule != single_quote && token->quoting_rule != double_quote)
 	{
 		if (*str == '>')
@@ -94,8 +94,6 @@ int ft_get_token_type(char *str, t_list *token, t_data *data, size_t i, char *li
 			return(ft_get_token_type_less_or_lessless(str, token, data, i, line));
 		if (*str == '|')
 			return(ft_get_token_type_pipe(token, data, i, line));
-		if (*str == '&')
-			return (AMPERSAND);
 	}
 	return (0);
 }

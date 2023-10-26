@@ -64,6 +64,38 @@ int ft_check_double_points_token(t_list *tmp)
 
 
 
+int ft_ampersand(t_list *tmp)
+{
+	if(ft_strcmp(tmp->content, "&") == 0)
+	{
+		if(tmp->next == NULL)
+		{
+			ft_error_msg2b(tmp->content);
+			return(2);
+		}
+		if((ft_strcmp(tmp->next->content, "&") == 0))
+		{
+			ft_error_msg2c(tmp->content);
+			return(2);
+		}
+	}
+	if(ft_strcmp(tmp->content, "&&") == 0)
+	{
+		if(tmp->next == NULL)
+		{
+			ft_error_msg2b(tmp->content);
+			return(2);
+		}
+		if((ft_strcmp(tmp->next->content, "&") == 0))
+		{
+			ft_error_msg2c(tmp->content);
+			return(2);
+		}
+	}
+	return(0);
+}
+
+
 int ft_pipe(t_list *tmp)
 {
 	if(ft_strcmp(tmp->content, "|") == 0)
@@ -76,11 +108,6 @@ int ft_pipe(t_list *tmp)
 		if((ft_strcmp(tmp->next->content, "|") == 0))
 		{
 			ft_error_msg2c(tmp->content);
-			return(2);
-		}
-		if(tmp->next)
-		{
-			ft_error_msg2b(tmp->content);
 			return(2);
 		}
 	}
@@ -144,6 +171,8 @@ int		ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token)
 			return(2);
 		if(ft_pipe(tmp))
 			return(2);
+		if(ft_ampersand(tmp))
+			return(2);	
 		if((ft_strcmp(tmp->content, ":") == 0))
 			return(ft_check_double_points_token(tmp));
 		if((ft_strcmp(tmp->content, "#") == 0))
