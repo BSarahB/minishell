@@ -50,25 +50,57 @@ int ft_check_double_points_token(t_list *tmp)
 		}
 		if(tmp->prev)
 		{
-			if(ft_strcmp(tmp->prev->content, "|") != 0 && ft_strcmp(tmp->prev->content, "!") != 0) //&& (ft_strcmp(tmp->prev->content, "!") != 0))
-				return(0);
 			if(ft_strcmp(tmp->prev->content, "!@") == 0)
 				{
-					ft_error("minishell: !@: event not found");
-					return(1);
+					ft_error("minishell: !@: event not found\n");
+					return(-12);
 				}
+			if(ft_strcmp(tmp->prev->content, "|") != 0 && ft_strcmp(tmp->prev->content, "!") != 0) //&& (ft_strcmp(tmp->prev->content, "!") != 0))
+				return(0);
+			
 		}
 		return(-12);//pour return 0 je mets -12 
 }
+
+
+
+int ft_pipe(t_list *tmp)
+{
+	if(ft_strcmp(tmp->content, "|") == 0)
+	{
+		if(tmp->next == NULL)
+		{
+			ft_error_msg2b(tmp->content);
+			return(2);
+		}
+		if((ft_strcmp(tmp->next->content, "|") == 0))
+		{
+			ft_error_msg2c(tmp->content);
+			return(2);
+		}
+		if(tmp->next)
+		{
+			ft_error_msg2b(tmp->content);
+			return(2);
+		}
+	}
+	return(0);
+}
+
 
 
 int ft_chevron(t_list *tmp)
 {
 	if((ft_strcmp(tmp->content, "<") == 0) || (ft_strcmp(tmp->content, ">")) == 0 || (ft_strcmp(tmp->content, "<<") == 0) || (ft_strcmp(tmp->content, ">>") == 0))
 	{
-		if(tmp->next == NULL || (ft_strcmp(tmp->next->content, "|") == 0))
+		if(tmp->next == NULL)
 		{
 			ft_error_msg2("`newline'");
+			return(2);
+		}
+		if (ft_strcmp(tmp->next->content, "|") == 0)
+		{
+			ft_error_msg2b(tmp->next->content);
 			return(2);
 		}
 		if((ft_strcmp(tmp->next->content, "<") == 0) || (ft_strcmp(tmp->next->content, ">")) == 0 || (ft_strcmp(tmp->next->content, "<<") == 0) || (ft_strcmp(tmp->next->content, ">>") == 0))
@@ -109,6 +141,8 @@ int		ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token)
 		if(ft_exclamation(tmp))
 			return(1);
 		if(ft_chevron(tmp))
+			return(2);
+		if(ft_pipe(tmp))
 			return(2);
 		if((ft_strcmp(tmp->content, ":") == 0))
 			return(ft_check_double_points_token(tmp));

@@ -527,5 +527,6 @@ char				*ft_get_var_dollar_quest(char *key_value);
 int 				ft_get_exit_status_atoi(t_listenvp *lst_envp);
 //bash syntax error
 void				ft_error_msg2b(char *str);
+void				ft_error_msg2c(char *str);
 
 #endif
