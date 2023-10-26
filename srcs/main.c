@@ -85,15 +85,17 @@ int 	ft_get_exit_status_atoi(t_listenvp *lst_envp)
     return(exit_status_int);
 }
 
-void ft_set_exit_code_in_lst_envp(void *lst_envp, int flag)
+void ft_set_exit_code_in_lst_envp(void *lst_envp, int flag, int num)
 {
 	static t_listenvp *ptr;
-
+	(void)num;
 	//on recupere l adresse de lst_envp
 	if(flag == 1)
 		ptr = lst_envp;
 	if(g_signal == HD_STOP)
 		ptr = ft_get_exit_status(&ptr,"?=", 130);
+	else if(num != -13)
+		ptr = ft_get_exit_status(&ptr,"?=", num);
 	
 
 }
@@ -111,7 +113,7 @@ void handler_sigint(int num)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		ft_set_exit_code_in_lst_envp(NULL, 0);
+		ft_set_exit_code_in_lst_envp(NULL, 0, 130);
 	}
 
 	if(g_signal == IN_HD)
@@ -121,7 +123,7 @@ void handler_sigint(int num)
 	if(g_signal == HD_STOP)
 	{
 		ft_putstr_fd("\n", 0);
-		ft_set_exit_code_in_lst_envp(NULL, 130);
+		ft_set_exit_code_in_lst_envp(NULL, 0, 130);
 		dup2(fd_heredoc , STDIN_FILENO);
 		close(fd_heredoc);
 		return;
@@ -177,7 +179,7 @@ int main(int argc, char *argv[], char *envp[])
 
 	exit_status = 0;
 	exit_syntax_error = 0;
-	exit_syntax = 0;
+	exit_syntax = -13;
 	line = NULL;
 	cmd = NULL;
 	data_env = NULL;
@@ -220,6 +222,8 @@ int main(int argc, char *argv[], char *envp[])
 			if(flag_save_envp == 0)
 			{
 				//ft_aff_list_envp_sur_char_content(data_env->lst_envp);
+				ft_set_exit_code_in_lst_envp(data_env->lst_envp, 1, exit_syntax);
+				exit_syntax =-13;
 				envp_tab = ft_lst_to_tab(data_env->lst_envp);
 				ft_expand_and_retokenize(lst_token, envp_tab);
 				if(envp_tab != NULL)
@@ -230,7 +234,7 @@ int main(int argc, char *argv[], char *envp[])
 					ft_struct_init_data_env(&data_env);//_env(&data_env);
 					data_env->lst_envp = ft_get_lst_envp(envp);
 					data_env->lst_envp_d = ft_get_lst_envp(envp);
-					ft_set_exit_code_in_lst_envp(data_env->lst_envp, 1);
+					ft_set_exit_code_in_lst_envp(data_env->lst_envp, 1, exit_syntax);
 					flag_save_envp = 0;
 					envp_tab = ft_lst_to_tab(data_env->lst_envp);
 					ft_expand_and_retokenize(lst_token, envp_tab);
