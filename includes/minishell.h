@@ -525,5 +525,7 @@ int 				ft_get_token_quoting_rule2b(char *str, size_t i, int *quoting_rule, int 
 int					ft_atoi(char *str);
 char				*ft_get_var_dollar_quest(char *key_value);
 int 				ft_get_exit_status_atoi(t_listenvp *lst_envp);
+//bash syntax error
+void				ft_error_msg2b(char *str);
 
 #endif

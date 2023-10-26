@@ -235,6 +235,7 @@ int main(int argc, char *argv[], char *envp[])
 					data_env->lst_envp = ft_get_lst_envp(envp);
 					data_env->lst_envp_d = ft_get_lst_envp(envp);
 					ft_set_exit_code_in_lst_envp(data_env->lst_envp, 1, exit_syntax);
+					exit_syntax = -13;
 					flag_save_envp = 0;
 					envp_tab = ft_lst_to_tab(data_env->lst_envp);
 					ft_expand_and_retokenize(lst_token, envp_tab);
@@ -258,8 +259,8 @@ int main(int argc, char *argv[], char *envp[])
 		{
 				if(exit_syntax_error > 0)
 					exit_syntax = exit_syntax_error;
-				//else
-				//	exit_status = exit_syntax_error;
+				if(exit_syntax_error == -12)
+					exit_syntax = 0;
 
 		}
 		

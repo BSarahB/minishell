@@ -46,7 +46,7 @@ int ft_check_double_points_token(t_list *tmp)
 			if (ft_is_check_for_token(tmp->next, "|") == 1)
 				return(0);//TO DO on va exec la commande en attente
 			else
-					return (1);	//echo $? 0
+					return (-12);	//pour retourner ensuite 0 apres transformation
 		}
 		if(tmp->prev)
 		{
@@ -58,7 +58,7 @@ int ft_check_double_points_token(t_list *tmp)
 					return(1);
 				}
 		}
-		return(1);//echo $? 0 
+		return(-12);//pour return 0 je mets -12 
 }
 
 int		ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token)
@@ -73,6 +73,12 @@ int		ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token)
 
 	while(tmp)
 	{
+		if((ft_strcmp(tmp->content, "!") == 0))
+		{
+			if(tmp->next == NULL)
+				return(1);
+		}
+			
 		if((ft_strcmp(tmp->content, ":") == 0))
 			return(ft_check_double_points_token(tmp));
 		if((ft_strcmp(tmp->content, "#") == 0))
@@ -81,7 +87,7 @@ int		ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token)
 		//: doit etre un token 
 		if((ft_strcmp(tmp->content, "<") == 0) || (ft_strcmp(tmp->content, ">")) == 0 || (ft_strcmp(tmp->content, "<<") == 0) || (ft_strcmp(tmp->content, ">>") == 0))
 			{
-				if(tmp->next == NULL)
+				if(tmp->next == NULL || (ft_strcmp(tmp->next->content, "|") == 0))
 				{
 					ft_error_msg2("`newline'");
 					return(2);
@@ -89,7 +95,7 @@ int		ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token)
 				}
 				if((ft_strcmp(tmp->next->content, "<") == 0) || (ft_strcmp(tmp->next->content, ">")) == 0 || (ft_strcmp(tmp->next->content, "<<") == 0) || (ft_strcmp(tmp->next->content, ">>") == 0))
 				{
-					ft_error_msg2(tmp->next->content);
+					ft_error_msg2b(tmp->next->content);
 					return(2);
 					//break;
 				}
