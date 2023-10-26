@@ -128,3 +128,6 @@
 37	285	1698331059876112849	my_minishell	3da99bfc56e2540a
 1	37	1698331857102081378	CMakeFiles/my_minishell.dir/srcs/main.c.o	21801dd5cc1bdc6
 37	291	1698331857338081369	my_minishell	3da99bfc56e2540a
+1	35	1698334841022935560	CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o	22dba045e796e6d8
+1	35	1698335366290899333	CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input.c.o	22dba045e796e6d8
+35	319	1698335366555899321	my_minishell	3da99bfc56e2540a

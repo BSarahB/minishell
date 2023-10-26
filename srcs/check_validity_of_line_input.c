@@ -61,6 +61,39 @@ int ft_check_double_points_token(t_list *tmp)
 		return(-12);//pour return 0 je mets -12 
 }
 
+
+int ft_chevron(t_list *tmp)
+{
+	if((ft_strcmp(tmp->content, "<") == 0) || (ft_strcmp(tmp->content, ">")) == 0 || (ft_strcmp(tmp->content, "<<") == 0) || (ft_strcmp(tmp->content, ">>") == 0))
+	{
+		if(tmp->next == NULL || (ft_strcmp(tmp->next->content, "|") == 0))
+		{
+			ft_error_msg2("`newline'");
+			return(2);
+		}
+		if((ft_strcmp(tmp->next->content, "<") == 0) || (ft_strcmp(tmp->next->content, ">")) == 0 || (ft_strcmp(tmp->next->content, "<<") == 0) || (ft_strcmp(tmp->next->content, ">>") == 0))
+		{
+			ft_error_msg2b(tmp->next->content);
+			return(2);
+		}
+	}
+	return(0);
+}
+
+
+
+int 	ft_exclamation(t_list *tmp)
+{
+	if((ft_strcmp(tmp->content, "!") == 0))
+	{
+		if(tmp->next == NULL)
+			return(1);
+	}
+	return(0);
+}
+
+
+
 int		ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token)
 {
 	t_list *tmp;
@@ -73,55 +106,17 @@ int		ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token)
 
 	while(tmp)
 	{
-		if((ft_strcmp(tmp->content, "!") == 0))
-		{
-			if(tmp->next == NULL)
-				return(1);
-		}
-			
+		if(ft_exclamation(tmp))
+			return(1);
+		if(ft_chevron(tmp))
+			return(2);
 		if((ft_strcmp(tmp->content, ":") == 0))
 			return(ft_check_double_points_token(tmp));
 		if((ft_strcmp(tmp->content, "#") == 0))
 			return(2);//TODO ft_modify_lst_token()
-		
-		//: doit etre un token 
-		if((ft_strcmp(tmp->content, "<") == 0) || (ft_strcmp(tmp->content, ">")) == 0 || (ft_strcmp(tmp->content, "<<") == 0) || (ft_strcmp(tmp->content, ">>") == 0))
-			{
-				if(tmp->next == NULL || (ft_strcmp(tmp->next->content, "|") == 0))
-				{
-					ft_error_msg2("`newline'");
-					return(2);
-					//break;
-				}
-				if((ft_strcmp(tmp->next->content, "<") == 0) || (ft_strcmp(tmp->next->content, ">")) == 0 || (ft_strcmp(tmp->next->content, "<<") == 0) || (ft_strcmp(tmp->next->content, ">>") == 0))
-				{
-					ft_error_msg2b(tmp->next->content);
-					return(2);
-					//break;
-				}
-			}
 		tmp = tmp->next;
 	}
 	return(0);
-//bash error for heredoc	
-//	$ ls <<10<<12
-//bash: syntax error near unexpected token `10'
-
-	//
-		//ft_syntax_error_newline
-
-
-
-	//printf("check_bash_syntax_error_newline : $> > \n $> < \n $> << \n $> >> \n <>");//le token oiginal est comme newline< jusqu a x3 <LESSLESS><LESS>
-
-	//ft_syntax_error_token
-
-
-
-
-
-	//printf("check_bash_syntax_error_token : $> > \n $> < \n $> << \n $> >> \n <>");// > x3, a partir de <GREATGREAT> <GREAT> et a partir de <LESSLESS><LESSLESS> on ne garde que le token en retenue soit  << soit >> soit | soit ||
-	//attention tous les motifs // \\ etc sont envoyes comme des commandes a l executio : cmd not found
 
 }
 
