@@ -138,6 +138,7 @@ t_data *ft_copy_token(t_list *tmp, t_data *data2)
 }
 
 
+
 t_data	*ft_retokenize_and_dequote_token_2(t_cmd *cmd, t_list *start_lst_token, t_simpleCmd *simpleCmd, t_data *data2)
 {
 	size_t	k;
@@ -152,17 +153,19 @@ t_data	*ft_retokenize_and_dequote_token_2(t_cmd *cmd, t_list *start_lst_token, t
 	tmp = start_lst_token;
 	if(tmp != NULL)
 	{
-		if(flag_retokenize == -1)
+		if(flag_retokenize == -1) //NE SERT abslument a rien
         {
 			check_dequote = ft_dequote(ft_strdup(tmp->content));
-            if(flag_retokenize == -1 && ft_strcmp(check_dequote, "echo") == 0)
+            if(flag_retokenize == -1 && ft_strcmp(check_dequote, "echo") == 0) 
                 {
-                    flag_retokenize = 0;
+                    flag_retokenize = -2;
 					simpleCmd->builtin = echo;
 					simpleCmd->is_builtin = 1;//TODO modifier quand echo builtin sera a faire
                 }
+			else if(flag_retokenize == -1 && tmp->retokenize_allowed == 1)
+				flag_retokenize = 1;
             else
-                flag_retokenize = 1;
+                flag_retokenize = 0;
 			//printf("check_DQ <%s> check_DQ\n", check_dequote);
 			free(check_dequote);
         }
@@ -170,27 +173,49 @@ t_data	*ft_retokenize_and_dequote_token_2(t_cmd *cmd, t_list *start_lst_token, t
 	}
 	while (tmp !=NULL && tmp->position < simpleCmd->end_simpleCmd_pos)
 	{ 
-    	if(flag_retokenize == 1)
-        {
-            data2 = ft_retokenize(tmp, data2);
-        }
-		if(flag_retokenize == 0)
+		if(flag_retokenize == -2)
 		{
 			data2 = ft_copy_token(tmp, data2);
 		}
+		else if(flag_retokenize == 0)
+        {
+            data2 = ft_copy_token(tmp, data2);
+			
+        }
+		else if(flag_retokenize == 1)
+        {
+            data2 = ft_retokenize(tmp, data2);
+			
+        }
+		
 		tmp = tmp->next;
+		if(tmp != NULL)
+		{
+			if(flag_retokenize == 0 || flag_retokenize == 1)
+			{
+				if(tmp->retokenize_allowed == 1)
+					flag_retokenize = 1;
+				else
+					flag_retokenize = 0;
+			}
+		}
 	}
 	if(tmp != NULL && tmp->position == simpleCmd->end_simpleCmd_pos && tmp->title != operator)
 	{
-		if(flag_retokenize == 1)
-        {
-            data2= ft_retokenize(tmp, data2);
-        }
-		if(flag_retokenize == 0)
+		if(flag_retokenize == -2)
+		{
+			data2 = ft_copy_token(tmp, data2);
+		}
+		else if(flag_retokenize == 0)
 		{
 			data2 = ft_copy_token(tmp, data2);
 
 		}
+		else if(flag_retokenize == 1)
+        {
+            data2= ft_retokenize(tmp, data2);
+        }
+		
 	}
 	return (data2);
 }

@@ -31,7 +31,22 @@ void	ft_open_outfiles(t_settings *set, t_cmd *cmd)
 	if(set->fdout == -1)
 	{
 		perror("minishell");
-		exit(1);
+		cmd->simpleCmds[set->i]->exit_code = 1;
+		cmd->simpleCmds[set->i]->nofile = 1;
+		cmd->simpleCmds[set->i]->out_denied = 1;
+		/*
+		close(set->savein);
+		close(set->saveout);
+	
+		ft_free_struct_t_settings(&set);
+		ft_free_in_child(cmd, data, line);
+		ft_free_struct_t_cmd_only(&cmd);
+		if (envp_t != NULL)
+			ft_free_tab(&envp_t);
+		if (data_env != NULL)
+			ft_free_struct_t_data_env(&data_env);
+			*/
+		//exit(1);
 		//fermer les pipes, nettoyer la memoire etc...
 	}
 }
@@ -53,7 +68,9 @@ void	ft_open_outfiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cm
 	if(set->fdout == -1)
 	{
 		perror("minishell");
-		exit(1);
+		cmd->simpleCmds[set->i]->exit_code = 1;
+		cmd->simpleCmds[set->i]->nofile = 1;
+		cmd->simpleCmds[set->i]->out_denied = 1;
 		//fermer les pipes, nettoyer la memoire etc...
 	}		
 }

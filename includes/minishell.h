@@ -198,6 +198,7 @@ typedef struct s_simpleCmd
 	int		is_builtin;
 	int		builtin_solo;
 	int		builtin;
+	int		out_denied;
 } t_simpleCmd;
 // description d une commande complete avec les multiples pipes eventuels et les IO redirections eventuels
 typedef struct s_cmd
@@ -414,7 +415,7 @@ void			ft_redirect_input(t_settings *set, t_cmd *cmd);
 void			ft_redirect_output(t_settings *set);
 void			ft_save_in_and_out(t_settings *set);
 void			ft_restore_original_in_and_out(t_settings *set);
-void			ft_open_outfiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd, int k);
+void			ft_open_outfiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd, int k); //DOUBLON
 void			ft_open_outfiles(t_settings *set, t_cmd *cmd);
 void			ft_free_in_child(t_cmd *cmd, t_data *data,char *line);
 //EXPAND
@@ -438,7 +439,7 @@ char			*ft_get_var(char **envp, char *expand, t_expand *exp);
 int 			ft_get_token_quoting_rule3(char *str, size_t i, int *quoting_rule, int *quoting_rule_adequate, char *buffer_dequote, int *j);
 t_list			*ft_retokenize_and_dequote_token_1(t_cmd *cmd, t_list *start_lst_token, t_simpleCmd *simpleCmd);
 t_data 			*ft_retokenize_and_dequote_token_2(t_cmd *cmd, t_list *start_lst_token, t_simpleCmd *simpleCmd, t_data *data2);
-void			ft_lstdelone_beta(t_list *lst);
+void			ft_lstdelone_beta(t_list **lst);
 void			ft_aff_list_ptr_sur_char_content2(t_list *alst); // pour void		*content; de type char *
 t_list 			*ft_lstnew_for_lst_retokenized2(t_list *token);
 t_list 			*ft_lstnew_for_lst_retokenized(t_list *start_lst_token_retokenized);

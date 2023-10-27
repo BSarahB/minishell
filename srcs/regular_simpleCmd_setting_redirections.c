@@ -102,7 +102,7 @@ void ft_regular_simpleCmd(t_settings *set, t_cmd *cmd)
     if ((cmd->simpleCmds[set->i]->nb_of_tokens_in_simpleCmd == 1) && (cmd->simpleCmds[set->i]->infile == NULL) && (ft_strcmp(cmd->simpleCmds[set->i]->cmd_and_args[0], "cat") == 0))//&& (cmd->simpleCmds[set->i]->infile == NULL)
         {
 
-            if(cmd->simpleCmds[set->i + 1]->nofile == 0)
+            if(cmd->simpleCmds[set->i + 1]->nofile == 0)// && cmd->simpleCmds[set->i + 1]->infile != NULL)
             {
                 if ((ft_strcmp(cmd->simpleCmds[set->i + 1]->cmd_and_args[0], "wc") != 0) && (ft_strcmp(cmd->simpleCmds[set->i + 1]->cmd_and_args[0], "grep") != 0) && (ft_strcmp(cmd->simpleCmds[set->i + 1]->cmd_and_args[0], "rev") != 0))// && (ft_strcmp(cmd->simpleCmds[set->i + 1]->cmd_and_args[0], "head") != 0)) 
                     close(set->pip[0]);

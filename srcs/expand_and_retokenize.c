@@ -171,7 +171,7 @@ int ft_is_expand_to_substitute(t_list *lst_token)
 	if (ft_is_expand_here(str) == 1)
 	{
 
-		printf("expand is here\n");
+		//printf("expand is here\n");
 		//Pwhile(str[i]) //ft_expand_authorized
 		//{
 				

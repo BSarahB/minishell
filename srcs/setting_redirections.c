@@ -88,14 +88,16 @@ void ft_echo(t_simpleCmd *simpleCmd)
 void ft_redirect_output(t_settings *set)
 {
 	dup2(set->fdout, STDOUT_FILENO);
-	close(set->fdout);
+	if(set->fdout != -1)
+		close(set->fdout);
 }
 
 void ft_redirect_input(t_settings *set, t_cmd *cmd)
 {
 	(void)cmd;
 	dup2(set->fdin, STDIN_FILENO); // durant la while, a partir de la 2 eme simplecmd  on va heriter du fdin du pipe COMMUN a la simplecmd precedente on avait parametre : fdin = pip[0]; cest cela qui est le coeur des multipipes
-	close(set->fdin);
+	if(set->fdin != -1)
+		close(set->fdin); //PROTECTME if(set->fdout != -1)
 }
 
 void ft_set_fdin_for_first_simpleCmd(t_settings *set, t_cmd *cmd)
@@ -186,7 +188,7 @@ void ft_child_process(t_settings *set, t_cmd *cmd, char **envp_t, t_data *data, 
 
 		if (set->i == (cmd->nb_of_simpleCmds) - 1)
 			{
-				printf("exit__code_DOMINANT \n"); // donc stocker l exit code dans variable globale//	printf("exit_code = %d \n", simpleCmd->exit_code)
+				//printf("exit__code_DOMINANT \n"); // donc stocker l exit code dans variable globale//	printf("exit_code = %d \n", simpleCmd->exit_code)
 		 // ou (0?) voir comment bien sortir mettre ca apres le pb du fork
 			}
 		exit_code = cmd->simpleCmds[set->i]->exit_code;
@@ -331,7 +333,7 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char **envp_t, t_data *data, c
 		exit_status =  cmd->simpleCmds[set->i -1]->exit_code;
 	if(exit_status == 141)
 		exit_status = 0;
-	printf("exit_status : %d\n", exit_status);
+	//printf("exit_status : %d\n", exit_status);
 	data_env->lst_envp = ft_get_exit_status(&data_env->lst_envp, "?=", exit_status);
 	ft_restore_original_in_and_out(set);	//restauration des sauvegardes des vrais in et out
 	ft_free_struct_t_settings(&set);

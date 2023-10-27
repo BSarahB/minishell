@@ -204,7 +204,7 @@ int main(int argc, char *argv[], char *envp[])
 					if(data_env->lst_envp)
 					{
 						exit_status = ft_get_exit_status_atoi(data_env->lst_envp);
-						printf("exit_status : %d", exit_status);
+						//("exit_status : %d", exit_status);
 					}
 				}
 			//	else
@@ -247,7 +247,7 @@ int main(int argc, char *argv[], char *envp[])
 			ft_parse_tokens_in_s_cmd(cmd, lst_token, data_env);
 			if(cmd->nb_of_heredocs != 0)
 				ft_heredoc_interaction(cmd, 0, 1);
-			printf("g signal = %d\n", g_signal);
+		//	printf("g signal = %d\n", g_signal);
 			if(g_signal != HD_STOP)
 			{
 				envp_t = ft_lst_to_tab(data_env->lst_envp);

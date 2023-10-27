@@ -46,7 +46,7 @@ void ft_check_env(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *
 				flag_env = 0;
 		}
 	}
-	while (tmp != NULL && tmp->position < simpleCmd->end_simpleCmd_pos && flag_env == 1)
+	while (tmp != NULL && tmp->position <= simpleCmd->end_simpleCmd_pos && flag_env == 1)
 	{
 		if(simpleCmd->nofile == 1)
 			break;

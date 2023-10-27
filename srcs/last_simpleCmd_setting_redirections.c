@@ -67,6 +67,12 @@ void	ft_open_infiles_in_last_but_not_first_simpleCmd(t_settings *set, t_cmd *cmd
 					{
 						ft_open_outfiles_in_last_but_not_first_simpleCmd(set, cmd, k);
 						k++;
+						if(set->fdout != -1)
+							{
+								break;
+								close(set->fdout);
+							}
+						
 					}	
 			}
 			//(set->i)++; //TODO voir si completer idem avec first_simple_cmd
@@ -82,9 +88,14 @@ void	ft_last_simpleCmd(t_settings *set, t_cmd *cmd)
 	set->j = 0;
 	if (cmd->simpleCmds[set->i]->outfile != NULL && (cmd->simpleCmds[set->i]->nofile == 0))
 		{
-			while(set->j < cmd->simpleCmds[set->i]->nb_of_outfile)
+			while(set->j < cmd->simpleCmds[set->i]->nb_of_outfile) //&& cmd->simpleCmds[set->i]
 			{
 				ft_open_outfiles(set, cmd);
+				if (cmd->simpleCmds[set->i]->out_denied == 1)
+					{
+						cmd->simpleCmds[set->i]->out_denied =0;
+						break;
+					}
 				(set->j)++;
 			}
 		}
@@ -97,8 +108,9 @@ void	ft_last_simpleCmd(t_settings *set, t_cmd *cmd)
 			//si j != 0 alors on peut dire que un infile doit faire office d origine de lecture a la place du pip[0] donc on devrait rediriger STDIN sur fdin
 			if(set->j != 0)
 			{
-				dup2(set->fdin, STDIN_FILENO);
-				close(set->fdin);
+				dup2(set->fdin, STDIN_FILENO);//PROTECTME
+				if(set->fdin != -1)
+					close(set->fdin);
 			}
 			set->j = 0;
 		}

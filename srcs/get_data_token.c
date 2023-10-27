@@ -46,12 +46,12 @@ int ft_is_char_operand(char *str, t_list *lst_token)
 		return (LESS);
 	if ((*str == '>') && (*(str - 1) == '>'))
 		return (GREATGREAT);
-	if ((*str == '&') && (*(str - 1) == '>'))
-		return (GREAT_AND_AMPERSAND);
+//	if ((*str == '&') && (*(str - 1) == '>'))
+//		return (GREAT_AND_AMPERSAND);
 	if (*str == '|')
 		return (PIPE);
-	if (*str == '&')
-		return (AMPERSAND);
+//	if (*str == '&')
+//		return (AMPERSAND);
 	return (0);
 }
 

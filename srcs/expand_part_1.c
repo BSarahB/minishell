@@ -314,7 +314,7 @@ int ft_is_expand_here(t_list *lst_token, char *str, char *buffer, char *envp[])
 			i = ft_get_end_expand(str, exp, &expand, i);
 		if (expand != NULL)
 				{
-					// printf("expand = %s \n", expand);
+					lst_token->retokenize_allowed = 1; 
 					expand = ft_substitute(expand, envp, exp);
 
 					if(expand != NULL)
@@ -662,6 +662,8 @@ int ft_is_expand_to_substitute(t_list *lst_token, char *envp[])
 			}
 		
 	}
+	//else
+	//	lst_token->retokenize_allowed = 0;
 	free(buffer);
 	buffer = NULL;
 	return (0);

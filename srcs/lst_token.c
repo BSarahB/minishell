@@ -127,7 +127,7 @@ t_list *ft_lstnew_for_lst(t_data *data)
 	new->title = data->token->title;
 	new->quoting_rule = data->token->quoting_rule;
 //	new->quoting_rule_adequate = 0;
-//	new->retokenize_allowed = 0;
+	new->retokenize_allowed = 0;
 	new->tag_ambigeous = data->token->tag_ambigeous;
 	new->tag_empty_cmd_before_DQ = data->token->tag_empty_cmd_before_DQ;
 	new->tag_empty_cmd_after_DQ = data->token->tag_empty_cmd_after_DQ;

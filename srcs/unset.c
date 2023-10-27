@@ -83,7 +83,7 @@ int ft_is_var_to_unset_already_in_lst_envp_d(t_data_env *data_env, char *str)
 		if(ft_strcmp(key, str) == 0)
 		{
 
-			printf("unset  = %s to remove in lst_envp_d\n", tmp->key_value);
+			//printf("unset  = %s to remove in lst_envp_d\n", tmp->key_value);
 
 			data_env->lst_envp_d = ft_delete_node(data_env->lst_envp_d, tmp->key_value);
 			//on va delete le maillon de lst_envpft_delone(&lst_envp);
@@ -121,7 +121,7 @@ int ft_is_var_to_unset_already_in_lst_envp(t_data_env *data_env, char *str)
 		key = ft_strndup(tmp->key_value, n);
 		if(ft_strcmp(key, str) == 0)
 		{
-			printf("unset  = %s to remove in lst_envp\n", tmp->key_value);
+			//printf("unset  = %s to remove in lst_envp\n", tmp->key_value);
 			data_env->lst_envp = ft_delete_node(data_env->lst_envp, tmp->key_value);
 			//on va elete le maillon de lst_envpft_delone(&lst_envp);
 			free(key);
@@ -220,7 +220,7 @@ void ft_check_unset(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd
 		}
 	}
 
-	while (tmp != NULL && tmp->position < simpleCmd->end_simpleCmd_pos && simpleCmd->unset_no_option == 0 && flag_unset == 1)
+	while (tmp != NULL && tmp->position <= simpleCmd->end_simpleCmd_pos && simpleCmd->unset_no_option == 0 && flag_unset == 1)
 	{
 		if(simpleCmd->nofile == 1)
 			break;

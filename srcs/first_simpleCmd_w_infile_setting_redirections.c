@@ -18,6 +18,7 @@ void    ft_create_pipe(t_settings *set)
 	if (pipe(pip) == -1)
 	{
         perror("pipe");
+		//il faut tout free ici
         exit(EXIT_FAILURE);
     }
 	set->fdin = pip[0];
@@ -42,7 +43,11 @@ void    ft_outfiles_before_nofile(t_settings *set, t_cmd *cmd)
 	{
         ft_open_outfiles(set, cmd);
 		set->j++;
-		close(set->fdout);
+		if(set->fdout != -1)
+			{
+				close(set->fdout);
+				break;
+			}
 	}	
 }
 

@@ -79,7 +79,11 @@ int ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 	close(set->savein);
 	close(set->saveout);
 
-	close(set->pip[0]);
+	if(cmd->nb_of_simpleCmds >= 2)
+		{
+			close(set->pip[0]);
+			//PROTECTME->use fcts fd protection for close cd builtin.c
+		}
 
 /*
 	if(set->pip_exists == 1) // a | b

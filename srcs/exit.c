@@ -18,7 +18,7 @@ void ft_too_many_arg_msg(t_simpleCmd *simpleCmd)
 		ft_putstr_fd("exit\n", 2);
 	ft_putstr_fd("minishell: exit: too many arguments\n", 2);//mettre en place TODO l erreur ERRNO le msg approprie errno
 	simpleCmd->exit_code = 1;
-	printf("exit_code = %d \n", simpleCmd->exit_code);
+	//printf("exit_code = %d \n", simpleCmd->exit_code);
 }
 
 
@@ -122,10 +122,10 @@ void ft_check_exit(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd 
 					simpleCmd->exit_no_option = 1;
 					if(simpleCmd->exit_solo == 1)
 					{
-						//simpleCmd->exit_str = ft_strdup("exit");
+						simpleCmd->exit_str = ft_strdup("exit");
 						ft_putstr_fd("exit\n", 2);
 						simpleCmd->exit_code = 0;
-						printf("exit_code = %d \n", simpleCmd->exit_code);
+						//printf("exit_code = %d \n", simpleCmd->exit_code);
 
 						return;
 					}
@@ -138,7 +138,7 @@ void ft_check_exit(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd 
 	}
 
 //quelque soit la position on va afficher les messages d erruer mais pas les printf 
-	while (tmp != NULL && tmp->position < simpleCmd->end_simpleCmd_pos && simpleCmd->exit_no_option == 0 && simpleCmd->builtin == exxit)
+	while (tmp != NULL && tmp->position <= simpleCmd->end_simpleCmd_pos && simpleCmd->exit_no_option == 0 && simpleCmd->builtin == exxit)
 	{ 
 //TODO GERER LE CAS OU LA LONGUEUR EST SUPERIEURE AU BUFFER DE 1096->l argument est too long ?
 		if(simpleCmd->nofile == 1)
@@ -148,7 +148,7 @@ void ft_check_exit(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd 
 			if(ft_exit_is_arg_valid(tmp->content, simpleCmd) == 1)
 				ft_too_many_arg_msg(simpleCmd);
 			else
-				printf("exit_code = %d \n", simpleCmd->exit_code); //TODO Se debarrasser de cela
+				//printf("exit_code = %d \n", simpleCmd->exit_code); //TODO Se debarrasser de cela
 			break;
 
 		}
@@ -159,11 +159,11 @@ void ft_check_exit(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd 
 					if(simpleCmd->exit_solo == 1)
 						ft_putstr_fd("exit\n", 2);
 					simpleCmd->exit_code = ft_atoi_modulo(tmp->content, simpleCmd);
-					printf("result = %d\n", simpleCmd->exit_code);
-					printf("exit_code = %d \n", simpleCmd->exit_code);
+					//printf("result = %d\n", simpleCmd->exit_code);
+					//printf("exit_code = %d \n", simpleCmd->exit_code);
 				}
 			else
-				printf("exit_code = %d \n", simpleCmd->exit_code);
+				//printf("exit_code = %d \n", simpleCmd->exit_code);
 			break;
 		}
 

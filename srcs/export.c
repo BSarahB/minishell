@@ -226,7 +226,7 @@ void ft_check_export(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCm
 		}
 	}
 
-	while (tmp != NULL && tmp->position < simpleCmd->end_simpleCmd_pos && simpleCmd->export_no_option == 0 && flag_export == 1)
+	while (tmp != NULL && tmp->position <= simpleCmd->end_simpleCmd_pos && simpleCmd->export_no_option == 0 && flag_export == 1)
 	{
 		if(simpleCmd->nofile == 1)
 			break;

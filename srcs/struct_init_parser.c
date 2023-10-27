@@ -78,6 +78,7 @@ t_simpleCmd *ft_struct_init_simpleCmd(t_simpleCmd **simpleCmd)
 	(*simpleCmd)->exit_solo = 0;
 	(*simpleCmd)->is_builtin = 0;
 	(*simpleCmd)->builtin = -1;
+	(*simpleCmd)->out_denied = 0;
 	return (*simpleCmd);
 }
 

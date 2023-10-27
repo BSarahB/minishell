@@ -695,7 +695,7 @@ void ft_check_cd(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *s
 
 	}
 
-	while (tmp != NULL && tmp->position < simpleCmd->end_simpleCmd_pos && simpleCmd->cd_no_option == 0 && flag_cd == 1)
+	while (tmp != NULL && tmp->position <= simpleCmd->end_simpleCmd_pos && simpleCmd->cd_no_option == 0 && flag_cd == 1)
 	{
 		if(simpleCmd->nofile == 1)
 			break;

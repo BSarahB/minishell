@@ -24,6 +24,7 @@ void	ft_recursiv(t_cmd *cmd, size_t i, int fd)
 {
 	if(cmd->heredocs[++i])
 	{
+		
 		close(fd);//proteger le close
 		ft_heredoc_interaction(cmd, i, 2);
 	}

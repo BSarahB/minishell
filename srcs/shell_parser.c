@@ -102,7 +102,7 @@ t_settings_del *ft_del_empty_in_middle(t_list *curr, t_cmd *cmd, t_list *lst_tok
 	if(curr->next == NULL)
 		cmd->simpleCmds[del->index]->end_simpleCmd_pos = curr->position;
 
-	ft_lstdelone_beta(lst_token_to_remove);
+	ft_lstdelone_beta(&lst_token_to_remove);
 	del->i++;
 	
 	return(del);
@@ -175,7 +175,7 @@ void	ft_del_empty_token_in_simpleCmd(t_list **alst, size_t index, t_list **lst_t
 			cmd->flag_empty_head_list = 0;
 		}
 	*alst = curr;
-	while(curr != NULL && (curr->position <= cmd->simpleCmds[del2->index]->end_simpleCmd_pos))
+	while(curr != NULL && (curr->position < cmd->simpleCmds[del2->index]->end_simpleCmd_pos))
 		curr = ft_middle_empty_token(curr, cmd, *lst_token, del2);
 	ft_free_struct_t_settings_del(&del2);
 }
