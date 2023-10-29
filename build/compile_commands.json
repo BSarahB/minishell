@@ -293,5 +293,50 @@
   "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
   "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/exit_code.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/exit_code.c",
   "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/exit_code.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/cd_1.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/cd_1.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/cd_1.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/cd_2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/cd_2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/cd_2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/cd_3.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/cd_3.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/cd_3.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/cd_utils.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/cd_utils.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/cd_utils.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/cd_utils2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/cd_utils2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/cd_utils2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/check_validity_of_line_input2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/check_validity_of_line_input2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/check_validity_of_line_input2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/dequote.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/dequote.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/dequote.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/display_error2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/display_error2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/display_error2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/exit2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/exit2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/exit2.c"
 }
 ]

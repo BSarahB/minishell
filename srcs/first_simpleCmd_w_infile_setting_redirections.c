@@ -89,7 +89,7 @@ void	ft_first_simpleCmd_w_infile(t_settings *set, t_cmd *cmd)
 	while(set->j < cmd->simpleCmds[set->i]->nb_of_infile)
 	{
 		flag_random_heredoc = ft_set_fdin_for_first_s_cmd_w_infile(set, cmd, flag_random_heredoc);
-		if(set->fdin == -1 || set->fdin ==-2) //ft_check open error quand on refactorisera plus tard
+		if(set->fdin == -1 || set->fdin == -2) //ft_check open error quand on refactorisera plus tard
 		{	
             cmd->simpleCmds[set->i]->nofile = 1;
 	        if (cmd->simpleCmds[set->i]->outfile != NULL && cmd->simpleCmds[set->i]->nb_of_outfile_before_nofile != 0)

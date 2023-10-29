@@ -9,7 +9,6 @@
 /*   Updated: 2023/10/12 13:49:23 by mbenmesb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
 void ft_check_echo(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env)

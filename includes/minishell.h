@@ -113,6 +113,7 @@ typedef struct s_data_env
 	struct s_listenvp	*lst_envp;
 	struct s_listenvp	*lst_envp_d;
 	int					flag_oldpwd_istoremove;
+	int					exit_parent;
 
 } t_data_env;
 
@@ -267,14 +268,14 @@ t_simpleCmd 	*ft_struct_init_simpleCmd(t_simpleCmd **ptr);
 t_simpleCmd		**ft_struct_array_init(t_simpleCmd **ptr, char init_value, size_t simpleCmds_nbr);
 char 			**ft_get_path(char **envp);
 int				ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set);
+int	ft_execve_join(t_cmd *cmd, char **envp, char **abs_cmd_and_args);
+
 char 			*ft_init_cstring(char **str, size_t len, char init_value);
 void 			*ft_memset(void *b, char c, size_t len);
 void			*ft_memset2(void *b, int n, size_t len);
 int				*ft_init_ctab(int **int_tab, size_t len, int init_value);
 void			ft_aff_abs_cmd_and_args(t_cmd	*cmd);
 // lexer
-void			ft_check_prerequesite_of_line_input(char *line);
-void			ft_check_input_cases_for_return_empty_prompt(char *line);
 int 			ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token);
 void 			ft_get_token_quoting_rule(char *str, t_list *lst_token, size_t i);
 void 			ft_get_token_content(t_data *data, size_t start_token_pos, size_t end_token_pos, char *line);
@@ -500,8 +501,7 @@ int 			ft_is_var_already_in_lst_envp_d(t_listenvp *lst_envp_d, char *str);
 void			ft_update_oldpwd_and_pwd_in_lst_envp_for_cd_dash_dash(t_data_env *data_env, char *cwd, t_simpleCmd *simpleCmd);
 int				ft_change_directory_for_cd_dash_dash(t_data_env *data_env, char *new_path, t_simpleCmd *simpleCmd);
 t_listenvp 		*ft_lstfind_content(t_listenvp *alst, char *keyequal);
-//void			ft_cd_option_dot(t_data_env *data_env, t_simpleCmd *simpleCmd);
-//int			ft_change_directory_for_cd_dot(t_data_env *data_env, char *cwd, t_simpleCmd *simpleCmd);
+
 void			ft_cd_option_slash(t_data_env *data_env, char *str, t_simpleCmd *simpleCmd);
 void			ft_check_pwd(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env);
 int 				ft_get_pwd(t_data_env *data_env, t_simpleCmd *simpleCmd);
@@ -529,5 +529,42 @@ int 				ft_get_exit_status_atoi(t_listenvp *lst_envp);
 //bash syntax error
 void				ft_error_msg2b(char *str);
 void				ft_error_msg2c(char *str);
+int					ft_check_bash_syntax_error_caracteres_volee(t_list *lst_token);
+int					ft_chevron(t_list *tmp);
+int 				ft_pipe(t_list *tmp, int *flag_pipe);
+int 				ft_check_double_points_token(t_list *tmp);
+int					ft_strcmp(char *s1, char *s2);
+int					ft_is_check_for_token(t_list *lst_token, char *str);
+int 				ft_exclamation(t_list *tmp);
+int 				ft_ampersand(t_list *tmp);
+//cd
+void 				ft_check_cd(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env);
+void				ft_cd_no_option(t_data_env *data_env, char *str, t_simpleCmd *simpleCmd);
+void				ft_cd_option_dash(t_data_env *data_env, char *str, t_simpleCmd *simpleCmd);
+void				ft_cd_option_dash_dash(t_data_env *data_env, char *str, t_simpleCmd *simpleCmd);
+void				ft_cd_option_slash(t_data_env *data_env, char *str, t_simpleCmd *simpleCmd);
+int					ft_check_path(t_data_env *data_env, char *new_path, t_simpleCmd *simpleCmd);
+int 				ft_change_directory_for_cd_dash_dash(t_data_env *data_env, char *new_path, t_simpleCmd *simpleCmd);
+int					ft_change_directory(t_data_env *data_env, char *new_path, t_simpleCmd *simpleCmd);
+int					ft_change_directory_for_cd_dash(t_data_env *data_env, char *new_path, t_simpleCmd *simpleCmd);
+int					ft_change_directory_for_cd_slash(t_data_env *data_env, char *new_path, t_simpleCmd *simpleCmd);
+void				ft_update_oldpwd_and_pwd_in_lst_envp(t_data_env *data_env, char *cwd);
+void				ft_update_oldpwd_and_pwd_in_lst_envp_for_cd_dash(t_data_env *data_env, char *cwd, t_simpleCmd *simpleCmd);
+void				ft_update_oldpwd_and_pwd_in_lst_envp_for_cd_dash_dash(t_data_env *data_env, char *cwd, t_simpleCmd *simpleCmd);
+void				ft_add_var_oldpwd_to_lst_envp_d_for_cd_dash(char *str, t_listenvp *lst_envp_d);
+//cd utils
+char				*get_var_in_lst_envp_for_cd(t_data_env *data_env, char *str);
+char				*ft_strchr(const char *s, int c);
+int 				ft_check_is_space(char *str);
+int					ft_is_space(int c);
+t_listenvp			*ft_lstfind_content(t_listenvp *alst, char *keyequal);
+int 				ft_is_var_already_in_lst_envp_for_cd(t_listenvp *lst_envp, char *str);
+
+//del and parse
+
+
+t_list *ft_lstnew_for_lst_token_copy(t_list *tmp);
+
+
 
 #endif

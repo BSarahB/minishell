@@ -81,6 +81,7 @@ void ft_create_pipe2(t_settings *set)
     if (pipe(set->pip) == -1)
     {
         perror("pipe");
+		//FIXEME free
         exit(EXIT_FAILURE);
     }
     set->fdout = set->pip[1];
@@ -101,18 +102,20 @@ void ft_regular_simpleCmd(t_settings *set, t_cmd *cmd)
      //+++ ainsi au prochain tour de boucle, fdin (et donc la future entree standart) sera DEJA parametree pour preparer le fdin du processus suivant qui executera la commande du pipe suivant et sera verra donc deja redirigee son entree standard sur la sortie du tube soit pip[0] pour lire a partir de pip[0] ce qui aura ete jete dans pip[1](cmd actuelle)
     if ((cmd->simpleCmds[set->i]->nb_of_tokens_in_simpleCmd == 1) && (cmd->simpleCmds[set->i]->infile == NULL) && (ft_strcmp(cmd->simpleCmds[set->i]->cmd_and_args[0], "cat") == 0))//&& (cmd->simpleCmds[set->i]->infile == NULL)
         {
-
-            if(cmd->simpleCmds[set->i + 1]->nofile == 0)// && cmd->simpleCmds[set->i + 1]->infile != NULL)
+            if(cmd->simpleCmds[set->i + 1]->nofile == 0)
             {
-                if ((ft_strcmp(cmd->simpleCmds[set->i + 1]->cmd_and_args[0], "wc") != 0) && (ft_strcmp(cmd->simpleCmds[set->i + 1]->cmd_and_args[0], "grep") != 0) && (ft_strcmp(cmd->simpleCmds[set->i + 1]->cmd_and_args[0], "rev") != 0))// && (ft_strcmp(cmd->simpleCmds[set->i + 1]->cmd_and_args[0], "head") != 0)) 
+    
+				if ((ft_strcmp(cmd->simpleCmds[set->i + 1]->cmd_and_args[0], "wc") != 0) && (ft_strcmp(cmd->simpleCmds[set->i + 1]->cmd_and_args[0], "grep") != 0) && (ft_strcmp(cmd->simpleCmds[set->i + 1]->cmd_and_args[0], "rev") != 0))// && (ft_strcmp(cmd->simpleCmds[set->i + 1]->cmd_and_args[0], "head") != 0))
                     close(set->pip[0]);
+                
             }
-            if(cmd->simpleCmds[set->i + 1]->nofile == 1)
+            if(cmd->simpleCmds[set->i + 1]->nofile == 1) //
             {
-                if ((ft_strcmp(cmd->simpleCmds[set->i + 1]->cmd_and_args[0], "wc") == 0) || (ft_strcmp(cmd->simpleCmds[set->i + 1]->cmd_and_args[0], "grep") == 0) || (ft_strcmp(cmd->simpleCmds[set->i + 1]->cmd_and_args[0], "rev") == 0))// && (ft_strcmp(cmd->simpleCmds[set->i + 1]->cmd_and_args[0], "head") != 0)) 
+                if (ft_strcmp(cmd->simpleCmds[set->i + 1]->cmd_and_args[0], "wc") == 0)
+                    close(set->pip[0]);
+				else if ((ft_strcmp(cmd->simpleCmds[set->i + 1]->cmd_and_args[0], "cat") == 0) || (ft_strcmp(cmd->simpleCmds[set->i + 1]->cmd_and_args[0], "grep") == 0) || (ft_strcmp(cmd->simpleCmds[set->i + 1]->cmd_and_args[0], "rev") == 0))// && (ft_strcmp(cmd->simpleCmds[set->i + 1]->cmd_and_args[0], "head") != 0))
                     close(set->pip[0]);   
             }
-
         }
    
     if (cmd->simpleCmds[set->i]->outfile != NULL && (cmd->simpleCmds[set->i]->nofile == 0))
@@ -132,11 +135,4 @@ void ft_regular_simpleCmd(t_settings *set, t_cmd *cmd)
    
     set->j = 0;
 }
- /*
-    set->j = 0;
-    if (cmd->simpleCmds[set->i]->infile != NULL && set->i != 0)
-    {
-        ft_open_infiles(set, cmd); // close(pip[0]);
-        set->j = 0;
-    }
-    */
+ 

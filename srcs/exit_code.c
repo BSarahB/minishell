@@ -9,9 +9,7 @@
 /*   Updated: 2023/10/20 11:55:02 by mbenmesb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
-
 //on va ici venir modifier  la variable ? dans lst envp
 t_listenvp  *ft_get_exit_status(t_listenvp **alst, char *key, int exit_status)
 { 

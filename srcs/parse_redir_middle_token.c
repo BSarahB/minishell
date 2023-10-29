@@ -62,7 +62,6 @@ t_settings_del *ft_redir_in_middle(t_list *curr, t_cmd *cmd, t_list *lst_token, 
 {
 	t_list *lst_token_to_remove;
 	t_list *lst_token_to_remove2;
-	int fdin;
 
 	(void)lst_token;
 	lst_token_to_remove = curr->next;
@@ -71,13 +70,7 @@ t_settings_del *ft_redir_in_middle(t_list *curr, t_cmd *cmd, t_list *lst_token, 
 		curr->next->next->title = redir_in;
 	if(curr->next->title == redir_heredoc)
 		curr->next->next->title = redir_heredoc;
-	if(cmd->simpleCmds[del->index]->nofile == 0 && curr->next->next->title == redir_in)
-	{
-		if((fdin = open(lst_token_to_remove2->content, O_RDONLY)) == -1)
-			cmd->simpleCmds[del->index]->nofile = 1;
-		else
-			close(fdin);
-	}
+
 	curr->next =  curr->next->next->next;//ls
 	ft_lstdelone(&lst_token_to_remove);
 	ft_lstdelone2(&lst_token_to_remove2, cmd->simpleCmds[del->index], del->i, cmd);

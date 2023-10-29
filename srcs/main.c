@@ -14,8 +14,6 @@
 
 int	g_signal;
 
-
-
 char	*ft_get_var_dollar_quest(char *key_value)
 {
 	char	**var_content;
@@ -34,8 +32,6 @@ char	*ft_get_var_dollar_quest(char *key_value)
 	ft_free_tab(&var_content);
 	return (var);
 }
-
-
 
 int	ft_atoi(char *str)
 {
@@ -59,8 +55,6 @@ int	ft_atoi(char *str)
 	result = sign * result;
 	return (result);
 }
-
-
 
 int 	ft_get_exit_status_atoi(t_listenvp *lst_envp)
 {
@@ -96,8 +90,6 @@ void ft_set_exit_code_in_lst_envp(void *lst_envp, int flag, int num)
 		ptr = ft_get_exit_status(&ptr,"?=", 130);
 	else if(num != -13)
 		ptr = ft_get_exit_status(&ptr,"?=", num);
-	
-
 }
 
 void handler_sigint(int num)
@@ -132,10 +124,7 @@ void handler_sigint(int num)
 	{
 		ft_putstr_fd("\n", 2);
 	}
-
-
 }
-
 
 t_listenvp *ft_get_lst_envp(char **envp)
 {
@@ -202,18 +191,11 @@ int main(int argc, char *argv[], char *envp[])
 				if(data_env)
 				{
 					if(data_env->lst_envp)
-					{
 						exit_status = ft_get_exit_status_atoi(data_env->lst_envp);
-						//("exit_status : %d", exit_status);
-					}
 				}
-			//	else
-			//		exit_status = 0;
 				break;
 			}
 		add_history(line);
-		ft_check_prerequesite_of_line_input(line);
-		ft_check_input_cases_for_return_empty_prompt(line);
 		data = ft_tokenize_line(line);
 		lst_token = data->lst_token;
 		exit_syntax_error = ft_check_bash_syntax_error_caracteres_volee(lst_token);
@@ -221,7 +203,6 @@ int main(int argc, char *argv[], char *envp[])
 		{	
 			if(flag_save_envp == 0)
 			{
-				//ft_aff_list_envp_sur_char_content(data_env->lst_envp);
 				ft_set_exit_code_in_lst_envp(data_env->lst_envp, 1, exit_syntax);
 				exit_syntax =-13;
 				envp_tab = ft_lst_to_tab(data_env->lst_envp);
@@ -247,13 +228,23 @@ int main(int argc, char *argv[], char *envp[])
 			ft_parse_tokens_in_s_cmd(cmd, lst_token, data_env);
 			if(cmd->nb_of_heredocs != 0)
 				ft_heredoc_interaction(cmd, 0, 1);
-		//	printf("g signal = %d\n", g_signal);
 			if(g_signal != HD_STOP)
 			{
 				envp_t = ft_lst_to_tab(data_env->lst_envp);
 				exit_status = ft_setting_redirections_and_pipes(cmd, envp_t, data, line, data_env);
+
+				if (data_env->exit_parent == 1)
+				{
+					exit_status = ft_get_exit_status_atoi(data_env->lst_envp);
+					ft_free(cmd, lst_token, data, line);
+					ft_free_struct_t_cmd_only(&cmd);
+					if(envp_t != NULL)
+						ft_free_tab(&envp_t);
+					if(data_env != NULL)
+						ft_free_struct_t_data_env(&data_env);
+					exit(exit_status);
+				}
 			}
-			
 		}
 		else
 		{
@@ -261,19 +252,14 @@ int main(int argc, char *argv[], char *envp[])
 					exit_syntax = exit_syntax_error;
 				if(exit_syntax_error == -12)
 					exit_syntax = 0;
-
 		}
-		
 		ft_free(cmd, lst_token, data, line);
 		ft_free_struct_t_cmd_only(&cmd);
 		if(envp_t != NULL)
 			ft_free_tab(&envp_t);
-		//ft_aff_list_envp_sur_char_content(data_env->lst_envp);
 		g_signal = IN_PROMPT;
 	}
 	if(data_env != NULL)
-	{
 		ft_free_struct_t_data_env(&data_env);
-	}
 	return (exit_status);
 }

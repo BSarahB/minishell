@@ -58,9 +58,16 @@ SRCS	=	$(SRC_DIR)/main.c \
             $(SRC_DIR)/cd.c \
 			$(SRC_DIR)/pwd.c \
 			$(SRC_DIR)/exit.c \
-			$(SRC_DIR)/exit_code.c
-
-
+			$(SRC_DIR)/exit_code.c \
+			$(SRC_DIR)/cd_1.c \
+			$(SRC_DIR)/cd_2.c \
+			$(SRC_DIR)/cd_3.c \
+			$(SRC_DIR)/cd_utils.c \
+			$(SRC_DIR)/cd_utils2.c \
+			$(SRC_DIR)/check_validity_of_line_input2.c \
+			$(SRC_DIR)/dequote.c \
+			$(SRC_DIR)/display_error2.c\
+			$(SRC_DIR)/exit2.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -71,7 +78,7 @@ all:		$(NAME)
 
 
 .c.o:
-		$(CC) $(CFLAGS) -c $< -o $(<:.c=.o) 
+		$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
 $(NAME):	$(OBJS)
 	$(CC) -o $@ $^ -lreadline #-lasan -lreadline

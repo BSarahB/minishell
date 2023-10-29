@@ -12,17 +12,39 @@
 
 #include "minishell.h"
 
-void	ft_echo_builtin()
-{
 
-}
 
-void ft_execute_builtin(t_cmd *cmd, int i, char **builtin)
-{
-	if(strcmp(builtin[0], cmd->simpleCmds[i]->cmd_and_args[0]) == 0)
-		ft_echo_builtin();
 
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 
 int	ft_check_builtin(t_cmd *cmd, int i, char **builtin)
 {
@@ -37,3 +59,4 @@ int	ft_check_builtin(t_cmd *cmd, int i, char **builtin)
 	}
 	return(0);
 }
+*/

@@ -158,8 +158,8 @@ size_t ft_get_end_expand(char *str, t_expand *exp, char **expand, size_t i)
 			*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
 		else if(exp->quoting_rule == 2 && str[i - 1] == '$' && (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)))//- des qu on rencontre un espace "$ "
 			*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
-		else if (str[i -1] == '$' && ft_isdigit(str[i]) == 1) //"$2000"
-			*expand = ft_get_scope_expand(i, exp->start_expand_pos, str, &(exp->flag_expand_here));
+	//	else if (str[i -1] == '$' && ft_isdigit(str[i]) == 1) //"$2000"
+		//	*expand = ft_get_scope_expand(i, exp->start_expand_pos, str, &(exp->flag_expand_here));
 		else if (str[i -1] == '$' && ft_isunderscore(str, i)> 0) //"$2000"
 		{
 			i = ft_isunderscore(str, i);
@@ -173,17 +173,18 @@ size_t ft_get_end_expand(char *str, t_expand *exp, char **expand, size_t i)
 			{
 				*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
 			}
-		else if (str[i] == '$' && str[i - 1] != '$') //$VAR$  ou $V$
+		else if (str[i] == '$' && str[i - 1] != '$') //$VAR$  ou $V$ ou $?$ ou $1$
 			*expand = ft_get_scope_expand(i - 1, exp->start_expand_pos, str, &(exp->flag_expand_here));
 		else if(str[i] == '$' && str[i -1] == '$' && str[i + 1] == '\0') //$VAR$$\0
 			*expand = ft_get_scope_expand(i, exp->start_expand_pos, str, &(exp->flag_expand_here));	
 		
-		else if (str[i] == '?' && str[i + 1] != '\0' && str[i+ 1] != '$') //cas de $?m
+		else if ((str[i] == '?' || ft_isdigit(str[i]) == 1) && str[i + 1] != '\0' && str[i+ 1] != '$') //cas de $?m  $?user $?miam $1000 $2000 $2v $2hello
 		{
 			*expand = ft_get_scope_expand(i, exp->start_expand_pos, str, &(exp->flag_expand_here));
 			exp->flag_expand_here = 1; //flag_dollar_? = 1
 			exp->flag_dollar_quest = 1;
 		}
+
 		else if ((ft_is_alphanum(str[i]) == 0 ) && (str[i] != '?' && str[i+1] != '\0')) //$VAR+  on empeche le $? de rentrer dans cette condition. on veut que le $? aille dans la derniere condition avec stri+1 est '\0' 
 		{
 			if(ft_isunderscore(str, i) > 0) //$VAR_
@@ -322,12 +323,13 @@ int ft_is_expand_here(t_list *lst_token, char *str, char *buffer, char *envp[])
 							ft_memcpy(&buffer[exp->j], expand, ft_strlen(expand));
 							exp->j = exp->j + ft_strlen(expand);
 							ft_check_expand_for_tag_ambigeous(expand, exp, lst_token);
-							if(exp->flag_dollar_quest  == 1)
+							/*if(exp->flag_dollar_quest  == 1)
 								{
 									exp->flag_expand_here = 0;
 									exp->flag_dollar_quest = 0;
 									i++;
 								}
+								*/
 								if(exp->quoting_rule_adequate == 1 && (exp->quoting_rule ==2 || exp->quoting_rule ==1)) //cas du $""<-$"" ou $''<-$'' on a attent la 2 eme quote on reset a 0
 									{ 
 										exp->quoting_rule_adequate = 0;
@@ -336,7 +338,12 @@ int ft_is_expand_here(t_list *lst_token, char *str, char *buffer, char *envp[])
 						}
 					free(expand);
 					expand = NULL;
-					
+					if(exp->flag_dollar_quest  == 1)
+						{
+							exp->flag_expand_here = 0;
+							exp->flag_dollar_quest = 0;
+							i++;
+						}
 				}
 		if (str[i] == '$' && exp->quoting_rule == 1 && exp->flag_expand_here != 1)
 			ft_check_dollar_to_remove_before_sq(str, exp, i);

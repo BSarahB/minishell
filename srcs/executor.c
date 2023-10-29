@@ -9,9 +9,7 @@
 /*   Updated: 2023/03/13 14:10:43 by mbenmesb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
-
 
 int ft_export_x(char **envp)
 {
@@ -20,23 +18,13 @@ int ft_export_x(char **envp)
 	i = 0;
 	if(envp == NULL)
 		return (0); //TODO CLARIFIER LE ENV VIDE
-
 	while(envp[i])
 	{
-
 		printf("declare -x %s\n", envp[i]);
-
-		/*
-		ft_putstr_fd("declare -x ", STDOUT_FILENO);
-		ft_putstr_fd(envp[i], STDOUT_FILENO);
-		ft_putstr_fd("\n", STDOUT_FILENO);
-		*/
 		i++;
 	}
-
 	return(0); //tt s est bien passe, declar x a ete affiche
 }
-
 
 int	ft_execve_join(t_cmd *cmd, char **envp, char **abs_cmd_and_args)
 {
@@ -53,16 +41,11 @@ int	ft_execve_join(t_cmd *cmd, char **envp, char **abs_cmd_and_args)
 		free(path_cmd_joined);
 		path_cmd_joined = NULL;
 		if (exec_return != -1)
-			{
-			//	free(path_cmd_joined);
-				break ;
-			}
+			break ;
 	}
-	
 	return (exec_return);
 }
 
-// int execve(const char *pathname, char *const argv[], char *const envp[]);
 int ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 {
 	int exec_return;
@@ -75,30 +58,15 @@ int ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 		cmd->simpleCmds[set->i]->exit_code = 0;
 		return(exec_return);
 	}
-	
 	close(set->savein);
 	close(set->saveout);
-
-	if(cmd->nb_of_simpleCmds >= 2)
+	if(cmd->nb_of_simpleCmds >= 2 && set->i > 0 && cmd->simpleCmds[set->i -1]->nofile == 0)
 		{
-			close(set->pip[0]);
-			//PROTECTME->use fcts fd protection for close cd builtin.c
+			if(set->pip[0] != -1)
+				close(set->pip[0]);
 		}
-
-/*
-	if(set->pip_exists == 1) // a | b
-	{
-		if(set->pip[0])
-			close(set->pip[0]);
-		if(set->pip[1])
-			close(set->pip[1]); //close ne fait pas d erreur d apres les tests ca n a pas l air de deranger l execuion du prograame du coup on se permet ici de tt fermer
-		
-	}
-	*/
-	
 	if (execve(cmd->simpleCmds[i]->cmd_and_args[0], cmd->simpleCmds[i]->cmd_and_args, envp) == -1)
 			exec_return = ft_execve_join(cmd, envp, cmd->simpleCmds[i]->abs_cmd_and_args);
-
 	if (exec_return == -1 && (errno == 2 || errno == 13))
 		{
 			cmd->simpleCmds[i]->errnum = 127;
@@ -109,6 +77,5 @@ int ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
 		}
 	ft_free_tab(&(cmd->simpleCmds[i]->cmd_and_args));
 	ft_free_tab(&(cmd->simpleCmds[i]->abs_cmd_and_args));
-
 	return (exec_return);
 }

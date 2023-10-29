@@ -193,7 +193,8 @@ void ft_child_process(t_settings *set, t_cmd *cmd, char **envp_t, t_data *data, 
 			}
 		exit_code = cmd->simpleCmds[set->i]->exit_code;
 		ft_free_and_exit_child(set, cmd, envp_t, data, line, data_env);
-		exit(exit_code);
+	//	printf("exit_code = $d\n");
+		exit(exit_code);//(exit_code);
 		
 	}
 	// BUITLIN ECHO
@@ -333,8 +334,11 @@ int	ft_setting_redirections_and_pipes(t_cmd *cmd, char **envp_t, t_data *data, c
 		exit_status =  cmd->simpleCmds[set->i -1]->exit_code;
 	if(exit_status == 141)
 		exit_status = 0;
+
 	//printf("exit_status : %d\n", exit_status);
+
 	data_env->lst_envp = ft_get_exit_status(&data_env->lst_envp, "?=", exit_status);
+
 	ft_restore_original_in_and_out(set);	//restauration des sauvegardes des vrais in et out
 	ft_free_struct_t_settings(&set);
 	return(exit_status);

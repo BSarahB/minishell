@@ -11,19 +11,3 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_exit_builtin(void)
-{
-	
-}
-
-void	ft_unset_builtin(void)
-{
-	
-}
-
-
-void	ft_export_builtin(void)
-{
-	
-}

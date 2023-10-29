@@ -12,23 +12,58 @@
 
 #include "minishell.h"
 
-void	ft_env_builtin(void)
-{
-	
-}
 
 
-void	ft_cd_builtin(void)
-{
-	
-}
 
 
-void	ft_pwd_builtin(void)
-{
-	
-}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 void    ft_close(int *fd)
 {
     if (fd)
@@ -46,3 +81,4 @@ void    ft_close_pipe(int pipe[2])
     ft_close(&pipe[0]);
     ft_close(&pipe[1]);
 }
+*/

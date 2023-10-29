@@ -9,7 +9,6 @@
 /*   Updated: 2023/09/04 14:34:52 by mbenmesb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
 void	ft_lstdelone2(t_list **lst, t_simpleCmd *simpleCmd, size_t i, t_cmd *cmd)
@@ -24,7 +23,6 @@ void	ft_lstdelone2(t_list **lst, t_simpleCmd *simpleCmd, size_t i, t_cmd *cmd)
 	 }
 }
 
-
 void	ft_lstdelone_beta(t_list **lst)
 {
 	 if(*lst)
@@ -35,7 +33,6 @@ void	ft_lstdelone_beta(t_list **lst)
 		*lst = NULL;
 	 }
 }
-
 
 void	ft_lstdelone(t_list **lst)
 {

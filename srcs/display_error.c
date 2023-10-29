@@ -9,7 +9,6 @@
 /*   Updated: 2023/07/03 13:56:25 by mbenmesb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
 int		find_length(int n)
@@ -75,7 +74,7 @@ int	ft_check_close_error(int fd)
 	}
 	return (0);
 }
-	//GESTION DE CAS OU INFILE OU OUTFILE S OUVRE PAS
+
 int	ft_check_open_error(int fdin, int fdout, t_cmd *cmd)
 {
 	(void)cmd;
@@ -86,7 +85,6 @@ int	ft_check_open_error(int fdin, int fdout, t_cmd *cmd)
 	if (fdout == -1) //si il y a un pb sur l open de l outfile on degage, on affiche le perror on free on a tt compris, et basta la vista
 	{
 		perror("minishell");
-	//	ft_free_struct_t_cmd(&cmd); 
 		return (2);
 	}
 	return (0);

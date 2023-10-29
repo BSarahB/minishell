@@ -37,10 +37,7 @@ void ft_check_env(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *
 				else
 					tmp = tmp->next;
 				if(cmd->nb_of_simpleCmds == 1)
-					{
-						//simpleCmd->env_solo = 1;
 						simpleCmd->builtin_solo = 1;
-					}
 			}
 			else
 				flag_env = 0;
