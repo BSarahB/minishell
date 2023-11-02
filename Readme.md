@@ -747,7 +747,7 @@ Si simpleCmd == 1
 alors pas de condition pour operator_pos
 on y va directement sur les fonctions de parsing
 */
-//LIBRAIRIE 
+//LIBRAIRIE solution au pb
 ==27127==ASan runtime does not come first in initial library list; you should either link runtime to your application or manually preload it with LD_PRELOAD.
 est une erreur qui dit quil faut mettre le flag -lasan avant -lreadline
 CFLAGS = -Wall -Wextra -Werror -I $(INCLUDE_DIR) -fsanitize=address -fsanitize=leak
@@ -761,35 +761,3 @@ les flags -fsanitize=address -fsanitize=leak sont dans la compilation
 et la librairie est dans le linkage des fichiers .o
 
  #-lasan == dynamique == necessite installation sur ordi VS -static-libasan == STATIC == inclus dans l executable ==pas de necessite d installation sur l ordi pour verfier $ldconfig -p  pour lister les librairies de l ordi
-
-
-
-//FIXME
- ~ <infile  >outfile 33wc -l <infile <nofile >outfile
-minishell: infile: No such file or directory
-minishell: infile: No such file or directory
-minishell: nofile: No such file or directory
-
-
-
-//FIXME
-~ <infile >outfile <infile <<A | ls <infile
-->FD EST OUVERT (PIPE)
-
-//TODO
-heredoc
-<<A bash
->echo bonjour
->exit 12
->A
-va display bonjour 
-et echo $? donner 
-12
-
-//GESTION DES SIGNAUX
-->CTRL D  est plutot un EOF end of file plutot qu un signal en soi. donc pas besoin d interpreter CTRLD. de tte facon il est deja gere 
-
-
-
-
-//TODO REGLER :Double free introduit par la refactorisation sur echo
