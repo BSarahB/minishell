@@ -216,21 +216,6 @@
 },
 {
   "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
-  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/builtins.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/builtins.c",
-  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/builtins.c"
-},
-{
-  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
-  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/builtins_2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/builtins_2.c",
-  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/builtins_2.c"
-},
-{
-  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
-  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/builtins_3.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/builtins_3.c",
-  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/builtins_3.c"
-},
-{
-  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
   "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/struct_init_expand.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/struct_init_expand.c",
   "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/struct_init_expand.c"
 },
@@ -338,5 +323,220 @@
   "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
   "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/exit2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/exit2.c",
   "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/exit2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/get_end_expand.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_end_expand.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_end_expand.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/expand_utils.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/expand_utils.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/expand_utils.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/expand_utils2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/expand_utils2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/expand_utils2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/get_expand.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_expand.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_expand.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/get_expand2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_expand2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_expand2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/get_expand3.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_expand3.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_expand3.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/expand_part3.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/expand_part3.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/expand_part3.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/expand_epur_and_trim_buffer.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/expand_epur_and_trim_buffer.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/expand_epur_and_trim_buffer.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/export_check_var_in.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/export_check_var_in.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/export_check_var_in.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/export_check_key.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/export_check_key.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/export_check_key.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/get_data_token_quoting_rule.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_data_token_quoting_rule.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_data_token_quoting_rule.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/lst_envp2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/lst_envp2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/lst_envp2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/lst_token_3.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/lst_token_3.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/lst_token_3.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/setting_exit_status.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_exit_status.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_exit_status.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/child_process.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/child_process.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/child_process.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/cd_4.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/cd_4.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/cd_4.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/expand1.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/expand1.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/expand1.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/expand2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/expand2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/expand2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/expand_part4.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/expand_part4.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/expand_part4.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/export_check_var_in2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/export_check_var_in2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/export_check_var_in2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/get_data_token_quoting_rule2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_data_token_quoting_rule2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_data_token_quoting_rule2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/get_data_token_quoting_rule3.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_data_token_quoting_rule3.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_data_token_quoting_rule3.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/get_end_expand3.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_end_expand3.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_end_expand3.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/get_end_expand2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_end_expand2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_end_expand2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/get_path1.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_path1.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/get_path1.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/last_simpleCmd_setting_redirections2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/last_simpleCmd_setting_redirections2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/last_simpleCmd_setting_redirections2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/lst_token_4.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/lst_token_4.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/lst_token_4.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/parsing_lst_token_in_cmd_and_args2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/parsing_lst_token_in_cmd_and_args2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/parsing_lst_token_in_cmd_and_args2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/regular_simpleCmd_setting_redirections2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/regular_simpleCmd_setting_redirections2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/regular_simpleCmd_setting_redirections2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/setting_redirections_3.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_redirections_3.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_redirections_3.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/setting_redirections_4.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_redirections_4.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_redirections_4.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/setting_redirections_5.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_redirections_5.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/setting_redirections_5.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/shell_lexer2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/shell_lexer2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/shell_lexer2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/shell_parser2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/shell_parser2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/shell_parser2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/shell_parser3.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/shell_parser3.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/shell_parser3.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/struct_init_parser2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/struct_init_parser2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/struct_init_parser2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/tokenize2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/tokenize2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/tokenize2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/unset2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/unset2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/unset2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/unset3.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/unset3.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/unset3.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/update_free_memory_4.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/update_free_memory_4.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/update_free_memory_4.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/utils_parser3_count2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils_parser3_count2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils_parser3_count2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/utils_parser2.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils_parser2.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/utils_parser2.c"
+},
+{
+  "directory": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/build",
+  "command": "/usr/bin/clang -I/mnt/nfs/homes/mbenmesb/Documents/my_minishell/includes -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak -o CMakeFiles/my_minishell.dir/srcs/main_helper.c.o -c /mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/main_helper.c",
+  "file": "/mnt/nfs/homes/mbenmesb/Documents/my_minishell/srcs/main_helper.c"
 }
 ]

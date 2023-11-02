@@ -12,19 +12,9 @@
 
 #include "minishell.h"
 
-void *ft_memset2(void *b, int n, size_t len)
+int	*ft_init_ctab(int **int_tab, size_t len, int init_value)
 {
-	size_t i;
-
-	i = 0;
-	while (i < len)
-		((int *)b)[i++] = n;
-	return (b);
-}
-
-int *ft_init_ctab(int **int_tab, size_t len, int init_value)
-{
-	*int_tab = malloc(sizeof(int) * (len + 1));
+	*int_tab = malloc(sizeof (int) * (len + 1));
 	if (!(*int_tab))
 		return (NULL);
 	if (len > 0)
@@ -33,87 +23,76 @@ int *ft_init_ctab(int **int_tab, size_t len, int init_value)
 	return (*int_tab);
 }
 
-void	ft_get_end_simpleCmd_pos(t_cmd *cmd, t_simpleCmd *simpleCmd, t_list **start_lst_token)
+void	ft_get_end_simplecmd_pos(t_cmd *cmd, t_simpleCmd *simpleCmd, \
+													t_list **start_lst_token)
 {
+	t_list	*tmp;
+
 	(void)cmd;
 	(void)simpleCmd;
-	t_list *tmp;
-
 	tmp = *start_lst_token;
-	while(tmp)
+	while (tmp)
 	{
-		if(tmp->title == operator)
+		if (tmp->title == operator)
 		{
-			simpleCmd->end_simpleCmd_pos = tmp->position;
-			break;
+			simpleCmd->end_simplecmd_pos = tmp->position;
+			break ;
 		}
-		if(tmp->next == NULL)
+		if (tmp->next == NULL)
 		{
-			simpleCmd->end_simpleCmd_pos = tmp->position;
-			break;
+			simpleCmd->end_simplecmd_pos = tmp->position;
+			break ;
 		}
 		tmp = tmp->next;
 	}
 }
-//fcts utiles au deboggage
-void	ft_aff_abs_cmd_and_args(t_cmd	*cmd)
+
+void	ft_aff_abs_cmd_and_args(t_cmd *cmd)
 {
-	size_t i;
-	size_t j;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
-	while (i < cmd->nb_of_simpleCmds)
+	while (i < cmd->nb_of_simplecmds)
 	{
 		j = 0;
-		while(cmd->simpleCmds[i]->nb_of_tokens_in_simpleCmd == 0 &&  cmd->simpleCmds[i+1] != NULL)
-			i++;//protections pour >a | ls |grep c
-		if(cmd->simpleCmds[i] != NULL && cmd->simpleCmds[i]->nb_of_tokens_in_simpleCmd != 0) 
+		while (cmd->simplecmds[i]->nb_of_tokens_in_simplecmd == 0 \
+			&& cmd->simplecmds[i + 1] != NULL)
+			i++;
+		if (cmd->simplecmds[i] != NULL \
+			&& cmd->simplecmds[i]->nb_of_tokens_in_simplecmd != 0)
 		{
-			while (cmd->simpleCmds[i]->cmd_and_args[j] != NULL)
-		{
-			//printf("cmd_and_args de la simpleCmd[%zu] : <%s>\n", i,cmd->simpleCmds[i]->cmd_and_args[j]);
-			j++;
-		}
-		//printf("\n\n\n");		
-		j= 0;
-		while (cmd->simpleCmds[i]->abs_cmd_and_args[j] != NULL)
-		{
-			//printf("abs_cmd_and_args[%zu]<%s>\n",i, cmd->simpleCmds[i]->abs_cmd_and_args[j]);
-			j++;
-		}
-//	printf("\n\n\n");
-		i++;
+			while (cmd->simplecmds[i]->cmd_and_args[j] != NULL)
+				j++;
+			j = 0;
+			while (cmd->simplecmds[i]->abs_cmd_and_args[j] != NULL)
+				j++;
+			i++;
 		}
 		else
-			break;
+			break ;
 	}
 }
 
 void	ft_check_tab_envp_removed(char **tab)
 {
-	if(*tab == NULL)
+	if (*tab == NULL)
 	{
-		ft_putstr_fd("Please set back the environnement to run minishell properly\n", 2);
-		exit(1);	
+		ft_putstr_fd("Please set back the environnement to run minishell \
+															properly\n", 2);
+		exit(1);
 	}
 }
 
-
 void	ft_aff_tab_envp(char **tab)
 {
-	
-	size_t k;
+	size_t	k;
 
 	k = 0;
-
-
 	printf("tab envp \n");
-	
-
-	while(tab[k])
-		{
-			printf("tab[%zu]= <%s>\n", k, tab[k]);
-			k++;
-		}
+	while (tab[k])
+	{
+		printf("tab[%zu]= <%s>\n", k, tab[k]);
+		k++;
+	}
 }
-

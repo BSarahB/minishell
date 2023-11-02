@@ -12,77 +12,45 @@
 
 #include "minishell.h"
 
-
-void	ft_aff_listenv_ptr_sur_char_content(t_listenvp *alst) // pour void		*content; de type char *
+void	ft_aff_list_ptr_sur_char_content2(t_list *alst)
 {
-			printf("list diplayed: \n");
-	while(alst)
+	printf("RETOKENIZED list diplayed: \n");
+	while (alst)
 	{
-		printf("<%s>\n",(char *)(alst)->key_value); //ou printf("%d - ", (*(int *)(*alst)->content));
-		//printf("%s , %zu\n",(char *)(alst)->content, alst->position); //ou printf("%d - ", (*(int *)(*alst)->content));
-		alst = (alst)->next;
-	}
-	printf("end_list dipslay\n");
-}
-
-void	ft_aff_list_ptr_sur_char_content3(t_list *alst) // pour void		*content; de type char *
-{
-			printf("RETOKENIZED ENTIRE list diplayed: \n");
-	while(alst)
-	{
-		printf("[%s]\n",(char *)(alst)->content); //ou printf("%d - ", (*(int *)(*alst)->content));
-		//printf("%s , %zu\n",(char *)(alst)->content, alst->position); //ou printf("%d - ", (*(int *)(*alst)->content));
-		alst = (alst)->next;
-	}
-	printf("RETOKENIZED ETNIRE end_list dipslay\n");
-}
-
-
-void	ft_aff_list_ptr_sur_char_content2(t_list *alst) // pour void		*content; de type char *
-{
-			printf("RETOKENIZED list diplayed: \n");
-	while(alst)
-	{
-		printf("[%s]\n",(char *)(alst)->content); //ou printf("%d - ", (*(int *)(*alst)->content));
-		//printf("%s , %zu\n",(char *)(alst)->content, alst->position); //ou printf("%d - ", (*(int *)(*alst)->content));
+		printf("[%s]\n", (char *)(alst)->content);
 		alst = (alst)->next;
 	}
 	printf("RETOKENIZED end_list dipslay\n");
 }
 
-
-void	ft_aff_list_envp_d_sur_char_content(t_listenvp *alst) // pour void		*content; de type char *
+void	ft_aff_list_envp_d_sur_char_content(t_listenvp *alst)
 {
-			printf("lst_envp_d diplayed: \n");
-	while(alst)
+	printf("lst_envp_d diplayed: \n");
+	while (alst)
 	{
-		printf("<%s>\n",(char *)(alst)->key_value); //ou printf("%d - ", (*(int *)(*alst)->content));
-		//printf("%s , %zu\n",(char *)(alst)->content, alst->position); //ou printf("%d - ", (*(int *)(*alst)->content));
+		printf("<%s>\n", (char *)(alst)->key_value);
 		alst = (alst)->next;
 	}
 	printf("end_lst_envp_D dipslay\n");
 }
 
-void	ft_aff_list_envp_sur_char_content(t_listenvp *alst) // pour void		*content; de type char *
+void	ft_aff_list_envp_sur_char_content(t_listenvp *alst)
 {
-			printf("lst_envp diplayed: \n");
-	while(alst)
+	printf("lst_envp diplayed: \n");
+	while (alst)
 	{
-		printf("<%s>\n",(char *)(alst)->key_value); //ou printf("%d - ", (*(int *)(*alst)->content));
-		//printf("%s , %zu\n",(char *)(alst)->content, alst->position); //ou printf("%d - ", (*(int *)(*alst)->content));
+		printf("<%s>\n", (char *)(alst)->key_value);
 		alst = (alst)->next;
 	}
 	printf("end_lst_envp dipslay\n");
 }
 
-
-void	ft_aff_list_ptr_sur_char_content(t_list *alst) // pour void		*content; de type char *
+void	ft_aff_list_ptr_sur_char_content(t_list *alst)
 {
-			printf("list diplayed: \n");
-	while(alst)
+	printf("list diplayed: \n");
+	while (alst)
 	{
-		printf("<%s>\n",(char *)(alst)->content); //ou printf("%d - ", (*(int *)(*alst)->content));
-		//printf("%s , %zu\n",(char *)(alst)->content, alst->position); //ou printf("%d - ", (*(int *)(*alst)->content));
+		printf("<%s>\n", (char *)(alst)->content);
 		alst = (alst)->next;
 	}
 	printf("end_list dipslay\n");
@@ -95,7 +63,6 @@ void	ft_simplify_list(t_list *lst)
 
 	tmp = lst;
 	position = 1;
-
 	while (tmp)
 	{
 		tmp->position = position;

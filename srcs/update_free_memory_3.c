@@ -12,12 +12,26 @@
 
 #include "minishell.h"
 
+void	ft_free_struct_t_list_lst_envp(t_listenvp **lst_envp)
+{
+	if (*lst_envp != NULL)
+	{
+		if ((*lst_envp)->key_value != NULL)
+		{
+			free((*lst_envp)->key_value);
+			(*lst_envp)->key_value = NULL;
+		}
+		ft_free_struct_t_list_lst_envp(&((*lst_envp)->next));
+		free(*lst_envp);
+		*lst_envp = NULL;
+	}
+}
+
 void	ft_free_tab2(char ***tab)
 {
 	int	i;
 
 	i = 0;
-
 	if ((*tab)[i])
 	{
 		ft_free_struct_str(&(*tab)[i]);
@@ -29,13 +43,12 @@ void	ft_free_tab2(char ***tab)
 	}
 }
 
-void	ft_free_tab(char ***tab)//&tab    (**)
+void	ft_free_tab(char ***tab)
 {
 	int	i;
 
 	i = 0;
-
-	while ((*tab)[i]) //
+	while ((*tab)[i])
 	{
 		ft_free_struct_str(&(*tab)[i]);
 		i++;

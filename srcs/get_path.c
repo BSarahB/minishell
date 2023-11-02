@@ -9,20 +9,7 @@
 /*   Updated: 2023/03/13 14:11:36 by mbenmesb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
-
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	if (n == 0)
-		return (0);
-	while (i < n - 1 && s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
 
 char	**ft_get_path(char **envp)
 {
@@ -44,50 +31,63 @@ char	**ft_get_path(char **envp)
 	return (path_addr);
 }
 
-char	*ft_get_var(char **envp, char *expand, t_expand *exp)
+void	ft_reset_flag(t_expand *exp)
 {
-	char	**var_content;
-	char 	*var;
-	int		i;
-	size_t 	n;
+	if (exp->flag_dollar_to_remove == 1)
+		exp->flag_dollar_to_remove = 0;
+}
+
+void	ft_find_var(char *expand, t_param_var *p, char **envp, size_t n)
+{
+	int	i;
 
 	i = 0;
-	var = NULL;
-	var_content = NULL;
-	n = ft_strlen(expand);
-	char	equal[2];
-
-	equal[0] = '=';
-	equal[1] = 0;
-	expand = ft_update_string(&expand, ft_strjoin(expand, equal));
-	if(((ft_strcmp(expand,"$=") == 0) && exp->quoting_rule_adequate == 1 && exp->flag_dollar_to_remove == 0) || ((ft_strcmp(expand,"$=") == 0) && exp->quoting_rule == 2 && exp->flag_dollar_to_remove == 0)) //|| ( (ft_strcmp(expand,"$ =") == 0) && exp->quoting_rule == 2 &&exp->quoting_rule_adequate == 0 ))//&& exp->quoting_rule_adequate == 0))//il faut que QR == 2
-	{
-		var = ft_strdup("$");
-		ft_update_string(&expand, var);
-		return(var);
-	}
-	if(exp->flag_dollar_to_remove == 1)
-		exp->flag_dollar_to_remove = 0;
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], (&expand[1]), n ) == 0)
+		if (ft_strncmp(envp[i], (&expand[1]), n) == 0)
 		{
-			var_content = ft_split(&envp[i][n], '=');
-			if(var_content == NULL || var_content[0] == NULL)
-				ft_free_tab(&var_content);
-			break;
+			p->var_content = ft_split(&envp[i][n], '=');
+			if (p->var_content == NULL || p->var_content[0] == NULL)
+				ft_free_tab(&(p->var_content));
+			break ;
 		}
 		i++;
 	}
-	if(var_content == NULL || var_content[0] == NULL) // "$" -> expand est $= 
-		{
+}
 
-			ft_free_struct_str(&expand);
-			return(NULL);
+void	st_t_param_var_init(t_param_var *para)
+{
+	para->var_content = NULL;
+	para->var = NULL;
+	para->equal[0] = '=';
+	para->equal[1] = 0;
+}
 
-		}
-	var = ft_strdup(var_content[0]);
-	ft_update_string(&expand, var);
-	ft_free_tab(&var_content);
-	return (var);
+char	*ft_get_var(char **envp, char *expand, t_expand *exp)
+{
+	t_param_var	para;
+	size_t		n;
+
+	st_t_param_var_init(&para);
+	n = ft_strlen(expand);
+	expand = ft_update_string(&expand, ft_strjoin(expand, para.equal));
+	if (((ft_strcmp(expand, "$=") == 0) && exp->quoting_rule_adequate == 1 \
+		&& exp->flag_dollar_to_remove == 0) || ((ft_strcmp(expand, "$=") == 0) \
+			&& exp->quoting_rule == 2 && exp->flag_dollar_to_remove == 0))
+	{
+		para.var = ft_strdup("$");
+		ft_update_string(&expand, para.var);
+		return (para.var);
+	}
+	ft_reset_flag(exp);
+	ft_find_var(expand, &para, envp, n);
+	if (para.var_content == NULL || para.var_content[0] == NULL)
+	{
+		ft_free_struct_str(&expand);
+		return (NULL);
+	}
+	para.var = ft_strdup(para.var_content[0]);
+	ft_update_string(&expand, para.var);
+	ft_free_tab(&(para.var_content));
+	return (para.var);
 }

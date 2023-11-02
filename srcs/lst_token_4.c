@@ -1,62 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   lst_token_4.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbenmesb <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbenmesb <mbenmesb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/13 11:45:05 by mbenmesb          #+#    #+#             */
-/*   Updated: 2023/09/13 11:45:28 by mbenmesb         ###   ########.fr       */
+/*   Created: 2023/10/30 01:45:59 by mbenmesb          #+#    #+#             */
+/*   Updated: 2023/10/30 01:46:10 by mbenmesb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-int	ft_check_builtin(t_cmd *cmd, int i, char **builtin)
+void	ft_aff_listenv_ptr_sur_char_content(t_listenvp *alst)
 {
-	int	j;
-
-	j = 0;
-	while(builtin[j])
+	printf("list diplayed: \n");
+	while (alst)
 	{
-		if(strcmp(builtin[j], cmd->simpleCmds[i]->cmd_and_args[0]) == 0)
-			return(1);
-		j++;
+		printf("<%s>\n", (char *)(alst)->key_value);
+		alst = (alst)->next;
 	}
-	return(0);
+	printf("end_list dipslay\n");
 }
-*/

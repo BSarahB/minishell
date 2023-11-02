@@ -1,84 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins_2.c                                       :+:      :+:    :+:   */
+/*   utils_parser2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbenmesb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/13 11:46:20 by mbenmesb          #+#    #+#             */
-/*   Updated: 2023/09/13 11:46:33 by mbenmesb         ###   ########.fr       */
+/*   Created: 2023/08/14 18:03:08 by mbenmesb          #+#    #+#             */
+/*   Updated: 2023/08/14 18:03:31 by mbenmesb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-void    ft_close(int *fd)
+void	*ft_memset2(void *b, int n, size_t len)
 {
-    if (fd)
-    {
-        if (*fd > 2)
-        {
-            close(*fd);
-            *fd = 0;
-        }
-    }
-}
+	size_t	i;
 
-void    ft_close_pipe(int pipe[2])
-{
-    ft_close(&pipe[0]);
-    ft_close(&pipe[1]);
+	i = 0;
+	while (i < len)
+		((int *)b)[i++] = n;
+	return (b);
 }
-*/

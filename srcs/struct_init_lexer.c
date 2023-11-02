@@ -15,7 +15,7 @@ t_data	*ft_struct_init_data2(t_data **data, t_list *lst_token, t_list *token)
 {
 	(*data)->token = token;
 	(*data)->lst_token = lst_token;
-	return(*data);
+	return (*data);
 }
 
 t_data	*ft_struct_init_data(t_data **data)
@@ -24,7 +24,7 @@ t_data	*ft_struct_init_data(t_data **data)
 	t_list	*token;
 	t_list	*lst_token;
 
-	*data = (t_data *)malloc(sizeof(t_data));
+	*data = (t_data *)malloc(sizeof (t_data));
 	if (!(*data))
 		return (NULL);
 	token_content = NULL;
@@ -32,5 +32,5 @@ t_data	*ft_struct_init_data(t_data **data)
 	lst_token = ft_create_list();
 	(*data)->token = token;
 	(*data)->lst_token = lst_token;
-	return(*data);
+	return (*data);
 }

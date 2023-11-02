@@ -19,7 +19,6 @@ char	*ft_update_string(char **str, char *new)
 	str_old = *str;
 	*str = new;
 	ft_free_struct_str(&str_old);
-	//ft_free_tab()
 	return (*str);
 }
 
@@ -33,7 +32,7 @@ char	*ft_strndup(char *src, int n)
 	size_src = 0;
 	while (src[size_src] && i < n)
 		size_src++;
-	dest = (char *)malloc(sizeof(*dest) * (size_src + 1));
+	dest = (char *)malloc(sizeof (*dest) * (size_src + 1));
 	if (!dest)
 		return (NULL);
 	while (src[i] && i < n)
@@ -44,6 +43,7 @@ char	*ft_strndup(char *src, int n)
 	dest[i] = '\0';
 	return (dest);
 }
+
 char	**ft_create_tab(char const *s, char c, size_t words_nbr)
 {
 	char		**tab;
@@ -53,7 +53,7 @@ char	**ft_create_tab(char const *s, char c, size_t words_nbr)
 
 	i = 0;
 	k = 0;
-	tab = malloc(sizeof(*tab) * (words_nbr + 1));
+	tab = malloc(sizeof (*tab) * (words_nbr + 1));
 	if (!tab)
 		return (NULL);
 	while (k < words_nbr)

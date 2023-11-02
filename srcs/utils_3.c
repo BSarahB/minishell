@@ -12,10 +12,10 @@
 
 #include "minishell.h"
 
-void *ft_memcpy(void *dst, const void *src, size_t n)
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	unsigned char *s;
-	unsigned char *d;
+	unsigned char	*s;
+	unsigned char	*d;
 
 	s = (unsigned char *)src;
 	d = (unsigned char *)dst;
@@ -28,16 +28,15 @@ void *ft_memcpy(void *dst, const void *src, size_t n)
 		s++;
 		n--;
 	}
-	//printf("dst: <%s> apres memcpy\n", (unsigned char *)dst);
 	return (dst);
 }
 
 size_t	ft_strlen(const char *s)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
-	if(s == NULL)
+	if (s == NULL)
 		return (0);
 	while (s[i])
 		i++;

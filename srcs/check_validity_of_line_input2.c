@@ -12,72 +12,61 @@
 
 #include "minishell.h"
 
-int		ft_strcmp(char *s1, char *s2)
+int	ft_strcmp(char *s1, char *s2)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(s1[i] != '\0' && s2[i] != '\0')
+	while (s1[i] != '\0' && s2[i] != '\0')
 	{
-		if(s1[i] != s2[i])
-			return	(s1[i] - s2[i]);
+		if (s1[i] != s2[i])
+			return (s1[i] - s2[i]);
 		i++;
 	}
 	return (s1[i] - s2[i]);
 }
 
-int		ft_is_check_for_token(t_list *lst_token, char *str)
+int	ft_is_check_for_token(t_list *lst_token, char *str)
 {
-	t_list *tmp;
+	t_list	*tmp;
 
 	tmp = lst_token;
-	while(tmp)
+	while (tmp)
 	{
-		
-		if(ft_strcmp(tmp->content, str) == 0)
+		if (ft_strcmp(tmp->content, str) == 0)
 			return (1);
 		tmp = tmp->next;
 	}
-	return(0);
+	return (0);
 }
 
-int 	ft_exclamation(t_list *tmp)
+int	ft_exclamation(t_list *tmp)
 {
-	if((ft_strcmp(tmp->content, "!") == 0))
+	if ((ft_strcmp(tmp->content, "!") == 0))
 	{
-		if(tmp->next == NULL)
-			return(1);
+		if (tmp->next == NULL)
+			return (1);
 	}
-	return(0);
+	return (0);
 }
 
-int ft_ampersand(t_list *tmp)
+int	ft_ampersand(t_list *tmp)
 {
-	if(ft_strcmp(tmp->content, "&") == 0)
+	if (ft_strcmp(tmp->content, "&") == 0)
 	{
-		if(tmp->next == NULL)
-		{
+		if (tmp->next == NULL)
 			ft_error_msg2b(tmp->content);
-			return(2);
-		}
-		if((ft_strcmp(tmp->next->content, "&") == 0))
-		{
+		else if ((ft_strcmp(tmp->next->content, "&") == 0))
 			ft_error_msg2c(tmp->content);
-			return(2);
-		}
+		return (2);
 	}
-	if(ft_strcmp(tmp->content, "&&") == 0)
+	if (ft_strcmp(tmp->content, "&&") == 0)
 	{
-		if(tmp->next == NULL)
-		{
+		if (tmp->next == NULL)
 			ft_error_msg2b(tmp->content);
-			return(2);
-		}
-		if((ft_strcmp(tmp->next->content, "&") == 0))
-		{
+		else if ((ft_strcmp(tmp->next->content, "&") == 0))
 			ft_error_msg2c(tmp->content);
-			return(2);
-		}
+		return (2);
 	}
-	return(0);
+	return (0);
 }

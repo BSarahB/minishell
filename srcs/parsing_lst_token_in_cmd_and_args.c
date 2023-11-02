@@ -12,78 +12,82 @@
 
 #include "minishell.h"
 
-char	**ft_get_abs_argumentsb(char **abs_c_and_a)
+int	ft_allocate_simplecmd_nbtokens(char ***c_and_a, char ***abs_c_and_a, \
+														t_simpleCmd *simpleCmd)
 {
-	char	slash[2];
-
-	slash[0] = '/';
-	slash[1] = 0;
-	ft_update_string(&abs_c_and_a[0], ft_strjoin(slash, abs_c_and_a[0]));
-	return (abs_c_and_a);
+	*c_and_a = malloc(sizeof (**c_and_a) * \
+					(simpleCmd->nb_of_tokens_in_simplecmd + 1));
+	*abs_c_and_a = malloc(sizeof (**abs_c_and_a) * \
+					(simpleCmd->nb_of_tokens_in_simplecmd + 1));
+	return (*c_and_a && *abs_c_and_a);
 }
 
-
-
-int		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd_from_retokenized_lst(t_list *lst_token_retokenized, t_simpleCmd *simpleCmd)
+void	ft_struct_init_t_param_parse(t_param_parse *para)
 {
-	size_t	k;
-	char	**c_and_a;
-	char	**abs_c_and_a;
-	t_list	*start_lst_token_retokenized;
+	para->k = 0;
+	para->c_and_a = NULL;
+	para->abs_c_and_a = NULL;
+}
 
+int	parse_cmdarg_scmd_frm_retoknzd_lst( \
+					t_list *lst_token_retokenized, t_simpleCmd *simpleCmd)
+{
+	t_param_parse	para;
+	t_list			*start_lst_token_retokenized;
+
+	ft_struct_init_t_param_parse(&para);
 	start_lst_token_retokenized = lst_token_retokenized;
-	k = 0;
-	if(simpleCmd->nb_of_tokens_in_simpleCmd == 0)
-		return(0);
-	c_and_a = malloc(sizeof(*c_and_a) * (simpleCmd->nb_of_tokens_in_simpleCmd + 1));
-	abs_c_and_a = malloc(sizeof(*abs_c_and_a) * (simpleCmd->nb_of_tokens_in_simpleCmd + 1));
-	if(!c_and_a)
-		return(0);
-	if(!abs_c_and_a)
-		return(0);
-	while (k < simpleCmd->nb_of_tokens_in_simpleCmd)
+	if (simpleCmd->nb_of_tokens_in_simplecmd == 0)
+		return (0);
+	if (!ft_allocate_simplecmd_nbtokens(&(para.c_and_a), \
+										&(para.abs_c_and_a), simpleCmd))
+		return (0);
+	while (para.k < simpleCmd->nb_of_tokens_in_simplecmd)
 	{
-		c_and_a[k] = ft_strdup(lst_token_retokenized->content);
-		abs_c_and_a[k] = ft_strdup(lst_token_retokenized->content);
+		para.c_and_a[para.k] = ft_strdup(lst_token_retokenized->content);
+		para.abs_c_and_a[para.k] = ft_strdup(lst_token_retokenized->content);
 		lst_token_retokenized = lst_token_retokenized->next;
-		k++;
+		para.k++;
 	}
-	c_and_a[k] = NULL;
-	simpleCmd->cmd_and_args = c_and_a;
-	abs_c_and_a[k] = NULL;
-	abs_c_and_a = ft_get_abs_argumentsb(abs_c_and_a);
-	simpleCmd->abs_cmd_and_args = abs_c_and_a;
-	if(start_lst_token_retokenized)
+	para.c_and_a[para.k] = NULL;
+	simpleCmd->cmd_and_args = para.c_and_a;
+	para.abs_c_and_a[para.k] = NULL;
+	para.abs_c_and_a = ft_get_abs_argumentsb(para.abs_c_and_a);
+	simpleCmd->abs_cmd_and_args = para.abs_c_and_a;
+	if (start_lst_token_retokenized)
 		ft_free_struct_t_list_lst_token(&start_lst_token_retokenized);
-	return(1);
+	return (1);
 }
 
-int		ft_malloc_and_parse_cmd_and_args_tab_of_simpleCmd(t_list *lst_token, t_simpleCmd *simpleCmd)
+void	st_t_param_parse_init(t_param_parse *para)
 {
-	size_t	k;
-	char	**c_and_a;
-	char	**abs_c_and_a;
+	para->k = 0;
+	para->c_and_a = NULL;
+	para->abs_c_and_a = NULL;
+}
 
-	k = 0;
-	if(simpleCmd->nb_of_tokens_in_simpleCmd == 0)
-		return(0);
-	c_and_a = malloc(sizeof(*c_and_a) * (simpleCmd->nb_of_tokens_in_simpleCmd + 1));
-	abs_c_and_a = malloc(sizeof(*abs_c_and_a) * (simpleCmd->nb_of_tokens_in_simpleCmd + 1));
-	if(!c_and_a)
-		return(0);
-	if(!abs_c_and_a)
-		return(0);
-	while (k < simpleCmd->nb_of_tokens_in_simpleCmd)
+int	ft_malloc_and_parse_cmd_and_args_tab_of_simplecmd(t_list *lst_token, \
+												t_simpleCmd *simpleCmd)
+{
+	t_param_parse	para ;
+
+	st_t_param_parse_init(&para);
+	if (simpleCmd->nb_of_tokens_in_simplecmd == 0)
+		return (0);
+	if (!ft_allocate_simplecmd_nbtokens(&(para.c_and_a), &(para.abs_c_and_a), \
+																	simpleCmd))
+		return (0);
+	while (para.k < simpleCmd->nb_of_tokens_in_simplecmd)
 	{
-		c_and_a[k] = ft_strdup(lst_token->content);
-		abs_c_and_a[k] = ft_strdup(lst_token->content);
+		para.c_and_a[para.k] = ft_strdup(lst_token->content);
+		para.abs_c_and_a[para.k] = ft_strdup(lst_token->content);
 		lst_token = lst_token->next;
-		k++;
+		para.k++;
 	}
-	c_and_a[k] = NULL;
-	simpleCmd->cmd_and_args = c_and_a;
-	abs_c_and_a[k] = NULL;
-	abs_c_and_a = ft_get_abs_argumentsb(abs_c_and_a);
-	simpleCmd->abs_cmd_and_args = abs_c_and_a;
-	return(1);
+	para.c_and_a[para.k] = NULL;
+	simpleCmd->cmd_and_args = para.c_and_a;
+	para.abs_c_and_a[para.k] = NULL;
+	para.abs_c_and_a = ft_get_abs_argumentsb(para.abs_c_and_a);
+	simpleCmd->abs_cmd_and_args = para.abs_c_and_a;
+	return (1);
 }

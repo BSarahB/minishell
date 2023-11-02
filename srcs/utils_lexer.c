@@ -12,34 +12,36 @@
 
 #include "minishell.h"
 
-size_t 		ft_operator_glued_on_other_token(char *line, size_t i, t_data *data)
+size_t	ft_operator_glued_on_other_token(char *line, size_t i, t_data *data)
 {
-	if(data->token->title == redir_append  || data->token->title == redir_heredoc)
+	if (data->token->title == redir_append \
+		|| data->token->title == redir_heredoc)
 	{
 		data->token->end_token_pos = i + 1;
-		ft_get_token_content(data,i, data->token->end_token_pos, line);//ou i + 1
+		ft_get_token_content(data, i, data->token->end_token_pos, line);
 		i++;
 	}
 	else
-		ft_get_token_content(data,i, i, line);
+		ft_get_token_content(data, i, i, line);
 	data->token->start_token_pos_exists = 0;
 	data->token->end_token_pos = 0;
-	return(i);
+	return (i);
 }
 
-size_t 		ft_operator_not_glued_on_other_token(char *line, size_t i, t_data *data)
+size_t	ft_operator_not_glued_on_other_token(char *line, size_t i, t_data *data)
 {
 	data->token->start_token_pos = i;
 	data->token->end_token_pos = i;
-	if(data->token->title == redir_append || data->token->title == redir_heredoc)
+	if (data->token->title == redir_append \
+		|| data->token->title == redir_heredoc)
 	{
 		data->token->end_token_pos = i + 1;
-		ft_get_token_content(data,i, data->token->end_token_pos, line);//ou i + 1
+		ft_get_token_content(data, i, data->token->end_token_pos, line);
 		i++;
 	}
 	else
-		ft_get_token_content(data,i, i, line);
+		ft_get_token_content(data, i, i, line);
 	data->token->start_token_pos_exists = 0;
 	data->token->end_token_pos = 0;
-	return(i);
+	return (i);
 }

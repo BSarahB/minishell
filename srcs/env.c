@@ -9,50 +9,56 @@
 /*   Updated: 2023/10/11 18:02:23 by mbenmesb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
-void ft_check_env(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env)
+void	ft_check_env_token(t_param_en *para, t_simpleCmd *simpleCmd)
 {
-	(void)cmd;
-	(void)start_lst_token_retokenized;
-	(void)simpleCmd;
-	(void)data_env;
-	t_list *tmp;
-	int flag_env;
+	while (para->tmp != NULL && para->tmp->position \
+				<= simpleCmd->end_simplecmd_pos && para->flag_env == 1)
+	{
+		if (simpleCmd->nofile == 1)
+			break ;
+		if (simpleCmd->nb_of_tokens_in_simplecmd >= 2)
+		{
+			ft_error_msg6(para->tmp->content);
+			simpleCmd->exit_code = 127;
+			break ;
+		}
+		para->tmp = para->tmp->next;
+	}
+}
 
-	flag_env = -1;
-	tmp = start_lst_token_retokenized;
-	if(tmp != NULL)
+void	ft_check_env_first_token(t_param_en *para, \
+t_cmd *cmd, t_simpleCmd *simpleCmd)
+{
+	if (para->tmp != NULL)
 	{
-		if(flag_env == -1)
+		if (para->flag_env == -1 && (ft_strcmp("env", para->tmp->content) == 0))
 		{
-			if(flag_env == -1 && (ft_strcmp("env", tmp->content) == 0))
-			{
-				flag_env = 1;
-				simpleCmd->is_builtin = 1;
-				simpleCmd->builtin = env; // ==
-				if(tmp->next == NULL)
-					simpleCmd->env_no_option = 1;
-				else
-					tmp = tmp->next;
-				if(cmd->nb_of_simpleCmds == 1)
-						simpleCmd->builtin_solo = 1;
-			}
+			para->flag_env = 1;
+			simpleCmd->is_builtin = 1;
+			simpleCmd->builtin = env;
+			if (para->tmp->next == NULL)
+				simpleCmd->env_no_option = 1;
 			else
-				flag_env = 0;
+				para->tmp = para->tmp->next;
+			if (cmd->nb_of_simplecmds == 1)
+				simpleCmd->builtin_solo = 1;
 		}
+		else
+			para->flag_env = 0;
 	}
-	while (tmp != NULL && tmp->position <= simpleCmd->end_simpleCmd_pos && flag_env == 1)
-	{
-		if(simpleCmd->nofile == 1)
-			break;
-		if(simpleCmd->nb_of_tokens_in_simpleCmd >= 2)
-		{
-				ft_error_msg6(tmp->content);
-				simpleCmd->exit_code = 127;
-				break;
-		}
-		tmp = tmp->next;
-	}
+}
+
+void	ft_check_env(t_cmd *cmd, t_list *start_lst_token_retokenized, \
+t_simpleCmd *simpleCmd, t_data_env *data_env)
+{
+	t_param_en	para;
+
+	(void)data_env;
+	para.tmp = NULL;
+	para.flag_env = -1;
+	para.tmp = start_lst_token_retokenized;
+	ft_check_env_first_token(&para, cmd, simpleCmd);
+	ft_check_env_token(&para, simpleCmd);
 }

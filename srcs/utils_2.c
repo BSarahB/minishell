@@ -89,7 +89,7 @@ char	*ft_strdup(const char *s)
 	i = 0;
 	while (s[i])
 		i++;
-	str = (char *)malloc((i + 1) * sizeof(char));
+	str = (char *)malloc((i + 1) * sizeof (char));
 	if (!str)
 		return (NULL);
 	ft_strcpy(str, s);

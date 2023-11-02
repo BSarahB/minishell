@@ -9,64 +9,59 @@
 /*   Updated: 2023/10/29 17:51:04 by mbenmesb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
-int ft_is_var_already_in_lst_envp_for_cd(t_listenvp *lst_envp, char *str)
+void	ft_clean_all(t_param_utils para, char *str)
 {
-	t_listenvp *tmp;
-	int n;
-	char *new_key_val;
-	char *key;
-	char *key_input;
+	if (para.key != NULL)
+		ft_free_struct_str(&(para.key));
+	if (para.key_input != NULL)
+		ft_free_struct_str(&(para.key_input));
+	if (str != NULL)
+		ft_free_struct_str(&str);
+}
 
-	tmp = lst_envp;
-	n = 0;
-	new_key_val = NULL;
-	key = NULL;
-	key_input = NULL;
-	while(tmp)
+void	ft_clean(char *str, t_param_utils para)
+{
+	ft_free_struct_str(&str);
+	ft_free_struct_str(&(para.key));
+	ft_free_struct_str(&(para.key_input));
+}
+
+void	ft_init_t_param2(t_param_utils *para)
+{
+	para->tmp = NULL;
+	para->n = 0;
+	para->new_key_val = NULL;
+	para->key = NULL;
+	para->key_input = NULL;
+}
+
+int	ft_is_var_already_in_lst_envp_for_cd(t_listenvp *lst_envp, char *str)
+{
+	t_param_utils	para;
+
+	ft_init_t_param2(&para);
+	para.tmp = lst_envp;
+	while (para.tmp)
 	{
-		n = ft_count_n_for_key(tmp->key_value);
-		key = ft_strndup(tmp->key_value, n);
-		n = ft_count_n_for_key(str);
-		key_input = ft_strndup(str, n);
-		if(ft_strcmp(key, key_input) == 0)
+		para.n = ft_count_n_for_key(para.tmp->key_value);
+		para.key = ft_strndup(para.tmp->key_value, para.n);
+		para.n = ft_count_n_for_key(str);
+		para.key_input = ft_strndup(str, para.n);
+		if (ft_strcmp(para.key, para.key_input) == 0)
 		{
-			new_key_val = ft_strdup(str);
-			free(str);
-			str = NULL;
-			ft_update_string(&tmp->key_value, new_key_val);
-			//ft_lstfind_and_overwrite(&lst_envp, tmp->key_value);
-			free(key);
-			key = NULL;
-			free(key_input);
-			key_input = NULL;
-			return(1);
+			para.new_key_val = ft_strdup(str);
+			ft_update_string(&(para.tmp->key_value), para.new_key_val);
+			return (1);
 		}
 		else
 		{
-			free(key);
-			key = NULL;
-			free(key_input);
-			key_input = NULL;
-			tmp = tmp->next;
+			ft_free_struct_str(&(para.key));
+			ft_free_struct_str(&(para.key_input));
+			para.tmp = para.tmp->next;
 		}
 	}
-	if(key != NULL)
-	{
-		free(key);
-		key = NULL;
-	}
-	if(key_input != NULL)
-	{
-		free(key_input);
-		key_input = NULL;
-	}
-	if(str != NULL)
-	{
-		free(str);
-		str = NULL;
-	}
-	return(0);
+	ft_clean_all(para, str);
+	return (0);
 }

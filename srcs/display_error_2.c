@@ -14,7 +14,7 @@
 void	ft_error_msg3(char *str)
 {
 	ft_error("minishell: ");
-	ft_error(str);//ON DOIT REMPLACER ARGV[1] par le nom d INFILE (normalement cela est la 1 ere simple_cmd) (verifier l impact d un infile dans un block)
+	ft_error(str);
 	ft_error(": ambiguous redirect");
 	ft_error("\n");
 }
@@ -23,8 +23,8 @@ void	ft_error_msg2c(char *str)
 {
 	ft_error("minishell: ");
 	ft_error("syntax error near unexpected token `");
-	ft_error(str);//ON DOIT REMPLACER ARGV[1] par le nom d INFILE (normalement cela est la 1 ere simple_cmd) (verifier l impact d un infile dans un block)
-	ft_error(str);//ON DOIT REMPLACER ARGV[1] par le nom d INFILE (normalement cela est la 1 ere simple_cmd) (verifier l impact d un infile dans un block)
+	ft_error(str);
+	ft_error(str);
 	ft_error("'");
 	ft_error("\n");
 }
@@ -33,7 +33,7 @@ void	ft_error_msg2b(char *str)
 {
 	ft_error("minishell: ");
 	ft_error("syntax error near unexpected token `");
-	ft_error(str);//ON DOIT REMPLACER ARGV[1] par le nom d INFILE (normalement cela est la 1 ere simple_cmd) (verifier l impact d un infile dans un block)
+	ft_error(str);
 	ft_error("'");
 	ft_error("\n");
 }
@@ -42,14 +42,14 @@ void	ft_error_msg2(char *str)
 {
 	ft_error("minishell: ");
 	ft_error("syntax error near unexpected token ");
-	ft_error(str);//ON DOIT REMPLACER ARGV[1] par le nom d INFILE (normalement cela est la 1 ere simple_cmd) (verifier l impact d un infile dans un block)
+	ft_error(str);
 	ft_error("\n");
 }
 
 void	ft_error_msg(char *infile)
 {
 	ft_error("minishell: ");
-	ft_error(infile);//ON DOIT REMPLACER ARGV[1] par le nom d INFILE (normalement cela est la 1 ere simple_cmd) (verifier l impact d un infile dans un block)
+	ft_error(infile);
 	ft_error(": No such file or directory");
 	ft_error("\n");
 }

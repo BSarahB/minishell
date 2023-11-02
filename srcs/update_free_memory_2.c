@@ -12,55 +12,48 @@
 
 #include "minishell.h"
 
-void    ft_free_struct_t_expand(t_expand **exp)
+void	ft_free_struct_t_expand(t_expand **exp)
 {
-    if(*exp != NULL)
-    {
-        free(*exp);
-        *exp = NULL;
-    }
+	if (*exp != NULL)
+	{
+		free(*exp);
+		*exp = NULL;
+	}
 }
 
-void    ft_free_struct_t_settings_del(t_settings_del **del)
+void	ft_free_struct_t_settings_del(t_settings_del **del)
 {
-	if(*del != NULL)
+	if (*del != NULL)
 	{
 		free(*del);
 		*del = NULL;
 	}
 }
 
-void    ft_free_struct_t_settings(t_settings **set)
+void	ft_free_struct_t_settings(t_settings **set)
 {
-    if(*set != NULL)
-    {
-        free(*set);
-        *set = NULL;
-    }
-}
-
-void    ft_free_struct_t_list_token(t_list **token)
-{
-    /*
-    if((*token)->back_up != NULL)
+	if (*set != NULL)
 	{
-		free((*token)->back_up);
-		(*token)->back_up = NULL;
+		free(*set);
+		*set = NULL;
 	}
-    */
-    if (*token != NULL)
-    {
-        free(*token);
-        *token = NULL;
-    }
 }
 
-void    ft_free_struct_t_data(t_data **data)
+void	ft_free_struct_t_list_token(t_list **token)
 {
-    ft_free_struct_t_list_token(&(*data)->token);
-    if (*data != NULL)
-    {
-        free(*data);
-        *data = NULL;
-    }
+	if (*token != NULL)
+	{
+		free(*token);
+		*token = NULL;
+	}
+}
+
+void	ft_free_struct_t_data(t_data **data)
+{
+	ft_free_struct_t_list_token(&(*data)->token);
+	if (*data != NULL)
+	{
+		free(*data);
+		*data = NULL;
+	}
 }

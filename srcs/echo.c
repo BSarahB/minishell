@@ -11,20 +11,18 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-void ft_check_echo(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env)
+void	ft_check_echo(t_cmd *cmd, t_list *start_lst_token_retokenized,	\
+t_simpleCmd *simpleCmd, t_data_env *data_env)
 {
-	(void)cmd;
-	(void)start_lst_token_retokenized;
-	(void)simpleCmd;
-	(void)data_env;
-	t_list *tmp;
+	t_list	*tmp;
 
+	(void)data_env;
 	tmp = start_lst_token_retokenized;
-	if(tmp != NULL && simpleCmd->builtin == echo)
+	if (tmp != NULL && simpleCmd->builtin == echo)
 	{
-		if(tmp->next == NULL)
+		if (tmp->next == NULL)
 			simpleCmd->echo_no_option = 1;
-		if(cmd->nb_of_simpleCmds == 1)
+		if (cmd->nb_of_simplecmds == 1)
 			simpleCmd->builtin_solo = 1;
 	}
 }

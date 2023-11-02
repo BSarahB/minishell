@@ -11,11 +11,14 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-int		find_length(int n)
+int	find_length(int n)
 {
-	int length;
+	int		length;
 
-	length = (n <= 0) ? 1 : 0;
+	if (n <= 0)
+		length = 1;
+	else
+		length = 0;
 	while (n != 0)
 	{
 		length++;
@@ -32,7 +35,8 @@ char	*ft_itoa(int n)
 
 	nb = n;
 	length = find_length(n);
-	if (!(result = (char *)malloc(sizeof(*result) * length + 1)))
+	result = (char *)malloc(sizeof(*result) * length + 1);
+	if (!result)
 		return (NULL);
 	result[length] = '\0';
 	if (nb < 0)
@@ -52,13 +56,13 @@ char	*ft_itoa(int n)
 
 void	ft_error_heredoc(char *const str, int line_count)
 {
-	char *result;
+	char	*result;
 
-	if(line_count == 0)
+	if (line_count == 0)
 		line_count = 1;
 	ft_error("minishell: warning: here-document at line ");
 	result = ft_itoa(line_count);
-	ft_error(result);//TODO determiner le nombre de lignes quil reste dans le fichier ->comment compter les lignes du fichier.
+	ft_error(result);
 	ft_error(" delimited by end-of-file (wanted `");
 	ft_error(str);
 	ft_error("')\n");
@@ -79,10 +83,8 @@ int	ft_check_open_error(int fdin, int fdout, t_cmd *cmd)
 {
 	(void)cmd;
 	if (fdin == -1)
-	{
 		return (1);
-	}
-	if (fdout == -1) //si il y a un pb sur l open de l outfile on degage, on affiche le perror on free on a tt compris, et basta la vista
+	if (fdout == -1)
 	{
 		perror("minishell");
 		return (2);

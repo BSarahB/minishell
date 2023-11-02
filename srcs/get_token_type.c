@@ -9,16 +9,15 @@
 /*   Updated: 2023/09/04 18:08:06 by mbenmesb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
 int	ft_get_token_type_pipe(t_list *token, t_data *data, size_t i, char *line)
 {
-    // si loperateur est colle au token ls|grep c
-	if (data->token->start_token_pos_exists != 0) // on est colles a un token
+	if (data->token->start_token_pos_exists != 0)
 	{
 		data->token->end_token_pos = i - 1;
-		ft_get_token_content(data, data->token->start_token_pos, data->token->end_token_pos, line);
+		ft_get_token_content(data, data->token->start_token_pos, \
+											data->token->end_token_pos, line);
 		data->token->start_token_pos_exists = i;
 		data->token->end_token_pos = i;
 	}
@@ -26,8 +25,9 @@ int	ft_get_token_type_pipe(t_list *token, t_data *data, size_t i, char *line)
 	return (PIPE);
 }
 
-int	ft_get_token_type_less_or_lessless(char *str, t_list *token, t_data *data, size_t i, char *line)
-{// si loperateur est colle au token ls|grep c
+int	ft_get_token_type_less_or_lessless(char *str, t_data *data, \
+														size_t i, char *line)
+{
 	if ((*(str + 1)) != 0 && data->token->start_token_pos_exists == 0)
 	{
 		if ((*str == '<') && (*(str + 1) == '<'))
@@ -37,10 +37,11 @@ int	ft_get_token_type_less_or_lessless(char *str, t_list *token, t_data *data, s
 			return (LESSLESS);
 		}
 	}
-	if (data->token->start_token_pos_exists != 0) // on est colles a un token
+	if (data->token->start_token_pos_exists != 0)
 	{
 		data->token->end_token_pos = i - 1;
-		ft_get_token_content(data, data->token->start_token_pos, data->token->end_token_pos, line);
+		ft_get_token_content(data, data->token->start_token_pos, \
+											data->token->end_token_pos, line);
 		data->token->start_token_pos_exists = i;
 		data->token->end_token_pos = i;
 		if ((*str == '<') && (*(str + 1) == '<'))
@@ -50,12 +51,13 @@ int	ft_get_token_type_less_or_lessless(char *str, t_list *token, t_data *data, s
 			return (LESSLESS);
 		}
 	}
-	token->title = redir_in;
+	data->token->title = redir_in;
 	return (LESS);
 }
 
-int	ft_get_token_type_great_or_greatgreat(char *str, t_list *token, t_data *data, size_t i, char *line)
-{ // si loperateur est colle au token ls>outfile
+int	ft_get_token_type_great_or_greatgreat(char *str, \
+											t_data *data, size_t i, char *line)
+{
 	if (*(str + 1) && data->token->start_token_pos_exists == 0)
 	{
 		if ((*str == '>') && (*(str + 1) == '>'))
@@ -65,10 +67,11 @@ int	ft_get_token_type_great_or_greatgreat(char *str, t_list *token, t_data *data
 			return (GREATGREAT);
 		}
 	}
-	if (data->token->start_token_pos_exists != 0) // on est colles a un token
+	if (data->token->start_token_pos_exists != 0)
 	{
 		data->token->end_token_pos = i - 1;
-		ft_get_token_content(data, data->token->start_token_pos, data->token->end_token_pos, line);				
+		ft_get_token_content(data, data->token->start_token_pos, \
+											data->token->end_token_pos, line);
 		data->token->start_token_pos_exists = i;
 		data->token->end_token_pos = i;
 		if ((*str == '>') && (*(str + 1) == '>'))
@@ -78,22 +81,21 @@ int	ft_get_token_type_great_or_greatgreat(char *str, t_list *token, t_data *data
 			return (GREATGREAT);
 		}
 	}
-	token->title = redir_out;
+	data->token->title = redir_out;
 	return (GREAT);
 }
 
-int ft_get_token_type(char *str, t_list *token, t_data *data, size_t i, char *line)
+int	ft_get_token_type(char *str, t_data *data, size_t i, char *line)
 {
-	//if ((*str == '&') && (*(str - 1) == '>'))
-	//	return (GREAT_AND_AMPERSAND);
-	if (token->quoting_rule != single_quote && token->quoting_rule != double_quote)
+	if (data->token->quoting_rule != single_quote \
+								&& data->token->quoting_rule != double_quote)
 	{
 		if (*str == '>')
-			return(ft_get_token_type_great_or_greatgreat(str, token, data, i, line));
+			return (ft_get_token_type_great_or_greatgreat(str, data, i, line));
 		if (*str == '<')
-			return(ft_get_token_type_less_or_lessless(str, token, data, i, line));
+			return (ft_get_token_type_less_or_lessless(str, data, i, line));
 		if (*str == '|')
-			return(ft_get_token_type_pipe(token, data, i, line));
+			return (ft_get_token_type_pipe(data->token, data, i, line));
 	}
 	return (0);
 }

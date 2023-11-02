@@ -9,67 +9,72 @@
 /*   Updated: 2023/10/13 11:00:04 by mbenmesb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
-void ft_check_cd(t_cmd *cmd, t_list *start_lst_token_retokenized, t_simpleCmd *simpleCmd, t_data_env *data_env)
+void	ft_check_cd_token(t_param_b *para, t_simpleCmd *simpleCmd, \
+t_data_env *data_env)
 {
-	(void)cmd;
-	(void)start_lst_token_retokenized;
-	(void)simpleCmd;
-	(void)data_env;
-	t_list *tmp;
-	int flag_cd;
-
-	flag_cd = -1;
-	tmp = start_lst_token_retokenized;
-	if(tmp != NULL)
+	while (para->tmp != NULL && para->tmp->position \
+		<= simpleCmd->end_simplecmd_pos && simpleCmd->cd_no_option == 0 && \
+para->flag_cd == 1)
 	{
-		if(flag_cd == -1)
+		if (simpleCmd->nofile == 1)
+			break ;
+		if (simpleCmd->nb_of_tokens_in_simplecmd > 2)
 		{
-			if(flag_cd == -1 && (ft_strcmp("cd", tmp->content) == 0))
-			{
-				flag_cd = 1;
-				simpleCmd->is_builtin = 1;
-				simpleCmd->builtin = cd; // ==
-				if(cmd->nb_of_simpleCmds == 1)
-					{
-						simpleCmd->cd_solo = 1;
-						simpleCmd->builtin_solo = 1;
-					}
-				if(tmp->next == NULL)
-				{
-					simpleCmd->cd_no_option = 1;
-					//if(cd sans option) -> aller dans home
-					ft_cd_no_option(data_env, "HOME", simpleCmd);
-				}
-				else
-					tmp = tmp->next;
-			}
-			else
-				flag_cd = 0;
+			ft_error_msg4("cd");
+			simpleCmd->exit_code = 1;
+			break ;
 		}
-	}
-	while (tmp != NULL && tmp->position <= simpleCmd->end_simpleCmd_pos && simpleCmd->cd_no_option == 0 && flag_cd == 1)
-	{
-		if(simpleCmd->nofile == 1)
-			break;
-		if(simpleCmd->nb_of_tokens_in_simpleCmd > 2)
-		{
-				ft_error_msg4("cd");
-				simpleCmd->exit_code = 1;
-				break;
-		}
-		//if cd [-] TODO DANS L EXECUTION IL FUDRA AFFICHER SUR STDOUT LE MESSAGE D AFICHAGE DU CHEMIN DU OLDPWD (ainsi si c est une redir dans un outfile il faudra la mettre dans l outfile)
-		if(ft_strcmp(tmp->content, "-") == 0)
+		if (ft_strcmp(para->tmp->content, "-") == 0)
 			ft_cd_option_dash(data_env, "OLDPWD", simpleCmd);
-		// if cd [--] // ca fait retourner a HOME
-		else if(ft_strcmp(tmp->content, "--") == 0 || ft_strcmp(tmp->content, "~") == 0)  //TODO GERER || ft_strcmp(tmp->content, "~") la tilde ->cqfd car si on retire HOME la tilde n est pas impactee
-			ft_cd_option_dash_dash(data_env, "HOME", simpleCmd);	
-		else if(ft_strcmp(tmp->content, "/") == 0)
+		else if (ft_strcmp(para->tmp->content, "--") == 0 || \
+ft_strcmp(para->tmp->content, "~") == 0)
+			ft_cd_option_dash_dash(data_env, "HOME", simpleCmd);
+		else if (ft_strcmp(para->tmp->content, "/") == 0)
 			ft_cd_option_slash(data_env, "/", simpleCmd);
 		else
-			ft_check_path(data_env, tmp->content, simpleCmd);
-		tmp = tmp->next;
+			ft_check_path(data_env, para->tmp->content, simpleCmd);
+		para->tmp = para->tmp->next;
 	}
+}
+
+void	ft_check_cd_first_token(t_param_b *para, \
+t_cmd *cmd, t_simpleCmd *simpleCmd, t_data_env *data_env)
+{
+	if (para->tmp != NULL)
+	{
+		if (para->flag_cd == -1 && (ft_strcmp("cd", para->tmp->content) == 0))
+		{
+			para->flag_cd = 1;
+			simpleCmd->is_builtin = 1;
+			simpleCmd->builtin = cd;
+			if (cmd->nb_of_simplecmds == 1)
+			{
+				simpleCmd->cd_solo = 1;
+				simpleCmd->builtin_solo = 1;
+			}
+			if (para->tmp->next == NULL)
+			{
+				simpleCmd->cd_no_option = 1;
+				ft_cd_no_option(data_env, "HOME", simpleCmd);
+			}
+			else
+				para->tmp = para->tmp->next;
+		}
+		else
+			para->flag_cd = 0;
+	}
+}
+
+void	ft_check_cd(t_cmd *cmd, t_list *start_lst_token_retokenized, \
+t_simpleCmd *simpleCmd, t_data_env *data_env)
+{
+	t_param_b	para;
+
+	para.tmp = NULL;
+	para.flag_cd = -1;
+	para.tmp = start_lst_token_retokenized;
+	ft_check_cd_first_token(&para, cmd, simpleCmd, data_env);
+	ft_check_cd_token(&para, simpleCmd, data_env);
 }

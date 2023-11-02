@@ -1,4 +1,4 @@
-﻿/* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
@@ -11,19 +11,19 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-int ft_export_x(char **envp)
+int	ft_export_x(char **envp)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if(envp == NULL)
-		return (0); //TODO CLARIFIER LE ENV VIDE
-	while(envp[i])
+	if (envp == NULL)
+		return (0);
+	while (envp[i])
 	{
 		printf("declare -x %s\n", envp[i]);
 		i++;
 	}
-	return(0); //tt s est bien passe, declar x a ete affiche
+	return (0);
 }
 
 int	ft_execve_join(t_cmd *cmd, char **envp, char **abs_cmd_and_args)
@@ -46,36 +46,44 @@ int	ft_execve_join(t_cmd *cmd, char **envp, char **abs_cmd_and_args)
 	return (exec_return);
 }
 
-int ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
+int	ft_execute_msg_error(t_cmd *cmd, int i, int exec_return)
 {
-	int exec_return;
+	cmd->simplecmds[i]->errnum = 127;
+	ft_putstr_fd(cmd->simplecmds[i]->cmd_and_args[0], 2);
+	ft_putstr_fd(": command not found\n", 2);
+	return (exec_return);
+}
 
-	exec_return = 0;
-	if(cmd->simpleCmds[i] == NULL || cmd->simpleCmds[i]->cmd_and_args == NULL)
-	{
-		close(set->savein);
-		close(set->saveout);
-		cmd->simpleCmds[set->i]->exit_code = 0;
-		return(exec_return);
-	}
+int	ft_execute_empty_command(t_settings *set, t_cmd *cmd, int exec_return)
+{
 	close(set->savein);
 	close(set->saveout);
-	if(cmd->nb_of_simpleCmds >= 2 && set->i > 0 && cmd->simpleCmds[set->i -1]->nofile == 0)
-		{
-			if(set->pip[0] != -1)
-				close(set->pip[0]);
-		}
-	if (execve(cmd->simpleCmds[i]->cmd_and_args[0], cmd->simpleCmds[i]->cmd_and_args, envp) == -1)
-			exec_return = ft_execve_join(cmd, envp, cmd->simpleCmds[i]->abs_cmd_and_args);
+	cmd->simplecmds[set->i]->exit_code = 0;
+	return (exec_return);
+}
+
+int	ft_execute_cmd(t_cmd *cmd, int i, char *envp[], t_settings *set)
+{
+	int	exec_return;
+
+	exec_return = 0;
+	if (cmd->simplecmds[i] == NULL || cmd->simplecmds[i]->cmd_and_args == NULL)
+		return (ft_execute_empty_command(set, cmd, exec_return));
+	close(set->savein);
+	close(set->saveout);
+	if (cmd->nb_of_simplecmds >= 2 && set->i > 0 \
+		&& cmd->simplecmds[set->i -1]->nofile == 0)
+	{
+		if (set->pip[0] != -1)
+			close(set->pip[0]);
+	}
+	if (execve(cmd->simplecmds[i]->cmd_and_args[0], \
+								cmd->simplecmds[i]->cmd_and_args, envp) == -1)
+		exec_return = ft_execve_join(cmd, envp, \
+								cmd->simplecmds[i]->abs_cmd_and_args);
 	if (exec_return == -1 && (errno == 2 || errno == 13))
-		{
-			cmd->simpleCmds[i]->errnum = 127;
-			ft_putstr_fd(cmd->simpleCmds[i]->cmd_and_args[0], 2);
-			ft_putstr_fd(": command not found", 2);
-			ft_putstr_fd("\n", 2);
-			return(exec_return);
-		}
-	ft_free_tab(&(cmd->simpleCmds[i]->cmd_and_args));
-	ft_free_tab(&(cmd->simpleCmds[i]->abs_cmd_and_args));
+		return (ft_execute_msg_error(cmd, i, exec_return));
+	ft_free_tab(&(cmd->simplecmds[i]->cmd_and_args));
+	ft_free_tab(&(cmd->simplecmds[i]->abs_cmd_and_args));
 	return (exec_return);
 }

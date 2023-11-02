@@ -11,24 +11,25 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-char *ft_dequote(char *str)
+char	*ft_dequote(char *str)
 {
-	char 	*buffer_dequote;
-	int 	i;
+	char	*buffer_dequote;
+	int		i;
 	int		j;
-	int 	quoting_rule_adequate;
-	int 	quoting_rule;
+	int		quoting_rule_adequate;
+	int		quoting_rule;
 
 	buffer_dequote = ft_init_string(1096);
 	i = 0;
 	j = 0;
 	quoting_rule_adequate = 0;
 	quoting_rule = 0;
-	while(str[i])
+	while (str[i])
 	{
-		ft_get_token_quoting_rule3(str, i, &quoting_rule, &quoting_rule_adequate, buffer_dequote, &j);
+		ft_get_token_quoting_rule3((t_param_qr2){str, i, &quoting_rule, \
+&quoting_rule_adequate, &j}, buffer_dequote);
 		i++;
 	}
 	buffer_dequote = ft_update_string(&str, buffer_dequote);
-	return(buffer_dequote);
+	return (buffer_dequote);
 }

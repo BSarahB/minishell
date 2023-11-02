@@ -11,36 +11,37 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-void	ft_lstdelone2(t_list **lst, t_simpleCmd *simpleCmd, size_t i, t_cmd *cmd)
+void	ft_lstdelone2(t_list **lst, t_simpleCmd *simpleCmd, size_t i, \
+t_cmd *cmd)
 {
-	 if(*lst)
-	 {
+	if (*lst)
+	{
 		ft_parse(*lst, simpleCmd, i, cmd);
 		free((*lst)->content);
 		(*lst)->content = NULL;
 		free(*lst);
 		*lst = NULL;
-	 }
+	}
 }
 
 void	ft_lstdelone_beta(t_list **lst)
 {
-	 if(*lst)
-	 {
+	if (*lst)
+	{
 		free((*lst)->content);
 		(*lst)->content = NULL;
 		free(*lst);
 		*lst = NULL;
-	 }
+	}
 }
 
 void	ft_lstdelone(t_list **lst)
 {
-	 if(*lst)
-	 {
+	if (*lst)
+	{
 		free((*lst)->content);
 		(*lst)->content = NULL;
 		free(*lst);
 		*lst = NULL;
-	 }
+	}
 }
